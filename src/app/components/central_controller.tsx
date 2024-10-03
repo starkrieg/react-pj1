@@ -5,6 +5,9 @@ import ActivitiesPanel from "./activities_panel";
 import CalendarPanel from "./calendar_panel";
 import MessagesPanel from "./messages_panel";
 import ModalController from "./modal_controller";
+import Link from "next/link";
+
+import { appVersion } from '../properties/properties';
 
 class Calendar {
     year: number;
@@ -184,9 +187,9 @@ export default class CentralController {
               
                 <div className="panel">
                   <div style={{ display: 'flex', gap: 10 }}>
-                    <button onClick={this.pauseGame}>Pause</button>
-                    <button onClick={this.unpauseGame}>1x</button>
-                    <button onClick={this.speedUp2Game}>2x</button>
+                    <button onClick={this.pauseGame.bind(this)}>Pause</button>
+                    <button onClick={this.unpauseGame.bind(this)}>1x</button>
+                    <button onClick={this.speedUp2Game.bind(this)}>2x</button>
                   </div>
       
                   {this.calendarPanel.createCalendarPanel(this.calendar, this.character, 
@@ -244,8 +247,8 @@ export default class CentralController {
             case 'Settings':
                 return (
                     <div>
-                        <h2>Content {contentId}</h2>
-                        <p>This is the content for {contentId}.</p>
+                        <p>{appVersion}</p>
+                        <Link href="/changelog" target="_blank">Change log</Link>
                     </div>
                 );
             default:

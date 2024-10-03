@@ -1,6 +1,6 @@
 'use client'
 
-import CentralController from "./central_controller";
+import CentralController from "./components/central_controller";
 
 var centralController = new CentralController();
 
