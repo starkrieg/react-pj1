@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+/* Responsive Design */
+
+@media (max-width: 768px) {
+  .row {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  .col-8 { grid-column: span 6; } 
+  .col-6 { grid-column: span 6; } 
+  .col-3 { grid-column: span 6; } 
+  .col-4 { grid-column: span 6; } 
+  .col-2 { grid-column: span 6; } 
+  .col-1 { grid-column: span 6; } 
+}
+
+@media (max-width: 480px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+  .col-6, .col-3, .col-4, .col-2, .col-1 {
+    grid-column: span 1;
+  }
+}
+
+/* Responsive Design */
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 5px; /* Adjusts the spacing between columns */
+  margin-bottom: 5px;
+}
+
+.panel {
+  background-color: #f0f0f0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 5px;
+}
+
+/* Column Width Classes */
+.col-1 { grid-column: span 1; }
+.col-2 { grid-column: span 2; }
+.col-3 { grid-column: span 3; }
+.col-4 { grid-column: span 4; }
+.col-6 { grid-column: span 6; }
+.col-8 { grid-column: span 8; }
+.col-12 { grid-column: span 12; }
