@@ -1,8 +1,10 @@
+import { Calendar } from "./Calendar";
+import { Character } from "./Character";
 
 export default class CalendarPanel {
 
-    createCalendarPanel(calendar = {}, 
-        character = {}, 
+    createCalendarPanel(calendar: Calendar, 
+        character: Character, 
         selectedActivity = 'Nothing') {
         const innerCalendarData = {
             year: calendar?.year || 600,

@@ -5,7 +5,7 @@
   "homepage": "https://starkrieg.github.io/react-pj1",
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d out",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

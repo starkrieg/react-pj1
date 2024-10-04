@@ -6,9 +6,9 @@ export default class ModalController {
     }
 
     createModal(modalType = 'Unknown', modalClickFnc = this.defaultAlertError) {
-        var title = '';
-        var desc = '';
-        var buttonText = '';
+        let title = '';
+        let desc = '';
+        let buttonText = '';
 
         switch (modalType) {
             case 'Death':

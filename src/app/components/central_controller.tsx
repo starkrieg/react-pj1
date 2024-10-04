@@ -8,38 +8,8 @@ import ModalController from "./modal_controller";
 import Link from "next/link";
 
 import { appVersion } from '../properties/properties';
-
-class Calendar {
-    year: number;
-    month: number;
-
-    constructor() {
-        this.year = 600;
-        this.month = 1;
-    }
-}
-
-class Character {
-    year: number;
-    month: number;
-    maxAge: number;
-    realm: string;
-    money: number;
-    qi: number;
-    body: number;
-    soul: number;
-
-    constructor() {
-        this.year = 16
-        this.month = 1;
-        this.realm = 'Mortal';
-        this.maxAge = 16;
-        this.money = 0;
-        this.qi = 0;
-        this.body = 1;
-        this.soul = 0;
-    }
-}
+import { Calendar } from "./Calendar";
+import { Character } from "./Character";
 
 export default class CentralController {
 
@@ -136,8 +106,8 @@ export default class CentralController {
       }
 
     private doGameLoop() {
-        return new Promise(async resolve => {
-            var tickCount = 0;
+        return new Promise(async () => {
+            let tickCount = 0;
             const tickReq = 20;
             while(this.isGameWorking) {
             await this.sleep(100);
@@ -148,7 +118,7 @@ export default class CentralController {
                     this.addMonthCalendar(1);
                 }
                 //activities do gain twice per month change
-                var actTick = (tickCount) % ((tickReq/2)/this.gameSpeed);
+                const actTick = (tickCount) % ((tickReq/2)/this.gameSpeed);
                 if (actTick == 0) {
                     this.activitiesPanel.doActivityTick();
                 }

@@ -1,5 +1,15 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+# Update Github Pages
+On your local terminal, with proper authorization on the repo, run the following commands:
+
+```bash
+npm run build
+npm run deploy
+```
+
+Make sure the package.json has the proper GitHub pages homepage, and the predeploy and deploy scripts.
+
 ## Getting Started
 
 First, run the development server:

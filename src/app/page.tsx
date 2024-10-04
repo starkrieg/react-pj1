@@ -2,7 +2,7 @@
 
 import CentralController from "./components/central_controller";
 
-var centralController = new CentralController();
+const centralController = new CentralController();
 
 export default function Home() {
   /* start game loop */
