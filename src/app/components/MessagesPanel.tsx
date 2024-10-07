@@ -22,6 +22,10 @@ export default class MessagesPanel {
         this.messageList = [];
     }
 
+    reset() {
+        this.messageList = [];
+    }
+
     pushToMessageBoard(characterYear: number, characterMonth: number, message: string) {
         const id = this.messageList.length + 1;
         this.messageList.push(new Message(id, characterYear, characterMonth, message));

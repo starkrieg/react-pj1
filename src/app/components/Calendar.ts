@@ -5,5 +5,11 @@ export class Calendar {
     constructor() {
         this.year = 600;
         this.month = 1;
+        this.resetDefaultValues();
+    }
+
+    resetDefaultValues() {
+        this.year = 600;
+        this.month = 1;
     }
 }

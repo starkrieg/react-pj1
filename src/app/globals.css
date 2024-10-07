@@ -58,10 +58,10 @@ body {
 }
 
 .container {
-  width: 90%;
+  width: 95%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px 0;
+  padding: 5px 0;
 }
 
 .row {

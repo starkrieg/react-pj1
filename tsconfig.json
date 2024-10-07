@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/components/activities_panel.tsx", "src/app/changelog/changelog.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/components/ActivitiesPanel.tsx", "src/app/changelog/changelog.js"],
   "exclude": ["node_modules"]
 }

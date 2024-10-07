@@ -9,6 +9,22 @@ export default function Changelog() {
       <ul style={{marginTop: 10}}>
 
         <li style={{marginTop: 10}}>
+          <p>v.0.1.1 - alpha / 2024-Oct-07</p>
+          <p>Overview: Changes to existing features</p>
+          <div>
+            Additions:
+            <p/>- Changed Money to Coins.
+            <p/>- Added a label for current activity on the left panel.
+            <p/>- Added Qi and Body to left panel.
+            <p/>- Qi now shows a percentage of how much of your capacity is filled up.
+            <p/>- Added ranks to Activities. An activity increase in rank after being done for a period of time. 
+            Higher rank means increased gains.
+            <p/>- Added progress bar to Activities to track the rank up.
+            <p/>- Added button inside settings to reset everything.
+          </div>
+        </li>
+
+        <li style={{marginTop: 10}}>
           <p>v.0.1.0 - alpha / 2024-Oct-03</p>
           <p>Definition: Game is an Idle related to Wuxia/Xianxia/Cultivation</p>
           <p>Focus: core features and code structure</p>

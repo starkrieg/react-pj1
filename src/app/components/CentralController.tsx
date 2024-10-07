@@ -1,21 +1,22 @@
 'use client'
 
 import { createRoot } from "react-dom/client";
-import ActivitiesPanel from "./activities_panel";
-import CalendarPanel from "./calendar_panel";
-import MessagesPanel from "./messages_panel";
-import ModalController from "./modal_controller";
-import Link from "next/link";
+import ActivitiesPanel from "./ActivitiesPanel";
+import CalendarPanel from "./CalendarPanel";
+import MessagesPanel from "./MessagesPanel";
+import ModalController from "./ModalController";
 
-import { appVersion } from '../properties/properties';
 import { Calendar } from "./Calendar";
 import { Character } from "./Character";
+import CharacterPanel from "./CharacterPanel";
+import SettingsPanel from "./SettingsPanel";
 
 export default class CentralController {
 
-    singletonCentralController: CentralController;
     modalController: ModalController;
+    characterPanel: CharacterPanel;
     activitiesPanel: ActivitiesPanel;
+    settingsPanel: SettingsPanel;
     messagesPanel: MessagesPanel;
     calendarPanel: CalendarPanel;
 
@@ -35,22 +36,32 @@ export default class CentralController {
     character: Character;
 
     constructor() {
-        this.singletonCentralController = this;
-        // components
-        this.modalController = new ModalController();
-        this.activitiesPanel = new ActivitiesPanel(this.singletonCentralController);
-        this.messagesPanel = new MessagesPanel();
-        this.calendarPanel = new CalendarPanel();
-
-        this.globalRoot = undefined;
-
         this.calendar = new Calendar();
         this.character = new Character();
+
+        // components
+        this.modalController = new ModalController();
+        this.characterPanel = new CharacterPanel();
+        this.activitiesPanel = new ActivitiesPanel(this);
+        this.messagesPanel = new MessagesPanel();
+        this.calendarPanel = new CalendarPanel();
+        this.settingsPanel = new SettingsPanel(this);
+
+        this.globalRoot = undefined;
+    }
+
+    public resetEverything() {
+        const ans = confirm('Reset everything. Are you sure?');
+        if (ans) {
+            this.activitiesPanel.reset();
+            this.messagesPanel.reset();
+            this.doMakeCharacterAlive();
+        }
     }
 
     private defaultCalendarSetup() {
-        this.calendar = new Calendar();
-        this.character = new Character();
+        this.calendar.resetDefaultValues();
+        this.character.resetDefaultValues();
     }
 
     private doMakeCharacterAlive() {
@@ -96,13 +107,13 @@ export default class CentralController {
         if (this.character.month > 12) {
             this.character.month -= 12;
             this.character.year += 1;
-          if (this.character.year == this.character.maxAge) {
+        }
+        if (this.character.year >= this.character.maxAge) {
             this.isDead = true;
             this.messagesPanel.pushToMessageBoard(this.character.year, this.character.month, 'You cannot sustain life anymore. You died!');
             this.isModalVisible = true;
             this.modalType = 'Death';
           }
-        }
       }
 
     private doGameLoop() {
@@ -194,33 +205,15 @@ export default class CentralController {
           </div>
         );
     }
-
-    private getCharacterContent() {
-        return (
-          <div>
-            <p>Age: {this.character.year}y, {this.character.month}m</p>
-            <p>Life expectancy: {this.character.maxAge}y</p>
-            <p>Realm: {this.character.realm}</p>
-            <p>Qi: {this.character.qi}</p>
-            <p>Body: {this.character.body}</p>
-            <p>Soul: {this.character.soul}</p>
-          </div>
-        );
-    }
     
     private createContent(contentId = 'Character') {
         switch(contentId) {
             case 'Character':
-                return this.getCharacterContent();
+                return this.characterPanel.createCharacterPanel(this.character);
             case 'Activities':
                 return this.activitiesPanel.createActivitiesPanel();
             case 'Settings':
-                return (
-                    <div>
-                        <p>{appVersion}</p>
-                        <Link href="/changelog" target="_blank">Change log</Link>
-                    </div>
-                );
+                return this.settingsPanel.createSettingsPanel();
             default:
                 return (
                     <div>
@@ -231,18 +224,18 @@ export default class CentralController {
     }
     
     private doAfterDeathModalClick() {
-    //check game state
-    if (this.isDead) {
-        this.doMakeCharacterAlive();
-        this.isModalVisible = false;
-    }
+        //check game state
+        if (this.isDead) {
+            this.doMakeCharacterAlive();
+            this.isModalVisible = false;
+        }
     }
     
     private getModal() {
         if (!this.isModalVisible) {
             return '';
         } else {
-            return this.modalController.createModal(this.modalType, this.doAfterDeathModalClick);
+            return this.modalController.createModal(this.modalType, this.doAfterDeathModalClick.bind(this));
         }
     }
       
