@@ -3,8 +3,11 @@ import { Activity } from "./Activity";
 
 export class CultivateQi extends Activity {
     
-    constructor(id: string, title: string, desc: string,
-        charRef: Character) {
+    constructor(charRef: Character) {
+        const id = 'cult-qi';
+        const title = 'Cultivate Qi';
+        const desc = 'Gain qi';                
+
         super(id, title, desc, charRef);
 
         this.action = () => {

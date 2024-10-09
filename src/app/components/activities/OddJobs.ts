@@ -3,9 +3,15 @@ import { Activity } from "./Activity";
 
 export class OddJobs extends Activity {
     
-    constructor(id: string, title: string, desc: string,
-        charRef: Character) {
-        super(id, title, desc, charRef);
+    constructor(charRef: Character) {
+        const id = 'odd-jobs';
+        const title = 'Odd jobs';
+        const desc = 'Perform odd jobs to receive some coins. Increases with your body.';
+        
+        super(id,
+            title,
+            desc,
+            charRef);
 
         this.action = () => {
             //use rank to affect the value

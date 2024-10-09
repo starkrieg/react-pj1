@@ -64,87 +64,9 @@ export default class ActivitiesPanel {
     setupActivityList() {
         const charRef = this.centralController.character;
         this.activitiesList = [
-            new OddJobs(
-                'odd-jobs',
-                'Odd jobs',
-                'Perform odd jobs to receive some coins. Increases with your body.',
-                charRef
-            ),
-            new PhysicalTraining(
-                'phy-train',
-                'Physical training',
-                'Gain body',
-                this.centralController.character
-            ),
-            new CultivateQi(
-                'cult-qi',
-                'Cultivate Qi',
-                'Gain qi',
-                this.centralController.character
-            ),
-            new Activity(
-                'expl',
-                'Explore',
-                'Chance to multiple gains',
-                this.centralController.character
-                /*
-                () => {
-                  /*
-                    Chances for different results
-                    0-1: big qi
-                    2-3: big body
-                    4-5: big money
-                    6: small qi and small body
-                    7-8-9: nothing
-                  */
-                 /*
-                  const randomValue = Math.floor(Math.random() * 10)
-                  switch(randomValue) {
-                    case 0:
-                    case 1:
-                        this.centralController.character.increaseQi(3);
-                        this.centralController.messagesPanel.pushToMessageBoard(
-                            this.centralController.character.year, 
-                            this.centralController.character.month, 
-                            'Found some medicinal herb! Increased Qi by a small amount!');
-                        break;
-                    case 2:
-                    case 3:
-                        this.centralController.character.increaseBody(3);
-                        this.centralController.messagesPanel.pushToMessageBoard(
-                            this.centralController.character.year, 
-                            this.centralController.character.month, 
-                            'All that searching is giving you results! Increased Body by a small amount!');
-                        break;
-                    case 4:
-                    case 5:
-                        this.centralController.character.increaseMoney(3);
-                        this.centralController.messagesPanel.pushToMessageBoard(
-                            this.centralController.character.year, 
-                            this.centralController.character.month, 
-                            'Found some stuff around to sell! Increased Money by a small amount!');
-                        break;
-                    case 6:
-                        this.centralController.character.increaseQi(1);
-                        this.centralController.character.increaseBody(1);
-                        this.centralController.messagesPanel.pushToMessageBoard(
-                            this.centralController.character.year, 
-                            this.centralController.character.month, 
-                            'After an exhausting hike you found some herbs! Qi and Body increased by a small amount!');
-                        break;
-                    case 7:
-                    case 6:
-                    case 7:
-                    default:
-                        //nothing
-                        this.centralController.messagesPanel.pushToMessageBoard(
-                            this.centralController.character.year, 
-                            this.centralController.character.month, 
-                            'You found nothing while exploring!');
-                  }
-                }
-                */
-            )
+            new OddJobs(charRef),
+            new PhysicalTraining(charRef),
+            new CultivateQi(charRef)
           ];
     }
 }

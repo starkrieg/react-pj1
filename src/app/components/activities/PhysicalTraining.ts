@@ -3,8 +3,11 @@ import { Activity } from "./Activity";
 
 export class PhysicalTraining extends Activity {
     
-    constructor(id: string, title: string, desc: string,
-        charRef: Character) {
+    constructor(charRef: Character) {
+        const id = 'phy-train';
+        const title = 'Physical training';
+        const desc = 'Gain body';
+
         super(id, title, desc, charRef);
 
         this.action = () => {
