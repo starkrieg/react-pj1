@@ -1,15 +1,15 @@
 export class Calendar {
     year: number;
-    month: number;
+    day: number;
 
     constructor() {
         this.year = 600;
-        this.month = 1;
+        this.day = 1;
         this.resetDefaultValues();
     }
 
     resetDefaultValues() {
         this.year = 600;
-        this.month = 1;
+        this.day = 1;
     }
 }

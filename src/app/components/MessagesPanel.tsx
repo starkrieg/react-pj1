@@ -1,15 +1,16 @@
+'use client'
 
 class Message {
     
     id: number;
     charYear: number;
-    charMonth: number;
+    charDay: number;
     message: string;
 
-    constructor(id: number, charYear: number, charMonth: number, message: string) {
+    constructor(id: number, charYear: number, charDay: number, message: string) {
         this.id = id;
         this.charYear = charYear;
-        this.charMonth = charMonth;
+        this.charDay = charDay;
         this.message = message;
     } 
 }
@@ -26,16 +27,16 @@ export default class MessagesPanel {
         this.messageList = [];
     }
 
-    pushToMessageBoard(characterYear: number, characterMonth: number, message: string) {
+    pushToMessageBoard(characterYear: number, characterDay: number, message: string) {
         const id = this.messageList.length + 1;
-        this.messageList.push(new Message(id, characterYear, characterMonth, message));
+        this.messageList.push(new Message(id, characterYear, characterDay, message));
     }
 
     /*
     single message expected format:
     {
         characterY: character.year,
-        characterM: character.month
+        characterM: character.day
         message: message
     }
         */
@@ -54,7 +55,7 @@ export default class MessagesPanel {
             borderBottomStyle: 'dashed',
             borderBottomColor: 'black'
         }}>
-            {msg.charYear}y, {msg.charMonth}m: {msg.message}
+            {msg.charYear}y, {msg.charDay}m: {msg.message}
             </li>
         });
 

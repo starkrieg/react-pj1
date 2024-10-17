@@ -23,7 +23,7 @@ export class PhysicalTraining extends Activity {
     //the % of qi capacity filled increases body gain
     getTickGain() {
         const bruteValue = this.charRef.getBaseBodyGain();
-        const currQiMulti = 1 + this.charRef.getQiCapPercent();
+        const currQiMulti = 1 + (this.charRef.getQiCapPercent());
         const rankMult = 1 + ((this.rank-1) * 0.1);
         return ( bruteValue * rankMult * currQiMulti);
     }

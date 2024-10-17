@@ -9,6 +9,20 @@ export default function Changelog() {
       <ul style={{marginTop: 10}}>
 
         <li style={{marginTop: 10}}>
+          <p>v.0.2.0 - alpha / 2024-Oct-17</p>
+          <p>Overview: Basic realms and some mechanic changes</p>
+          <div>
+            Additions:
+            <p/>- Added realms Mortal {'>'} Qi Condensation {'>'} Foundation Establishment
+            <p/>- Max realm right now is Late Foundation Establishment
+            <p/>- Removed Exploration from activities
+            <p/>- Changed calendar mechanic to 365 days in a year
+            <p/>- Added more game speed options. 1x, 2x, 5x, 10x and 100x. Might remove later.
+            <p/>- Added button inside settings to reset everything.
+          </div>
+        </li>
+
+        <li style={{marginTop: 10}}>
           <p>v.0.1.1 - alpha / 2024-Oct-07</p>
           <p>Overview: Changes to existing features</p>
           <div>

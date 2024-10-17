@@ -68,7 +68,7 @@ export default class CentralController {
         //reset calendar
         //reset character
         this.defaultCalendarSetup();
-        this.messagesPanel.pushToMessageBoard(this.character.year, this.character.month, 'You are alive!');
+        this.messagesPanel.pushToMessageBoard(this.character.year, this.character.day, 'You are alive!');
         this.isDead = false;
         console.log('Alive!');
     }
@@ -93,24 +93,37 @@ export default class CentralController {
         this.gameSpeed = 2;
     }
     
+    private speedUp5Game() {
+        this.isPaused = false;
+        this.gameSpeed = 5;
+    }
+
+    private speedUp10Game() {
+        this.isPaused = false;
+        this.gameSpeed = 10;
+    }
+
+    private speedUp100Game() {
+        this.isPaused = false;
+        this.gameSpeed = 50;
+    }
+
     private selectContent(contentId = 'Character') {
         this.selectedContent = contentId;
     }
   
-    private addMonthCalendar(monthToAdd = 1) {
-        this.calendar.month += monthToAdd;
-        if (this.calendar.month > 12) {
-            this.calendar.month -= 12;
+    private addDayCalendar() {
+        this.calendar.day += 1;
+        if (this.calendar.day > 365) {
+            this.calendar.day -= 365;
             this.calendar.year += 1;
-        }
-        this.character.month += monthToAdd;
-        if (this.character.month > 12) {
-            this.character.month -= 12;
             this.character.year += 1;
         }
         if (this.character.year >= this.character.maxAge) {
             this.isDead = true;
-            this.messagesPanel.pushToMessageBoard(this.character.year, this.character.month, 'You cannot sustain life anymore. You died!');
+            this.messagesPanel.pushToMessageBoard(this.character.year, 
+                this.character.day, 
+                'You cannot sustain life anymore. You died!');
             this.isModalVisible = true;
             this.modalType = 'Death';
           }
@@ -118,25 +131,28 @@ export default class CentralController {
 
     private doGameLoop() {
         return new Promise(async () => {
+            /* 1 tick is 100 ms */
+            /* 1 day is X amount of ticks */
+            /* 365 days in a year */
+            /* game speed reduces tick time */
+            
             let tickCount = 0;
-            const tickReq = 20;
+            const dayTickReq = 6; // how many ticks for day change
+            // keep it above 3, so hydration works properly
             while(this.isGameWorking) {
-            await this.sleep(100);
-            if (!this.isPaused && !this.isDead) {
-                //every complete tick is a month change
-                tickCount = (tickCount+1) % (tickReq/this.gameSpeed);
-                if (tickCount == 0) {
-                    this.addMonthCalendar(1);
+                await this.sleep(100 / this.gameSpeed);
+                if (!this.isPaused && !this.isDead) {
+                    tickCount += 1
+                    while (tickCount >= dayTickReq) {
+                        tickCount += -dayTickReq
+                        this.activitiesPanel.doActivityTick();
+                        this.addDayCalendar();
+                    }
                 }
-                //activities do gain twice per month change
-                const actTick = (tickCount) % ((tickReq/2)/this.gameSpeed);
-                if (actTick == 0) {
-                    this.activitiesPanel.doActivityTick();
-                }
+                // update
+                this.updateUIState();
             }
-            // update
-            this.updateUIState();
-            }  
+
         });
     }
 
@@ -151,7 +167,7 @@ export default class CentralController {
 
     public doStartGame() {
         if (!this.isGameWorking) {
-                this.isGameWorking = true;
+            this.isGameWorking = true;
             /* start game loop */
             this.doMakeCharacterAlive();
             console.log('Start!');
@@ -171,6 +187,9 @@ export default class CentralController {
                     <button onClick={this.pauseGame.bind(this)}>Pause</button>
                     <button onClick={this.unpauseGame.bind(this)}>1x</button>
                     <button onClick={this.speedUp2Game.bind(this)}>2x</button>
+                    <button onClick={this.speedUp5Game.bind(this)}>5x</button>
+                    <button onClick={this.speedUp10Game.bind(this)}>10x</button>
+                    <button onClick={this.speedUp100Game.bind(this)}>100x</button>
                   </div>
       
                   {this.calendarPanel.createCalendarPanel(this.calendar, this.character, 
@@ -195,9 +214,8 @@ export default class CentralController {
                   <button onClick={() => this.selectContent('Settings')}>Settings</button>
                 </div>
       
-                <div>
-                  {this.createContent(this.selectedContent)}
-                </div>
+                {this.createContent(this.selectedContent)}
+                
               </div>
             </div>
             

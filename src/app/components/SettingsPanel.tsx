@@ -1,3 +1,5 @@
+'use client'
+
 import Link from "next/link";
 import { appVersion } from '../properties/properties';
 import CentralController from "./CentralController";

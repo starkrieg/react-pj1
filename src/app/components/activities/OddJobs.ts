@@ -25,10 +25,10 @@ export class OddJobs extends Activity {
     getTickGain() {
         const bruteValue = 1;
         const bodyToMoneyDifferential = 25;
-        const ticksPerMonth = 2;
-        const valueBeforeRank = bruteValue + (this.charRef.body / bodyToMoneyDifferential);
+        const daysPerFullGain = 2;
+        const valueBeforeRank = bruteValue + (this.charRef.getBody() / bodyToMoneyDifferential);
         const rankMult = 1 + ((this.rank-1) * 0.05);
-        return ( valueBeforeRank * rankMult / ticksPerMonth);
+        return ( valueBeforeRank * rankMult / daysPerFullGain);
     }
 
 }

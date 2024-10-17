@@ -1,4 +1,5 @@
-import { Activity } from "./activities/Activity";
+'use client'
+
 import { CultivateQi } from "./activities/CultivateQi";
 import { OddJobs } from "./activities/OddJobs";
 import { PhysicalTraining } from "./activities/PhysicalTraining";
@@ -51,7 +52,7 @@ export default class ActivitiesPanel {
                 onClick={this.doClickActivity.bind(this, act.id)}>
                 <p>{act.title}</p>
                 {act.desc}
-                <p>Rank {act.rank} / {this.roundTo1Decimal(act.getTickGain())} per tick</p>
+                <p>Rank {act.rank} / {this.roundTo1Decimal(act.getTickGain())} per day</p>
                 <progress style={{ width: '100%' }} max={act.totalExpToNextRank} value={act.exp}/>
                 </button>
             });
