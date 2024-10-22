@@ -6,7 +6,7 @@ export class OddJobs extends Activity {
     constructor(charRef: Character) {
         const id = 'odd-jobs';
         const title = 'Odd jobs';
-        const desc = 'Perform odd jobs to receive some coins. Increases with your body.';
+        const desc = 'Perform odd jobs to receive some coins.';
         
         super(id,
             title,

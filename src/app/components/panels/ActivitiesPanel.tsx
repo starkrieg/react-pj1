@@ -1,9 +1,10 @@
 'use client'
 
-import { CultivateQi } from "./activities/CultivateQi";
-import { OddJobs } from "./activities/OddJobs";
-import { PhysicalTraining } from "./activities/PhysicalTraining";
-import CentralController from "./CentralController";
+import { CultivateQi } from "../activities/CultivateQi";
+import { OddJobs } from "../activities/OddJobs";
+import { PhysicalTraining } from "../activities/PhysicalTraining";
+import CentralController from "../CentralController";
+
 
 export default class ActivitiesPanel {
 
@@ -36,8 +37,8 @@ export default class ActivitiesPanel {
         this.selectedActivity = actId;
     }
     
-    private roundTo1Decimal(value: number) {
-        return Math.round(value * 10) / 10;
+    private roundTo2Decimal(value: number) {
+        return Math.round(value * 100) / 100;
     }
 
     createActivitiesPanel() {
@@ -52,7 +53,7 @@ export default class ActivitiesPanel {
                 onClick={this.doClickActivity.bind(this, act.id)}>
                 <p>{act.title}</p>
                 {act.desc}
-                <p>Rank {act.rank} / {this.roundTo1Decimal(act.getTickGain())} per day</p>
+                <p>Rank {act.rank} / {this.roundTo2Decimal(act.getTickGain())} per day</p>
                 <progress style={{ width: '100%' }} max={act.totalExpToNextRank} value={act.exp}/>
                 </button>
             });
@@ -64,11 +65,15 @@ export default class ActivitiesPanel {
 
     setupActivityList() {
         const charRef = this.centralController.character;
-        this.activitiesList = [
-            new OddJobs(charRef),
-            new PhysicalTraining(charRef),
-            new CultivateQi(charRef)
-          ];
+        this.activitiesList = []
+
+        if (this.centralController.character.getUnlockStatus('qi-cultivation')) {
+            this.activitiesList.push(new CultivateQi(charRef));
+        }
+            
+        this.activitiesList.push(new PhysicalTraining(charRef));
+        this.activitiesList.push(new OddJobs(charRef));
+          
     }
 }
 

@@ -1,23 +1,24 @@
 'use client'
 
 import { createRoot } from "react-dom/client";
-import ActivitiesPanel from "./ActivitiesPanel";
-import CalendarPanel from "./CalendarPanel";
-import MessagesPanel from "./MessagesPanel";
+import MessagesPanel from "./panels/MessagesPanel";
 import ModalController from "./ModalController";
 
 import { Calendar } from "./Calendar";
 import { Character } from "./Character";
-import CharacterPanel from "./CharacterPanel";
-import SettingsPanel from "./SettingsPanel";
+import ActivitiesPanel from "./panels/ActivitiesPanel";
+import CharacterPanel from "./panels/CharacterPanel";
+import SettingsPanel from "./panels/SettingsPanel";
+import CalendarPanel from "./panels/CalendarPanel";
 
 export default class CentralController {
 
     modalController: ModalController;
+    
     characterPanel: CharacterPanel;
     activitiesPanel: ActivitiesPanel;
     settingsPanel: SettingsPanel;
-    messagesPanel: MessagesPanel;
+    messagePanel: MessagesPanel;
     calendarPanel: CalendarPanel;
 
     globalRoot: any;
@@ -26,11 +27,11 @@ export default class CentralController {
     isGameWorking = false;
     isPaused = false;
     gameSpeed = 1;
-    isDead = false;
+
     isModalVisible = false;
     modalType = '';
 
-    selectedContent = 'Activities';
+    selectedContent = 'Character';
 
     calendar: Calendar;
     character: Character;
@@ -40,10 +41,10 @@ export default class CentralController {
         this.character = new Character();
 
         // components
-        this.modalController = new ModalController();
+        this.modalController = new ModalController(this);
         this.characterPanel = new CharacterPanel();
         this.activitiesPanel = new ActivitiesPanel(this);
-        this.messagesPanel = new MessagesPanel();
+        this.messagePanel = new MessagesPanel();
         this.calendarPanel = new CalendarPanel();
         this.settingsPanel = new SettingsPanel(this);
 
@@ -54,22 +55,28 @@ export default class CentralController {
         const ans = confirm('Reset everything. Are you sure?');
         if (ans) {
             this.activitiesPanel.reset();
-            this.messagesPanel.reset();
-            this.doMakeCharacterAlive();
+            this.messagePanel.reset();
+            this.modalController.reset();
+            this.firstStartCharacter();
         }
     }
 
-    private defaultCalendarSetup() {
+    private firstStartCharacter() {
         this.calendar.resetDefaultValues();
-        this.character.resetDefaultValues();
+        this.character.firstStartCharacter();
+        /*
+            setup flags for game start
+        */
+        this.modalType = 'game-start';
+        this.isModalVisible = true;
+        console.log('Alive!');
     }
 
-    private doMakeCharacterAlive() {
-        //reset calendar
-        //reset character
-        this.defaultCalendarSetup();
-        this.messagesPanel.pushToMessageBoard(this.character.year, this.character.day, 'You are alive!');
-        this.isDead = false;
+    private doReviveCharacter() {
+        this.calendar.resetDefaultValues();
+        this.character.reviveCharacter();
+        this.messagePanel.pushToMessageBoard(this.character.year, 
+            this.character.day, 'You are alive!');
         console.log('Alive!');
     }
 
@@ -120,12 +127,9 @@ export default class CentralController {
             this.character.year += 1;
         }
         if (this.character.year >= this.character.maxAge) {
-            this.isDead = true;
-            this.messagesPanel.pushToMessageBoard(this.character.year, 
-                this.character.day, 
-                'You cannot sustain life anymore. You died!');
             this.isModalVisible = true;
-            this.modalType = 'Death';
+
+            this.modalType = (this.character.deaths > 0) ? 'death' : 'death-first'
           }
       }
 
@@ -141,7 +145,7 @@ export default class CentralController {
             // keep it above 3, so hydration works properly
             while(this.isGameWorking) {
                 await this.sleep(100 / this.gameSpeed);
-                if (!this.isPaused && !this.isDead) {
+                if (!this.isPaused && !this.isModalVisible) {
                     tickCount += 1
                     while (tickCount >= dayTickReq) {
                         tickCount += -dayTickReq
@@ -169,8 +173,7 @@ export default class CentralController {
         if (!this.isGameWorking) {
             this.isGameWorking = true;
             /* start game loop */
-            this.doMakeCharacterAlive();
-            console.log('Start!');
+            this.firstStartCharacter();
             this.doGameLoop();
         }
     }
@@ -180,7 +183,7 @@ export default class CentralController {
           <div className="container">
             {this.getModal()}
             <div id="row-0" className="row">
-              <div className="col-4">
+                <div className="col-3">
               
                 <div className="panel">
                   <div style={{ display: 'flex', gap: 10 }}>
@@ -196,27 +199,27 @@ export default class CentralController {
                     this.activitiesPanel.getSelectedActivityTitle())}
                 </div>
       
-                <div className="panel">
-                  {this.messagesPanel.createMessagesPanel()}              
                 </div>
-      
-              </div>
-              
-              <div className="panel col-8">
+                
+                <div className="panel col-6">
                 <div style={{ display: 'flex', gap: 10,
-                  borderBottomColor: 'black',
-                  borderBottomStyle: 'solid',
-                  borderBottomWidth: 1,
-                  marginBottom: 15
-                 }}>
-                  <button onClick={() => this.selectContent('Character')}>Character</button>
-                  <button onClick={() => this.selectContent('Activities')}>Activities</button>
-                  <button onClick={() => this.selectContent('Settings')}>Settings</button>
+                    borderBottomColor: 'black',
+                    borderBottomStyle: 'solid',
+                    borderBottomWidth: 1,
+                    marginBottom: 15
+                    }}>
+                    <button onClick={() => this.selectContent('Character')}>Character</button>
+                    <button onClick={() => this.selectContent('Activities')}>Activities</button>
+                    <button onClick={() => this.selectContent('Settings')}>Settings</button>
                 </div>
-      
+        
                 {this.createContent(this.selectedContent)}
                 
-              </div>
+                </div>
+
+                <div className="panel col-3">
+                  {this.messagePanel.createMessagesPanel()}              
+                </div>
             </div>
             
             
@@ -240,20 +243,34 @@ export default class CentralController {
                 );
         }
     }
+
+    private doCloseModal() {
+        this.isModalVisible = false;
+        this.modalType = '';
+        this.modalController.modalType = '';
+    }
     
     private doAfterDeathModalClick() {
-        //check game state
-        if (this.isDead) {
-            this.doMakeCharacterAlive();
-            this.isModalVisible = false;
-        }
+        this.doReviveCharacter();
+        this.doCloseModal();
     }
     
     private getModal() {
         if (!this.isModalVisible) {
             return '';
         } else {
-            return this.modalController.createModal(this.modalType, this.doAfterDeathModalClick.bind(this));
+            const modalFunction = this.getModalFunction();
+            return this.modalController.createModal(this.modalType, modalFunction.bind(this));
+        }
+    }
+
+    private getModalFunction() {
+        switch (this.modalType) {
+            case 'death':
+            case 'death-first':
+                return this.doAfterDeathModalClick;
+            default:
+                return this.doCloseModal;
         }
     }
       

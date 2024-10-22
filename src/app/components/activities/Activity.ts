@@ -27,13 +27,13 @@ export class Activity {
 
         this.charRef = charRef;
         this.action = () => {
+            console.log('Something went wrong!');
             alert('Something went wrong, please report this');
         }
     }
 
     getTickGain() {
-        //console.log('Activity Tick Gain - Not Implemented')
-        return -1;
+       return -1;
     }
 
     // every rank up increase total exp for next rank by 50%

@@ -1,9 +1,19 @@
 'use client'
 
-import { Calendar } from "./Calendar";
-import { Character } from "./Character";
+import { Calendar } from "../Calendar";
+import { Character } from "../Character";
 
 export default class CalendarPanel {
+
+    createQiLabel(character: Character) {
+        const qiCapPercent = '('
+        + this.roundTo2Decimal(character.getQiCapPercent() * 100)
+        + '%)';
+    
+        return (
+          <p>Qi: {this.roundTo2Decimal(character.getQi())} {qiCapPercent}</p>
+        );
+    }  
 
     private roundTo2Decimal(value: number) {
         return Math.round(value * 100) / 100;
@@ -13,11 +23,11 @@ export default class CalendarPanel {
         character: Character, 
         selectedActivity = 'Nothing') {
 
-        const qiCapPercent = '('
-            + this.roundTo2Decimal(character.getQiCapPercent() * 100)
-            + '%)';
+        const qiLabel = character.getUnlockStatus('qi-cultivation') ? 
+            this.createQiLabel(character) 
+            : '';
 
-        const bodyCapPercent = character.isShowFoundation ? '('
+        const bodyCapPercent = character.getUnlockStatus('show-foundation') ? '('
             + this.roundTo2Decimal(character.getBodyCapPercent() * 100)
             + '%)'
             : '';
@@ -29,7 +39,7 @@ export default class CalendarPanel {
                 <p>{character.realm.title}</p>
                 <p>Doing: {selectedActivity}</p>
                 <p>Coins: {this.roundTo2Decimal(character.money)}</p>
-                <p>Qi: {this.roundTo2Decimal(character.getQi())} {qiCapPercent}</p>
+                {qiLabel}
                 <p>Body: {this.roundTo2Decimal(character.getBody())} {bodyCapPercent}</p>
             </div>
         );

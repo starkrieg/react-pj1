@@ -1,6 +1,6 @@
 import { CharacterAttributes } from "./CharacterAttributes";
-import { MortalRealm } from "./realms/MortalRealm";
 import { Realm } from "./realms/Realm";
+import { RealmController } from "./realms/RealmController";
 
 export class Character {
 
@@ -9,7 +9,7 @@ export class Character {
     maxAge: number;
     
     // realm is the cultivation realm
-    realm: Realm;
+    realm: Realm | undefined;
     
     // money represents currency
     money: number;
@@ -18,45 +18,70 @@ export class Character {
     //its also so realm ups can be done easier
     attributes: CharacterAttributes;
 
-    isShowFoundation = false;
+    // counter for amount of deaths
+    deaths: number;
+
+    unlockables = new Map<string, boolean>();
+
+    baseBodyGain = 0.1;
+    baseQiGain = 0.1;
     
     unlockShowFoundation() {
-        this.isShowFoundation = true;
+        this.unlockables.set('show-foundation', true);
+    }
+
+    getUnlockStatus(unlockId: string) {
+        return this.unlockables.get(unlockId) || false;
     }
 
     constructor() {
         this.year = 16
         this.day = 1;
-        this.realm = new MortalRealm();
+        this.realm = RealmController.getRealmById('mortal');
         this.maxAge = 30;
         this.money = 0;
+        this.deaths = 0;
         this.attributes = new CharacterAttributes();
         this.resetDefaultValues();
     }
 
-    resetDefaultValues() {
+    private resetDefaultValues() {
         this.year = 16
         this.day = 1;
-        this.realm = new MortalRealm();
+        this.realm = RealmController.getRealmById('mortal');
         this.maxAge = 30;
         this.money = 0;
         this.attributes.qi = 0;
-        this.attributes.qiCapacity = 100;
+        this.attributes.qiBaseCapacity = 100;
         this.attributes.body = 1;
         this.attributes.bodyCapacity = 100;
         this.attributes.soul = 0;
-        this.attributes.talent = 1;
+        this.attributes.talent = 0.1;
+        this.updateStats();
+    }
+
+    firstStartCharacter() {
+        //reset to starting values
+        this.resetDefaultValues();
+    }
+
+    reviveCharacter() {
+        //count new death
+        this.deaths++;
+        //reset to starting values
+        this.resetDefaultValues();
+        //apply permanent upgrades
     }
 
     private updateStats() {
         const bodyToCapacityDifferential = 0.1;
-        const qiBaseMinCapacity = this.attributes.qiBaseMinCapacity;
+        const qiBaseCapacity = this.attributes.qiBaseCapacity;
         const bodyToCapacity = ((this.attributes.body-1) * this.attributes.talent * bodyToCapacityDifferential);
-        this.attributes.qiCapacity = qiBaseMinCapacity + bodyToCapacity;
+        this.attributes.qiTotalCapacity = qiBaseCapacity + bodyToCapacity;
     }
 
     getQiCapPercent(){
-        return this.attributes.qi / this.attributes.qiCapacity;
+        return this.attributes.qi / this.attributes.qiTotalCapacity;
     }
 
     getBodyCapPercent() {
@@ -65,14 +90,12 @@ export class Character {
 
     //base gain applied talent
     getBaseBodyGain() {
-        const baseBodyGain = 0.1;
-        return baseBodyGain * this.attributes.talent;
+        return this.baseBodyGain * this.attributes.talent;
     }
 
     //base gain applied talent
     getBaseQiGain() {
-        const baseQiGain = 0.1;
-        return baseQiGain * this.attributes.talent;
+        return this.baseQiGain * this.attributes.talent;
     }
 
     getMoney() {
@@ -88,16 +111,16 @@ export class Character {
     }
 
     setBaseMinCapacity(value: number) {
-        this.attributes.qiBaseMinCapacity = value;
+        this.attributes.qiBaseCapacity = value;
         this.updateStats();        
     }
 
     //pure increase on stat
     increaseQi(value: number) {
-        if (this.attributes.qi < this.attributes.qiCapacity) {
+        if (this.attributes.qi < this.attributes.qiTotalCapacity) {
             this.attributes.qi += value;
-            if (this.attributes.qi > this.attributes.qiCapacity) {
-                this.attributes.qi = this.attributes.qiCapacity;
+            if (this.attributes.qi > this.attributes.qiTotalCapacity) {
+                this.attributes.qi = this.attributes.qiTotalCapacity;
             }
         }
     }

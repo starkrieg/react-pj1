@@ -1,6 +1,6 @@
 'use client'
 
-import { Character } from "./Character";
+import { Character } from "../Character";
 
 export default class CharacterPanel {
 
@@ -64,11 +64,11 @@ export default class CharacterPanel {
   }
 
   createRealmReq(character: Character) {
-    if (this.nextRealmId == 'unknown') {
+    if (this.nextRealmId == 'unknown' || !character.getUnlockStatus('qi-cultivation')) {
       return;
     }
     return (
-      <div>
+      <div style={{marginTop: 10}}>
         Requirements:
         {this.getNextRealmPreparedReqList(character)}
       </div>
@@ -76,7 +76,7 @@ export default class CharacterPanel {
   }
 
   createRealmBreakButton(character: Character) {
-    if (this.nextRealmId == 'unknown') {
+    if (this.nextRealmId == 'unknown' || !character.getUnlockStatus('qi-cultivation')) {
       return;
     }
     return (
@@ -84,40 +84,55 @@ export default class CharacterPanel {
         backgroundColor: 'green',
         borderRadius: 5,
         padding: 4,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        marginTop: 10
       }}
       onClick={this.breakthroughRealm.bind(this, character)}
       >Breakthrough</button>
     );
   }
 
-  createCharacterPanel(character: Character) {
-      const qiCapPercent = '('
-      + this.roundTo2Decimal(character.getQiCapPercent() * 100)
-      + '%)';
+  createQiLabel(character: Character) {
+    const qiCapPercent = '('
+    + this.roundTo2Decimal(character.getQiCapPercent() * 100)
+    + '%)';
 
-      const bodyCapPercent = character.isShowFoundation ? '('
-      + this.roundTo2Decimal(character.getBodyCapPercent() * 100)
-      + '%)'
+    return (
+      <p>Qi: {this.roundTo2Decimal(character.getQi())} {qiCapPercent}</p>
+    );
+  }
+
+  createCharacterPanel(character: Character) {
+    
+    const qiLabel = character.getUnlockStatus('qi-cultivation') ?
+      this.createQiLabel(character)
       : '';
 
-      return (
-        <div className="row">
-          <div className="col-6">
-            <p>Age: {character.year}y</p>
-            <p>Life expectancy: {character.maxAge}y</p>
-            <p>{character.realm.title}</p>
-            <p>Qi: {this.roundTo2Decimal(character.getQi())} {qiCapPercent}</p>
-            <p>Body: {this.roundTo2Decimal(character.getBody())} {bodyCapPercent}</p>
-          </div>
-          <div className="col-6">
-            <div>
-              {character.realm.desc}
-            </div>
-            {this.createRealmReq(character)}
-            {this.createRealmBreakButton(character)}
-          </div>
+    const bodyCapPercent = character.getUnlockStatus('show-foundation') ? '('
+    + this.roundTo2Decimal(character.getBodyCapPercent() * 100)
+    + '%)'
+    : '';
+
+    const deathCount = character.deaths > 0 ? 
+      <p>Deaths: {character.deaths}</p>
+      : ''
+
+    return (
+      <div className="row">
+        <div className="col-6">
+          <p>{character.realm.title}</p>
+          {qiLabel}
+          <p>Body: {this.roundTo2Decimal(character.getBody())} {bodyCapPercent}</p>
+          {deathCount}
         </div>
-      );
+        <div className="col-6">
+          <div>
+            {character.realm.desc}
+          </div>
+          {this.createRealmReq(character)}
+          {this.createRealmBreakButton(character)}
+        </div>
+      </div>
+    );
   }
 }

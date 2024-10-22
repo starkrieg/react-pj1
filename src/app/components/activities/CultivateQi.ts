@@ -4,9 +4,9 @@ import { Activity } from "./Activity";
 export class CultivateQi extends Activity {
     
     constructor(charRef: Character) {
-        const id = 'cult-qi';
+        const id = 'cultivate-qi';
         const title = 'Cultivate Qi';
-        const desc = 'Gain qi';                
+        const desc = 'Cultivate your Qi';
 
         super(id, title, desc, charRef);
 

@@ -4,8 +4,8 @@ export class CharacterAttributes extends BaseAttributes {
 
     // qi is an attribute related to spells and power, 
     // and a main guideline for cultivation
-    qiCapacity: number;
-    qiBaseMinCapacity: number = 100;
+    qiTotalCapacity: number;
+    qiBaseCapacity: number;
 
     // body represents how strong is the character's body
     // helps guide some cultivation aspects
@@ -22,7 +22,8 @@ export class CharacterAttributes extends BaseAttributes {
 
     constructor() {
         super();
-        this.qiCapacity = 0;
+        this.qiTotalCapacity = 0;
+        this.qiBaseCapacity = 0;
         this.bodyCapacity = 0;
         this.soul = 0;
         this.talent = 0;

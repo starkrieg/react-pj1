@@ -11,8 +11,7 @@ export class MortalRealm extends Realm {
         const title = 'Mortal'
         const desc = `
         You are but a common person. 
-        Your death is certain and your power is null.
-        Where will you go? 
+        Your death is certain and your power is zero.
         What will you do?`;
 
         const reqQi = 0;

@@ -18,7 +18,6 @@ export default function Changelog() {
             <p/>- Removed Exploration from activities
             <p/>- Changed calendar mechanic to 365 days in a year
             <p/>- Added more game speed options. 1x, 2x, 5x, 10x and 100x. Might remove later.
-            <p/>- Added button inside settings to reset everything.
           </div>
         </li>
 

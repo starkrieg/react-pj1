@@ -4,9 +4,9 @@ import { Activity } from "./Activity";
 export class PhysicalTraining extends Activity {
     
     constructor(charRef: Character) {
-        const id = 'phy-train';
+        const id = 'physical-train';
         const title = 'Physical training';
-        const desc = 'Gain body';
+        const desc = 'Train your body to be stronger.';
 
         super(id, title, desc, charRef);
 

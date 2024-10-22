@@ -57,7 +57,7 @@ export class Realm {
             switch (multi.id) {
                 case 'qi-capacity':
                     if (multi.action == 'sum') {
-                        const newQiBaseMinCapacity = character.attributes.qiBaseMinCapacity + multi.value
+                        const newQiBaseMinCapacity = character.attributes.qiBaseCapacity + multi.value
                         character.setBaseMinCapacity(newQiBaseMinCapacity);
                     }
                     if (multi.action == 'multi') {
@@ -65,7 +65,7 @@ export class Realm {
                         /* multiply original multi.value by the character foundation first */
                         const foundationMulti = character.getBodyCapPercent() * character.getQiCapPercent();
                         const finalMulti = multi.value * foundationMulti
-                        const newQiBaseMinCapacity = character.attributes.qiBaseMinCapacity * finalMulti
+                        const newQiBaseMinCapacity = character.attributes.qiBaseCapacity * finalMulti
                         character.setBaseMinCapacity(newQiBaseMinCapacity);
                     }
                     break;
@@ -80,7 +80,7 @@ export class Realm {
                     }
                     break;
                 default:
-                    console.log('Realm multiplier for {0} {1} {2}', multi.id, multi.action, multi.value);
+                    console.log('Something went wrong! Realm multiplier for {0} {1} {2}', multi.id, multi.action, multi.value);
                     alert('Something happened while breaking through! Please report this');
             }
         }

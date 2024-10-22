@@ -1,8 +1,8 @@
 'use client'
 
 import Link from "next/link";
-import { appVersion } from '../properties/properties';
-import CentralController from "./CentralController";
+import CentralController from "../CentralController";
+import { appVersion } from '../../properties/properties'
 
 export default class SettingsPanel {
 
@@ -15,16 +15,17 @@ export default class SettingsPanel {
     createSettingsPanel() {
       return (
         <div>
+            <Link href="/changelog" target="_blank">{appVersion} - Change log</Link>
+            <p/>
             <button style={{
                   backgroundColor: 'orangered',
                   borderRadius: 5,
                   padding: 4,
-                  fontWeight: 'bold'
+                  fontWeight: 'bold',
+                  marginTop: 20
                 }}
                 onClick={this.centralController.resetEverything.bind(this.centralController)}
-                >Reset everything</button>
-            <p>{appVersion}</p>
-            <Link href="/changelog" target="_blank">Change log</Link>
+                >Hard Reset</button>
         </div>
       );
     }
