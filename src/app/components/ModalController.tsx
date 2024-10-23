@@ -1,5 +1,6 @@
 'use client'
 
+import Button from "./Button";
 import CentralController from "./CentralController";
 
 class ModalContent {
@@ -112,25 +113,21 @@ export default class ModalController {
             <div className="p-8 border shadow-lg rounded-md bg-white"
                 style={{ width: modalWidth }}>
                 <div className="text-center">
-                <h3 className="text-2xl font-bold text-gray-900">
-                    {content.title}
-                </h3>
-                <div className="mt-2 px-7 py-3">
-                    <p className="text-lg text-gray-500">
-                        {content.desc}
-                    </p>
-                </div>
-                <div className="flex justify-center mt-4">
-    
-                    {/* Using useRouter to dismiss modal*/}
-                    <button
-                    onClick={modalClickFnc}
-                    className="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300"
-                    >
-                    {content.buttonText}
-                    </button>
-    
-                </div>
+                    <h3 className="text-2xl font-bold text-gray-900">
+                        {content.title}
+                    </h3>
+                    <div className="mt-2 px-7 py-3">
+                        <p className="text-lg text-gray-500">
+                            {content.desc}
+                        </p>
+                    </div>
+                    <div className="flex justify-center mt-4">
+                        { Button(content.buttonText, 
+                            "px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300",
+                            {},
+                            modalClickFnc
+                        ) }
+                    </div>
                 </div>
             </div>
             </div>

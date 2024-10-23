@@ -1,10 +1,10 @@
 'use client'
 
-import { CultivateQi } from "../activities/CultivateQi";
-import { OddJobs } from "../activities/OddJobs";
-import { PhysicalTraining } from "../activities/PhysicalTraining";
+import { CultivateQi } from "@/app/data/activities/CultivateQi";
+import { ButtonActivity } from "../Button";
 import CentralController from "../CentralController";
-
+import { PhysicalTraining } from "@/app/data/activities/PhysicalTraining";
+import { OddJobs } from "@/app/data/activities/OddJobs";
 
 export default class ActivitiesPanel {
 
@@ -44,18 +44,28 @@ export default class ActivitiesPanel {
     createActivitiesPanel() {
 
         const preparedList = this.activitiesList.map(act => {
-            return <button id={act.id} key={act.id} style={{
+            const rankGainText = 'Rank ' 
+                + act.rank 
+                + ' / ' 
+                + this.roundTo2Decimal(act.getTickGain()) 
+                + ' per day';
+
+            return ButtonActivity(
+                act.id,
+                act.title,
+                act.desc,
+                rankGainText,
+                act.totalExpToNextRank,
+                act.exp,
+                '',
+                {
                     borderWidth: 1,
                     borderColor: 'black',
                     borderStyle: 'dashed',
                     marginBottom: 5
-                }}
-                onClick={this.doClickActivity.bind(this, act.id)}>
-                <p>{act.title}</p>
-                {act.desc}
-                <p>Rank {act.rank} / {this.roundTo2Decimal(act.getTickGain())} per day</p>
-                <progress style={{ width: '100%' }} max={act.totalExpToNextRank} value={act.exp}/>
-                </button>
+                },
+                this.doClickActivity.bind(this, act.id)
+                );
             });
 
         return <div style={{ display: 'grid' }}>

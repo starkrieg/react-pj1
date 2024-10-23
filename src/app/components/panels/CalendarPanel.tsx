@@ -1,7 +1,7 @@
 'use client'
 
-import { Calendar } from "../Calendar";
-import { Character } from "../Character";
+import { Calendar } from "../../data/Calendar";
+import { Character } from "../../data/Character";
 
 export default class CalendarPanel {
 

@@ -1,32 +1,30 @@
 'use client'
 
 import Link from "next/link";
-import CentralController from "../CentralController";
 import { appVersion } from '../../properties/properties'
+import Button from "../Button";
 
-export default class SettingsPanel {
+export default function SettingsPanel(hardResetClick: () => void) {
 
-    centralController: CentralController;
+    const button = Button(
+      'Hard Reset',
+      '',
+      {
+        backgroundColor: 'orangered',
+        borderRadius: 5,
+        padding: 4,
+        fontWeight: 'bold',
+        marginTop: 20
+      },
+      hardResetClick
+    );
 
-    constructor(centralController: CentralController) {
-      this.centralController = centralController;
-    }
-
-    createSettingsPanel() {
-      return (
-        <div>
-            <Link href="/changelog" target="_blank">{appVersion} - Change log</Link>
-            <p/>
-            <button style={{
-                  backgroundColor: 'orangered',
-                  borderRadius: 5,
-                  padding: 4,
-                  fontWeight: 'bold',
-                  marginTop: 20
-                }}
-                onClick={this.centralController.resetEverything.bind(this.centralController)}
-                >Hard Reset</button>
-        </div>
-      );
-    }
+    return (
+      <div>
+          <Link href="/changelog" target="_blank">{ appVersion } - Change log</Link>
+          <p/>
+          { button }
+      </div>
+    );
+    
 }

@@ -4,12 +4,13 @@ import { createRoot } from "react-dom/client";
 import MessagesPanel from "./panels/MessagesPanel";
 import ModalController from "./ModalController";
 
-import { Calendar } from "./Calendar";
-import { Character } from "./Character";
+import { Calendar } from "../data/Calendar";
+import { Character } from "../data/Character";
 import ActivitiesPanel from "./panels/ActivitiesPanel";
 import CharacterPanel from "./panels/CharacterPanel";
-import SettingsPanel from "./panels/SettingsPanel";
 import CalendarPanel from "./panels/CalendarPanel";
+import SettingsPanel from "./panels/SettingsPanel";
+import Button from "./Button";
 
 export default class CentralController {
 
@@ -17,7 +18,6 @@ export default class CentralController {
     
     characterPanel: CharacterPanel;
     activitiesPanel: ActivitiesPanel;
-    settingsPanel: SettingsPanel;
     messagePanel: MessagesPanel;
     calendarPanel: CalendarPanel;
 
@@ -46,7 +46,6 @@ export default class CentralController {
         this.activitiesPanel = new ActivitiesPanel(this);
         this.messagePanel = new MessagesPanel();
         this.calendarPanel = new CalendarPanel();
-        this.settingsPanel = new SettingsPanel(this);
 
         this.globalRoot = undefined;
     }
@@ -187,12 +186,12 @@ export default class CentralController {
               
                 <div className="panel">
                   <div style={{ display: 'flex', gap: 10 }}>
-                    <button onClick={this.pauseGame.bind(this)}>Pause</button>
-                    <button onClick={this.unpauseGame.bind(this)}>1x</button>
-                    <button onClick={this.speedUp2Game.bind(this)}>2x</button>
-                    <button onClick={this.speedUp5Game.bind(this)}>5x</button>
-                    <button onClick={this.speedUp10Game.bind(this)}>10x</button>
-                    <button onClick={this.speedUp100Game.bind(this)}>100x</button>
+                    { Button('Pause', '', {}, this.pauseGame.bind(this)) }
+                    { Button('1x', '', {}, this.unpauseGame.bind(this)) }
+                    { Button('2x', '', {}, this.speedUp2Game.bind(this)) }
+                    { Button('5x', '', {}, this.speedUp5Game.bind(this)) }
+                    { Button('10x', '', {}, this.speedUp10Game.bind(this)) }
+                    { Button('100x', '', {}, this.speedUp100Game.bind(this)) }
                   </div>
       
                   {this.calendarPanel.createCalendarPanel(this.calendar, this.character, 
@@ -208,9 +207,9 @@ export default class CentralController {
                     borderBottomWidth: 1,
                     marginBottom: 15
                     }}>
-                    <button onClick={() => this.selectContent('Character')}>Character</button>
-                    <button onClick={() => this.selectContent('Activities')}>Activities</button>
-                    <button onClick={() => this.selectContent('Settings')}>Settings</button>
+                    { Button('Character', '', {}, this.selectContent.bind(this, 'Character')) }
+                    { Button('Activities', '', {}, this.selectContent.bind(this, 'Activities')) }
+                    { Button('Settings', '', {}, this.selectContent.bind(this, 'Settings')) }
                 </div>
         
                 {this.createContent(this.selectedContent)}
@@ -234,7 +233,7 @@ export default class CentralController {
             case 'Activities':
                 return this.activitiesPanel.createActivitiesPanel();
             case 'Settings':
-                return this.settingsPanel.createSettingsPanel();
+                return SettingsPanel(this.resetEverything.bind(this));
             default:
                 return (
                     <div>

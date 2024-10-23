@@ -1,6 +1,7 @@
 'use client'
 
-import { Character } from "../Character";
+import Button from "../Button";
+import { Character } from "../../data/Character";
 
 export default class CharacterPanel {
 
@@ -79,16 +80,17 @@ export default class CharacterPanel {
     if (this.nextRealmId == 'unknown' || !character.getUnlockStatus('qi-cultivation')) {
       return;
     }
-    return (
-      <button style={{
+    return Button(
+      'Breakthrough',
+      '',
+      {
         backgroundColor: 'green',
         borderRadius: 5,
         padding: 4,
         fontWeight: 'bold',
         marginTop: 10
-      }}
-      onClick={this.breakthroughRealm.bind(this, character)}
-      >Breakthrough</button>
+      },
+      this.breakthroughRealm.bind(this, character)
     );
   }
 
