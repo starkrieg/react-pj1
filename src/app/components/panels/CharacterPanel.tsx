@@ -1,7 +1,7 @@
 'use client'
 
+import { Character } from "@/app/data/Character";
 import Button from "../Button";
-import { Character } from "../../data/Character";
 
 export default class CharacterPanel {
 

@@ -101,7 +101,7 @@ export default class ModalController {
         if (modalType != this.modalType) {
             this.modalType = modalType
             //this.isFirstOpen = true;
-            this.centralController.messagePanel.pushToMessageBoard(this.centralController.character.year, 
+            this.centralController.messageController.pushMessage(this.centralController.character.year, 
                 this.centralController.character.day, content.title + ' ' + content.desc);    
         }
         

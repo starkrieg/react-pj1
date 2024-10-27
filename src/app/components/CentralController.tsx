@@ -5,21 +5,22 @@ import MessagesPanel from "./panels/MessagesPanel";
 import ModalController from "./ModalController";
 
 import { Calendar } from "../data/Calendar";
-import { Character } from "../data/Character";
 import ActivitiesPanel from "./panels/ActivitiesPanel";
 import CharacterPanel from "./panels/CharacterPanel";
 import CalendarPanel from "./panels/CalendarPanel";
 import SettingsPanel from "./panels/SettingsPanel";
 import Button from "./Button";
+import { Character } from "../data/Character";
+import { MessageController } from "../data/MessageController";
+import ActivitiesController from "../data/ActivitiesController";
 
 export default class CentralController {
 
     modalController: ModalController;
-    
+    messageController: MessageController;
+    activitiesController: ActivitiesController;
+
     characterPanel: CharacterPanel;
-    activitiesPanel: ActivitiesPanel;
-    messagePanel: MessagesPanel;
-    calendarPanel: CalendarPanel;
 
     globalRoot: any;
 
@@ -42,19 +43,20 @@ export default class CentralController {
 
         // components
         this.modalController = new ModalController(this);
-        this.characterPanel = new CharacterPanel();
-        this.activitiesPanel = new ActivitiesPanel(this);
-        this.messagePanel = new MessagesPanel();
-        this.calendarPanel = new CalendarPanel();
+        this.messageController = new MessageController();
+        this.activitiesController = new ActivitiesController(this);
 
+        this.characterPanel = new CharacterPanel();
+        
         this.globalRoot = undefined;
     }
 
     public resetEverything() {
         const ans = confirm('Reset everything. Are you sure?');
         if (ans) {
-            this.activitiesPanel.reset();
-            this.messagePanel.reset();
+            this.activitiesController.reset();
+            
+            this.messageController.reset();
             this.modalController.reset();
             this.firstStartCharacter();
         }
@@ -74,7 +76,7 @@ export default class CentralController {
     private doReviveCharacter() {
         this.calendar.resetDefaultValues();
         this.character.reviveCharacter();
-        this.messagePanel.pushToMessageBoard(this.character.year, 
+        this.messageController.pushMessage(this.character.year, 
             this.character.day, 'You are alive!');
         console.log('Alive!');
     }
@@ -148,7 +150,7 @@ export default class CentralController {
                     tickCount += 1
                     while (tickCount >= dayTickReq) {
                         tickCount += -dayTickReq
-                        this.activitiesPanel.doActivityTick();
+                        this.activitiesController.doActivityTick();
                         this.addDayCalendar();
                     }
                 }
@@ -194,33 +196,33 @@ export default class CentralController {
                     { Button('100x', '', {}, this.speedUp100Game.bind(this)) }
                   </div>
       
-                  {this.calendarPanel.createCalendarPanel(this.calendar, this.character, 
-                    this.activitiesPanel.getSelectedActivityTitle())}
+                  {CalendarPanel(this.calendar, this.character, 
+                    this.activitiesController.getSelectedActivityTitle())}
                 </div>
       
                 </div>
                 
                 <div className="panel col-6">
-                <div style={{ display: 'flex', gap: 10,
-                    borderBottomColor: 'black',
-                    borderBottomStyle: 'solid',
-                    borderBottomWidth: 1,
-                    marginBottom: 15
-                    }}>
-                    { Button('Character', '', {}, this.selectContent.bind(this, 'Character')) }
-                    { Button('Activities', '', {}, this.selectContent.bind(this, 'Activities')) }
-                    { Button('Settings', '', {}, this.selectContent.bind(this, 'Settings')) }
-                </div>
-        
-                {this.createContent(this.selectedContent)}
+                
+                    <div style={{ display: 'flex', gap: 10,
+                        borderBottomColor: 'black',
+                        borderBottomStyle: 'solid',
+                        borderBottomWidth: 1,
+                        marginBottom: 15
+                        }}>
+                        { Button('Character', '', {}, this.selectContent.bind(this, 'Character')) }
+                        { Button('Activities', '', {}, this.selectContent.bind(this, 'Activities')) }
+                        { Button('Settings', '', {}, this.selectContent.bind(this, 'Settings')) }
+                    </div>
+            
+                    {this.createContent(this.selectedContent)}
                 
                 </div>
 
                 <div className="panel col-3">
-                  {this.messagePanel.createMessagesPanel()}              
+                  {MessagesPanel(this.messageController.getLast10Message())}              
                 </div>
             </div>
-            
             
           </div>
         );
@@ -231,7 +233,9 @@ export default class CentralController {
             case 'Character':
                 return this.characterPanel.createCharacterPanel(this.character);
             case 'Activities':
-                return this.activitiesPanel.createActivitiesPanel();
+                return ActivitiesPanel(this.activitiesController, this.activitiesController.activitiesList,
+                    this.activitiesController.doClickActivity
+                );
             case 'Settings':
                 return SettingsPanel(this.resetEverything.bind(this));
             default:
