@@ -1,5 +1,4 @@
 
-import { useEffect } from "react";
 
 import GameController from "../data/GameController";
 import Button from "./Button";

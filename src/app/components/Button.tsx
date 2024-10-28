@@ -22,7 +22,7 @@ export function ButtonActivity(id: string,
     totalExpRank: number,
     currExpRank: number,
     className: string, 
-    dynamicStyle: {}, 
+    dynamicStyle: object, 
     onClick: () => void ) {
 
     return (

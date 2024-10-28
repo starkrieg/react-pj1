@@ -34,7 +34,7 @@ export default function CalendarPanel(calendar: Calendar,
         <div id="calendar-panel">
             <p>{calendar.year}y, day {calendar.day}</p>
             <p>{character.year}y (max {character.maxAge}y)</p>
-            <p>{character.realm.title}</p>
+            <p>{character.realm?.title}</p>
             <p>Doing: {selectedActivity}</p>
             <p>Coins: {roundTo2Decimal(character.money)}</p>
             {qiLabel}
