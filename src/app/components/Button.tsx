@@ -1,7 +1,7 @@
 
 export default function Button(label: string, 
     className: string, 
-    dynamicStyle: {}, 
+    dynamicStyle: object, 
     onClick: () => void ) {
 
     return (

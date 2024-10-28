@@ -1,13 +1,14 @@
 'use client'
 
-import { GameState } from "./components/GameState";
-import CentralController from "./data/CentralController";
+import GameController from "./data/GameController";
 
-const centralController = new CentralController();
+const gameController = new GameController();
 
 export default function Home() {
+
   /* start game loop */
-  centralController.doStartGame();
-  /* set up page */
-  return GameState(centralController);
+  /* game loop will render page via DOM */
+  gameController.doStartGame();
+  
+  return ;
 }

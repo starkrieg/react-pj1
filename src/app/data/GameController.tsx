@@ -10,7 +10,7 @@ import { CharacterController } from "./CharacterController";
 import { ModalController } from "./ModalController";
 import { GameState } from "../components/GameState";
 
-export default class CentralController {
+export default class GameController {
 
     modalController: ModalController;
     messageController: MessageController;
@@ -145,6 +145,7 @@ export default class CentralController {
                         this.addDayCalendar();
                     }
                 }
+                // ui must be updated based on react hooks, not forced by dom changes
                 // update
                 this.updateUIState();
             }

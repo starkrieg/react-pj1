@@ -1,6 +1,6 @@
 'use client'
 
-import ActivitiesController from "@/app/data/ActivitiesController";
+import { ActivitiesController } from "@/app/data/ActivitiesController";
 import { ButtonActivity } from "../Button";
 
 export default function ActivitiesPanel(activityController: ActivitiesController) {

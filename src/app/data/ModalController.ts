@@ -1,14 +1,14 @@
 
-import CentralController from "./CentralController";
+import GameController from "./GameController";
 import { ModalContent } from "./ModalContent";
 
 export class ModalController {
 
-    centralController: CentralController;
+    gameController: GameController;
     modalContentMatrix = new Map<string, ModalContent>();
     
-    constructor(centralController: CentralController) {
-        this.centralController = centralController
+    constructor(gameController: GameController) {
+        this.gameController = gameController
     }
 
     reset() {
@@ -67,8 +67,8 @@ export class ModalController {
 
         // first time modal content is created for use, print the content to message controller too
         // message should appear on controller only once
-        this.centralController.messageController.pushMessage(this.centralController.character.year, 
-            this.centralController.character.day, content.title + ' ' + content.desc);    
+        this.gameController.messageController.pushMessage(this.gameController.character.year, 
+            this.gameController.character.day, content.title + ' ' + content.desc);    
 
         this.modalContentMatrix.set(modalType, content);
         return this.modalContentMatrix.get(modalType);

@@ -1,16 +1,16 @@
-import CentralController from "./CentralController";
+import GameController from "./GameController";
 import { CultivateQi } from "./activities/CultivateQi";
 import { OddJobs } from "./activities/OddJobs";
 import { PhysicalTraining } from "./activities/PhysicalTraining";
 
 export class ActivitiesController {
 
-    centralController: CentralController;
+    gameController: GameController;
     selectedActivity: string;
     activitiesList: any[];
 
-    constructor(centralController: CentralController) {
-        this.centralController = centralController;
+    constructor(gameController: GameController) {
+        this.gameController = gameController;
         this.selectedActivity = '';
         this.activitiesList = [];
         this.setupActivityList();
@@ -27,7 +27,7 @@ export class ActivitiesController {
     }
     
     setupActivityList() {
-        const charRef = this.centralController.character;
+        const charRef = this.gameController.character;
         this.activitiesList = []
     
         if (charRef.getUnlockStatus('qi-cultivation')) {

@@ -41,6 +41,5 @@ export default function ModalScreen(modalContent: ModalContent | undefined, moda
             </div>
         </div>
     );
-    
 
 }
