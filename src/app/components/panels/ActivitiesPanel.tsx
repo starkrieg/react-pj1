@@ -3,9 +3,10 @@
 import ActivitiesController from "@/app/data/ActivitiesController";
 import { ButtonActivity } from "../Button";
 
-export default function ActivitiesPanel(superContext: ActivitiesController, 
-    activitiesList: any[],
-    doSelectClick: (actId: string) => void) {
+export default function ActivitiesPanel(activityController: ActivitiesController) {
+
+    const activitiesList = activityController.activitiesList;
+    const doSelectClick = activityController.doClickActivity;
 
     function roundTo2Decimal(value: number) {
         return Math.round(value * 100) / 100;
@@ -32,7 +33,7 @@ export default function ActivitiesPanel(superContext: ActivitiesController,
                 borderStyle: 'dashed',
                 marginBottom: 5
             },
-            doSelectClick.bind(superContext, act.id)
+            doSelectClick.bind(activityController, act.id)
             );
         });
 

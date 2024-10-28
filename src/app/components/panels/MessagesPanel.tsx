@@ -1,5 +1,7 @@
 'use client'
 
+import { Message } from "@/app/data/Message";
+
 export default function MessagesPanel(messageList: Message[]) {
 
     const listMessages = messageList.map(msg => {

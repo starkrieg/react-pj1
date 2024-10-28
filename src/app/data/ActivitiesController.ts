@@ -1,9 +1,9 @@
-import CentralController from "../components/CentralController";
+import CentralController from "./CentralController";
 import { CultivateQi } from "./activities/CultivateQi";
 import { OddJobs } from "./activities/OddJobs";
 import { PhysicalTraining } from "./activities/PhysicalTraining";
 
-export default class ActivitiesController {
+export class ActivitiesController {
 
     centralController: CentralController;
     selectedActivity: string;
