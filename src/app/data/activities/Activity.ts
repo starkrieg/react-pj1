@@ -1,10 +1,11 @@
 import { Character } from "../Character";
+import { ActivitiesEnum } from "./ActivitiesEnum";
 
 export class Activity {
 
     private MIN_TICK_RANK = 6;
 
-    id: string;
+    id: ActivitiesEnum;
     title: string;
     desc: string;
     
@@ -15,7 +16,7 @@ export class Activity {
     charRef: Character;
     action: CallableFunction;
 
-    constructor(id: string, title: string, desc: string,
+    constructor(id: ActivitiesEnum, title: string, desc: string,
         charRef: Character, rank: number = 1, exp: number = 0) {
         this.id = id;
         this.title = title;

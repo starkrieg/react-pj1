@@ -1,4 +1,5 @@
 import GameController from "./GameController";
+import { ActivitiesEnum } from "./activities/ActivitiesEnum";
 import { CultivateQi } from "./activities/CultivateQi";
 import { OddJobs } from "./activities/OddJobs";
 import { PhysicalTraining } from "./activities/PhysicalTraining";
@@ -6,18 +7,18 @@ import { PhysicalTraining } from "./activities/PhysicalTraining";
 export class ActivitiesController {
 
     gameController: GameController;
-    selectedActivity: string;
+    selectedActivity: ActivitiesEnum;
     activitiesList: any[];
 
     constructor(gameController: GameController) {
         this.gameController = gameController;
-        this.selectedActivity = '';
+        this.selectedActivity = ActivitiesEnum.NOTHING;
         this.activitiesList = [];
         this.setupActivityList();
     }
 
     reset() {
-        this.selectedActivity = '';
+        this.selectedActivity = ActivitiesEnum.NOTHING;
         this.setupActivityList();
     }
     
@@ -43,7 +44,7 @@ export class ActivitiesController {
         this.activitiesList.find((act) => act.id == this.selectedActivity)?.action.call(this);
     }
     
-    doClickActivity(actId: string) {
+    doClickActivity(actId: ActivitiesEnum) {
         this.selectedActivity = actId;
     }
 

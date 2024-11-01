@@ -1,10 +1,11 @@
 import { Character } from "../Character";
+import { ActivitiesEnum } from "./ActivitiesEnum";
 import { Activity } from "./Activity";
 
 export class PhysicalTraining extends Activity {
     
     constructor(charRef: Character) {
-        const id = 'physical-train';
+        const id = ActivitiesEnum.PHYSICAL_TRAINING;
         const title = 'Physical training';
         const desc = 'Train your body to be stronger.';
 

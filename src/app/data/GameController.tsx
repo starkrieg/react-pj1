@@ -9,6 +9,8 @@ import { ActivitiesController } from "./ActivitiesController";
 import { CharacterController } from "./CharacterController";
 import { ModalController } from "./ModalController";
 import { GameState } from "../components/GameState";
+import { MainContentEnum } from "./MainContentEnum";
+import { ModalTypeEnum } from "./ModalTypeEnum";
 
 export default class GameController {
 
@@ -24,9 +26,9 @@ export default class GameController {
     isPaused = false;
     gameSpeed = 1;
 
-    modalType = '';
+    modalType = ModalTypeEnum.NOTHING;
 
-    selectedContent = 'Character';
+    selectedContent = MainContentEnum.JOURNAL;
 
     calendar: Calendar;
     character: Character;
@@ -61,7 +63,7 @@ export default class GameController {
         /*
             setup flags for game start
         */
-        this.modalType = 'game-start';
+        this.modalType = ModalTypeEnum.GAME_START;
         console.log('Alive!');
     }
 
@@ -108,7 +110,7 @@ export default class GameController {
         this.gameSpeed = 50;
     }
 
-    selectContent(contentId = 'Character') {
+    selectContent(contentId = MainContentEnum.CHARACTER) {
         this.selectedContent = contentId;
     }
   
@@ -121,7 +123,7 @@ export default class GameController {
         }
         
         if (this.character.year >= this.character.maxAge) {
-            this.modalType = (this.character.deaths > 0) ? 'death' : 'death-first'
+            this.modalType = (this.character.deaths > 0) ? ModalTypeEnum.DEATH : ModalTypeEnum.DEATH_FIRST
         }
     }
 
@@ -137,7 +139,7 @@ export default class GameController {
             // keep it above 3, so hydration works properly
             while(this.isGameWorking) {
                 await this.sleep(100 / this.gameSpeed);
-                if (!this.isPaused && this.modalType == '') {
+                if (!this.isPaused && this.modalType == ModalTypeEnum.NOTHING) {
                     tickCount += 1
                     while (tickCount >= dayTickReq) {
                         tickCount += -dayTickReq
@@ -172,7 +174,7 @@ export default class GameController {
     }
 
     doCloseModal() {
-        this.modalType = '';
+        this.modalType = ModalTypeEnum.NOTHING;
     }
     
     doAfterDeathModalClick() {

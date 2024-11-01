@@ -1,10 +1,11 @@
 import { Character } from "../Character";
+import { ActivitiesEnum } from "./ActivitiesEnum";
 import { Activity } from "./Activity";
 
 export class CultivateQi extends Activity {
     
     constructor(charRef: Character) {
-        const id = 'cultivate-qi';
+        const id = ActivitiesEnum.CULTIVATE_QI;
         const title = 'Cultivate Qi';
         const desc = 'Cultivate your Qi';
 

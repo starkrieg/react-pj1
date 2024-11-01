@@ -1,11 +1,12 @@
 
 import GameController from "./GameController";
 import { ModalContent } from "./ModalContent";
+import { ModalTypeEnum } from "./ModalTypeEnum";
 
 export class ModalController {
 
     gameController: GameController;
-    modalContentMatrix = new Map<string, ModalContent>();
+    modalContentMatrix = new Map<ModalTypeEnum, ModalContent>();
     
     constructor(gameController: GameController) {
         this.gameController = gameController
@@ -15,7 +16,7 @@ export class ModalController {
         this.modalContentMatrix.clear();
     }
 
-    getModalContentFromType(modalType: string) {
+    getModalContentFromType(modalType: ModalTypeEnum) {
         if (this.modalContentMatrix.get(modalType)) {
             return this.modalContentMatrix.get(modalType);
         }
@@ -25,7 +26,7 @@ export class ModalController {
         let buttonText = '';
 
         switch (modalType) {
-            case 'game-start':
+            case ModalTypeEnum.GAME_START:
                 title = 'A thunderous night!';
                 desc = `
                 The sky shone bright at night. 
@@ -37,7 +38,7 @@ export class ModalController {
                 `;
                 buttonText = 'Move forward';
                 break;
-            case 'death-first':
+            case ModalTypeEnum.DEATH_FIRST:
                 title = 'You died!';
                 desc = `
                 The last strands of lifeforce leave your existence as you perish.
@@ -47,7 +48,7 @@ export class ModalController {
                 `;
                 buttonText = 'Move forward';
                 break;
-            case 'death':
+            case ModalTypeEnum.DEATH:
                 title = 'You died!';
                 desc = `
                 You perish, and then a spark of golden fills your view.
@@ -67,7 +68,7 @@ export class ModalController {
 
         // first time modal content is created for use, print the content to message controller too
         // message should appear on controller only once
-        this.gameController.messageController.pushMessage(this.gameController.character.year, 
+        this.gameController.messageController.pushMessageMain(this.gameController.character.year, 
             this.gameController.character.day, content.title + ' ' + content.desc);    
 
         this.modalContentMatrix.set(modalType, content);

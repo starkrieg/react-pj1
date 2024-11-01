@@ -1,10 +1,11 @@
 import { Character } from "../Character";
+import { ActivitiesEnum } from "./ActivitiesEnum";
 import { Activity } from "./Activity";
 
 export class OddJobs extends Activity {
     
     constructor(charRef: Character) {
-        const id = 'odd-jobs';
+        const id = ActivitiesEnum.ODD_JOBS;
         const title = 'Odd jobs';
         const desc = 'Perform odd jobs to receive some coins.';
         

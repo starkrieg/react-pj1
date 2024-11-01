@@ -18,7 +18,12 @@ export class MessageController{
     */
     pushMessage(characterYear: number, characterDay: number, message: string) {
         const id = this.messageList.length + 1;
-        this.messageList.push(new Message(id, characterYear, characterDay, message));
+        this.messageList.push(new Message(id, characterYear, characterDay, 'common', message));
+    }
+
+    pushMessageMain(characterYear: number, characterDay: number, message: string) {
+        const id = this.messageList.length + 1;
+        this.messageList.push(new Message(id, characterYear, characterDay, 'main', message));
     }
 
     getLast10Message() {
@@ -28,6 +33,20 @@ export class MessageController{
         for (let index = 0; index < listSize && index < this.messageList.length; index++) {
             reverseOrderLastMsg[index] = this.messageList[this.messageList.length-1-index];
             reverseOrderLastMsg[index].id = index;
+        }
+
+        return reverseOrderLastMsg;
+    }
+
+    getJournalMessages() {
+        const reverseOrderLastMsg = [];
+
+        for (let index = 0; index < this.messageList.length; index++) {
+            const msgPos = this.messageList.length-1-index;
+            if (this.messageList[msgPos].type == 'main') {
+                reverseOrderLastMsg[index] = this.messageList[msgPos];
+                reverseOrderLastMsg[index].id = index;
+            }
         }
 
         return reverseOrderLastMsg;

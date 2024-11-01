@@ -9,6 +9,16 @@ export default function Changelog() {
       <ul style={{marginTop: 10}}>
 
         <li style={{marginTop: 10}}>
+          <p>v.0.2.1 - alpha / 2024-Oct-17</p>
+          <p>Overview: Some basic plotline and other small features</p>
+          <div>
+            Additions:
+            <p>- Added Journal, to log the main story</p>
+            <p>- Qi Cultivation now must be unlocked somehow</p>
+          </div>
+        </li>
+
+        <li style={{marginTop: 10}}>
           <p>v.0.2.0 - alpha / 2024-Oct-17</p>
           <p>Overview: Basic realms and some mechanic changes</p>
           <div>

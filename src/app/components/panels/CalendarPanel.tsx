@@ -2,10 +2,11 @@
 
 import { Character } from "@/app/data/Character";
 import { Calendar } from "../../data/Calendar";
+import { ActivitiesEnum } from "@/app/data/activities/ActivitiesEnum";
 
 export default function CalendarPanel(calendar: Calendar, 
         character: Character, 
-        selectedActivity = 'Nothing') {
+        selectedActivity = ActivitiesEnum.NOTHING) {
 
     function createQiLabel(character: Character) {
         const qiCapPercent = '('
