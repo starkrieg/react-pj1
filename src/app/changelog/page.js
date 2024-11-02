@@ -15,6 +15,9 @@ export default function Changelog() {
             Additions:
             <p>- Added Journal, to log the main story</p>
             <p>- Qi Cultivation now must be unlocked somehow</p>
+            <p>- Added Explore, with list of places to explore</p>
+            <p>- You can fight strong enemies and find useful things when exploring</p>
+            <p>- Be aware of the minimum recommended power for a place, otherwise you will only get injured and fall back on progress</p>
           </div>
         </li>
 

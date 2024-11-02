@@ -2,6 +2,7 @@ import GameController from "../data/GameController";
 import { MainContentEnum } from "../data/MainContentEnum";
 import ActivitiesPanel from "./panels/ActivitiesPanel";
 import CharacterPanel from "./panels/CharacterPanel";
+import ExplorePanel from "./panels/ExplorePanel";
 import MessagesPanel from "./panels/MessagesPanel";
 import SettingsPanel from "./panels/SettingsPanel";
 
@@ -14,7 +15,9 @@ export function MainContentPanel(gameController: GameController, contentId = Mai
         case MainContentEnum.SETTINGS:
             return SettingsPanel(gameController.resetEverything.bind(gameController));
         case MainContentEnum.JOURNAL:
-        return MessagesPanel(gameController.messageController.getLast10Message())
+            return MessagesPanel(gameController.messageController.getJournalMessages())
+        case MainContentEnum.EXPLORE:
+            return ExplorePanel(gameController.explorationController);
         default:
             return (
                 <div>

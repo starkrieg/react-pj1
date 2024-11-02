@@ -61,21 +61,21 @@ body {
   width: 95%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 5px 0;
+  padding: 2px 0;
 }
 
 .row {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  gap: 5px; /* Adjusts the spacing between columns */
-  margin-bottom: 5px;
+  gap: 2px; /* Adjusts the spacing between columns */
+  margin-bottom: 2px;
 }
 
 .panel {
   background-color: #f0f0f0;
-  padding: 10px;
+  padding: 8px;
   border: 1px solid #ddd;
-  margin-bottom: 5px;
+  margin-bottom: 2px;
 }
 
 /* Column Width Classes */
@@ -86,4 +86,5 @@ body {
 .col-6 { grid-column: span 6; }
 .col-8 { grid-column: span 8; }
 .col-9 { grid-column: span 9; }
+.col-10 { grid-column: span 10; }
 .col-12 { grid-column: span 12; }

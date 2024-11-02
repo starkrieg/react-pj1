@@ -27,12 +27,12 @@ export function GameState(gameController: GameController) {
                         </div>
             
                         {CalendarPanel(gameController.calendar, gameController.character, 
-                        gameController.activitiesController.getSelectedActivityTitle())}
+                        gameController.activitiesController, gameController.explorationController)}
                     </div>
         
                 </div>
                 
-                <div className="panel col-9">
+                <div className="panel col-6">
                 
                     <div style={{ display: 'flex', gap: 10,
                         borderBottomColor: 'black',
@@ -43,11 +43,16 @@ export function GameState(gameController: GameController) {
                         { Button('Character', '', {}, gameController.selectContent.bind(gameController, MainContentEnum.CHARACTER)) }
                         { Button('Activities', '', {}, gameController.selectContent.bind(gameController, MainContentEnum.ACTIVITIES)) }
                         { Button('Journal', '', {}, gameController.selectContent.bind(gameController, MainContentEnum.JOURNAL)) }
+                        { Button('Explore', '', {}, gameController.selectContent.bind(gameController, MainContentEnum.EXPLORE)) }
                         { Button('Settings', '', {}, gameController.selectContent.bind(gameController, MainContentEnum.SETTINGS)) }
                     </div>
             
                     {MainContentPanel(gameController, gameController.selectedContent)}
                 
+                </div>
+
+                <div className="panel col-3">
+                    {MessagesPanel(gameController.messageController.getLast10Message())}
                 </div>
 
             </div>

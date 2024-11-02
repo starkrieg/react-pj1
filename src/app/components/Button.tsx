@@ -1,3 +1,5 @@
+import { ExplorableZone } from "../data/zones/ExplorableZone";
+import { ExploreZoneEnum } from "../data/zones/ExploreZoneEnum";
 
 export default function Button(label: string, 
     className: string, 
@@ -37,5 +39,27 @@ export function ButtonActivity(id: string,
             <progress style={{ width: '100%' }} max={ totalExpRank } value={ currExpRank }/>
         </button>
 
+    );
+}
+
+export function ButtonExplorableZone(zone: ExplorableZone,
+    className: string, 
+    dynamicStyle: object, 
+    onClick: () => void ) {
+
+    return (
+        <button id={ zone.id.toString() } key={ zone.id.toString() }
+            className={ className }
+            style={ dynamicStyle }
+            onClick={ onClick }
+            >
+            <div className="row">
+                <div className="col-1">{ zone.minPowerReq }</div>
+                <div className="col-10">{ zone.title }</div>
+                <div className="col-1">{ zone.isComplete }</div>
+            </div>
+            <p>{ zone.desc }</p>
+            <progress style={{ width: '100%' }} max={ zone.combatSize } value={ zone.currProgress }/>
+        </button>
     );
 }

@@ -11,12 +11,16 @@ import { ModalController } from "./ModalController";
 import { GameState } from "../components/GameState";
 import { MainContentEnum } from "./MainContentEnum";
 import { ModalTypeEnum } from "./ModalTypeEnum";
+import { ExplorationController } from "./ExplorationController";
+import { ExploreZoneEnum } from "./zones/ExploreZoneEnum";
+import { ActivitiesEnum } from "./activities/ActivitiesEnum";
 
 export default class GameController {
 
     modalController: ModalController;
     messageController: MessageController;
     activitiesController: ActivitiesController;
+    explorationController: ExplorationController;
     characterController: CharacterController;
 
     globalRoot: any;
@@ -41,6 +45,7 @@ export default class GameController {
         this.modalController = new ModalController(this);
         this.messageController = new MessageController();
         this.activitiesController = new ActivitiesController(this);
+        this.explorationController = new ExplorationController();
         this.characterController = new CharacterController();
         
         this.globalRoot = undefined;
@@ -50,6 +55,7 @@ export default class GameController {
         const ans = confirm('Reset everything. Are you sure?');
         if (ans) {
             this.activitiesController.reset();
+            this.explorationController.reset();
             
             this.messageController.reset();
             this.modalController.reset();
@@ -143,7 +149,18 @@ export default class GameController {
                     tickCount += 1
                     while (tickCount >= dayTickReq) {
                         tickCount += -dayTickReq
-                        this.activitiesController.doActivityTick();
+                        
+                        // check if doing anything
+                        if (this.explorationController.selectedZone != ExploreZoneEnum.NOTHING) {
+                            //if exploring, then cant work on selected activity
+                            //only do explore here
+                            this.explorationController.doExploreSelectedZone()
+                        } else if(this.activitiesController.selectedActivity != ActivitiesEnum.NOTHING) {
+                            //only do activity if not exploring
+                            //and only if selected one activity
+                            this.activitiesController.doActivityTick();
+                        }
+                        //day will pass anyway
                         this.addDayCalendar();
                     }
                 }

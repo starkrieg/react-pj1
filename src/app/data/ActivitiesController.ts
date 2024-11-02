@@ -41,7 +41,7 @@ export class ActivitiesController {
     }
     
     doActivityTick() {
-        this.activitiesList.find((act) => act.id == this.selectedActivity)?.action.call(this);
+        this.activitiesList.find((act) => act.id == this.selectedActivity)?.action();
     }
     
     doClickActivity(actId: ActivitiesEnum) {

@@ -2,11 +2,15 @@
 
 import { Character } from "@/app/data/Character";
 import { Calendar } from "../../data/Calendar";
-import { ActivitiesEnum } from "@/app/data/activities/ActivitiesEnum";
+import { ExploreZoneEnum } from "@/app/data/zones/ExploreZoneEnum";
+import { ActivitiesController } from "@/app/data/ActivitiesController";
+import { ExplorationController } from "@/app/data/ExplorationController";
 
 export default function CalendarPanel(calendar: Calendar, 
         character: Character, 
-        selectedActivity = ActivitiesEnum.NOTHING) {
+        activitiesController: ActivitiesController,
+        explorationController: ExplorationController
+        ) {
 
     function createQiLabel(character: Character) {
         const qiCapPercent = '('
@@ -31,12 +35,16 @@ export default function CalendarPanel(calendar: Calendar,
         + '%)'
         : '';
 
+    const doing = explorationController.selectedZone == ExploreZoneEnum.NOTHING ?
+        activitiesController.getSelectedActivityTitle()
+        : explorationController.getSelectedExplorableZoneTitle()
+
     return (
         <div id="calendar-panel">
             <p>{calendar.year}y, day {calendar.day}</p>
             <p>{character.year}y (max {character.maxAge}y)</p>
             <p>{character.realm?.title}</p>
-            <p>Doing: {selectedActivity}</p>
+            <p>Doing: {doing}</p>
             <p>Coins: {roundTo2Decimal(character.money)}</p>
             {qiLabel}
             <p>Body: {roundTo2Decimal(character.getBody())} {bodyCapPercent}</p>
