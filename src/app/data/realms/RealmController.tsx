@@ -1,6 +1,6 @@
 'use client'
 
-import { BaseAttributes } from "../BaseAttributes";
+import { BaseAttributes } from "../character/BaseAttributes";
 import { FoundationEstablishment } from "./FoundationEstablishment";
 import { MortalRealm } from "./MortalRealm";
 import { QiCondensationGeneric } from "./QiCondensationGeneric";

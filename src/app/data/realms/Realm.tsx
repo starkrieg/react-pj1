@@ -1,7 +1,7 @@
 'use client'
 
-import { BaseAttributes } from "../BaseAttributes";
-import { Character } from "../Character";
+import { BaseAttributes } from "../character/BaseAttributes";
+import { Character } from "../character/Character";
 import { RealmController } from "./RealmController";
 
 class RealmMultiplier {

@@ -1,4 +1,4 @@
-import { Character } from "../Character";
+import { Character } from "../character/Character";
 import { ActivitiesEnum } from "./ActivitiesEnum";
 
 export class Activity {

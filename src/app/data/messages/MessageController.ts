@@ -16,17 +16,17 @@ export class MessageController{
         message: message
     }
     */
-    pushMessage(characterYear: number, characterDay: number, message: string) {
+    pushMessageSimple(message: string) {
         const id = this.messageList.length + 1;
-        this.messageList.push(new Message(id, characterYear, characterDay, 'common', message));
+        this.messageList.push(new Message(id, 0, 0, 'common', message));
     }
 
-    pushMessageMain(characterYear: number, characterDay: number, message: string) {
+    pushMessageJournal(characterYear: number, characterDay: number, message: string) {
         const id = this.messageList.length + 1;
         this.messageList.push(new Message(id, characterYear, characterDay, 'main', message));
     }
 
-    getLast10Message() {
+    getLast10Messages() {
         const reverseOrderLastMsg = [];
         const listSize = 10;
 

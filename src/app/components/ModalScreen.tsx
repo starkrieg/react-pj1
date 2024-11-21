@@ -1,6 +1,6 @@
 'use client'
 
-import { ModalContent } from "../data/ModalContent";
+import { ModalContent } from "../data/modal/ModalContent";
 import Button from "./Button";
 
 function defaultAlertError() {

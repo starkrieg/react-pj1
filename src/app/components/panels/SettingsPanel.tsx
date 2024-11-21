@@ -10,9 +10,10 @@ export default function SettingsPanel(hardResetClick: () => void) {
       'Hard Reset',
       '',
       {
-        backgroundColor: 'orangered',
+        color: 'var(--ivory_white)',
+        backgroundColor: 'red',
         borderRadius: 5,
-        padding: 4,
+        padding: 5,
         fontWeight: 'bold',
         marginTop: 20
       },

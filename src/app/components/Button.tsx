@@ -1,5 +1,4 @@
-import { ExplorableZone } from "../data/zones/ExplorableZone";
-import { ExploreZoneEnum } from "../data/zones/ExploreZoneEnum";
+import { ExplorableZone } from "../data/exploration/ExplorableZone";
 
 export default function Button(label: string, 
     className: string, 
@@ -54,12 +53,11 @@ export function ButtonExplorableZone(zone: ExplorableZone,
             onClick={ onClick }
             >
             <div className="row">
-                <div className="col-1">{ zone.minPowerReq }</div>
-                <div className="col-10">{ zone.title }</div>
                 <div className="col-1">{ zone.isComplete }</div>
+                <div className="col-10">{ zone.title }</div>
+                <div className="col-1">{ zone.minPowerReq }</div>
             </div>
             <p>{ zone.desc }</p>
-            <progress style={{ width: '100%' }} max={ zone.combatSize } value={ zone.currProgress }/>
         </button>
     );
 }

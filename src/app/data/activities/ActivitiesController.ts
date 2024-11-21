@@ -1,8 +1,9 @@
-import GameController from "./GameController";
-import { ActivitiesEnum } from "./activities/ActivitiesEnum";
-import { CultivateQi } from "./activities/CultivateQi";
-import { OddJobs } from "./activities/OddJobs";
-import { PhysicalTraining } from "./activities/PhysicalTraining";
+import GameController from "../GameController";
+import { ItemIdEnum } from "../items/ItemIdEnum";
+import { ActivitiesEnum } from "./ActivitiesEnum";
+import { CultivateQi } from "./CultivateQi";
+import { OddJobs } from "./OddJobs";
+import { PhysicalTraining } from "./PhysicalTraining";
 
 export class ActivitiesController {
 
@@ -31,13 +32,12 @@ export class ActivitiesController {
         const charRef = this.gameController.character;
         this.activitiesList = []
     
-        if (charRef.getUnlockStatus('qi-cultivation')) {
+        if (charRef.isHaveItem(ItemIdEnum.QI_CULTIVATION_KNOWLEDGE)) {
             this.activitiesList.push(new CultivateQi(charRef));
         }
             
         this.activitiesList.push(new PhysicalTraining(charRef));
         this.activitiesList.push(new OddJobs(charRef));
-          
     }
     
     doActivityTick() {

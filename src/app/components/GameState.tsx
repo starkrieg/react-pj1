@@ -52,7 +52,7 @@ export function GameState(gameController: GameController) {
                 </div>
 
                 <div className="panel col-3">
-                    {MessagesPanel(gameController.messageController.getLast10Message())}
+                    {MessagesPanel(gameController.messageController.getLast10Messages())}
                 </div>
 
             </div>

@@ -1,5 +1,4 @@
-
-import GameController from "./GameController";
+import GameController from "../GameController";
 import { ModalContent } from "./ModalContent";
 import { ModalTypeEnum } from "./ModalTypeEnum";
 
@@ -68,7 +67,7 @@ export class ModalController {
 
         // first time modal content is created for use, print the content to message controller too
         // message should appear on controller only once
-        this.gameController.messageController.pushMessageMain(this.gameController.character.year, 
+        this.gameController.messageController.pushMessageJournal(this.gameController.character.year, 
             this.gameController.character.day, content.title + ' ' + content.desc);    
 
         this.modalContentMatrix.set(modalType, content);

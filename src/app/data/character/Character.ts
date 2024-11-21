@@ -1,6 +1,8 @@
+
+import { ItemIdEnum } from "../items/ItemIdEnum";
+import { Realm } from "../realms/Realm";
+import { RealmController } from "../realms/RealmController";
 import { CharacterAttributes } from "./CharacterAttributes";
-import { Realm } from "./realms/Realm";
-import { RealmController } from "./realms/RealmController";
 
 export class Character {
 
@@ -21,17 +23,42 @@ export class Character {
     // counter for amount of deaths
     deaths: number;
 
-    unlockables = new Map<string, boolean>();
+    //list of items the character has
+    itemList: Set<ItemIdEnum>;
 
     baseBodyGain = 0.1;
     baseQiGain = 0.1;
     
-    unlockShowFoundation() {
-        this.unlockables.set('show-foundation', true);
+    /**
+     * Gives the item to the character.
+     * Character only holds the item id, not the whole item definition
+     * @param itemId item id
+     */
+    giveItem(itemId: ItemIdEnum) {
+        this.itemList.add(itemId);
     }
 
-    getUnlockStatus(unlockId: string) {
-        return this.unlockables.get(unlockId) || false;
+    /**
+     * Checks if character has the item
+     * @param itemId item id
+     * @returns 
+     */
+    isHaveItem(itemId: ItemIdEnum) {
+        return this.itemList.has(itemId);
+    }
+
+    /**
+     * Remove item from character.
+     * Will throw error if the character did not have the item.
+     * @param itemId 
+     */
+    removeItem(itemId: ItemIdEnum) {
+        //remove the item, and check if worked
+        //if item did not exist, might be an issue
+        if (!this.itemList.delete(itemId)) {
+            console.log('Something went wrong!');
+            alert('Something went wrong! Please report this!');
+        }
     }
 
     constructor() {
@@ -40,8 +67,9 @@ export class Character {
         this.realm = RealmController.getRealmById('mortal');
         this.maxAge = 30;
         this.money = 0;
-        this.deaths = 0;
         this.attributes = new CharacterAttributes();
+        this.deaths = 0;
+        this.itemList = new Set<ItemIdEnum>();
         this.resetDefaultValues();
     }
 
@@ -60,8 +88,11 @@ export class Character {
         this.updateStats();
     }
 
+    /**
+     * Reset values on game start or game hard reset
+     */
     firstStartCharacter() {
-        //reset to starting values
+        this.itemList = new Set<ItemIdEnum>();
         this.resetDefaultValues();
     }
 
@@ -139,5 +170,14 @@ export class Character {
 
     increaseMoney(value: number) {
         this.money += value;
+    }
+
+    /**
+     * Character current total power
+     * 
+     */
+    getCharacterPower() {
+        // power is 10% of body + 50% of qi
+        return (this.getBody() * 0.1) + (this.getQi() * 0.5);
     }
 }

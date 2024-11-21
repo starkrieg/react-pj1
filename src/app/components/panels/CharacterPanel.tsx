@@ -1,8 +1,9 @@
 'use client'
 
-import { Character } from "@/app/data/Character";
+import { Character } from "@/app/data/character/Character";
 import Button from "../Button";
-import { CharacterController } from "@/app/data/CharacterController";
+import { CharacterController } from "@/app/data/character/CharacterController";
+import { ItemIdEnum } from "@/app/data/items/ItemIdEnum";
 
 export default function CharacterPanel(characterController: CharacterController, character: Character) {
 
@@ -20,7 +21,7 @@ export default function CharacterPanel(characterController: CharacterController,
   }
 
   function createRealmReq(character: Character) {
-    if (characterController.nextRealmId == 'unknown' || !character.getUnlockStatus('qi-cultivation')) {
+    if (!character.isHaveItem(ItemIdEnum.QI_CULTIVATION_KNOWLEDGE) || characterController.nextRealmId == 'unknown') {
       return;
     }
 
@@ -37,17 +38,16 @@ export default function CharacterPanel(characterController: CharacterController,
   }
 
   function createRealmBreakButton(character: Character) {
-    if (characterController.nextRealmId == 'unknown' || !character.getUnlockStatus('qi-cultivation')) {
+    if (!character.isHaveItem(ItemIdEnum.QI_CULTIVATION_KNOWLEDGE) || characterController.nextRealmId == 'unknown') {
       return;
     }
     return Button(
       'Breakthrough',
       '',
       {
-        backgroundColor: 'green',
+        backgroundColor: 'var(--jade_green)',
         borderRadius: 5,
         padding: 4,
-        fontWeight: 'bold',
         marginTop: 10
       },
       characterController.breakthroughRealm.bind(characterController, character)
@@ -64,11 +64,11 @@ export default function CharacterPanel(characterController: CharacterController,
     );
   }
   
-  const qiLabel = character.getUnlockStatus('qi-cultivation') ?
+  const qiLabel = character.isHaveItem(ItemIdEnum.QI_CULTIVATION_KNOWLEDGE) ?
     createQiLabel(character)
     : '';
 
-  const bodyCapPercent = character.getUnlockStatus('show-foundation') ? '('
+  const bodyCapPercent = character.isHaveItem(ItemIdEnum.CULTIVATION_FOUNDATION_KNOWLEDGE) ? '('
   + roundTo2Decimal(character.getBodyCapPercent() * 100)
   + '%)'
   : '';

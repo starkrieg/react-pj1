@@ -3,22 +3,27 @@
 import { createRoot } from "react-dom/client";
 
 import { Calendar } from "./Calendar";
-import { Character } from "./Character";
-import { MessageController } from "./MessageController";
-import { ActivitiesController } from "./ActivitiesController";
-import { CharacterController } from "./CharacterController";
-import { ModalController } from "./ModalController";
+import { Character } from "./character/Character";
+import { MessageController } from "./messages/MessageController";
+
+import { CharacterController } from "./character/CharacterController";
 import { GameState } from "../components/GameState";
 import { MainContentEnum } from "./MainContentEnum";
-import { ModalTypeEnum } from "./ModalTypeEnum";
-import { ExplorationController } from "./ExplorationController";
-import { ExploreZoneEnum } from "./zones/ExploreZoneEnum";
+import { ModalTypeEnum } from "./modal/ModalTypeEnum";
+import { ExplorationController } from "./exploration/ExplorationController";
+import { ExploreZoneEnum } from "./exploration/ExploreZoneEnum";
 import { ActivitiesEnum } from "./activities/ActivitiesEnum";
+import { ItemController } from "./items/ItemController";
+import { ItemTypeEnum } from "./items/ItemTypeEnum";
+import { ItemIdEnum } from "./items/ItemIdEnum";
+import { ModalController } from "./modal/ModalController";
+import { ActivitiesController } from "./activities/ActivitiesController";
 
 export default class GameController {
 
     modalController: ModalController;
     messageController: MessageController;
+    itemController: ItemController;
     activitiesController: ActivitiesController;
     explorationController: ExplorationController;
     characterController: CharacterController;
@@ -44,8 +49,9 @@ export default class GameController {
         // components
         this.modalController = new ModalController(this);
         this.messageController = new MessageController();
+        this.itemController = new ItemController();
         this.activitiesController = new ActivitiesController(this);
-        this.explorationController = new ExplorationController();
+        this.explorationController = new ExplorationController(this);
         this.characterController = new CharacterController();
         
         this.globalRoot = undefined;
@@ -56,29 +62,58 @@ export default class GameController {
         if (ans) {
             this.activitiesController.reset();
             this.explorationController.reset();
-            
             this.messageController.reset();
             this.modalController.reset();
-            this.firstStartCharacter();
+
+            this.setupBasicData();
         }
     }
 
-    private firstStartCharacter() {
+    private setupBasicData() {
         this.calendar.resetDefaultValues();
         this.character.firstStartCharacter();
+
+        //items come first
+        this.createBasicItems();
+
+        //zones depend on items for rewards
+        this.createBasicZones();
+        
+
         /*
             setup flags for game start
         */
         this.modalType = ModalTypeEnum.GAME_START;
-        console.log('Alive!');
+    }
+
+    private createBasicItems() {
+        this.itemController.createItem(
+            ItemIdEnum.QI_CULTIVATION_KNOWLEDGE,
+            ItemTypeEnum.PERMANENT,
+            'Qi Cultivation Technique'
+        )
+        this.itemController.createItem(
+            ItemIdEnum.CULTIVATION_FOUNDATION_KNOWLEDGE,
+            ItemTypeEnum.PERMANENT,
+            'Cultivation Foundation Knowledge'
+        );
+    }
+
+    private createBasicZones() {
+        this.explorationController.createExplorableZone(
+            ExploreZoneEnum.VILLAGE_DOJO,
+            'Village Dojo',
+            'Face off against some wood dolls and novice warriors',
+            10,
+            1,
+            ItemIdEnum.QI_CULTIVATION_KNOWLEDGE
+        );
     }
 
     private doReviveCharacter() {
         this.calendar.resetDefaultValues();
         this.character.reviveCharacter();
-        this.messageController.pushMessage(this.character.year, 
-            this.character.day, 'You are alive!');
-        console.log('Alive!');
+        this.messageController.pushMessageSimple('You are alive!');
     }
 
     // functions
@@ -185,7 +220,7 @@ export default class GameController {
         if (!this.isGameWorking) {
             this.isGameWorking = true;
             /* start game loop */
-            this.firstStartCharacter();
+            this.setupBasicData();
             this.doGameLoop();
         }
     }

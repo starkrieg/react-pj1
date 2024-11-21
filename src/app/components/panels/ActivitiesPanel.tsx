@@ -1,6 +1,6 @@
 'use client'
 
-import { ActivitiesController } from "@/app/data/ActivitiesController";
+import { ActivitiesController } from "@/app/data/activities/ActivitiesController";
 import { ButtonActivity } from "../Button";
 
 export default function ActivitiesPanel(activityController: ActivitiesController) {
@@ -29,7 +29,7 @@ export default function ActivitiesPanel(activityController: ActivitiesController
             '',
             {
                 borderWidth: 1,
-                borderColor: 'black',
+                borderColor: 'var(--jade_green)',
                 borderStyle: 'dashed',
                 marginBottom: 5
             },

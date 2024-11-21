@@ -1,5 +1,5 @@
 import GameController from "../data/GameController";
-import { ModalTypeEnum } from "../data/ModalTypeEnum";
+import { ModalTypeEnum } from "../data/modal/ModalTypeEnum";
 import ModalScreen from "./ModalScreen";
 
 export function ModalPanel(gameController: GameController) {

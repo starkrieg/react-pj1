@@ -3,8 +3,36 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* for background elements or dividers, to give
+  a light, ethereal feel*/
+  --background: #F5F5F5;
+
+  /* for main text to keep it readable but grounded */
+  --foreground: #2E2E2E;
+
+  /* for mystical elements, such as character stats, 
+  buttons, or accents */
+  --jade_green: #4B8E8D;
+
+  /* for martial elements, simbols of strength, 
+  actions, powerful moves */
+  --deep_crimson: #8B0000;
+
+  /* for wood or earthy aspects, perhaps message
+  log or borders */
+  --burnt_umber: #8A4E2F;
+
+  /* for rewards, highlights, special actions,
+  simbolizing enlightenment */
+  --golden_yellow: #FFD700;
+
+  /* for magical effects, energy displays, and otherwordly
+  elements */
+  --mystic_violet: #5D3FD3;
+  
+  /* for headings or any special phrases, giving 
+  an ancient scroll or parchment feel */
+  --ivory_white: #FFFFF0;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -72,10 +100,9 @@ body {
 }
 
 .panel {
-  background-color: #f0f0f0;
-  padding: 8px;
-  border: 1px solid #ddd;
+  padding: 4px;
   margin-bottom: 2px;
+  border: 1px solid var(--burnt_umber);
 }
 
 /* Column Width Classes */
