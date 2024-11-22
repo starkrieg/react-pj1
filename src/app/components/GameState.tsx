@@ -1,7 +1,7 @@
 
-
 import GameController from "../data/GameController";
 import { MainContentEnum } from "../data/MainContentEnum";
+import { MessageController } from "../data/messages/MessageController";
 import Button from "./Button";
 import { MainContentPanel } from "./MainContentPanel";
 import { ModalPanel } from "./ModalPanel";
@@ -26,8 +26,7 @@ export function GameState(gameController: GameController) {
                         { Button('100x', '', {}, gameController.speedUp100Game.bind(gameController)) }
                         </div>
             
-                        {CalendarPanel(gameController.calendar, gameController.character, 
-                        gameController.activitiesController, gameController.explorationController)}
+                        {CalendarPanel(gameController.calendar)}
                     </div>
         
                 </div>
@@ -52,7 +51,7 @@ export function GameState(gameController: GameController) {
                 </div>
 
                 <div className="panel col-3">
-                    {MessagesPanel(gameController.messageController.getLast10Messages())}
+                    {MessagesPanel(MessageController.getLast10Messages())}
                 </div>
 
             </div>

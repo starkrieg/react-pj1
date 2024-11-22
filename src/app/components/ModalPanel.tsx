@@ -1,4 +1,5 @@
 import GameController from "../data/GameController";
+import { ModalController } from "../data/modal/ModalController";
 import { ModalTypeEnum } from "../data/modal/ModalTypeEnum";
 import ModalScreen from "./ModalScreen";
 
@@ -12,7 +13,7 @@ export function ModalPanel(gameController: GameController) {
             modalFunction = gameController.doAfterDeathModalClick;
         }
 
-        return ModalScreen(gameController.modalController.getModalContentFromType(gameController.modalType), 
+        return ModalScreen(ModalController.getModalContentFromType(gameController.modalType), 
             modalFunction.bind(gameController));
     }
 }

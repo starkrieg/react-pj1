@@ -2,16 +2,15 @@
 
 import { Character } from "@/app/data/character/Character";
 import { Calendar } from "../../data/Calendar";
-import { ExploreZoneEnum } from "@/app/data/exploration/ExploreZoneEnum";
+import { ExploreZoneIdEnum } from "@/app/data/exploration/ExploreZoneIdEnum";
 import { ActivitiesController } from "@/app/data/activities/ActivitiesController";
 import { ExplorationController } from "@/app/data/exploration/ExplorationController";
 import { ItemIdEnum } from "@/app/data/items/ItemIdEnum";
+import { CharacterController } from "@/app/data/character/CharacterController";
 
-export default function CalendarPanel(calendar: Calendar, 
-        character: Character, 
-        activitiesController: ActivitiesController,
-        explorationController: ExplorationController
-        ) {
+export default function CalendarPanel(calendar: Calendar) {
+
+    const character = CharacterController.character;
 
     function createQiLabel(character: Character) {
         const qiCapPercent = '('
@@ -36,9 +35,9 @@ export default function CalendarPanel(calendar: Calendar,
         + '%)'
         : '';
 
-    const doing = explorationController.selectedZone == ExploreZoneEnum.NOTHING ?
-        activitiesController.getSelectedActivityTitle()
-        : explorationController.getSelectedExplorableZoneTitle()
+    const doing = ExplorationController.selectedZoneId == ExploreZoneIdEnum.NOTHING ?
+        ActivitiesController.getSelectedActivityTitle()
+        : ExplorationController.getSelectedExplorableZoneTitle()
 
     return (
         <div id="calendar-panel">

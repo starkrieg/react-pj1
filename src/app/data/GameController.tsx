@@ -3,7 +3,6 @@
 import { createRoot } from "react-dom/client";
 
 import { Calendar } from "./Calendar";
-import { Character } from "./character/Character";
 import { MessageController } from "./messages/MessageController";
 
 import { CharacterController } from "./character/CharacterController";
@@ -11,22 +10,19 @@ import { GameState } from "../components/GameState";
 import { MainContentEnum } from "./MainContentEnum";
 import { ModalTypeEnum } from "./modal/ModalTypeEnum";
 import { ExplorationController } from "./exploration/ExplorationController";
-import { ExploreZoneEnum } from "./exploration/ExploreZoneEnum";
+import { ExploreZoneIdEnum } from "./exploration/ExploreZoneIdEnum";
 import { ActivitiesEnum } from "./activities/ActivitiesEnum";
 import { ItemController } from "./items/ItemController";
 import { ItemTypeEnum } from "./items/ItemTypeEnum";
 import { ItemIdEnum } from "./items/ItemIdEnum";
 import { ModalController } from "./modal/ModalController";
 import { ActivitiesController } from "./activities/ActivitiesController";
+import { CultivateQi } from "./activities/CultivateQi";
+import { PhysicalTraining } from "./activities/PhysicalTraining";
+import { OddJobs } from "./activities/OddJobs";
+import { ErrorController } from "./utils/ErrorController";
 
 export default class GameController {
-
-    modalController: ModalController;
-    messageController: MessageController;
-    itemController: ItemController;
-    activitiesController: ActivitiesController;
-    explorationController: ExplorationController;
-    characterController: CharacterController;
 
     globalRoot: any;
 
@@ -40,30 +36,19 @@ export default class GameController {
     selectedContent = MainContentEnum.JOURNAL;
 
     calendar: Calendar;
-    character: Character;
 
     constructor() {
-        this.calendar = new Calendar();
-        this.character = new Character();
-
-        // components
-        this.modalController = new ModalController(this);
-        this.messageController = new MessageController();
-        this.itemController = new ItemController();
-        this.activitiesController = new ActivitiesController(this);
-        this.explorationController = new ExplorationController(this);
-        this.characterController = new CharacterController();
-        
+        this.calendar = new Calendar();        
         this.globalRoot = undefined;
     }
 
     public resetEverything() {
         const ans = confirm('Reset everything. Are you sure?');
         if (ans) {
-            this.activitiesController.reset();
-            this.explorationController.reset();
-            this.messageController.reset();
-            this.modalController.reset();
+            ActivitiesController.reset();
+            ExplorationController.reset();
+            MessageController.reset();
+            ModalController.reset();
 
             this.setupBasicData();
         }
@@ -71,7 +56,7 @@ export default class GameController {
 
     private setupBasicData() {
         this.calendar.resetDefaultValues();
-        this.character.firstStartCharacter();
+        CharacterController.character.firstStartCharacter();
 
         //items come first
         this.createBasicItems();
@@ -79,7 +64,8 @@ export default class GameController {
         //zones depend on items for rewards
         this.createBasicZones();
         
-
+        //activities 
+        this.createBasicActivities();
         /*
             setup flags for game start
         */
@@ -87,33 +73,95 @@ export default class GameController {
     }
 
     private createBasicItems() {
-        this.itemController.createItem(
+        ItemController.createItem(
             ItemIdEnum.QI_CULTIVATION_KNOWLEDGE,
             ItemTypeEnum.PERMANENT,
             'Qi Cultivation Technique'
         )
-        this.itemController.createItem(
+        ItemController.createItem(
             ItemIdEnum.CULTIVATION_FOUNDATION_KNOWLEDGE,
             ItemTypeEnum.PERMANENT,
             'Cultivation Foundation Knowledge'
         );
+        ItemController.createItem(
+            ItemIdEnum.FOREST_MAP,
+            ItemTypeEnum.PERMANENT,
+            'A guide on the outside forest and its surroundings'
+        );
+        ItemController.createItem(
+            ItemIdEnum.HAUNTED_HOUSE_KEY,
+            ItemTypeEnum.TEMPORARY,
+            'An iron key that unlocks a door or something'
+        );
     }
 
     private createBasicZones() {
-        this.explorationController.createExplorableZone(
-            ExploreZoneEnum.VILLAGE_DOJO,
+        ExplorationController.createExplorableZone(
+            ExploreZoneIdEnum.VILLAGE_DOJO,
             'Village Dojo',
             'Face off against some wood dolls and novice warriors',
             10,
             1,
-            ItemIdEnum.QI_CULTIVATION_KNOWLEDGE
+            [
+                ItemIdEnum.QI_CULTIVATION_KNOWLEDGE,
+                ItemIdEnum.FOREST_MAP
+            ]
         );
+    }
+
+    private createBasicActivities() {
+        const character = CharacterController.character;
+        
+        ActivitiesController.createActivity(new PhysicalTraining(character));
+        ActivitiesController.createActivity(new OddJobs(character));
+    }
+
+    static unlockGameFromItem(itemId: ItemIdEnum | undefined) {
+        if (!itemId) {
+            ErrorController.throwSomethingWrongError();
+            return
+        }
+
+        //give the character the item
+        CharacterController.character.giveItem(itemId);
+
+        //check what is unlocked after getting item
+        if (itemId == ItemIdEnum.QI_CULTIVATION_KNOWLEDGE) {
+            //unlock activity to cultivate qi
+            ActivitiesController.createActivity(new CultivateQi(CharacterController.character));
+            
+            //unlock zone forest outside village
+            ExplorationController.createExplorableZone(
+                ExploreZoneIdEnum.FOREST_OUTSIDE_VILLAGE_1,
+                'Forest outside village',
+                'Many trees and some rough paths. Watch out for animals or bandits.',
+                10,
+                2,
+                [
+                    ItemIdEnum.HAUNTED_HOUSE_KEY
+                ]
+            );
+        } else if (itemId == ItemIdEnum.HAUNTED_HOUSE_KEY) {
+            //unlock zone forest outside village
+            ExplorationController.createExplorableZone(
+                ExploreZoneIdEnum.VILLAGE_HAUNTED_HOUSE,
+                'Old and scary house inside the village',
+                'Run down and moldy, an old house known for being cursed',
+                20,
+                100,
+                [
+                    //no reward right now
+                ]
+            );
+        }
+
+        //add references to unlocked zones later
     }
 
     private doReviveCharacter() {
         this.calendar.resetDefaultValues();
-        this.character.reviveCharacter();
-        this.messageController.pushMessageSimple('You are alive!');
+        CharacterController.character.reviveCharacter();
+        MessageController.pushMessageSimple('You are alive!');
     }
 
     // functions
@@ -160,11 +208,11 @@ export default class GameController {
         if (this.calendar.day > 365) {
             this.calendar.day -= 365;
             this.calendar.year += 1;
-            this.character.year += 1;
+            CharacterController.character.year += 1;
         }
         
-        if (this.character.year >= this.character.maxAge) {
-            this.modalType = (this.character.deaths > 0) ? ModalTypeEnum.DEATH : ModalTypeEnum.DEATH_FIRST
+        if (CharacterController.character.year >= CharacterController.character.maxAge) {
+            this.modalType = (CharacterController.character.deaths > 0) ? ModalTypeEnum.DEATH : ModalTypeEnum.DEATH_FIRST
         }
     }
 
@@ -186,14 +234,14 @@ export default class GameController {
                         tickCount += -dayTickReq
                         
                         // check if doing anything
-                        if (this.explorationController.selectedZone != ExploreZoneEnum.NOTHING) {
+                        if (ExplorationController.selectedZoneId != ExploreZoneIdEnum.NOTHING) {
                             //if exploring, then cant work on selected activity
                             //only do explore here
-                            this.explorationController.doExploreSelectedZone()
-                        } else if(this.activitiesController.selectedActivity != ActivitiesEnum.NOTHING) {
+                            ExplorationController.doExploreSelectedZone()
+                        } else if(ActivitiesController.selectedActivity != ActivitiesEnum.NOTHING) {
                             //only do activity if not exploring
                             //and only if selected one activity
-                            this.activitiesController.doActivityTick();
+                            ActivitiesController.doActivityTick();
                         }
                         //day will pass anyway
                         this.addDayCalendar();

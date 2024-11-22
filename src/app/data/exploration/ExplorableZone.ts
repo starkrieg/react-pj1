@@ -1,9 +1,9 @@
 import { ItemIdEnum } from "../items/ItemIdEnum";
-import { ExploreZoneEnum } from "./ExploreZoneEnum";
+import { ExploreZoneIdEnum } from "./ExploreZoneIdEnum";
 
 export class ExplorableZone {
 
-    id: ExploreZoneEnum;
+    id: ExploreZoneIdEnum;
     title: string;
     desc: string;
 
@@ -25,10 +25,10 @@ export class ExplorableZone {
     currProgress: number;
 
     //first time clear reward for this zone
-    itemClearRewardId: ItemIdEnum;
+    listClearRewardItemId: ItemIdEnum[];
 
-    constructor(id: ExploreZoneEnum, title: string, desc: string,
-        combatSize: number, minPowerReq: number, itemClearRewardId: ItemIdEnum) {
+    constructor(id: ExploreZoneIdEnum, title: string, desc: string,
+        combatSize: number, minPowerReq: number, listClearRewardItemId: ItemIdEnum[]) {
         this.id = id;
         this.title = title;
         this.desc = desc;
@@ -37,7 +37,7 @@ export class ExplorableZone {
         this.currProgress = 0;
         this.minPowerReq = minPowerReq;
         this.isComplete = false;
-        this.itemClearRewardId = itemClearRewardId;
+        this.listClearRewardItemId = listClearRewardItemId;
     }
 
     /**

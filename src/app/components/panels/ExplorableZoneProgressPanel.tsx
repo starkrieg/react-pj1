@@ -3,11 +3,10 @@
 import Button from "../Button";
 import { ExplorationController } from "@/app/data/exploration/ExplorationController";
 
-export default function ExplorableZoneProgressPanel(explorationController: ExplorationController) {
+export default function ExplorableZoneProgressPanel() {
 
     //only selected zone is shown
-    const zone = explorationController.explorableZoneList
-        .find(zone => zone.id = explorationController.selectedZone);
+    const zone = ExplorationController.getSelectedZone();
     
     const className = '';
 
@@ -28,7 +27,7 @@ export default function ExplorableZoneProgressPanel(explorationController: Explo
                         borderRadius: 5,
                         padding: 5
                     }, 
-                    explorationController.doClickRetreatFromZone.bind(explorationController)) }
+                    ExplorationController.doClickRetreatFromZone.bind(ExplorationController)) }
                 <div className="col-10"></div>
                 <label style={{ alignContent: 'end' }} className="col-1">
                     { zone?.currProgress + '/' + zone?.zoneSize }

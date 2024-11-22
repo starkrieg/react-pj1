@@ -2,6 +2,7 @@
 
 import { BaseAttributes } from "../character/BaseAttributes";
 import { Character } from "../character/Character";
+import { ErrorController } from "../utils/ErrorController";
 import { RealmController } from "./RealmController";
 
 class RealmMultiplier {
@@ -81,7 +82,7 @@ export class Realm {
                     break;
                 default:
                     console.log('Something went wrong! Realm multiplier for {0} {1} {2}', multi.id, multi.action, multi.value);
-                    alert('Something happened while breaking through! Please report this');
+                    ErrorController.throwSomethingWrongError();
             }
         }
         character.realm = this.getNextRealm();

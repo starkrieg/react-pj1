@@ -1,11 +1,11 @@
 'use client'
 
 import { ModalContent } from "../data/modal/ModalContent";
+import { ErrorController } from "../data/utils/ErrorController";
 import Button from "./Button";
 
 function defaultAlertError() {
-    console.log('Something went wrong!');
-    alert('Something went wrong! Please report this!');
+    ErrorController.throwSomethingWrongError();
 }
 
 export default function ModalScreen(modalContent: ModalContent | undefined, modalClickFnc = defaultAlertError) {

@@ -5,9 +5,18 @@ import Button from "../Button";
 import { CharacterController } from "@/app/data/character/CharacterController";
 import { ItemIdEnum } from "@/app/data/items/ItemIdEnum";
 
-export default function CharacterPanel(characterController: CharacterController, character: Character) {
+export default function CharacterPanel() {
 
-  function getReqAsLabel(title: string, reqValue: number, isReqFulfilled: boolean) {
+  const character = CharacterController.character
+
+  /**
+   * Create an html label with the requirement data
+   * @param title 
+   * @param reqValue 
+   * @param isReqFulfilled 
+   * @returns 
+   */
+  function createLabelFromRequirement(title: string, reqValue: number, isReqFulfilled: boolean) {
     const capitalizedReqId = title.charAt(0).toUpperCase() + title.slice(1);
     let stringReq = <p>{capitalizedReqId}: {reqValue}</p>
     if (isReqFulfilled) {
@@ -20,13 +29,18 @@ export default function CharacterPanel(characterController: CharacterController,
     return Math.round(value * 100) / 100;
   }
 
-  function createRealmReq(character: Character) {
-    if (!character.isHaveItem(ItemIdEnum.QI_CULTIVATION_KNOWLEDGE) || characterController.nextRealmId == 'unknown') {
+  /**
+   * Create list of requirements for next breakthrough
+   * @param character 
+   * @returns 
+   */
+  function createListRequirementsBreakthrough(character: Character) {
+    if (!character.isHaveItem(ItemIdEnum.QI_CULTIVATION_KNOWLEDGE) || CharacterController.nextRealmId == 'unknown') {
       return;
     }
 
-    const preparedRequirements = characterController.getNextRealmReqList(character).map(req => {
-      return getReqAsLabel(req.reqName, req.reqValue, req.isReqFulfilled)
+    const preparedRequirements = CharacterController.getListRequirementBreakthrough(character).map(req => {
+      return createLabelFromRequirement(req.reqName, req.reqValue, req.isReqFulfilled)
     })
 
     return (
@@ -38,7 +52,7 @@ export default function CharacterPanel(characterController: CharacterController,
   }
 
   function createRealmBreakButton(character: Character) {
-    if (!character.isHaveItem(ItemIdEnum.QI_CULTIVATION_KNOWLEDGE) || characterController.nextRealmId == 'unknown') {
+    if (!character.isHaveItem(ItemIdEnum.QI_CULTIVATION_KNOWLEDGE) || CharacterController.nextRealmId == 'unknown') {
       return;
     }
     return Button(
@@ -50,7 +64,7 @@ export default function CharacterPanel(characterController: CharacterController,
         padding: 4,
         marginTop: 10
       },
-      characterController.breakthroughRealm.bind(characterController, character)
+      CharacterController.breakthroughRealm.bind(CharacterController, character)
     );
   }
 
@@ -89,7 +103,7 @@ export default function CharacterPanel(characterController: CharacterController,
         <div>
           {character.realm!.desc}
         </div>
-        {createRealmReq(character)}
+        {createListRequirementsBreakthrough(character)}
         {createRealmBreakButton(character)}
       </div>
     </div>

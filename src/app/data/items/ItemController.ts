@@ -1,23 +1,25 @@
 import { Item } from "../items/Item";
+import { ErrorController } from "../utils/ErrorController";
 import { ItemIdEnum } from "./ItemIdEnum";
 import { ItemTypeEnum } from "./ItemTypeEnum";
 
 export class ItemController {
 
     // map for all items by id
-    itemMatrix = new Map<ItemIdEnum, Item>();
+    private static itemMap = new Map<ItemIdEnum, Item>();
+
+    private static readonly CLEARED_ZONE_PREFIX: string = 'cleared-';
 
     /**
      * Use item id to find item instance on the list
      * @param id item id
      * @returns the Item instance
      */
-    getItemById(id: ItemIdEnum) {
-        if (this.itemMatrix.get(id)) {
-            return this.itemMatrix.get(id);
+    static getItemById(id: ItemIdEnum | undefined) {
+        if (id && this.itemMap.get(id)) {
+            return this.itemMap.get(id);
         } else {
-            console.log('Something went wrong!');
-            alert('Something went wrong! Please report this!');
+            ErrorController.throwSomethingWrongError();
         }
     }
 
@@ -26,13 +28,14 @@ export class ItemController {
      * @param id item id
      * @param type item type, based on ItemTypeEnum
      */
-    createItem(id: ItemIdEnum, type: ItemTypeEnum, name: string) {
+    static createItem(id: ItemIdEnum, type: ItemTypeEnum, name: string) {
         if (!id || !type || !name) {
-            console.log('Something went wrong!');
-            alert('Something went wrong! Please report this!');
+            ErrorController.throwSomethingWrongError();
+            return
         }
 
         const item = new Item(id, type, name);
-        this.itemMatrix.set(id, item);
+        this.itemMap.set(id, item);
     }
+    
 }

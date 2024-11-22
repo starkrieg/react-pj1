@@ -2,17 +2,19 @@ import { Character } from "./Character";
 
 export class CharacterController {
 
-    isBreakthroughReady: boolean = false;
-    nextRealmId = '';
+    static character: Character = new Character();
+
+    private static isBreakthroughReady: boolean = false;
+    static nextRealmId = '';
   
-    breakthroughRealm(character: Character) {
+    static breakthroughRealm(character: Character) {
         if (this.isBreakthroughReady) {
             character.realm!.doRealmUp(character);
             this.isBreakthroughReady = false;
         }
     }
 
-    getNextRealmReqList(char: Character) {
+    static getListRequirementBreakthrough(char: Character) {
         this.isBreakthroughReady = false;
         
         if (this.nextRealmId == 'unknown') {

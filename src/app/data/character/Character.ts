@@ -2,6 +2,7 @@
 import { ItemIdEnum } from "../items/ItemIdEnum";
 import { Realm } from "../realms/Realm";
 import { RealmController } from "../realms/RealmController";
+import { ErrorController } from "../utils/ErrorController";
 import { CharacterAttributes } from "./CharacterAttributes";
 
 export class Character {
@@ -34,8 +35,12 @@ export class Character {
      * Character only holds the item id, not the whole item definition
      * @param itemId item id
      */
-    giveItem(itemId: ItemIdEnum) {
-        this.itemList.add(itemId);
+    giveItem(itemId: ItemIdEnum | undefined) {
+        if (itemId) {
+            this.itemList.add(itemId);
+        } else {
+            ErrorController.throwSomethingWrongError();
+        }
     }
 
     /**
@@ -56,8 +61,7 @@ export class Character {
         //remove the item, and check if worked
         //if item did not exist, might be an issue
         if (!this.itemList.delete(itemId)) {
-            console.log('Something went wrong!');
-            alert('Something went wrong! Please report this!');
+            ErrorController.throwSomethingWrongError();
         }
     }
 

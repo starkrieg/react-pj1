@@ -1,6 +1,9 @@
 import GameController from "../data/GameController";
 import { MainContentEnum } from "../data/MainContentEnum";
-import { ExploreZoneEnum } from "../data/exploration/ExploreZoneEnum";
+import { ActivitiesController } from "../data/activities/ActivitiesController";
+import { ExplorationController } from "../data/exploration/ExplorationController";
+import { ExploreZoneIdEnum } from "../data/exploration/ExploreZoneIdEnum";
+import { MessageController } from "../data/messages/MessageController";
 import ActivitiesPanel from "./panels/ActivitiesPanel";
 import CharacterPanel from "./panels/CharacterPanel";
 import ExplorableZoneProgressPanel from "./panels/ExplorableZoneProgressPanel";
@@ -11,18 +14,18 @@ import SettingsPanel from "./panels/SettingsPanel";
 export function MainContentPanel(gameController: GameController, contentId = MainContentEnum.CHARACTER) {
     switch(contentId) {
         case MainContentEnum.CHARACTER:
-            return CharacterPanel(gameController.characterController, gameController.character);
+            return CharacterPanel();
         case MainContentEnum.ACTIVITIES:
-            return ActivitiesPanel(gameController.activitiesController);
+            return ActivitiesPanel();
         case MainContentEnum.SETTINGS:
             return SettingsPanel(gameController.resetEverything.bind(gameController));
         case MainContentEnum.JOURNAL:
-            return MessagesPanel(gameController.messageController.getJournalMessages())
+            return MessagesPanel(MessageController.getJournalMessages())
         case MainContentEnum.EXPLORE:
-            if (gameController.explorationController.selectedZone != ExploreZoneEnum.NOTHING) {
-                return ExplorableZoneProgressPanel(gameController.explorationController);
+            if (ExplorationController.selectedZoneId != ExploreZoneIdEnum.NOTHING) {
+                return ExplorableZoneProgressPanel();
             } else {
-                return ExplorableZonesPanel(gameController.explorationController);
+                return ExplorableZonesPanel();
             }
         default:
             return (

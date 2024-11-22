@@ -1,4 +1,5 @@
 import { Character } from "../character/Character";
+import { ErrorController } from "../utils/ErrorController";
 import { ActivitiesEnum } from "./ActivitiesEnum";
 
 export class Activity {
@@ -28,8 +29,7 @@ export class Activity {
 
         this.charRef = charRef;
         this.action = () => {
-            console.log('Something went wrong!');
-            alert('Something went wrong, please report this');
+            ErrorController.throwSomethingWrongError();
         }
     }
 

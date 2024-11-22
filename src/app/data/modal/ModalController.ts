@@ -1,23 +1,19 @@
-import GameController from "../GameController";
+import { MessageController } from "../messages/MessageController";
+import { ErrorController } from "../utils/ErrorController";
 import { ModalContent } from "./ModalContent";
 import { ModalTypeEnum } from "./ModalTypeEnum";
 
 export class ModalController {
 
-    gameController: GameController;
-    modalContentMatrix = new Map<ModalTypeEnum, ModalContent>();
-    
-    constructor(gameController: GameController) {
-        this.gameController = gameController
+    private static modalContentMap = new Map<ModalTypeEnum, ModalContent>();
+
+    static reset() {
+        this.modalContentMap.clear();
     }
 
-    reset() {
-        this.modalContentMatrix.clear();
-    }
-
-    getModalContentFromType(modalType: ModalTypeEnum) {
-        if (this.modalContentMatrix.get(modalType)) {
-            return this.modalContentMatrix.get(modalType);
+    static getModalContentFromType(modalType: ModalTypeEnum) {
+        if (this.modalContentMap.get(modalType)) {
+            return this.modalContentMap.get(modalType);
         }
 
         let title = '';
@@ -60,6 +56,7 @@ export class ModalController {
                 title = 'Something went wrong!';
                 desc = 'Please report this';
                 buttonText = 'Close';
+                ErrorController.throwSomethingWrongError();
                 break;
         }
 
@@ -67,11 +64,10 @@ export class ModalController {
 
         // first time modal content is created for use, print the content to message controller too
         // message should appear on controller only once
-        this.gameController.messageController.pushMessageJournal(this.gameController.character.year, 
-            this.gameController.character.day, content.title + ' ' + content.desc);    
+        MessageController.pushMessageJournal(content.title + ' ' + content.desc);    
 
-        this.modalContentMatrix.set(modalType, content);
-        return this.modalContentMatrix.get(modalType);
+        this.modalContentMap.set(modalType, content);
+        return this.modalContentMap.get(modalType);
     }    
 
 }

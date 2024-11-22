@@ -1,12 +1,9 @@
+import { CharacterController } from "../character/CharacterController";
 import { Message } from "./Message";
 
-export class MessageController{
+export class MessageController {
 
-    messageList: Message[];
-
-    constructor() {
-        this.messageList = [];
-    }
+    private static messageList: Message[] = [];
 
     /*
     single message expected format:
@@ -16,17 +13,17 @@ export class MessageController{
         message: message
     }
     */
-    pushMessageSimple(message: string) {
+    static pushMessageSimple(message: string) {
         const id = this.messageList.length + 1;
         this.messageList.push(new Message(id, 0, 0, 'common', message));
     }
 
-    pushMessageJournal(characterYear: number, characterDay: number, message: string) {
+    static pushMessageJournal(message: string) {
         const id = this.messageList.length + 1;
-        this.messageList.push(new Message(id, characterYear, characterDay, 'main', message));
+        this.messageList.push(new Message(id, CharacterController.character.year, CharacterController.character.day, 'main', message));
     }
 
-    getLast10Messages() {
+    static getLast10Messages() {
         const reverseOrderLastMsg = [];
         const listSize = 10;
 
@@ -38,7 +35,7 @@ export class MessageController{
         return reverseOrderLastMsg;
     }
 
-    getJournalMessages() {
+    static getJournalMessages() {
         const reverseOrderLastMsg = [];
 
         for (let index = 0; index < this.messageList.length; index++) {
@@ -52,7 +49,7 @@ export class MessageController{
         return reverseOrderLastMsg;
     }
 
-    reset() {
+    static reset() {
         this.messageList = [];
     }
 }
