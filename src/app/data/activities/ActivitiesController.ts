@@ -54,11 +54,20 @@ export class ActivitiesController {
             ErrorController.throwSomethingWrongError();
         }
         this.activitiesList.push(activity);
-        this.activityRankMap.set(activity.id, new ActivityRank(1, 0, this.BASE_TICK_RANK));
+        
+        //only add to map if not there yet
+        //so that map is not reset when creating activities after death
+        if (!this.activityRankMap.has(activity.id)) {
+            this.activityRankMap.set(activity.id, new ActivityRank(1, 0, this.BASE_TICK_RANK));
+        }
     }
 
     static getActivitiesList() {
         return this.activitiesList;
+    }
+
+    static getActivityRankObj(id: ActivityEnum) : Readonly<ActivityRank> {
+        return this.activityRankMap.get(id) || new ActivityRank(-1, 0, 0);
     }
 
     static getActivityRank(id: ActivityEnum) {

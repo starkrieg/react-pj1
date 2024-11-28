@@ -13,8 +13,10 @@ export default function ActivitiesPanel() {
     }
 
     const preparedList = activitiesList.map(act => {
+        const activityRank = ActivitiesController.getActivityRankObj(act.id);
+        
         const rankGainText = 'Rank ' 
-            + act.rank 
+            + activityRank.rank
             + ' / ' 
             + roundTo2Decimal(act.getTickGain()) 
             + ' per day';
@@ -24,8 +26,8 @@ export default function ActivitiesPanel() {
             act.title,
             act.desc,
             rankGainText,
-            act.totalExpToNextRank,
-            act.exp,
+            activityRank.totalExpToNextRank,
+            activityRank.exp,
             '',
             {
                 borderWidth: 1,
