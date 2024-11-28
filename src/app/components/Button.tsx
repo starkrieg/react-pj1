@@ -1,9 +1,10 @@
 import { ExplorableZone } from "../data/exploration/ExplorableZone";
 
 export default function Button(label: string, 
-    className: string, 
-    dynamicStyle: object, 
-    onClick: () => void ) {
+    onClick: () => void,
+    className?: string, 
+    dynamicStyle?: object
+    ) {
 
     return (
         <button 

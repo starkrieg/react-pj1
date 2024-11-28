@@ -1,31 +1,36 @@
-import { Character } from "../character/Character";
-import { ActivitiesEnum } from "./ActivitiesEnum";
+import { CharacterController } from "../character/CharacterController";
+import { ActivitiesController } from "./ActivitiesController";
+import { ActivityEnum } from "./ActivityEnum";
 import { Activity } from "./Activity";
 
-export class PhysicalTraining extends Activity {
+export class PhysicalTraining implements Activity {
     
-    constructor(charRef: Character) {
-        const id = ActivitiesEnum.PHYSICAL_TRAINING;
-        const title = 'Physical training';
-        const desc = 'Train your body to be stronger.';
+    id: ActivityEnum;
+    title: string;
+    desc: string;
+    
+    action: CallableFunction;
 
-        super(id, title, desc, charRef);
+    constructor() {
+        this.id = ActivityEnum.PHYSICAL_TRAINING;
+        this.title = 'Physical training';
+        this.desc = 'Train your body to be stronger.';
 
         this.action = () => {
             //use rank to affect the value
             const tickGain = this.getTickGain();
-            this.charRef.increaseBody(tickGain);
+            CharacterController.increaseBody(tickGain);
             
-            this.incrementExp(1);
+            ActivitiesController.incrementExpActivity(this.id);
         }
     }
 
     //baseBodyGain has talent already applied
     //the % of qi capacity filled increases body gain
     getTickGain() {
-        const bruteValue = this.charRef.getBaseBodyGain();
-        const currQiMulti = 1 + (this.charRef.getQiCapPercent());
-        const rankMult = 1 + ((this.rank-1) * 0.1);
+        const bruteValue = CharacterController.getCharacter().getBaseBodyGain();
+        const currQiMulti = 1 + (CharacterController.getCharacter().getQiCapPercent());
+        const rankMult = 1 + ((ActivitiesController.getActivityRank(this.id) - 1) * 0.1);
         return ( bruteValue * rankMult * currQiMulti);
     }
 

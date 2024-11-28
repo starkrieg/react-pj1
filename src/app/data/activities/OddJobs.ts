@@ -1,25 +1,27 @@
-import { Character } from "../character/Character";
-import { ActivitiesEnum } from "./ActivitiesEnum";
+import { CharacterController } from "../character/CharacterController";
+import { ActivitiesController } from "./ActivitiesController";
+import { ActivityEnum } from "./ActivityEnum";
 import { Activity } from "./Activity";
 
-export class OddJobs extends Activity {
+export class OddJobs implements Activity {
     
-    constructor(charRef: Character) {
-        const id = ActivitiesEnum.ODD_JOBS;
-        const title = 'Odd jobs';
-        const desc = 'Perform odd jobs to receive some coins.';
-        
-        super(id,
-            title,
-            desc,
-            charRef);
+    id: ActivityEnum;
+    title: string;
+    desc: string;
+    
+    action: CallableFunction;
 
+    constructor() {
+        this.id = ActivityEnum.ODD_JOBS;
+        this.title = 'Odd jobs';
+        this.desc = 'Perform odd jobs to receive some coins.';
+        
         this.action = () => {
             //use rank to affect the value
             const tickGain = this.getTickGain();
-            this.charRef.increaseMoney(tickGain);
+            CharacterController.increaseMoney(tickGain);
 
-            this.incrementExp(1);
+            ActivitiesController.incrementExpActivity(this.id);
         }
     }
 
@@ -27,8 +29,8 @@ export class OddJobs extends Activity {
         const bruteValue = 1;
         const bodyToMoneyDifferential = 25;
         const daysPerFullGain = 2;
-        const valueBeforeRank = bruteValue + (this.charRef.getBody() / bodyToMoneyDifferential);
-        const rankMult = 1 + ((this.rank-1) * 0.05);
+        const valueBeforeRank = bruteValue + (CharacterController.getCharacter().getBody() / bodyToMoneyDifferential);
+        const rankMult = 1 + ((ActivitiesController.getActivityRank(this.id) - 1 ) * 0.05);
         return ( valueBeforeRank * rankMult / daysPerFullGain);
     }
 

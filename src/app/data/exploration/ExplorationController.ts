@@ -6,14 +6,18 @@ import { ItemController } from "../items/ItemController";
 import { MessageController } from "../messages/MessageController";
 import { CharacterController } from "../character/CharacterController";
 import { ErrorController } from "../utils/ErrorController";
-import GameController from "../GameController";
+import { ItemUnlockController } from "../items/ItemUnlockController";
 
 export class ExplorationController {
 
     static selectedZoneId: ExploreZoneIdEnum = ExploreZoneIdEnum.NOTHING;
     private static explorableZoneList: ExplorableZone[] = [];
 
-    static reset() {
+    /**
+     * Resets all data
+     * Used on game hard reset
+     */
+    static hardReset() {
         this.selectedZoneId = ExploreZoneIdEnum.NOTHING;
         this.explorableZoneList = []
     }
@@ -89,15 +93,14 @@ export class ExplorationController {
      */
     static doExploreSelectedZone() {
         const zoneStepPowerReq = this.getSelectedZone()?.getCurrentStepPowerReq() || 0;
-        const character = CharacterController.character;
-        const characterPower = character.getCharacterPower();
+        const characterPower = CharacterController.getCharacterPower();
 
         if (characterPower >= zoneStepPowerReq) {
             const isFirstClear = this.getSelectedZone()?.progressZone();
             
             //give reward after the progress is made
             const moneyGain = 1;
-            character.increaseMoney(moneyGain);
+            CharacterController.increaseMoney(moneyGain);
             MessageController.pushMessageSimple(`Found something! Got ${moneyGain} coin(s)`)
             
             //give final reward if zone completed first time
@@ -109,8 +112,11 @@ export class ExplorationController {
                 
                 if (listRewardItemId && listRewardItemId.length > 0) {
                     listRewardItemId.forEach(itemId => {
+                        //give the character the item
+                        CharacterController.giveItem(itemId);
+
                         //update game data based on the reward
-                        GameController.unlockGameFromItem(itemId)
+                        ItemUnlockController.unlockThingsFromItem(itemId)
                         
                         const rewardItem = ItemController.getItemById(itemId);
                         //item can exist as ID, but not as giveable item

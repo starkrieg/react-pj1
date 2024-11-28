@@ -20,7 +20,7 @@ export class MessageController {
 
     static pushMessageJournal(message: string) {
         const id = this.messageList.length + 1;
-        this.messageList.push(new Message(id, CharacterController.character.year, CharacterController.character.day, 'main', message));
+        this.messageList.push(new Message(id, CharacterController.getCharacter().year, CharacterController.getCharacter().day, 'main', message));
     }
 
     static getLast10Messages() {
@@ -49,7 +49,11 @@ export class MessageController {
         return reverseOrderLastMsg;
     }
 
-    static reset() {
+    /**
+     * Resets all data
+     * Used on game hard reset
+     */
+    static hardReset() {
         this.messageList = [];
     }
 }

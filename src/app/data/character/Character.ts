@@ -2,7 +2,6 @@
 import { ItemIdEnum } from "../items/ItemIdEnum";
 import { Realm } from "../realms/Realm";
 import { RealmController } from "../realms/RealmController";
-import { ErrorController } from "../utils/ErrorController";
 import { CharacterAttributes } from "./CharacterAttributes";
 
 export class Character {
@@ -27,43 +26,13 @@ export class Character {
     //list of items the character has
     itemList: Set<ItemIdEnum>;
 
-    baseBodyGain = 0.1;
-    baseQiGain = 0.1;
+    private baseBodyGain = 0.1;
+    private baseQiGain = 0.1;
     
-    /**
-     * Gives the item to the character.
-     * Character only holds the item id, not the whole item definition
-     * @param itemId item id
-     */
-    giveItem(itemId: ItemIdEnum | undefined) {
-        if (itemId) {
-            this.itemList.add(itemId);
-        } else {
-            ErrorController.throwSomethingWrongError();
-        }
-    }
+    private bodyCapacityRatio = 0.1; //10% of body as qi capacity
 
-    /**
-     * Checks if character has the item
-     * @param itemId item id
-     * @returns 
-     */
-    isHaveItem(itemId: ItemIdEnum) {
-        return this.itemList.has(itemId);
-    }
-
-    /**
-     * Remove item from character.
-     * Will throw error if the character did not have the item.
-     * @param itemId 
-     */
-    removeItem(itemId: ItemIdEnum) {
-        //remove the item, and check if worked
-        //if item did not exist, might be an issue
-        if (!this.itemList.delete(itemId)) {
-            ErrorController.throwSomethingWrongError();
-        }
-    }
+    private powerBodyDif = 0.1; //10%
+    private powerQiDif = 0.5 //50%
 
     constructor() {
         this.year = 16
@@ -77,7 +46,7 @@ export class Character {
         this.resetDefaultValues();
     }
 
-    private resetDefaultValues() {
+    resetDefaultValues() {
         this.year = 16
         this.day = 1;
         this.realm = RealmController.getRealmById('mortal');
@@ -92,26 +61,12 @@ export class Character {
         this.updateStats();
     }
 
-    /**
-     * Reset values on game start or game hard reset
-     */
-    firstStartCharacter() {
-        this.itemList = new Set<ItemIdEnum>();
-        this.resetDefaultValues();
-    }
-
-    reviveCharacter() {
-        //count new death
-        this.deaths++;
-        //reset to starting values
-        this.resetDefaultValues();
-        //apply permanent upgrades
-    }
-
     private updateStats() {
-        const bodyToCapacityDifferential = 0.1;
+        
         const qiBaseCapacity = this.attributes.qiBaseCapacity;
-        const bodyToCapacity = ((this.attributes.body-1) * this.attributes.talent * bodyToCapacityDifferential);
+        const bodyToCapacity = ((this.attributes.body-1) 
+            * this.attributes.talent 
+            * this.bodyCapacityRatio);
         this.attributes.qiTotalCapacity = qiBaseCapacity + bodyToCapacity;
     }
 
@@ -177,11 +132,10 @@ export class Character {
     }
 
     /**
-     * Character current total power
+     * Current total power
      * 
      */
-    getCharacterPower() {
-        // power is 10% of body + 50% of qi
-        return (this.getBody() * 0.1) + (this.getQi() * 0.5);
+    getPower() {
+        return (this.getBody() * this.powerBodyDif) + (this.getQi() * this.powerQiDif);
     }
 }

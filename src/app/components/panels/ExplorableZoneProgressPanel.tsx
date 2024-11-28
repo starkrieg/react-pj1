@@ -20,14 +20,15 @@ export default function ExplorableZoneProgressPanel() {
             <div style={{ textAlign: 'center', marginBottom: 10 }} >{ zone?.desc }</div>
             <div style={{ marginBottom: 10 }} className="row">
                 { Button('Retreat', 
+                    ExplorationController.doClickRetreatFromZone.bind(ExplorationController),
                     'col-1', 
                     {
                         color: 'var(--ivory_white)',
                         backgroundColor: 'var(--deep_crimson)',
                         borderRadius: 5,
                         padding: 5
-                    }, 
-                    ExplorationController.doClickRetreatFromZone.bind(ExplorationController)) }
+                    }
+                    )}
                 <div className="col-10"></div>
                 <label style={{ alignContent: 'end' }} className="col-1">
                     { zone?.currProgress + '/' + zone?.zoneSize }

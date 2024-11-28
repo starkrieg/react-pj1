@@ -32,9 +32,8 @@ export default function ModalScreen(modalContent: ModalContent | undefined, moda
                     </div>
                     <div className="flex justify-center mt-4">
                         { Button(modalContent.buttonText, 
-                            "px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300",
-                            {},
-                            modalClickFnc
+                            modalClickFnc,
+                            "px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300"
                         ) }
                     </div>
                 </div>

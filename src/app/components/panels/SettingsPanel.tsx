@@ -8,6 +8,7 @@ export default function SettingsPanel(hardResetClick: () => void) {
 
     const button = Button(
       'Hard Reset',
+      hardResetClick,
       '',
       {
         color: 'var(--ivory_white)',
@@ -16,8 +17,7 @@ export default function SettingsPanel(hardResetClick: () => void) {
         padding: 5,
         fontWeight: 'bold',
         marginTop: 20
-      },
-      hardResetClick
+      }
     );
 
     return (

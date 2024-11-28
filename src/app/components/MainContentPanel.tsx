@@ -1,6 +1,5 @@
 import GameController from "../data/GameController";
 import { MainContentEnum } from "../data/MainContentEnum";
-import { ActivitiesController } from "../data/activities/ActivitiesController";
 import { ExplorationController } from "../data/exploration/ExplorationController";
 import { ExploreZoneIdEnum } from "../data/exploration/ExploreZoneIdEnum";
 import { MessageController } from "../data/messages/MessageController";

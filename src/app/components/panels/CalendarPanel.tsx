@@ -1,6 +1,5 @@
 'use client'
 
-import { Character } from "@/app/data/character/Character";
 import { Calendar } from "../../data/Calendar";
 import { ExploreZoneIdEnum } from "@/app/data/exploration/ExploreZoneIdEnum";
 import { ActivitiesController } from "@/app/data/activities/ActivitiesController";
@@ -10,9 +9,9 @@ import { CharacterController } from "@/app/data/character/CharacterController";
 
 export default function CalendarPanel(calendar: Calendar) {
 
-    const character = CharacterController.character;
+    const character = CharacterController.getCharacter()
 
-    function createQiLabel(character: Character) {
+    function createQiLabel() {
         const qiCapPercent = '('
         + roundTo2Decimal(character.getQiCapPercent() * 100)
         + '%)';
@@ -26,11 +25,11 @@ export default function CalendarPanel(calendar: Calendar) {
         return Math.round(value * 100) / 100;
     }
 
-    const qiLabel = character.isHaveItem(ItemIdEnum.QI_CULTIVATION_KNOWLEDGE) ? 
-        createQiLabel(character) 
+    const qiLabel = CharacterController.isHaveItem(ItemIdEnum.QI_CULTIVATION_KNOWLEDGE) ? 
+        createQiLabel() 
         : '';
 
-    const bodyCapPercent = character.isHaveItem(ItemIdEnum.CULTIVATION_FOUNDATION_KNOWLEDGE) ? '('
+    const bodyCapPercent = CharacterController.isHaveItem(ItemIdEnum.CULTIVATION_FOUNDATION_KNOWLEDGE) ? '('
         + roundTo2Decimal(character.getBodyCapPercent() * 100)
         + '%)'
         : '';

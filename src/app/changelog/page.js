@@ -8,6 +8,18 @@ export default function Changelog() {
       Changelog - {appVersion}
       <ul style={{marginTop: 10}}>
 
+      <li style={{marginTop: 10}}>
+          <p>v.0.2.2 - alpha / 2024-Nov-28</p>
+          <p>Overview: Small expansion to exploration</p>
+          <div>
+            Additions:
+            <p>- Changed some colors</p>
+            <p>- Fully exploring an area gives a reward, that unlocks something</p>
+            <p>- Rewards unlock new activies, places to explore, etc</p>
+            <p>- Game content now has some visible progress, between training, exploring and breaking through</p>
+          </div>
+        </li>
+
         <li style={{marginTop: 10}}>
           <p>v.0.2.1 - alpha / 2024-Oct-17</p>
           <p>Overview: Some basic plotline and other small features</p>

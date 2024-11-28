@@ -7,7 +7,11 @@ export class ModalController {
 
     private static modalContentMap = new Map<ModalTypeEnum, ModalContent>();
 
-    static reset() {
+    /**
+     * Resets all data
+     * Used on game hard reset
+     */
+    static hardReset() {
         this.modalContentMap.clear();
     }
 
@@ -25,11 +29,10 @@ export class ModalController {
                 title = 'A thunderous night!';
                 desc = `
                 The sky shone bright at night. 
-                A golden lightning downed on you, 
-                the sudden shock taking your consciousness away. 
+                A golden lightning fell and blasted your consciousness away. 
                 You woke up the next morning alive, unhurt, but with a new feeling on your chest. 
-                And along that came the sudden realization of how small you are.
-                A calling was birthed in you. A call for power. A call for imortality.
+                You realized how small you are, and this feeling birthed a call for power. 
+                A call for imortality.
                 `;
                 buttonText = 'Move forward';
                 break;

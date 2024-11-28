@@ -7,7 +7,7 @@ import { ItemIdEnum } from "@/app/data/items/ItemIdEnum";
 
 export default function CharacterPanel() {
 
-  const character = CharacterController.character
+  const character = CharacterController.getCharacter()
 
   /**
    * Create an html label with the requirement data
@@ -34,8 +34,8 @@ export default function CharacterPanel() {
    * @param character 
    * @returns 
    */
-  function createListRequirementsBreakthrough(character: Character) {
-    if (!character.isHaveItem(ItemIdEnum.QI_CULTIVATION_KNOWLEDGE) || CharacterController.nextRealmId == 'unknown') {
+  function createListRequirementsBreakthrough(character: Readonly<Character>) {
+    if (!CharacterController.isHaveItem(ItemIdEnum.QI_CULTIVATION_KNOWLEDGE) || CharacterController.nextRealmId == 'unknown') {
       return;
     }
 
@@ -51,24 +51,24 @@ export default function CharacterPanel() {
     );
   }
 
-  function createRealmBreakButton(character: Character) {
-    if (!character.isHaveItem(ItemIdEnum.QI_CULTIVATION_KNOWLEDGE) || CharacterController.nextRealmId == 'unknown') {
+  function createRealmBreakButton() {
+    if (!CharacterController.isHaveItem(ItemIdEnum.QI_CULTIVATION_KNOWLEDGE) || CharacterController.nextRealmId == 'unknown') {
       return;
     }
     return Button(
       'Breakthrough',
+      CharacterController.breakthroughRealm.bind(CharacterController),
       '',
       {
         backgroundColor: 'var(--jade_green)',
         borderRadius: 5,
         padding: 4,
         marginTop: 10
-      },
-      CharacterController.breakthroughRealm.bind(CharacterController, character)
+      }
     );
   }
 
-  function createQiLabel(character: Character) {
+  function createQiLabel(character: Readonly<Character>) {
     const qiCapPercent = '('
     + roundTo2Decimal(character.getQiCapPercent() * 100)
     + '%)';
@@ -78,11 +78,11 @@ export default function CharacterPanel() {
     );
   }
   
-  const qiLabel = character.isHaveItem(ItemIdEnum.QI_CULTIVATION_KNOWLEDGE) ?
+  const qiLabel = CharacterController.isHaveItem(ItemIdEnum.QI_CULTIVATION_KNOWLEDGE) ?
     createQiLabel(character)
     : '';
 
-  const bodyCapPercent = character.isHaveItem(ItemIdEnum.CULTIVATION_FOUNDATION_KNOWLEDGE) ? '('
+  const bodyCapPercent = CharacterController.isHaveItem(ItemIdEnum.CULTIVATION_FOUNDATION_KNOWLEDGE) ? '('
   + roundTo2Decimal(character.getBodyCapPercent() * 100)
   + '%)'
   : '';
@@ -104,7 +104,7 @@ export default function CharacterPanel() {
           {character.realm!.desc}
         </div>
         {createListRequirementsBreakthrough(character)}
-        {createRealmBreakButton(character)}
+        {createRealmBreakButton()}
       </div>
     </div>
   );

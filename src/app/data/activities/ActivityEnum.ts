@@ -1,4 +1,4 @@
-export enum ActivitiesEnum {
+export enum ActivityEnum {
     NOTHING,
     CULTIVATE_QI,
     ODD_JOBS,

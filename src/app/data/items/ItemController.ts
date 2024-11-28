@@ -8,8 +8,6 @@ export class ItemController {
     // map for all items by id
     private static itemMap = new Map<ItemIdEnum, Item>();
 
-    private static readonly CLEARED_ZONE_PREFIX: string = 'cleared-';
-
     /**
      * Use item id to find item instance on the list
      * @param id item id

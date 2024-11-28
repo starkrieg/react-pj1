@@ -43,7 +43,8 @@ export class Realm {
     createRealmMultiplier(id: string, action: string, value: number) {
         return new RealmMultiplier(id, action, value);
     }
-
+    
+    //TODO - make realms into actual IDs
     getNextRealm() {
         return RealmController.getRealmById('unknown');
     }

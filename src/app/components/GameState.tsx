@@ -18,12 +18,12 @@ export function GameState(gameController: GameController) {
                 
                     <div className="panel">
                         <div style={{ display: 'flex', gap: 10 }}>
-                        { Button('Pause', '', {}, gameController.pauseGame.bind(gameController)) }
-                        { Button('1x', '', {}, gameController.unpauseGame.bind(gameController)) }
-                        { Button('2x', '', {}, gameController.speedUp2Game.bind(gameController)) }
-                        { Button('5x', '', {}, gameController.speedUp5Game.bind(gameController)) }
-                        { Button('10x', '', {}, gameController.speedUp10Game.bind(gameController)) }
-                        { Button('100x', '', {}, gameController.speedUp100Game.bind(gameController)) }
+                        { Button('Pause', gameController.pauseGame.bind(gameController)) }
+                        { Button('1x', gameController.unpauseGame.bind(gameController)) }
+                        { Button('2x', gameController.speedUp2Game.bind(gameController)) }
+                        { Button('5x', gameController.speedUp5Game.bind(gameController)) }
+                        { Button('10x', gameController.speedUp10Game.bind(gameController)) }
+                        { Button('100x', gameController.speedUp100Game.bind(gameController)) }
                         </div>
             
                         {CalendarPanel(gameController.calendar)}
@@ -39,11 +39,11 @@ export function GameState(gameController: GameController) {
                         borderBottomWidth: 1,
                         marginBottom: 15
                         }}>
-                        { Button('Character', '', {}, gameController.selectContent.bind(gameController, MainContentEnum.CHARACTER)) }
-                        { Button('Activities', '', {}, gameController.selectContent.bind(gameController, MainContentEnum.ACTIVITIES)) }
-                        { Button('Journal', '', {}, gameController.selectContent.bind(gameController, MainContentEnum.JOURNAL)) }
-                        { Button('Explore', '', {}, gameController.selectContent.bind(gameController, MainContentEnum.EXPLORE)) }
-                        { Button('Settings', '', {}, gameController.selectContent.bind(gameController, MainContentEnum.SETTINGS)) }
+                        { Button('Character', gameController.selectContent.bind(gameController, MainContentEnum.CHARACTER)) }
+                        { Button('Activities', gameController.selectContent.bind(gameController, MainContentEnum.ACTIVITIES)) }
+                        { Button('Explore', gameController.selectContent.bind(gameController, MainContentEnum.EXPLORE)) }
+                        { Button('Journal', gameController.selectContent.bind(gameController, MainContentEnum.JOURNAL)) }
+                        { Button('Settings', gameController.selectContent.bind(gameController, MainContentEnum.SETTINGS)) }
                     </div>
             
                     {MainContentPanel(gameController, gameController.selectedContent)}
