@@ -28,20 +28,15 @@ export default function ActivitiesPanel() {
             rankGainText,
             activityRank.totalExpToNextRank,
             activityRank.exp,
-            '',
-            {
-                borderWidth: 1,
-                borderColor: 'var(--jade_green)',
-                borderStyle: 'dashed',
-                marginBottom: 5
-            },
             doSelectClick.bind(ActivitiesController, act.id)
             );
         });
 
-    return <div style={{ display: 'grid' }}>
-            {preparedList}
-        </div>;
+    return <div className="activities">
+                <div className="activities-list">
+                    {preparedList}
+                </div>
+            </div>;
     
 }
 

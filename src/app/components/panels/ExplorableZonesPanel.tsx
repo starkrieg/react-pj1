@@ -6,26 +6,19 @@ import { ExplorationController } from "@/app/data/exploration/ExplorationControl
 export default function ExplorableZonesPanel() {
 
     const explorableZoneList = ExplorationController.getListExplorableZones();
-    const mainStyle = { display: 'grid' };
     
     const preparedList = explorableZoneList.map(zone => {
         
-        return ButtonExplorableZone(
-            zone,
-            '',
-            {
-                borderWidth: 1,
-                borderColor: 'var(--jade_green)',
-                borderStyle: 'dashed',
-                marginBottom: 5
-            },
+        return ButtonExplorableZone(zone,
             ExplorationController.doClickZone.bind(ExplorationController, zone.id)
         )
         
     });
 
-    return <div style={ mainStyle }>
-            {preparedList}
-        </div>;
+    return <div className="zones">
+                <div className="zones-list">
+                    {preparedList}
+                </div>
+            </div>;
     
 }

@@ -115,3 +115,203 @@ body {
 .col-9 { grid-column: span 9; }
 .col-10 { grid-column: span 10; }
 .col-12 { grid-column: span 12; }
+
+/* item style with dashed border */
+
+.item-style {
+  border-width: 1px;
+  border-color: var(--jade_green);
+  border-style: dashed;
+  margin-bottom: 5px;
+  padding: 2px 3px;
+}
+
+/* Navigation bar and button */
+
+.navigation-div {
+  display: flex;
+  flex-direction: row;
+  background-color: #150e1a6b;
+  justify-content: center;
+  border-radius: 5px;
+  gap: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1rem;
+  padding-left: 10px;
+  padding-right: 10px;
+  transition: all 0.2s ease;
+  border: 1px solid #310f446b;
+  font-size: 0.9rem;
+  border-bottom-color: 'black';
+  border-bottom-style: 'solid';
+  border-bottom-width: 1;
+}
+
+.navigation-button {
+  background-color: transparent;
+  border: none;
+  padding: 10px;
+  color: aliceblue;
+  display: flex;
+  position: relative;
+  gap: 5px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.navigation-button:not(:active):hover,
+.active,
+.navigation-button:focus {
+  background-color: #21262cad;
+}
+
+.navigation-button:focus,
+.navigation-button:active {
+  background-color: #1a1f24;
+  outline: none;
+}
+
+.navigation-button::before {
+  content: "";
+  position: absolute;
+  top: 35px;
+  right: 0px;
+  width: 100%;
+  height: 1px;
+  background-color: #0a01303f;
+  border-radius: 5px;
+  opacity: 0;
+}
+
+.navigation-button:focus::before,
+.navigation-button:active::before {
+  opacity: 1;
+}
+
+/* Activity panel and button */
+
+.activities {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.activities .activity-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2px 3px;
+}
+
+.activity-overview {
+  display: grid;
+  grid-template-columns: 1fr 150px;
+  transition: all 0.2s cubic-bezier(0.15, 0.83, 0.66, 1);
+  width: 100%;
+}
+
+.activity-overview .activity-desc {
+  text-align: left;
+}
+
+.activity-overview .activity-rank {
+  text-align: right;
+  margin-right: 10px;
+}
+
+.activities .activity-button:hover {
+  background-color: #F5F8FE;
+}
+
+.activities .activities-list .activity-button:hover label {
+  color: #1763fa;
+}
+
+.activities .activities-list .activity-button:hover span {
+  color: #7ba0eb;
+}
+
+.activities .activities-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.activities .activity-button label {
+  display: block;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 15px;
+  color: #171718;
+}
+
+.activities .activity-button span {
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 12px;
+  color: #72767c;
+}
+
+/* Explorable zones panel and button */
+
+.zones {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.zones .zone-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.zone-header {
+  display: grid;
+  grid-template-columns: 1fr 150px;
+  transition: all 0.2s cubic-bezier(0.15, 0.83, 0.66, 1);
+  width: 100%;
+}
+
+.zone-header .zone-desc {
+  text-align: left;
+}
+
+.zone-header .zone-power, .zone-header .zone-complete {
+  text-align: right;
+  margin-right: 10px;
+}
+
+.zones .zone-button:hover {
+  background-color: #F5F8FE;
+}
+
+.zones .zones-list .zone-button:hover label {
+  color: #1763fa;
+}
+
+.zones .zones-list .zone-button:hover span {
+  color: #7ba0eb;
+}
+
+.zones .zones-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.zones label {
+  display: block;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 15px;
+  color: #171718;
+  text-align: left;
+}
+
+.zones span {
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 12px;
+  color: #72767c;
+}

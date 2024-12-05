@@ -2,7 +2,8 @@
 import GameController from "../data/GameController";
 import { MainContentEnum } from "../data/MainContentEnum";
 import { MessageController } from "../data/messages/MessageController";
-import Button from "./Button";
+import Button, { ButtonNavigation } from "./Button";
+
 import { MainContentPanel } from "./MainContentPanel";
 import { ModalPanel } from "./ModalPanel";
 import CalendarPanel from "./panels/CalendarPanel";
@@ -33,17 +34,13 @@ export function GameState(gameController: GameController) {
                 
                 <div className="panel col-6">
                 
-                    <div style={{ display: 'flex', gap: 10,
-                        borderBottomColor: 'black',
-                        borderBottomStyle: 'solid',
-                        borderBottomWidth: 1,
-                        marginBottom: 15
-                        }}>
-                        { Button('Character', gameController.selectContent.bind(gameController, MainContentEnum.CHARACTER)) }
-                        { Button('Activities', gameController.selectContent.bind(gameController, MainContentEnum.ACTIVITIES)) }
-                        { Button('Explore', gameController.selectContent.bind(gameController, MainContentEnum.EXPLORE)) }
-                        { Button('Journal', gameController.selectContent.bind(gameController, MainContentEnum.JOURNAL)) }
-                        { Button('Settings', gameController.selectContent.bind(gameController, MainContentEnum.SETTINGS)) }
+                    <div className="navigation-div" 
+                        >
+                        { ButtonNavigation('Character', gameController.selectContent.bind(gameController, MainContentEnum.CHARACTER)) }
+                        { ButtonNavigation('Activities', gameController.selectContent.bind(gameController, MainContentEnum.ACTIVITIES)) }
+                        { ButtonNavigation('Explore', gameController.selectContent.bind(gameController, MainContentEnum.EXPLORE)) }
+                        { ButtonNavigation('Journal', gameController.selectContent.bind(gameController, MainContentEnum.JOURNAL)) }
+                        { ButtonNavigation('Settings', gameController.selectContent.bind(gameController, MainContentEnum.SETTINGS)) }
                     </div>
             
                     {MainContentPanel(gameController, gameController.selectedContent)}
