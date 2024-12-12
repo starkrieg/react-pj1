@@ -1,26 +1,36 @@
 import { CharacterController } from "../character/CharacterController";
 import { Message } from "./Message";
+import { MessageType } from "./MessageTypeEnum";
 
 export class MessageController {
 
     private static messageList: Message[] = [];
 
-    /*
-    single message expected format:
-    {
-        characterY: character.year,
-        characterM: character.day
-        message: message
-    }
-    */
+    /**
+     * Pushes a general message to board
+     * @param message 
+     */
     static pushMessageSimple(message: string) {
         const id = this.messageList.length + 1;
-        this.messageList.push(new Message(id, 0, 0, 'common', message));
+        this.messageList.push(new Message(id, 0, 0, MessageType.GENERAL, message));
     }
 
-    static pushMessageJournal(message: string) {
+    /**
+     * Pushes a fight message to board
+     * @param message 
+     */
+    static pushMessageFight(message: string) {
         const id = this.messageList.length + 1;
-        this.messageList.push(new Message(id, CharacterController.getCharacter().year, CharacterController.getCharacter().day, 'main', message));
+        this.messageList.push(new Message(id, 0, 0, MessageType.FIGHT, message));
+    }
+
+    /**
+     * Pushed a story message to board
+     * @param message 
+     */
+    static pushMessageStory(message: string) {
+        const id = this.messageList.length + 1;
+        this.messageList.push(new Message(id, CharacterController.getCharacter().year, CharacterController.getCharacter().day, MessageType.STORY, message));
     }
 
     static getLast10Messages() {
@@ -40,7 +50,7 @@ export class MessageController {
 
         for (let index = 0; index < this.messageList.length; index++) {
             const msgPos = this.messageList.length-1-index;
-            if (this.messageList[msgPos].type == 'main') {
+            if (this.messageList[msgPos].type == MessageType.STORY) {
                 reverseOrderLastMsg[index] = this.messageList[msgPos];
                 reverseOrderLastMsg[index].id = index;
             }

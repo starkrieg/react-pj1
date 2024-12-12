@@ -4,6 +4,7 @@ import { Character } from "@/app/data/character/Character";
 import Button from "../Button";
 import { CharacterController } from "@/app/data/character/CharacterController";
 import { ItemIdEnum } from "@/app/data/items/ItemIdEnum";
+import { RealmEnum } from "@/app/data/realms/RealmEnum";
 
 export default function CharacterPanel() {
 
@@ -35,7 +36,8 @@ export default function CharacterPanel() {
    * @returns 
    */
   function createListRequirementsBreakthrough(character: Readonly<Character>) {
-    if (!CharacterController.isHaveItem(ItemIdEnum.QI_CULTIVATION_KNOWLEDGE) || CharacterController.nextRealmId == 'unknown') {
+    if (!CharacterController.isHaveItem(ItemIdEnum.QI_CULTIVATION_KNOWLEDGE) 
+      || CharacterController.nextRealmId == RealmEnum.UNKNOWN) {
       return;
     }
 
@@ -52,7 +54,8 @@ export default function CharacterPanel() {
   }
 
   function createRealmBreakButton() {
-    if (!CharacterController.isHaveItem(ItemIdEnum.QI_CULTIVATION_KNOWLEDGE) || CharacterController.nextRealmId == 'unknown') {
+    if (!CharacterController.isHaveItem(ItemIdEnum.QI_CULTIVATION_KNOWLEDGE) 
+      || CharacterController.nextRealmId == RealmEnum.UNKNOWN) {
       return;
     }
     return Button(
@@ -87,8 +90,8 @@ export default function CharacterPanel() {
   + '%)'
   : '';
 
-  const deathCount = character.deaths > 0 ? 
-    <p>Deaths: {character.deaths}</p>
+  const deathCount = CharacterController.getDeathCount() > 0 ? 
+    <p>Deaths: {CharacterController.getDeathCount()}</p>
     : ''
 
   return (

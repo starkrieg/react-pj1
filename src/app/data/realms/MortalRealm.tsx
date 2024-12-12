@@ -3,11 +3,11 @@
 import { BaseAttributes } from "../character/BaseAttributes";
 import { RealmController } from "./RealmController";
 import { Realm } from "./Realm";
+import { RealmEnum } from "./RealmEnum";
 
 export class MortalRealm extends Realm {
 
     constructor() {
-        const id = 'mortal';
         const title = 'Mortal'
         const desc = `
         You are but a common person. 
@@ -18,7 +18,7 @@ export class MortalRealm extends Realm {
         const reqBody = 0;
         const requirements = new BaseAttributes(reqQi, reqBody);
 
-        super(id, title, requirements, [], desc);
+        super(RealmEnum.MORTAL, title, requirements, [], desc);
 
         this.setupRealmUpMultipliers();
     }
@@ -38,7 +38,7 @@ export class MortalRealm extends Realm {
     }
 
     getNextRealm() {
-        return RealmController.getRealmById('qi-condensation-1');
+        return RealmController.getRealmById(RealmEnum.QI_CONDENSATION_1);
     }
 
 }

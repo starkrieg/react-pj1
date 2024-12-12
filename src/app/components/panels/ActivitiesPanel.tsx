@@ -15,20 +15,23 @@ export default function ActivitiesPanel() {
     const preparedList = activitiesList.map(act => {
         const activityRank = ActivitiesController.getActivityRankObj(act.id);
         
-        const rankGainText = 'Rank ' 
-            + activityRank.rank
-            + ' / ' 
-            + roundTo2Decimal(act.getTickGain()) 
+        const rankDesc = 'Rank ' 
+            + activityRank.rank;
+
+        const gainDesc = roundTo2Decimal(act.getTickGain()) 
             + ' per day';
+
 
         return ButtonActivity(
             act.id,
             act.title,
             act.desc,
-            rankGainText,
+            rankDesc,
+            gainDesc,
             activityRank.totalExpToNextRank,
             activityRank.exp,
-            doSelectClick.bind(ActivitiesController, act.id)
+            doSelectClick.bind(ActivitiesController, act.id),
+            (act.id == ActivitiesController.selectedActivity)
             );
         });
 

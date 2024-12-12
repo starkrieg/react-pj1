@@ -19,7 +19,25 @@ export default function CalendarPanel(calendar: Calendar) {
         return (
           <p>Qi: {roundTo2Decimal(character.getQi())} {qiCapPercent}</p>
         );
-    }  
+    }
+
+    function DeathCount() {
+        const death = CharacterController.getDeathCount() > 0 ? 
+        <p>Deaths: {CharacterController.getDeathCount()}</p>
+        : ''
+        return (
+            {death}
+        );
+    }
+
+    function FightingPower() {
+        const power = CharacterController.getFightingPower() > 0 ? 
+        <p>Power: {CharacterController.getFightingPower()}</p>
+        : ''
+        return (
+            {power}
+        );
+    }
 
     function roundTo2Decimal(value: number) {
         return Math.round(value * 100) / 100;
@@ -47,6 +65,8 @@ export default function CalendarPanel(calendar: Calendar) {
             <p>Coins: {roundTo2Decimal(character.money)}</p>
             {qiLabel}
             <p>Body: {roundTo2Decimal(character.getBody())} {bodyCapPercent}</p>
+            {FightingPower()}
+            {DeathCount()}
         </div>
     );
 

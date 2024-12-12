@@ -67,7 +67,7 @@ export class ModalController {
 
         // first time modal content is created for use, print the content to message controller too
         // message should appear on controller only once
-        MessageController.pushMessageJournal(content.title + ' ' + content.desc);    
+        MessageController.pushMessageStory(content.title + ' ' + content.desc);    
 
         this.modalContentMap.set(modalType, content);
         return this.modalContentMap.get(modalType);

@@ -2,6 +2,7 @@
 import { ItemIdEnum } from "../items/ItemIdEnum";
 import { Realm } from "../realms/Realm";
 import { RealmController } from "../realms/RealmController";
+import { RealmEnum } from "../realms/RealmEnum";
 import { CharacterAttributes } from "./CharacterAttributes";
 
 export class Character {
@@ -20,8 +21,18 @@ export class Character {
     //its also so realm ups can be done easier
     attributes: CharacterAttributes;
 
-    // counter for amount of deaths
-    deaths: number;
+    // TODO - implement exp gain after winning fight
+    // TODO - implement fighting level up when enough exp
+    // TODO - implement UI visualization of fighting level and experience bar and amount
+    // TODO - make the UI show fighting level only after winning first fight
+    // TODO - make UI shown complete fighting level and exp after reaching level 2
+
+    // fight level or rank, multiplies the fighting power
+    fightingLevel: number = 1;
+    // current amount of experience
+    fightingExperience: number = 0;
+    // required experience to level up fighting level
+    nextExperienceLevel: number = 10;
 
     //list of items the character has
     itemList: Set<ItemIdEnum>;
@@ -29,19 +40,18 @@ export class Character {
     private baseBodyGain = 0.1;
     private baseQiGain = 0.1;
     
-    private bodyCapacityRatio = 0.1; //10% of body as qi capacity
+    private bodyToQiCapacityRatio = 0.1; //10% of body as qi capacity
 
-    private powerBodyDif = 0.1; //10%
-    private powerQiDif = 0.5 //50%
+    private bodyToPowerRatio = 0.1; //10%
+    private qiToPowerRatio = 0.5 //50%
 
     constructor() {
         this.year = 16
         this.day = 1;
-        this.realm = RealmController.getRealmById('mortal');
+        this.realm = RealmController.getRealmById(RealmEnum.MORTAL);
         this.maxAge = 30;
         this.money = 0;
         this.attributes = new CharacterAttributes();
-        this.deaths = 0;
         this.itemList = new Set<ItemIdEnum>();
         this.resetDefaultValues();
     }
@@ -49,7 +59,7 @@ export class Character {
     resetDefaultValues() {
         this.year = 16
         this.day = 1;
-        this.realm = RealmController.getRealmById('mortal');
+        this.realm = RealmController.getRealmById(RealmEnum.MORTAL);
         this.maxAge = 30;
         this.money = 0;
         this.attributes.qi = 0;
@@ -66,7 +76,7 @@ export class Character {
         const qiBaseCapacity = this.attributes.qiBaseCapacity;
         const bodyToCapacity = ((this.attributes.body-1) 
             * this.attributes.talent 
-            * this.bodyCapacityRatio);
+            * this.bodyToQiCapacityRatio);
         this.attributes.qiTotalCapacity = qiBaseCapacity + bodyToCapacity;
     }
 
@@ -135,7 +145,12 @@ export class Character {
      * Current total power
      * 
      */
-    getPower() {
-        return (this.getBody() * this.powerBodyDif) + (this.getQi() * this.powerQiDif);
+    getFightingPower() {
+        const appliedBodyPower = (this.getBody() * this.bodyToPowerRatio);
+        const appliedQiPower = (this.getQi() * this.qiToPowerRatio);
+        const appliedFightingLevel = 1 + ((this.fightingLevel-1) * 0.1)
+        const finalPower = (appliedBodyPower + appliedQiPower) * appliedFightingLevel;
+        return finalPower;
     }
+
 }

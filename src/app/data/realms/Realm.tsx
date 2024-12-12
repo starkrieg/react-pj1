@@ -4,6 +4,7 @@ import { BaseAttributes } from "../character/BaseAttributes";
 import { Character } from "../character/Character";
 import { ErrorController } from "../utils/ErrorController";
 import { RealmController } from "./RealmController";
+import { RealmEnum } from "./RealmEnum";
 
 class RealmMultiplier {
 
@@ -21,13 +22,13 @@ class RealmMultiplier {
 
 export class Realm {
 
-    id: string;
+    id: RealmEnum;
     title: string;
     requirements: BaseAttributes;
     breakMultipliers: RealmMultiplier[];
     desc: string;
 
-    constructor(id: string, title: string, 
+    constructor(id: RealmEnum, title: string, 
         requirements: BaseAttributes, 
         breakMultipliers: RealmMultiplier[],
         desc: string = 'Lorem ipsum'
@@ -44,16 +45,16 @@ export class Realm {
         return new RealmMultiplier(id, action, value);
     }
     
-    //TODO - make realms into actual IDs
     getNextRealm() {
-        return RealmController.getRealmById('unknown');
+        return RealmController.getRealmById(RealmEnum.UNKNOWN);
     }
 
     doRealmUp(character: Character) {
-        if (this.id == 'unknown') {
+        if (this.id == RealmEnum.UNKNOWN) {
             alert("You don\'t know how to move forward!")
             return;
         }
+        // TODO - make character attributes and multiplies into abstract classes, so any attribute or multiplies can be modified by realms
         for (let index = 0; index < this.breakMultipliers.length; index++) {
             const multi = this.breakMultipliers[index];
             switch (multi.id) {

@@ -3,13 +3,16 @@
 import { BaseAttributes } from "../character/BaseAttributes";
 import { RealmController } from "./RealmController";
 import { Realm } from "./Realm";
+import { RealmEnum } from "./RealmEnum";
 
 export class QiCondensationGeneric extends Realm {
 
     stage: number;
 
-    constructor(stage: number = 0) {
-        const id = 'qi-condensation-' + stage;
+    constructor(realmId: RealmEnum) {
+        // assuming realm id for Qi Condensations is always qi-condensation-n
+        const stage: number = Number(realmId.split('-')[2])
+
         const title = 'Qi Condensation ' + stage;
         const desc = `
         You are barely a new born chick.
@@ -20,7 +23,7 @@ export class QiCondensationGeneric extends Realm {
         const reqBody = 50 + (stage * 50);
         const requirements = new BaseAttributes(reqQi, reqBody);
 
-        super(id, title, requirements, [], desc);
+        super(realmId, title, requirements, [], desc);
 
         this.stage = stage;
 
@@ -34,6 +37,7 @@ export class QiCondensationGeneric extends Realm {
         if (this.stage < 6) {
             const qiCapBonus = ([3,4,5].includes(this.stage)) ? 200 : 100;
             breakthroughMultipliers.push(this.createRealmMultiplier('qi-capacity', 'sum', qiCapBonus));
+            // TODO - make character attributes and multiplies into abstract classes, so any attribute or multiplies can be modified by realms
         }
 
         if (this.stage == 6) {
@@ -63,12 +67,13 @@ export class QiCondensationGeneric extends Realm {
     getNextRealm() {
         if (this.stage < 6) {
             const nextStage = this.stage + 1;
-            return RealmController.getRealmById('qi-condensation-' + nextStage);            
+            const realmId = 'qi-condensation-' + nextStage;
+            return RealmController.getRealmById(RealmEnum[realmId as keyof typeof RealmEnum]);
         }
         if (this.stage == 6) {
-            return RealmController.getRealmById('foundation-establishment-early');            
+            return RealmController.getRealmById(RealmEnum.FOUNDATION_ESTABLISHMENT_EARLY);
         }
-        return RealmController.getRealmById('unknown');
+        return RealmController.getRealmById(RealmEnum.UNKNOWN);
     }
 
 }

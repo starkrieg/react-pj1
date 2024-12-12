@@ -34,7 +34,7 @@ export class ExplorableZone {
         this.desc = desc;
         
         this.zoneSize = combatSize;
-        this.currProgress = 0;
+        this.currProgress = 1;
         this.minPowerReq = minPowerReq;
         this.isComplete = false;
         this.listClearRewardItemId = listClearRewardItemId;
@@ -51,7 +51,7 @@ export class ExplorableZone {
     progressZone() {
         this.currProgress += 1;
         if (this.currProgress >= this.zoneSize) {
-            this.currProgress = 0;
+            this.currProgress = 1;
             if (!this.isComplete) {
                 this.isComplete = true;
                 return true;
@@ -64,7 +64,7 @@ export class ExplorableZone {
      * Clears progress on zone
      */
     clearProgress() {
-        this.currProgress = 0;
+        this.currProgress = 1;
     }
 
     /**

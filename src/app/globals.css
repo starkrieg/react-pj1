@@ -16,11 +16,18 @@
 
   /* for martial elements, simbols of strength, 
   actions, powerful moves */
+  --light_crimson: #c20000;
+
+  /* hover for light_crimson elements */
   --deep_crimson: #8B0000;
+  
 
   /* for wood or earthy aspects, perhaps message
   log or borders */
   --burnt_umber: #8A4E2F;
+
+  /* hover for burnt_umber elements */
+  --dark_umber: #AA4E2F;
 
   /* for rewards, highlights, special actions,
   simbolizing enlightenment */
@@ -33,6 +40,9 @@
   /* for headings or any special phrases, giving 
   an ancient scroll or parchment feel */
   --ivory_white: #FFFFF0;
+
+  /* health bass css for fights */
+  --health-bar: red;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -131,7 +141,8 @@ body {
 .navigation-div {
   display: flex;
   flex-direction: row;
-  background-color: #150e1a6b;
+  flex-wrap: wrap;
+  background-color: var(--burnt_umber);
   justify-content: center;
   border-radius: 5px;
   gap: 10px;
@@ -141,41 +152,32 @@ body {
   padding-left: 10px;
   padding-right: 10px;
   transition: all 0.2s ease;
-  border: 1px solid #310f446b;
+  border: 1px solid var(--background);
   font-size: 0.9rem;
-  border-bottom-color: 'black';
-  border-bottom-style: 'solid';
-  border-bottom-width: 1;
+  border-bottom-color: black;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
 }
 
-.navigation-button {
+.navigation-button, .navigation-button-selected {
   background-color: transparent;
   border: none;
-  padding: 10px;
-  color: aliceblue;
-  display: flex;
-  position: relative;
-  gap: 5px;
+  padding: 5px;
+  color: var(--ivory_white);
   cursor: pointer;
   border-radius: 4px;
   transition: all 0.2s ease;
 }
 
-.navigation-button:not(:active):hover,
-.active,
-.navigation-button:focus {
-  background-color: #21262cad;
+.navigation-button:hover {
+  background-color: var(--dark_umber);
 }
 
-.navigation-button:focus,
-.navigation-button:active {
-  background-color: #1a1f24;
-  outline: none;
+.navigation-button-selected {
+  background-color: var(--dark_umber);
 }
 
 .navigation-button::before {
-  content: "";
-  position: absolute;
   top: 35px;
   right: 0px;
   width: 100%;
@@ -225,11 +227,13 @@ body {
   background-color: #F5F8FE;
 }
 
-.activities .activities-list .activity-button:hover label {
+.activities .activities-list .activity-button:hover label, 
+.activities .activities-list .activity-selected label {
   color: #1763fa;
 }
 
-.activities .activities-list .activity-button:hover span {
+.activities .activities-list .activity-button:hover span,
+.activities .activities-list .activity-selected span {
   color: #7ba0eb;
 }
 
@@ -269,7 +273,7 @@ body {
 
 .zone-header {
   display: grid;
-  grid-template-columns: 1fr 150px;
+  grid-template-columns: 1fr 100px;
   transition: all 0.2s cubic-bezier(0.15, 0.83, 0.66, 1);
   width: 100%;
 }
@@ -280,7 +284,30 @@ body {
 
 .zone-header .zone-power, .zone-header .zone-complete {
   text-align: right;
-  margin-right: 10px;
+  margin-right: 5px;
+  display: flex;
+  justify-content: end;
+}
+
+.zone-header .zone-power span {
+  display: flex;
+  align-items: end;
+}
+
+.zones .fight-left {
+  display: flex;
+  align-items: end;
+}
+
+.zones .fight-right {
+  display: flex;
+  align-items: end;
+  justify-content: end;
+}
+
+.zone-header .zone-size {
+  text-align: right;
+  align-content: end;
 }
 
 .zones .zone-button:hover {
@@ -311,7 +338,40 @@ body {
 
 .zones span {
   font-weight: 600;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 12px;
   color: #72767c;
+}
+
+.zones .zone-fight-header {
+  margin-bottom: 10px;
+  margin-top: 10px
+}
+
+.zones .zone-fight-header .zone-button-retreat {
+  color: var(--ivory_white);
+  background-color: var(--light_crimson);
+  border-radius: 5px;
+  padding: 5px;
+  width: fit-content;
+}
+
+.zones .zone-fight-header .zone-button-retreat:hover {
+  background-color: var(--deep_crimson);
+}
+
+
+
+
+/* for firefox */
+.zones .health-bar::-moz-progress-bar { 
+  background: var(--health-bar); 
+}
+/* for chrome and safari */
+.zones .health-bar::-webkit-progress-value { 
+  background: var(--health-bar); 
+}
+/* for IE10 */
+.zones .health-bar { 
+  color: var(--health-bar); 
 }

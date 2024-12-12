@@ -11,6 +11,12 @@ import MessagesPanel from "./panels/MessagesPanel";
 
 export function GameState(gameController: GameController) {
 
+    function getNavigationOption(label: string, content: MainContentEnum) {
+        const getIsSelectedContent = gameController.selectedContent == content;
+        return ButtonNavigation(label, gameController.selectContent.bind(gameController, content), getIsSelectedContent)
+        
+    }
+
     return (
         <div className="container">
             {ModalPanel(gameController)}
@@ -36,11 +42,11 @@ export function GameState(gameController: GameController) {
                 
                     <div className="navigation-div" 
                         >
-                        { ButtonNavigation('Character', gameController.selectContent.bind(gameController, MainContentEnum.CHARACTER)) }
-                        { ButtonNavigation('Activities', gameController.selectContent.bind(gameController, MainContentEnum.ACTIVITIES)) }
-                        { ButtonNavigation('Explore', gameController.selectContent.bind(gameController, MainContentEnum.EXPLORE)) }
-                        { ButtonNavigation('Journal', gameController.selectContent.bind(gameController, MainContentEnum.JOURNAL)) }
-                        { ButtonNavigation('Settings', gameController.selectContent.bind(gameController, MainContentEnum.SETTINGS)) }
+                        { getNavigationOption('Character', MainContentEnum.CHARACTER) }
+                        { getNavigationOption('Activities',  MainContentEnum.ACTIVITIES) }
+                        { getNavigationOption('Explore', MainContentEnum.EXPLORE) }
+                        { getNavigationOption('Journal', MainContentEnum.JOURNAL) }
+                        { getNavigationOption('Settings', MainContentEnum.SETTINGS) }
                     </div>
             
                     {MainContentPanel(gameController, gameController.selectedContent)}

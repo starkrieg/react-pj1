@@ -5,58 +5,68 @@ import { FoundationEstablishment } from "./FoundationEstablishment";
 import { MortalRealm } from "./MortalRealm";
 import { QiCondensationGeneric } from "./QiCondensationGeneric";
 import { Realm } from "./Realm";
+import { RealmEnum } from "./RealmEnum";
 
 export class RealmController {
 
-    static realmMatrix = new Map<string, Realm>();
+    static realmMatrix = new Map<RealmEnum, Realm>();
 
     private static createAndReturnUnknown() {
-        this.realmMatrix.set('unknown', new Realm('unknown', 'Unknown', 
+        this.realmMatrix.set(RealmEnum.UNKNOWN, new Realm(RealmEnum.UNKNOWN, 'Unknown', 
             new BaseAttributes(-1, -1), [], 
             `Your current realm is not clear. 
             What heights have you reached?`
         ));
-        return this.realmMatrix.get('unknown');
+        return this.realmMatrix.get(RealmEnum.UNKNOWN);
     }
 
     private static createAndReturnMortalRealm() {
-        this.realmMatrix.set('mortal', new MortalRealm());
-        return this.realmMatrix.get('mortal');
+        this.realmMatrix.set(RealmEnum.MORTAL, new MortalRealm());
+        return this.realmMatrix.get(RealmEnum.MORTAL);
     }
 
-    private static createAndReturnQiCondensation(realmId: string) {
-        const realmNum = realmId.substring('qi-condensation-'.length);
-        const qiCondRealm = new QiCondensationGeneric(Number(realmNum));
-        this.realmMatrix.set(realmId, qiCondRealm);
+    private static createAndReturnQiCondensation(realmId: RealmEnum) {
+        this.realmMatrix.set(realmId, new QiCondensationGeneric(realmId));
         return this.realmMatrix.get(realmId);
 
     }
 
-    private static createAndReturnFoundationEstablishment(realmId: string) {
-        const realmStage = realmId.substring('foundation-establishment-'.length);
-        const qiCondRealm = new FoundationEstablishment(realmStage);
+    private static createAndReturnFoundationEstablishment(realmId: RealmEnum) {
+        const qiCondRealm = new FoundationEstablishment(realmId);
         this.realmMatrix.set(realmId, qiCondRealm);
         return this.realmMatrix.get(realmId);
 
     }    
 
+    private static createRealmFromRealmId(realmId: RealmEnum) : Realm | undefined {
+        switch (realmId) {
+            case RealmEnum.UNKNOWN:
+                return this.createAndReturnUnknown();
+            case RealmEnum.MORTAL:
+                return this.createAndReturnMortalRealm();
+            case RealmEnum.QI_CONDENSATION_1:
+            case RealmEnum.QI_CONDENSATION_2:
+            case RealmEnum.QI_CONDENSATION_3:
+            case RealmEnum.QI_CONDENSATION_4:
+            case RealmEnum.QI_CONDENSATION_5:
+            case RealmEnum.QI_CONDENSATION_6:
+            case RealmEnum.QI_CONDENSATION_7:
+            case RealmEnum.QI_CONDENSATION_8:
+            case RealmEnum.QI_CONDENSATION_9:
+                return this.createAndReturnQiCondensation(realmId);
+            case RealmEnum.FOUNDATION_ESTABLISHMENT_EARLY:
+            case RealmEnum.FOUNDATION_ESTABLISHMENT_MIDDLE:
+            case RealmEnum.FOUNDATION_ESTABLISHMENT_LATE:
+                return this.createAndReturnFoundationEstablishment(realmId);
+            default:
+                return undefined;
+        }
+    }
+
     /*
         return a realm instance based on realm id passed
     */
-    static getRealmById(realmId: string) : Realm | undefined {
-        if (realmId == 'mortal') {
-            return this.realmMatrix.get('mortal') 
-                || this.createAndReturnMortalRealm();
-        }
-        if (realmId.startsWith('qi-condensation-')) {
-            return this.realmMatrix.get(realmId) 
-                || this.createAndReturnQiCondensation(realmId);
-        }
-        if (realmId.startsWith('foundation-establishment-')) {
-            return this.realmMatrix.get(realmId) 
-                || this.createAndReturnFoundationEstablishment(realmId);
-        }
-        return this.realmMatrix.get('unknown') 
-            || this.createAndReturnUnknown();
+    static getRealmById(realmId: RealmEnum) : Realm | undefined {
+        return this.realmMatrix.get(realmId) || this.createRealmFromRealmId(realmId)
     }
 }

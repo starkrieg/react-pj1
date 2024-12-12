@@ -119,7 +119,7 @@ export default class GameController {
             this.calendar.year += 1;
             
             if (CharacterController.add1YearCharacter()) {
-                this.modalType = (CharacterController.getDeathNumber() > 0) ? ModalTypeEnum.DEATH : ModalTypeEnum.DEATH_FIRST
+                this.modalType = (CharacterController.getDeathCount() > 0) ? ModalTypeEnum.DEATH : ModalTypeEnum.DEATH_FIRST
             }
     
         }        
@@ -133,14 +133,14 @@ export default class GameController {
             /* game speed reduces tick time */
             
             let tickCount = 0;
-            const dayTickReq = 6; // how many ticks for day change
+            const ticksInADay = 8; // how many ms for a day change
             // keep it above 3, so hydration works properly
             while(this.isGameWorking) {
                 await this.sleep(100 / this.gameSpeed);
                 if (!this.isPaused && this.modalType == ModalTypeEnum.NOTHING) {
                     tickCount += 1
-                    while (tickCount >= dayTickReq) {
-                        tickCount += -dayTickReq
+                    while (tickCount >= ticksInADay) {
+                        tickCount += -ticksInADay
                         
                         // check if doing anything
                         if (ExplorationController.selectedZoneId != ExploreZoneIdEnum.NOTHING) {
@@ -156,8 +156,9 @@ export default class GameController {
                         this.addDayCalendar();
                     }
                 }
-                // ui must be updated based on react hooks, not forced by dom changes
-                // update
+                // TODO - ui must be updated based on react hooks, not forced by dom changes
+
+                // update UI
                 this.updateUIState();
             }
 

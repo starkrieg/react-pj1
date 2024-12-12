@@ -1,4 +1,5 @@
 import { ExplorableZone } from "../data/exploration/ExplorableZone";
+import IconSwordEmblem from '../assets/icons/swords-emblem.svg';
 
 export default function Button(label: string, 
     onClick: () => void,
@@ -18,12 +19,17 @@ export default function Button(label: string,
 }
 
 export function ButtonNavigation(label: string, 
-    onClick: () => void
+    onClick: () => void,
+    isSelected: boolean = false
     ) {
+
+    function getSelectedStatus() {
+        return isSelected ? ' navigation-button-selected' : '';
+    }
 
     return (
         <button 
-            className={ 'navigation-button' }
+            className={ 'navigation-button' + getSelectedStatus() }
             onClick={ onClick }
             >
             { label }
@@ -34,23 +40,34 @@ export function ButtonNavigation(label: string,
 export function ButtonActivity(id: string, 
     title: string, 
     desc: string,
-    rankGainText: string,
+    rankDesc: string,
+    gainDesc: string,
     totalExpRank: number,
     currExpRank: number, 
-    onClick: () => void ) {
+    onClick: () => void,
+    isSelected: boolean = false ) {
+
+    function getSelectedStatus() {
+        return isSelected ? ' activity-selected' : '';
+    }
 
     return (
         <button id={ id } key={ id }
-            className={ 'activity-button item-style'  }
+            className={ 'activity-button item-style' + getSelectedStatus() }
             onClick={ onClick }
             >
-            <label>{ title }</label>
+            <div className="activity-overview">
+                <label className="activity-desc">{ title }</label>
+                <div className="activity-rank">
+                    <span>{ rankDesc } </span>
+                </div>
+            </div>
             <div className="activity-overview">
                 <div className="activity-desc">        
                     <span>{ desc }</span>
                 </div>
                 <div className="activity-rank">
-                    <span>{ rankGainText } </span>
+                    <span>{ gainDesc } </span>
                 </div>
             </div>
             <progress style={{ width: '100%' }} max={ totalExpRank } value={ currExpRank }/>
@@ -78,7 +95,10 @@ export function ButtonExplorableZone(zone: ExplorableZone,
                     <span>{ zone.desc }</span>
                 </div>
                 <div className="zone-power">
-                    <span>{ zone.minPowerReq }</span>
+                    <span>
+                        { zone?.minPowerReq }
+                        <IconSwordEmblem style={{ width: '25px', height: '25px', marginLeft: '5px' }}/>
+                    </span>
                 </div>
             </div>
 

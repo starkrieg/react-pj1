@@ -5,7 +5,8 @@ import { ActivityRank } from "./ActivityRank";
 
 export class ActivitiesController {
 
-    private static BASE_TICK_RANK = 6;
+    // base days for rank up
+    private static BASE_DAYS_RANK_UP = 30;
 
     static selectedActivity: ActivityEnum = ActivityEnum.NOTHING;
     
@@ -58,7 +59,7 @@ export class ActivitiesController {
         //only add to map if not there yet
         //so that map is not reset when creating activities after death
         if (!this.activityRankMap.has(activity.id)) {
-            this.activityRankMap.set(activity.id, new ActivityRank(1, 0, this.BASE_TICK_RANK));
+            this.activityRankMap.set(activity.id, new ActivityRank(1, 0, this.BASE_DAYS_RANK_UP));
         }
     }
 
@@ -90,7 +91,7 @@ export class ActivitiesController {
             while (activityRank.exp >= activityRank.totalExpToNextRank) {
                 activityRank.rank += 1;
                 activityRank.exp += - activityRank.totalExpToNextRank;
-                activityRank.totalExpToNextRank = (1 + ((activityRank.rank-1) * 0.5)) * this.BASE_TICK_RANK;
+                activityRank.totalExpToNextRank = (1 + ((activityRank.rank-1) * 0.5)) * this.BASE_DAYS_RANK_UP;
             }
         }
     }

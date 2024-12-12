@@ -1,6 +1,7 @@
 import { ItemController } from "../items/ItemController";
 import { ItemIdEnum } from "../items/ItemIdEnum";
 import { ItemTypeEnum } from "../items/ItemTypeEnum";
+import { RealmEnum } from "../realms/RealmEnum";
 import { ErrorController } from "../utils/ErrorController";
 import { Character } from "./Character";
 
@@ -10,6 +11,12 @@ export class CharacterController {
 
     private static isBreakthroughReady: boolean = false;
     static nextRealmId = '';
+
+    //death count outside character current life
+    private static deathCount = 0;
+
+    //count for amount of fights fought - wins and losses
+    private static fightTotalCount = 0;
 
     //TODO - make a better way to retrieve necessary character data for the UI
     //TODO - make an easier way to get any character attribute
@@ -43,7 +50,7 @@ export class CharacterController {
      * 
      */
     static getCharacterPower() {
-        return this.character.getPower();
+        return this.character.getFightingPower();
     }
     
     /**
@@ -87,10 +94,6 @@ export class CharacterController {
     static startFirstCharacter() {
         this.character.itemList = new Set<ItemIdEnum>();
         this.character.resetDefaultValues();
-    } 
-
-    static getDeathNumber() {
-        return this.character.deaths
     }
 
     static getItemList() {
@@ -108,7 +111,7 @@ export class CharacterController {
 
     static reviveCharacter() {
         //count new death
-        this.character.deaths++;
+        CharacterController.increaseDeathCount();
         //reset to starting values
         this.character.resetDefaultValues();
         //remove non-permanent character items
@@ -136,13 +139,13 @@ export class CharacterController {
     static getListRequirementBreakthrough(char: Readonly<Character>) {
         this.isBreakthroughReady = false;
         
-        if (this.nextRealmId == 'unknown') {
+        if (this.nextRealmId == RealmEnum.UNKNOWN) {
           return [];
         }
     
         const nextRealm = char.realm!.getNextRealm();
     
-        if (!nextRealm || nextRealm.id == 'unknown') {
+        if (!nextRealm || nextRealm.id == RealmEnum.UNKNOWN) {
           return [];
         }
     
@@ -170,6 +173,18 @@ export class CharacterController {
         this.isBreakthroughReady = qiReqFilled && bodyReqFilled;
     
         return prepList;
+      }
+
+      static getDeathCount() {
+        return this.deathCount;
+      }
+
+      static increaseDeathCount() {
+        this.deathCount++;
+      }
+
+      static getFightingPower() {
+        return this.character.getFightingPower();
       }
 
 }
