@@ -3,7 +3,9 @@ import { ItemIdEnum } from "../items/ItemIdEnum";
 import { Realm } from "../realms/Realm";
 import { RealmController } from "../realms/RealmController";
 import { RealmEnum } from "../realms/RealmEnum";
+import { Utilities } from "../utils/Utilities";
 import { CharacterAttributes } from "./CharacterAttributes";
+import { FightingExperience } from "./FightingExperience";
 
 export class Character {
 
@@ -27,12 +29,8 @@ export class Character {
     // TODO - make the UI show fighting level only after winning first fight
     // TODO - make UI shown complete fighting level and exp after reaching level 2
 
-    // fight level or rank, multiplies the fighting power
-    fightingLevel: number = 1;
-    // current amount of experience
-    fightingExperience: number = 0;
-    // required experience to level up fighting level
-    nextExperienceLevel: number = 10;
+    // encapsulates fighting experience
+    fightingExperience: FightingExperience;
 
     //list of items the character has
     itemList: Set<ItemIdEnum>;
@@ -53,6 +51,7 @@ export class Character {
         this.money = 0;
         this.attributes = new CharacterAttributes();
         this.itemList = new Set<ItemIdEnum>();
+        this.fightingExperience = new FightingExperience;
         this.resetDefaultValues();
     }
 
@@ -103,11 +102,11 @@ export class Character {
     }
 
     getQi() {
-        return this.attributes.qi;
+        return Utilities.roundTo2Decimal(this.attributes.qi);
     }
 
     getBody() {
-        return this.attributes.body;
+        return Utilities.roundTo2Decimal(this.attributes.body);
     }
 
     setBaseMinCapacity(value: number) {
@@ -148,9 +147,9 @@ export class Character {
     getFightingPower() {
         const appliedBodyPower = (this.getBody() * this.bodyToPowerRatio);
         const appliedQiPower = (this.getQi() * this.qiToPowerRatio);
-        const appliedFightingLevel = 1 + ((this.fightingLevel-1) * 0.1)
+        const appliedFightingLevel = 1 + ((this.fightingExperience.getLevel()-1) * 0.1)
         const finalPower = (appliedBodyPower + appliedQiPower) * appliedFightingLevel;
-        return finalPower;
+        return Utilities.roundTo2Decimal(finalPower);
     }
 
 }

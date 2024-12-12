@@ -96,10 +96,13 @@ body {
 }
 
 .container {
+  height: 100%;
   width: 95%;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 2px auto;
   padding: 2px 0;
+  border: 1px solid var(--burnt_umber);
+  border-bottom: none;
 }
 
 .row {
@@ -109,10 +112,17 @@ body {
   margin-bottom: 2px;
 }
 
-.panel {
+.panel-middle, .panel-left, .panel-right {
   padding: 4px;
   margin-bottom: 2px;
-  border: 1px solid var(--burnt_umber);
+}
+
+.panel-left {
+
+}
+
+.panel-right {
+
 }
 
 /* Column Width Classes */
@@ -134,6 +144,7 @@ body {
   border-style: dashed;
   margin-bottom: 5px;
   padding: 2px 3px;
+  cursor: pointer;
 }
 
 /* Navigation bar and button */
@@ -248,6 +259,7 @@ body {
   font-size: 12px;
   line-height: 15px;
   color: #171718;
+  cursor: pointer;
 }
 
 .activities .activity-button span {
@@ -269,6 +281,10 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.zones .zone-button label {
+  cursor: pointer;
 }
 
 .zone-header {
@@ -338,7 +354,7 @@ body {
 
 .zones span {
   font-weight: 600;
-  font-size: 12px;
+  font-size: 10px;
   line-height: 12px;
   color: #72767c;
 }

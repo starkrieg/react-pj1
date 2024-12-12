@@ -8,6 +8,7 @@ import { CharacterController } from "../character/CharacterController";
 import { ErrorController } from "../utils/ErrorController";
 import { ItemUnlockController } from "../items/ItemUnlockController";
 import FightAttributes from "./FightAttributes";
+import { Utilities } from "../utils/Utilities";
 
 export class ExplorationController {
 
@@ -120,21 +121,18 @@ export class ExplorationController {
      */
     static doExploreSelectedZone() {
         if (!this.characterFightStats || !this.enemyFightStats) {
-            this.createFightStats()
+            const characterPower = CharacterController.getCharacterPower();
+            const zoneStepPowerReq = this.getSelectedZone()?.getCurrentStepPowerReq() || 0;
+    
+            this.characterFightStats = new FightAttributes(characterPower, characterPower);
+            this.enemyFightStats = new FightAttributes(zoneStepPowerReq, zoneStepPowerReq);
         }
-
-        /* do fight
-            character attacks enemy
-            if enemy still alive, then enemy attack
-            if character still alive, then character attack
-            go until someone dies
-        */
 
         // character turn
         if (this.fightTurn == 0) {
             this.doAttack(this.characterFightStats, this.enemyFightStats, true);
         } else if (this.fightTurn == 1) {
-            this.doAttack(this.characterFightStats, this.enemyFightStats, false)
+            this.doAttack(this.characterFightStats, this.enemyFightStats, false);
         } else {
             //something went wrong
             ErrorController.throwSomethingWrongError();
@@ -153,9 +151,22 @@ export class ExplorationController {
         } else if (this.enemyFightStats.health <= 0) {
             //enemy died
             const isFirstClear = this.getSelectedZone()?.progressZone();
-            
+
+            CharacterController.incrementFightCount();
+
+            //fight experience calc is a base value from zone, and then a comparison with current power
+            //being too strong means less experience
+
+            // 1/10th of the minimum area power times how strong you are compared to the zone
+            const charPowerComparison = (this.characterFightStats.power 
+                / (this.getSelectedZone()?.minPowerReq || this.characterFightStats.power));
+            const rewardExp = (this.getSelectedZone()?.getBaseExpReward() || 1) 
+                * charPowerComparison
+            CharacterController.incrementFightExperience(Utilities.roundTo2Decimal(rewardExp));
+            MessageController.pushMessageSimple(`You defeated the enemy! Got ${rewardExp} experience!`)
+
             //give reward after the progress is made
-            const moneyGain = 1;
+            const moneyGain = Utilities.roundTo0Decimal(Math.random() * 5);
             CharacterController.increaseMoney(moneyGain);
             MessageController.pushMessageSimple(`Found something! Got ${moneyGain} coin(s)`)
             
@@ -188,8 +199,9 @@ export class ExplorationController {
                 this.doClickRetreatFromZone();
             } else {
                 //Enemy defeated, but zone not cleared
-                //Clean current enemy. Next enemy will be filled on next tick
-                this.enemyFightStats = undefined;
+                this.fightTurn = 0;
+                const zoneStepPowerReq = this.getSelectedZone()?.getCurrentStepPowerReq() || 0;
+                this.enemyFightStats = new FightAttributes(zoneStepPowerReq, zoneStepPowerReq);
             }
         }
         
@@ -212,7 +224,7 @@ export class ExplorationController {
         const damageMod = (Math.random() * 0.35) + 0.5;
 
         //damage rounded to no decimals
-        const finalDamage = Math.round((attacker.power * damageMod) * 1) / 1;
+        const finalDamage = Utilities.roundTo0Decimal(attacker.power * damageMod);
 
         target.health -= finalDamage;
 

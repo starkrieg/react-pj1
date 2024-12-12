@@ -75,4 +75,8 @@ export class ExplorableZone {
         return this.minPowerReq * (1 + ((this.currProgress-1) * 0.1));
     }
 
+    getBaseExpReward() {
+        return this.minPowerReq / 10
+    }
+
 }

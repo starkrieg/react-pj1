@@ -1,3 +1,4 @@
+import { Utilities } from "../utils/Utilities";
 
 export default class FightAttributes {
 
@@ -7,8 +8,8 @@ export default class FightAttributes {
 
     constructor(health: number, power: number) {
         //minimum health is 1 HP
-        this.health = Math.max(health, 1);
-        this.power = power;
+        this.health = Utilities.roundTo0Decimal(Math.max(health, 1));
+        this.power = Utilities.roundTo2Decimal(power);
     }
     
 }

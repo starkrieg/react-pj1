@@ -2,15 +2,12 @@
 
 import { ActivitiesController } from "@/app/data/activities/ActivitiesController";
 import { ButtonActivity } from "../Button";
+import { Utilities } from "@/app/data/utils/Utilities";
 
 export default function ActivitiesPanel() {
 
     const activitiesList = ActivitiesController.getActivitiesList();
     const doSelectClick = ActivitiesController.doSelectActivity;
-
-    function roundTo2Decimal(value: number) {
-        return Math.round(value * 100) / 100;
-    }
 
     const preparedList = activitiesList.map(act => {
         const activityRank = ActivitiesController.getActivityRankObj(act.id);
@@ -18,7 +15,7 @@ export default function ActivitiesPanel() {
         const rankDesc = 'Rank ' 
             + activityRank.rank;
 
-        const gainDesc = roundTo2Decimal(act.getTickGain()) 
+        const gainDesc = Utilities.roundTo2Decimal(act.getTickGain()) 
             + ' per day';
 
 

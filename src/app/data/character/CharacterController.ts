@@ -187,4 +187,24 @@ export class CharacterController {
         return this.character.getFightingPower();
       }
 
+      static incrementFightCount() {
+        this.fightTotalCount++;
+      }
+
+      static getFightCount() : Readonly<number> {
+        return this.fightTotalCount;
+      }
+
+      static getFightingStatus() {
+        return this.character.fightingExperience.getLevelStatus();
+      }
+
+      static getFightingLevel() {
+        return this.character.fightingExperience.getLevel();
+      }
+
+      static incrementFightExperience(value: number) {
+        this.character.fightingExperience.addFightingExperience(value);
+      }
+
 }

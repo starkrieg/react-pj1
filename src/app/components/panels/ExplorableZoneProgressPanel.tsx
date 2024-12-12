@@ -5,6 +5,7 @@ import { ExplorationController } from "@/app/data/exploration/ExplorationControl
 import IconCrossedSwords from '../../assets/icons/crossed-swords.svg';
 import IconSwordEmblem from '../../assets/icons/swords-emblem.svg';
 import FightAttributes from "@/app/data/exploration/FightAttributes";
+import { Utilities } from "@/app/data/utils/Utilities";
 
 export default function ExplorableZoneProgressPanel() {
 
@@ -25,7 +26,7 @@ export default function ExplorableZoneProgressPanel() {
         let elements = [];
 
         if (type == 'P') { //Player
-            person = 'Player';
+            person = 'You';
             classes = 'fight-left';
             elements.push(
                 <IconSwordEmblem style={{ width: '25px', height: '25px', marginRight: '5px' }}/>
@@ -41,8 +42,11 @@ export default function ExplorableZoneProgressPanel() {
             );
         }
 
+        const healthBarMax = Utilities.roundTo0Decimal(stats?.power || 0);
+        const healthBarValue = stats?.health;
+
         return (
-            <div>
+            <div style={{ textAlign: 'center' }}>
                 { person }
                 <div>
                     <span className={classes}>
@@ -51,13 +55,13 @@ export default function ExplorableZoneProgressPanel() {
                 </div>
                 <div>
                     <progress className="health-bar" style={{ width: '100%' }} 
-                    max={ stats?.power } value={ stats?.health }/>
+                    value={ healthBarValue } max={ healthBarMax } />
                     <label style={{
                         position: 'relative',
                         textAlign: 'center',
-                        top: -21
+                        top: -18
                     }}>
-                        { stats?.health }
+                        { healthBarValue }
                     </label>
                 </div>
             </div>

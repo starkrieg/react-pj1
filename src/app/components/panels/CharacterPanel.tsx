@@ -5,6 +5,7 @@ import Button from "../Button";
 import { CharacterController } from "@/app/data/character/CharacterController";
 import { ItemIdEnum } from "@/app/data/items/ItemIdEnum";
 import { RealmEnum } from "@/app/data/realms/RealmEnum";
+import { Utilities } from "@/app/data/utils/Utilities";
 
 export default function CharacterPanel() {
 
@@ -24,10 +25,6 @@ export default function CharacterPanel() {
       stringReq = <s>{stringReq}</s>
     }
     return stringReq;
-  }
-
-  function roundTo2Decimal(value: number) {
-    return Math.round(value * 100) / 100;
   }
 
   /**
@@ -73,11 +70,11 @@ export default function CharacterPanel() {
 
   function createQiLabel(character: Readonly<Character>) {
     const qiCapPercent = '('
-    + roundTo2Decimal(character.getQiCapPercent() * 100)
+    + Utilities.roundTo2Decimal(character.getQiCapPercent() * 100)
     + '%)';
 
     return (
-      <p>Qi: {roundTo2Decimal(character.getQi())} {qiCapPercent}</p>
+      <p>Qi: {character.getQi()} {qiCapPercent}</p>
     );
   }
   
@@ -86,7 +83,7 @@ export default function CharacterPanel() {
     : '';
 
   const bodyCapPercent = CharacterController.isHaveItem(ItemIdEnum.CULTIVATION_FOUNDATION_KNOWLEDGE) ? '('
-  + roundTo2Decimal(character.getBodyCapPercent() * 100)
+  + Utilities.roundTo2Decimal(character.getBodyCapPercent() * 100)
   + '%)'
   : '';
 
@@ -99,7 +96,7 @@ export default function CharacterPanel() {
       <div className="col-6">
         <p>{character.realm!.title}</p>
         {qiLabel}
-        <p>Body: {roundTo2Decimal(character.getBody())} {bodyCapPercent}</p>
+        <p>Body: {character.getBody()} {bodyCapPercent}</p>
         {deathCount}
       </div>
       <div className="col-6">
