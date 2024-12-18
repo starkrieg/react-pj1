@@ -1,5 +1,8 @@
 import { ExplorableZone } from "../data/exploration/ExplorableZone";
 import IconSwordEmblem from '../assets/icons/swords-emblem.svg';
+import { Activity } from "../data/activities/Activity";
+import { Utilities } from "../data/utils/Utilities";
+import { ActivityRank } from "../data/activities/ActivityRank";
 
 export default function Button(label: string, 
     onClick: () => void,
@@ -37,40 +40,44 @@ export function ButtonNavigation(label: string,
     );
 }
 
-export function ButtonActivity(id: string, 
-    title: string, 
-    desc: string,
-    rankDesc: string,
-    gainDesc: string,
-    totalExpRank: number,
-    currExpRank: number, 
+export function ButtonActivity(act: Activity,
+    actRank: ActivityRank,
     onClick: () => void,
     isSelected: boolean = false ) {
+
+    const rankDesc = 'Rank ' 
+        + actRank.rank;
+
+    const gainDesc = Utilities.roundTo2Decimal(act.getTickGain()) 
+        + ' per day';
+        
 
     function getSelectedStatus() {
         return isSelected ? ' activity-selected' : '';
     }
 
     return (
-        <button id={ id } key={ id }
+        <button id={ act.id.toString() } key={ act.id.toString() }
             className={ 'activity-button item-style' + getSelectedStatus() }
             onClick={ onClick }
             >
             <div className="activity-overview">
-                <label className="activity-desc">{ title }</label>
+                <label className="activity-desc">{ act.title }</label>
                 <div className="activity-rank">
                     <span>{ rankDesc } </span>
                 </div>
             </div>
             <div className="activity-overview">
                 <div className="activity-desc">        
-                    <span>{ desc }</span>
+                    <span>{ act.desc }</span>
                 </div>
                 <div className="activity-rank">
                     <span>{ gainDesc } </span>
                 </div>
             </div>
-            <progress style={{ width: '100%' }} max={ totalExpRank } value={ currExpRank }/>
+            <progress style={{ width: '100%' }} 
+                max={ actRank.totalExpToNextRank } 
+                value={ actRank.exp }/>
         </button>
     );
 }

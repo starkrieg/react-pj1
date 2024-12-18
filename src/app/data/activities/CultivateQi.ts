@@ -2,6 +2,7 @@ import { CharacterController } from "../character/CharacterController";
 import { ActivitiesController } from "./ActivitiesController";
 import { ActivityEnum } from "./ActivityEnum";
 import { Activity } from "./Activity";
+import { ItemIdEnum } from "../items/ItemIdEnum";
 
 export class CultivateQi implements Activity {
     
@@ -11,10 +12,16 @@ export class CultivateQi implements Activity {
     
     action: CallableFunction;
 
+    unlockRequirements: ItemIdEnum[];
+
     constructor() {
         this.id = ActivityEnum.CULTIVATE_QI;
         this.title = 'Cultivate Qi';
         this.desc = 'Cultivate your Qi';
+
+        this.unlockRequirements = [
+            ItemIdEnum.BOOK_QI_CULTIVATION
+        ];
 
         this.action = () => {
             //use rank to affect the value

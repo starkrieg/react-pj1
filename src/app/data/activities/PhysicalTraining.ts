@@ -2,6 +2,7 @@ import { CharacterController } from "../character/CharacterController";
 import { ActivitiesController } from "./ActivitiesController";
 import { ActivityEnum } from "./ActivityEnum";
 import { Activity } from "./Activity";
+import { ItemIdEnum } from "../items/ItemIdEnum";
 
 export class PhysicalTraining implements Activity {
     
@@ -11,10 +12,16 @@ export class PhysicalTraining implements Activity {
     
     action: CallableFunction;
 
+    unlockRequirements: ItemIdEnum[];
+
     constructor() {
         this.id = ActivityEnum.PHYSICAL_TRAINING;
         this.title = 'Physical training';
         this.desc = 'Train your body to be stronger.';
+
+        this.unlockRequirements = [
+            ItemIdEnum.BOOK_PHYSICAL_TRAINING
+        ];
 
         this.action = () => {
             //use rank to affect the value

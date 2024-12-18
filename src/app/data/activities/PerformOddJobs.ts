@@ -3,7 +3,7 @@ import { ActivitiesController } from "./ActivitiesController";
 import { ActivityEnum } from "./ActivityEnum";
 import { Activity } from "./Activity";
 
-export class OddJobs implements Activity {
+export class PerformOddJobs implements Activity {
     
     id: ActivityEnum;
     title: string;
@@ -11,9 +11,11 @@ export class OddJobs implements Activity {
     
     action: CallableFunction;
 
+    unlockRequirements: [] = [];
+
     constructor() {
-        this.id = ActivityEnum.ODD_JOBS;
-        this.title = 'Odd jobs';
+        this.id = ActivityEnum.PERFORM_ODD_JOBS;
+        this.title = 'Perform Odd jobs';
         this.desc = 'Perform odd jobs to receive some coins.';
         
         this.action = () => {

@@ -5,7 +5,7 @@ import { ExploreZoneIdEnum } from "../data/exploration/ExploreZoneIdEnum";
 import GameController from "../data/GameController";
 import { MainContentEnum } from "../data/MainContentEnum";
 import { MessageController } from "../data/messages/MessageController";
-import Button, { ButtonNavigation } from "./Button";
+import { ButtonNavigation } from "./Button";
 
 import { MainContentPanel } from "./MainContentPanel";
 import { ModalPanel } from "./ModalPanel";

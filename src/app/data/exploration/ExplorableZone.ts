@@ -24,11 +24,23 @@ export class ExplorableZone {
     //current progress on the zone
     currProgress: number;
 
+    //current step power;
+    currentStepPower: number;
+
     //first time clear reward for this zone
     listClearRewardItemId: ItemIdEnum[];
 
+    // zones have big sizes, and must be completed on a single run
+    // so every step shouldn't increase difficulty too much
+    // every step on the zone increases power req by 5% based on the minimum requirement
+    private readonly POWER_INCREASE_PER_STEP = 0.05
+
+    unlockRequirements: (ItemIdEnum | ExploreZoneIdEnum)[]
+
     constructor(id: ExploreZoneIdEnum, title: string, desc: string,
-        combatSize: number, minPowerReq: number, listClearRewardItemId: ItemIdEnum[]) {
+        combatSize: number, minPowerReq: number, 
+        unlockRequirements: (ItemIdEnum | ExploreZoneIdEnum)[],
+        listClearRewardItemId: ItemIdEnum[]) {
         this.id = id;
         this.title = title;
         this.desc = desc;
@@ -36,7 +48,9 @@ export class ExplorableZone {
         this.zoneSize = combatSize;
         this.currProgress = 1;
         this.minPowerReq = minPowerReq;
+        this.currentStepPower = minPowerReq;
         this.isComplete = false;
+        this.unlockRequirements = unlockRequirements;
         this.listClearRewardItemId = listClearRewardItemId;
     }
 
@@ -52,11 +66,13 @@ export class ExplorableZone {
         this.currProgress += 1;
         if (this.currProgress >= this.zoneSize) {
             this.currProgress = 1;
+            this.updateCurrentStepPower();
             if (!this.isComplete) {
                 this.isComplete = true;
                 return true;
             }
         }
+        this.updateCurrentStepPower();
         return false;
     }
 
@@ -65,14 +81,18 @@ export class ExplorableZone {
      */
     clearProgress() {
         this.currProgress = 1;
+        this.updateCurrentStepPower();
+    }
+
+    private updateCurrentStepPower() {
+        this.currentStepPower = this.minPowerReq * (1 + ((this.currProgress-1) * this.POWER_INCREASE_PER_STEP));
     }
 
     /**
      * Obtains power requirement for current step on zone
      */
     getCurrentStepPowerReq() {
-        // every step on the zone increases power req by 10% based on the minimum requirement
-        return this.minPowerReq * (1 + ((this.currProgress-1) * 0.1));
+        return this.currentStepPower;
     }
 
     getBaseExpReward() {

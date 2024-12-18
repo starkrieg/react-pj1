@@ -37,7 +37,7 @@ export class QiCondensationGeneric extends Realm {
         if (this.stage < 6) {
             const qiCapBonus = ([3,4,5].includes(this.stage)) ? 200 : 100;
             breakthroughMultipliers.push(this.createRealmMultiplier('qi-capacity', 'sum', qiCapBonus));
-            // TODO - make character attributes and multiplies into abstract classes, so any attribute or multiplies can be modified by realms
+            // TODO - make character attributes and multipliers into abstract classes, so any attribute or multiplier can be modified by realms
         }
 
         if (this.stage == 6) {

@@ -6,6 +6,7 @@ import IconCrossedSwords from '../../assets/icons/crossed-swords.svg';
 import IconSwordEmblem from '../../assets/icons/swords-emblem.svg';
 import FightAttributes from "@/app/data/exploration/FightAttributes";
 import { Utilities } from "@/app/data/utils/Utilities";
+import { HealthBar } from "../ColoredBar";
 
 export default function ExplorableZoneProgressPanel() {
 
@@ -13,17 +14,17 @@ export default function ExplorableZoneProgressPanel() {
     const zone = ExplorationController.getSelectedZone();
 
     //if no character fight stats, then setup it up
-    if (!ExplorationController.getZoneCharacterStats()) {
-        ExplorationController.createFightStats();
+    if (!ExplorationController.getFightScene()) {
+        ExplorationController.createFightScene();
     }
 
-    const zoneCharacterStats = ExplorationController.getZoneCharacterStats();
-    const zoneEnemyStats = ExplorationController.getZoneCurrentEnemyStats();
+    const zoneCharacterStats = ExplorationController.getFightScene()?.character;
+    const zoneEnemyStats = ExplorationController.getFightScene()?.enemy;
 
     function CharHealthStats(type: string, stats: FightAttributes | undefined) {
         let person = 'Someone';
         let classes = ''
-        let elements = [];
+        const elements = [];
 
         if (type == 'P') { //Player
             person = 'You';
@@ -43,7 +44,7 @@ export default function ExplorableZoneProgressPanel() {
         }
 
         const healthBarMax = Utilities.roundTo0Decimal(stats?.power || 0);
-        const healthBarValue = stats?.health;
+        const healthBarValue = Utilities.roundTo2Decimal(stats?.health || 0);
 
         return (
             <div style={{ textAlign: 'center' }}>
@@ -53,17 +54,7 @@ export default function ExplorableZoneProgressPanel() {
                         { elements }
                     </span>
                 </div>
-                <div>
-                    <progress className="health-bar" style={{ width: '100%' }} 
-                    value={ healthBarValue } max={ healthBarMax } />
-                    <label style={{
-                        position: 'relative',
-                        textAlign: 'center',
-                        top: -18
-                    }}>
-                        { healthBarValue }
-                    </label>
-                </div>
+                { HealthBar(healthBarValue, healthBarMax) }
             </div>
         );
     }

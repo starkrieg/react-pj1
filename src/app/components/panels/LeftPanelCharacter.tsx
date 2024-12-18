@@ -1,8 +1,5 @@
 'use client'
 
-import { ExploreZoneIdEnum } from "@/app/data/exploration/ExploreZoneIdEnum";
-import { ActivitiesController } from "@/app/data/activities/ActivitiesController";
-import { ExplorationController } from "@/app/data/exploration/ExplorationController";
 import { ItemIdEnum } from "@/app/data/items/ItemIdEnum";
 import { CharacterController } from "@/app/data/character/CharacterController";
 import { Utilities } from "@/app/data/utils/Utilities";
@@ -44,9 +41,9 @@ export default function LeftPanelCharacter() {
         );
     }
 
-    const isShowQiLabel = CharacterController.isHaveItem(ItemIdEnum.QI_CULTIVATION_KNOWLEDGE);
+    const isShowQiLabel = CharacterController.isHaveItem(ItemIdEnum.BOOK_QI_CULTIVATION);
 
-    const bodyCapPercent = CharacterController.isHaveItem(ItemIdEnum.CULTIVATION_FOUNDATION_KNOWLEDGE) ? '('
+    const bodyCapPercent = CharacterController.isHaveItem(ItemIdEnum.BOOK_BODY_REFINING) ? '('
         + Utilities.roundTo2Decimal(character.getBodyCapPercent() * 100)
         + '%)'
         : '';

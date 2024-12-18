@@ -7,7 +7,7 @@ export default function ExplorableZonesPanel() {
 
     const explorableZoneList = ExplorationController.getListExplorableZones();
     
-    const preparedList = explorableZoneList.map(zone => {
+    const preparedList = Array.from(explorableZoneList).map(zone => {
         
         return ButtonExplorableZone(zone,
             ExplorationController.doClickZone.bind(ExplorationController, zone.id)

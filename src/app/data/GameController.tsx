@@ -15,9 +15,9 @@ import { ActivityEnum } from "./activities/ActivityEnum";
 import { ModalController } from "./modal/ModalController";
 import { ActivitiesController } from "./activities/ActivitiesController";
 import ItemCreator from "./items/ItemCreator";
-import ZoneCreator from "./exploration/ZoneCreator";
-import ActivityCreator from "./activities/ActivityCreator";
-import { ItemUnlockController } from "./items/ItemUnlockController";
+import ZonePool from "./exploration/ZonePool";
+import ActivityPool from "./activities/ActivityPool";
+import { ContentUnlockController } from "./ContentUnlockController";
 
 export default class GameController {
 
@@ -56,13 +56,16 @@ export default class GameController {
         CharacterController.startFirstCharacter();
 
         //items come first
-        ItemCreator.createItems();
+        ItemCreator.createItemPool();
 
         //zones depend on items for rewards
-        ZoneCreator.createZones();
+        ZonePool.createZonePool();
         
         //activities 
-        ActivityCreator.createActivities();
+        ActivityPool.createActivityPool();
+
+        //unlock content from present items
+        ContentUnlockController.unlockContent();
         
         this.modalType = ModalTypeEnum.GAME_START;
     }
@@ -145,15 +148,17 @@ export default class GameController {
                         // check if doing anything
                         if (ExplorationController.selectedZoneId != ExploreZoneIdEnum.NOTHING) {
                             //if exploring, then cant work on selected activity
-                            //only do explore here
+                            //exploring means days do not pass
                             ExplorationController.doExploreSelectedZone()
-                        } else if(ActivitiesController.selectedActivity != ActivityEnum.NOTHING) {
-                            //only do activity if not exploring
-                            //and only if selected one activity
-                            ActivitiesController.doActivityTick();
+                        } else {                        
+                            if(ActivitiesController.selectedActivity != ActivityEnum.NOTHING) {
+                                //only do activity if not exploring
+                                //and only if selected one activity
+                                ActivitiesController.doActivityTick();
+                            }
+                            //day will pass anyway
+                            this.addDayCalendar();
                         }
-                        //day will pass anyway
-                        this.addDayCalendar();
                     }
                 }
                 // TODO - ui must be updated based on react hooks, not forced by dom changes
@@ -192,14 +197,9 @@ export default class GameController {
         //recreate areas
         ExplorationController.hardReset();
         ActivitiesController.softReset();
-        //create zones again since they were removed
-        ZoneCreator.createZones();    
-        //create activities again since they were removed
-        ActivityCreator.createActivities();
 
-        CharacterController.getItemList().forEach(itemId => {
-            ItemUnlockController.unlockThingsFromItem(itemId)
-        });
+        //unlock content from what is kept on character revival
+        ContentUnlockController.unlockContent();
         
         this.doCloseModal();
     }

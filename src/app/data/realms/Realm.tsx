@@ -54,7 +54,7 @@ export class Realm {
             alert("You don\'t know how to move forward!")
             return;
         }
-        // TODO - make character attributes and multiplies into abstract classes, so any attribute or multiplies can be modified by realms
+        // TODO - make character attributes and multipliers into abstract classes, so any attribute or multiplier can be modified by realms
         for (let index = 0; index < this.breakMultipliers.length; index++) {
             const multi = this.breakMultipliers[index];
             switch (multi.id) {

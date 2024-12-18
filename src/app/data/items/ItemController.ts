@@ -27,12 +27,28 @@ export class ItemController {
      * @param type item type, based on ItemTypeEnum
      */
     static createItem(id: ItemIdEnum, type: ItemTypeEnum, name: string) {
-        if (!id || !type || !name) {
+        if (!type || !name) {
             ErrorController.throwSomethingWrongError();
             return
         }
 
         const item = new Item(id, type, name);
+        this.itemMap.set(id, item);
+    }
+
+    /**
+     * Create an item and add it to the list
+     * This item will be permanent - it will stay across deaths
+     * @param id item id
+     * @param type item type, based on ItemTypeEnum
+     */
+    static createPermanentItem(id: ItemIdEnum, name: string) {
+        if (!name) {
+            ErrorController.throwSomethingWrongError();
+            return
+        }
+
+        const item = new Item(id, ItemTypeEnum.PERMANENT, name);
         this.itemMap.set(id, item);
     }
     

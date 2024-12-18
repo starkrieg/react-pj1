@@ -1,3 +1,4 @@
+import { ExploreZoneIdEnum } from "../exploration/ExploreZoneIdEnum";
 import { ItemController } from "../items/ItemController";
 import { ItemIdEnum } from "../items/ItemIdEnum";
 import { ItemTypeEnum } from "../items/ItemTypeEnum";
@@ -20,6 +21,7 @@ export class CharacterController {
 
     //TODO - make a better way to retrieve necessary character data for the UI
     //TODO - make an easier way to get any character attribute
+    
     /**
      * Returns inner character object
      * But its purely readonly
@@ -58,7 +60,7 @@ export class CharacterController {
      * Will throw error if the character did not have the item.
      * @param itemId 
      */
-    static removeItem(itemId: ItemIdEnum) {
+    static removeItem(itemId: ItemIdEnum | ExploreZoneIdEnum) {
         //remove the item, and check if worked
         //if item did not exist, might be an issue
         if (!this.character.itemList.delete(itemId)) {
@@ -71,7 +73,7 @@ export class CharacterController {
      * @param itemId item id
      * @returns 
      */
-    static isHaveItem(itemId: ItemIdEnum) {
+    static isHaveItem(itemId: ItemIdEnum | ExploreZoneIdEnum) {
         return this.character.itemList.has(itemId);
     }
     
@@ -80,7 +82,7 @@ export class CharacterController {
      * Character only holds the item id, not the whole item definition
      * @param itemId item id
      */
-    static giveItem(itemId: ItemIdEnum | undefined) {
+    static giveItem(itemId: ItemIdEnum | ExploreZoneIdEnum | undefined) {
         if (itemId) {
             this.character.itemList.add(itemId);
         } else {
@@ -115,13 +117,27 @@ export class CharacterController {
         //reset to starting values
         this.character.resetDefaultValues();
         //remove non-permanent character items
+        this.removeZoneItems();
         this.removeNonPermanentItems();
         //apply permanent upgrades
     }
 
+    private static isItemZone(value: ItemIdEnum | ExploreZoneIdEnum) {
+            return Object.values(ExploreZoneIdEnum).includes(value as ExploreZoneIdEnum)
+    }
+
+    private static removeZoneItems() {
+        const itemList = Array.from(this.character.itemList);
+        itemList.filter(item => this.isItemZone(item))
+        .forEach(item => {
+            this.removeItem(item);
+        });
+    }
+
     private static removeNonPermanentItems() {
         const itemList = Array.from(this.character.itemList);
-        itemList.map(itemId => ItemController.getItemById(itemId))
+        itemList.filter(item => !this.isItemZone(item))
+        .map(itemId => ItemController.getItemById(itemId as ItemIdEnum))
         .filter(item => item != undefined)
         .filter(item => item.type != ItemTypeEnum.PERMANENT)        
         .forEach(item => {

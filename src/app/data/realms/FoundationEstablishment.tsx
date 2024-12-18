@@ -54,7 +54,7 @@ export class FoundationEstablishment extends Realm {
                 const earlyQiCapBonus = 1500
                 breakthroughMultipliers.push(this.createRealmMultiplier('qi-capacity', 'sum', earlyQiCapBonus));
                 breakthroughMultipliers.push(this.createRealmMultiplier('body-capacity', 'sum', 100));
-                // TODO - make character attributes and multiplies into abstract classes, so any attribute or multiplies can be modified by realms
+                // TODO - make character attributes and multipliers into abstract classes, so any attribute or multiplier can be modified by realms
                 break;
             case 'middle':
                 const middleQiCapBonus = 1500

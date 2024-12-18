@@ -33,7 +33,7 @@ export default function CharacterPanel() {
    * @returns 
    */
   function createListRequirementsBreakthrough(character: Readonly<Character>) {
-    if (!CharacterController.isHaveItem(ItemIdEnum.QI_CULTIVATION_KNOWLEDGE) 
+    if (!CharacterController.isHaveItem(ItemIdEnum.BOOK_QI_CULTIVATION) 
       || CharacterController.nextRealmId == RealmEnum.UNKNOWN) {
       return;
     }
@@ -51,7 +51,7 @@ export default function CharacterPanel() {
   }
 
   function createRealmBreakButton() {
-    if (!CharacterController.isHaveItem(ItemIdEnum.QI_CULTIVATION_KNOWLEDGE) 
+    if (!CharacterController.isHaveItem(ItemIdEnum.BOOK_QI_CULTIVATION) 
       || CharacterController.nextRealmId == RealmEnum.UNKNOWN) {
       return;
     }
@@ -78,11 +78,11 @@ export default function CharacterPanel() {
     );
   }
   
-  const qiLabel = CharacterController.isHaveItem(ItemIdEnum.QI_CULTIVATION_KNOWLEDGE) ?
+  const qiLabel = CharacterController.isHaveItem(ItemIdEnum.BOOK_QI_CULTIVATION) ?
     createQiLabel(character)
     : '';
 
-  const bodyCapPercent = CharacterController.isHaveItem(ItemIdEnum.CULTIVATION_FOUNDATION_KNOWLEDGE) ? '('
+  const bodyCapPercent = CharacterController.isHaveItem(ItemIdEnum.BOOK_BODY_REFINING) ? '('
   + Utilities.roundTo2Decimal(character.getBodyCapPercent() * 100)
   + '%)'
   : '';

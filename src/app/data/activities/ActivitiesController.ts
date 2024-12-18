@@ -9,8 +9,8 @@ export class ActivitiesController {
     private static BASE_DAYS_RANK_UP = 30;
 
     static selectedActivity: ActivityEnum = ActivityEnum.NOTHING;
-    
-    private static activitiesList: any[] = [];
+
+    private static activityMap: Map<ActivityEnum, Activity> = new Map<ActivityEnum, Activity>();
 
     private static activityRankMap: Map<ActivityEnum, ActivityRank> = new Map<ActivityEnum, ActivityRank>();
     
@@ -20,7 +20,7 @@ export class ActivitiesController {
      */
     static hardReset() {
         this.selectedActivity = ActivityEnum.NOTHING;
-        this.activitiesList = [];
+        this.activityMap.clear();
         this.activityRankMap.clear();
     }
 
@@ -30,16 +30,16 @@ export class ActivitiesController {
      */
     static softReset() {
         this.selectedActivity = ActivityEnum.NOTHING;
-        this.activitiesList = [];
+        this.activityMap.clear();
     }
     
     static getSelectedActivityTitle() {
-        const title = this.activitiesList.find((act) => act.id == this.selectedActivity)?.title
+        const title = this.activityMap.get(this.selectedActivity)?.title
         return title || 'Nothing';
     }
     
     static doActivityTick() {
-        this.activitiesList.find((act) => act.id == this.selectedActivity)?.action();
+        this.activityMap.get(this.selectedActivity)?.action();
     }
     
     static doSelectActivity(actId: ActivityEnum) {
@@ -47,14 +47,16 @@ export class ActivitiesController {
     }
 
     /**
-     * Create an activity and add it to the list
+     * Add activty to the list
      * @param activity activity object
      */
-    static createActivity(activity: Activity) {
+    static addActivity(activity: Activity) {
         if (!activity) {
             ErrorController.throwSomethingWrongError();
         }
-        this.activitiesList.push(activity);
+        if (!this.activityMap.get(activity.id)) {
+            this.activityMap.set(activity.id, activity);
+        }
         
         //only add to map if not there yet
         //so that map is not reset when creating activities after death
@@ -64,7 +66,7 @@ export class ActivitiesController {
     }
 
     static getActivitiesList() {
-        return this.activitiesList;
+        return this.activityMap.values();
     }
 
     static getActivityRankObj(id: ActivityEnum) : Readonly<ActivityRank> {

@@ -1,6 +1,14 @@
 export enum ExploreZoneIdEnum {
-    NOTHING
-    ,VILLAGE_DOJO // basic village dojo
-    ,FOREST_OUTSIDE_VILLAGE_1 // first area of forest, enough for simple travel
-    ,VILLAGE_HAUNTED_HOUSE // a haunted house inside the starting village
+    NOTHING // 
+    ,VILLAGE_BACKALLEY // backalley on the village
+    ,VILLAGE_SOLDIERS_BOOTCAMP // village soldiers training camp
+    ,VILLAGE_FIELDS // village farm fields
+    ,VILLAGE_FOREST_I // forest outside village
+    ,VILLAGE_FOREST_II // deep forest outside village
+    ,VILLAGE_FOREST_CAVE // hidden cave on village forest
+    ,SMALL_SECT_ENTRANCE // entrance trial to small sect
+    ,SMALL_SECT_OUTER // missions as an outer sect disciple
+    ,SMALL_SECT_INNER // competition as an inner sect disciple
+    ,SMALL_SECT_CORE // teachings and fights as a core disciple
+    ,MYRIAD_BEASTS_VALLEY // valley of myriad beasts - limits of inner region
 }

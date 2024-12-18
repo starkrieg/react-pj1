@@ -1,29 +1,21 @@
 
 import { ExplorableZone } from "./ExplorableZone";
 import { ExploreZoneIdEnum } from "./ExploreZoneIdEnum";
-import { ItemIdEnum } from "../items/ItemIdEnum";
 import { ItemController } from "../items/ItemController";
 import { MessageController } from "../messages/MessageController";
 import { CharacterController } from "../character/CharacterController";
 import { ErrorController } from "../utils/ErrorController";
-import { ItemUnlockController } from "../items/ItemUnlockController";
+import { ContentUnlockController } from "../ContentUnlockController";
 import FightAttributes from "./FightAttributes";
 import { Utilities } from "../utils/Utilities";
+import FightScene from "./FightScene";
 
 export class ExplorationController {
 
     static selectedZoneId: ExploreZoneIdEnum = ExploreZoneIdEnum.NOTHING;
-    private static explorableZoneList: ExplorableZone[] = [];
+    private static explorableZoneList: Map<ExploreZoneIdEnum, ExplorableZone> = new Map<ExploreZoneIdEnum, ExplorableZone>();
 
-    private static characterFightStats: FightAttributes | undefined;
-    private static enemyFightStats: FightAttributes | undefined;
-
-    /**
-     * a simple number to control turns
-     * 0 == character
-     * 1 == enemy
-     */
-    private static fightTurn: number = 0;
+    private static fightScene: FightScene | undefined;
 
     /**
      * Resets all data
@@ -31,44 +23,24 @@ export class ExplorationController {
      */
     static hardReset() {
         this.selectedZoneId = ExploreZoneIdEnum.NOTHING;
-        this.explorableZoneList = []
+        this.explorableZoneList.clear();
     }
     
     static getSelectedExplorableZoneTitle() {
-        const title = this.explorableZoneList.find((zone) => zone.id == this.selectedZoneId)?.title
+        const title = this.explorableZoneList.get(this.selectedZoneId)?.title
         return title || 'Nothing';
     }
 
     static getListExplorableZones() {
-        return this.explorableZoneList;
+        return this.explorableZoneList.values();
     }
     
-    static createExplorableZone(zoneEnum: ExploreZoneIdEnum,
-        title: string, description: string, 
-        zoneSize: number, minimumPowerRequired: number,
-        listClearRewardItemId: ItemIdEnum[]
-    ) {
-
-        // error when:
-        // zone, title, description or item reward is undefined/empty
-        // zone size is equal or below 0
-        // minimum power required is below 0
-        if (!zoneEnum || !title || !description || zoneSize <= 0 || minimumPowerRequired < 0 || !listClearRewardItemId) {
+    static addExplorableZone(zone: ExplorableZone) {
+        if (!zone) {
             ErrorController.throwSomethingWrongError();
             return;
         }
-
-        const zone = new ExplorableZone(
-            zoneEnum,
-            title,
-            description,
-            zoneSize,
-            minimumPowerRequired,
-            listClearRewardItemId
-        );
-
-        this.explorableZoneList.push(zone);
-
+        this.explorableZoneList.set(zone.id, zone);
     }
     
     static doClickZone(zoneId: ExploreZoneIdEnum) {
@@ -94,13 +66,11 @@ export class ExplorationController {
     }
 
     private static cleanFightZone() {
-        this.characterFightStats = undefined;
-        this.enemyFightStats = undefined;
-        this.fightTurn = 0;
+        this.fightScene = undefined;
     }
 
     static getSelectedZone() {
-        const zone = this.explorableZoneList.find((zone) => zone.id == this.selectedZoneId);
+        const zone = this.explorableZoneList.get(this.selectedZoneId);
         if (zone) {
             return zone;
         } else {
@@ -108,61 +78,49 @@ export class ExplorationController {
         }
     }
 
-    static createFightStats() {
+    static createFightScene() {
         const characterPower = CharacterController.getCharacterPower();
         const zoneStepPowerReq = this.getSelectedZone()?.getCurrentStepPowerReq() || 0;
 
-        this.characterFightStats = new FightAttributes(characterPower, characterPower);
-        this.enemyFightStats = new FightAttributes(zoneStepPowerReq, zoneStepPowerReq);
+        this.fightScene = new FightScene(
+            new FightAttributes(characterPower, characterPower),
+            new FightAttributes(zoneStepPowerReq, zoneStepPowerReq)
+        )
+    }
+
+    static progressFightScene() {
+        if (this.fightScene) {
+            const zoneStepPowerReq = this.getSelectedZone()?.getCurrentStepPowerReq() || 0;
+            this.fightScene.newFight(
+                new FightAttributes(zoneStepPowerReq, zoneStepPowerReq)
+            );
+        }
     }
 
     /**
      * Progresses zone and gives appropriate reward.
      */
     static doExploreSelectedZone() {
-        if (!this.characterFightStats || !this.enemyFightStats) {
-            const characterPower = CharacterController.getCharacterPower();
-            const zoneStepPowerReq = this.getSelectedZone()?.getCurrentStepPowerReq() || 0;
-    
-            this.characterFightStats = new FightAttributes(characterPower, characterPower);
-            this.enemyFightStats = new FightAttributes(zoneStepPowerReq, zoneStepPowerReq);
+        if (!this.fightScene) {
+            this.createFightScene();
         }
 
-        // character turn
-        if (this.fightTurn == 0) {
-            this.doAttack(this.characterFightStats, this.enemyFightStats, true);
-        } else if (this.fightTurn == 1) {
-            this.doAttack(this.characterFightStats, this.enemyFightStats, false);
-        } else {
-            //something went wrong
-            ErrorController.throwSomethingWrongError();
-            //retreat from fight
-            this.doClickRetreatFromZone();
-            return;
-        }
-        // change turn
-        this.fightTurn = (this.fightTurn + 1) % 2;
+        this.fightScene?.performFightTurn();
 
-        if (this.characterFightStats.health <= 0) {
+        if (!this.fightScene?.isCharacterAlive()) {
             //character died
             //not strong enough, get kicked out from zone
             MessageController.pushMessageSimple(`You were defeated at [${this.getSelectedZone()?.title}] and barely escaped with your life!`)
             this.doClickRetreatFromZone();
-        } else if (this.enemyFightStats.health <= 0) {
+        } else if (!this.fightScene?.isEnemyAlive()) {
             //enemy died
             const isFirstClear = this.getSelectedZone()?.progressZone();
 
             CharacterController.incrementFightCount();
 
-            //fight experience calc is a base value from zone, and then a comparison with current power
-            //being too strong means less experience
+            const rewardExp = Utilities.roundTo2Decimal(this.fightScene.getFightExpReward());
 
-            // 1/10th of the minimum area power times how strong you are compared to the zone
-            const charPowerComparison = (this.characterFightStats.power 
-                / (this.getSelectedZone()?.minPowerReq || this.characterFightStats.power));
-            const rewardExp = (this.getSelectedZone()?.getBaseExpReward() || 1) 
-                * charPowerComparison
-            CharacterController.incrementFightExperience(Utilities.roundTo2Decimal(rewardExp));
+            CharacterController.incrementFightExperience(rewardExp);
             MessageController.pushMessageSimple(`You defeated the enemy! Got ${rewardExp} experience!`)
 
             //give reward after the progress is made
@@ -178,12 +136,10 @@ export class ExplorationController {
                 const listRewardItemId = this.getSelectedZone()?.listClearRewardItemId;
                 
                 if (listRewardItemId && listRewardItemId.length > 0) {
+                    CharacterController.giveItem(this.selectedZoneId)
                     listRewardItemId.forEach(itemId => {
                         //give the character the item
                         CharacterController.giveItem(itemId);
-
-                        //update game data based on the reward
-                        ItemUnlockController.unlockThingsFromItem(itemId)
                         
                         const rewardItem = ItemController.getItemById(itemId);
                         //item can exist as ID, but not as giveable item
@@ -192,55 +148,23 @@ export class ExplorationController {
                             //publish message on clear reward
                             MessageController.pushMessageSimple(`Found something! Got [${rewardItem?.name}]`);
                         }
-                    });    
+                    });
+                    //update game data based on the reward
+                    ContentUnlockController.unlockContent();
                 }
                 
                 //kick from zone when first clear
                 this.doClickRetreatFromZone();
             } else {
                 //Enemy defeated, but zone not cleared
-                this.fightTurn = 0;
-                const zoneStepPowerReq = this.getSelectedZone()?.getCurrentStepPowerReq() || 0;
-                this.enemyFightStats = new FightAttributes(zoneStepPowerReq, zoneStepPowerReq);
+                this.progressFightScene();
             }
         }
-        
-        // if neither died, then fight continue
-
+        // if both character and enemy are alive, then fight continues
     }
 
-    /**
-     * Attacker's power directly reduces Target's health
-     * @param attacker the one that attackes
-     * @param target the one that loses health
-     */
-    private static doAttack(player: FightAttributes, enemy: FightAttributes, isCharacterTurn: boolean) {
-        /* Damage is between 75% to 100% power */
-        /* That is so fights last a little longer and have some luck involved */
-
-        const attacker = isCharacterTurn ? player : enemy
-        const target = isCharacterTurn ? enemy : player
-
-        const damageMod = (Math.random() * 0.35) + 0.5;
-
-        //damage rounded to no decimals
-        const finalDamage = Utilities.roundTo0Decimal(attacker.power * damageMod);
-
-        target.health -= finalDamage;
-
-        if (isCharacterTurn) {
-            MessageController.pushMessageFight(`Attacked enemy for ${finalDamage} damage!`);
-        } else {
-            MessageController.pushMessageFight(`Enemy attacked you for ${finalDamage} damage!`);
-        }
-    }
-
-    static getZoneCharacterStats() : Readonly<FightAttributes> | undefined {
-        return this.characterFightStats;
-    }
-
-    static getZoneCurrentEnemyStats() : Readonly<FightAttributes> | undefined {
-        return this.enemyFightStats;
-    }
+    static getFightScene() : Readonly<FightScene | undefined> {
+        return this.fightScene;
+    }    
 
 }

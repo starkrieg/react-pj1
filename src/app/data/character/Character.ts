@@ -1,4 +1,5 @@
 
+import { ExploreZoneIdEnum } from "../exploration/ExploreZoneIdEnum";
 import { ItemIdEnum } from "../items/ItemIdEnum";
 import { Realm } from "../realms/Realm";
 import { RealmController } from "../realms/RealmController";
@@ -23,17 +24,11 @@ export class Character {
     //its also so realm ups can be done easier
     attributes: CharacterAttributes;
 
-    // TODO - implement exp gain after winning fight
-    // TODO - implement fighting level up when enough exp
-    // TODO - implement UI visualization of fighting level and experience bar and amount
-    // TODO - make the UI show fighting level only after winning first fight
-    // TODO - make UI shown complete fighting level and exp after reaching level 2
-
     // encapsulates fighting experience
     fightingExperience: FightingExperience;
 
     //list of items the character has
-    itemList: Set<ItemIdEnum>;
+    itemList: Set<ItemIdEnum | ExploreZoneIdEnum>;
 
     private baseBodyGain = 0.1;
     private baseQiGain = 0.1;
@@ -50,7 +45,7 @@ export class Character {
         this.maxAge = 30;
         this.money = 0;
         this.attributes = new CharacterAttributes();
-        this.itemList = new Set<ItemIdEnum>();
+        this.itemList = new Set<ItemIdEnum | ExploreZoneIdEnum>();
         this.fightingExperience = new FightingExperience;
         this.resetDefaultValues();
     }
