@@ -1,14 +1,14 @@
-import GameController from "../data/GameController";
-import { MainContentEnum } from "../data/MainContentEnum";
-import { ExplorationController } from "../data/exploration/ExplorationController";
-import { ExploreZoneIdEnum } from "../data/exploration/ExploreZoneIdEnum";
-import { MessageController } from "../data/messages/MessageController";
-import ActivitiesPanel from "./panels/ActivitiesPanel";
-import CharacterPanel from "./panels/CharacterPanel";
-import ExplorableZoneProgressPanel from "./panels/ExplorableZoneProgressPanel";
-import ExplorableZonesPanel from "./panels/ExplorableZonesPanel";
-import MessagesPanel from "./panels/MessagesPanel";
-import SettingsPanel from "./panels/SettingsPanel";
+import GameController from "../../data/GameController";
+import { MainContentEnum } from "../../data/MainContentEnum";
+import { ExplorationController } from "../../data/exploration/ExplorationController";
+import { ExploreZoneIdEnum } from "../../data/exploration/ExploreZoneIdEnum";
+import { MessageController } from "../../data/messages/MessageController";
+import ActivitiesPanel from "./ActivitiesPanel";
+import CharacterPanel from "./CharacterPanel";
+import ExplorableZoneProgressPanel from "./ExplorableZoneProgressPanel";
+import ExplorableZonesPanel from "./ExplorableZonesPanel";
+import MessagesPanel from "./MessagesPanel";
+import SettingsPanel from "./SettingsPanel";
 
 export function MainContentPanel(gameController: GameController, contentId = MainContentEnum.CHARACTER) {
     switch(contentId) {

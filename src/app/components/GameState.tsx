@@ -7,7 +7,7 @@ import { MainContentEnum } from "../data/MainContentEnum";
 import { MessageController } from "../data/messages/MessageController";
 import { ButtonNavigation } from "./Button";
 
-import { MainContentPanel } from "./MainContentPanel";
+import { MainContentPanel } from "./panels/MainContentPanel";
 import { ModalPanel } from "./ModalPanel";
 import CalendarPanel from "./panels/CalendarPanel";
 import LeftPanelCharacter from "./panels/LeftPanelCharacter";

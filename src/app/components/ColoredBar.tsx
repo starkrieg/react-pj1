@@ -1,16 +1,22 @@
 
 export function HealthBar(value: number, maxValue: number) {
     return (
-        <div>
-            <progress className="health-bar" style={{ width: '100%' }} 
-            value={ value } max={ maxValue } />
-            <label style={{
-                position: 'relative',
-                textAlign: 'center',
-                top: -18
-            }}>
+        <div className="health-bar">
+            <progress value={ value } max={ maxValue } ></progress>
+            <div className="progress-bar-overlay">
                 { value }
-            </label>
+            </div>
+        </div>
+    );
+}
+
+export function ExperienceBar(value: number, maxValue: number) {
+    return (
+        <div className="experience-bar">
+            <progress value={ value } max={ maxValue } ></progress>
+            <div className="progress-bar-overlay">
+                { value } / { maxValue }
+            </div>
         </div>
     );
 }

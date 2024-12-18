@@ -3,6 +3,7 @@
 import { ItemIdEnum } from "@/app/data/items/ItemIdEnum";
 import { CharacterController } from "@/app/data/character/CharacterController";
 import { Utilities } from "@/app/data/utils/Utilities";
+import { ExperienceBar } from "../ColoredBar";
 
 export default function LeftPanelCharacter() {
 
@@ -30,13 +31,15 @@ export default function LeftPanelCharacter() {
         );
     }
 
-    function FightingStatus() {
+    function LevelStatus() {
         const fightingStatus = CharacterController.getFightingStatus();
+        const value = fightingStatus[0];
+        const maxValue = fightingStatus[1];
+        
         return (
             <div style={{ textAlign: 'center', margin: '5px 0px' }}>
                 <label>Level: { CharacterController.getFightingLevel() } </label>
-                <progress style={{ width: '100%' }}
-                 value={ fightingStatus[0] } max={ fightingStatus[1] } />
+                {ExperienceBar(value, maxValue)}
             </div>
         );
     }
@@ -48,17 +51,17 @@ export default function LeftPanelCharacter() {
         + '%)'
         : '';
 
-    const isShowFightInfo = CharacterController.getFightCount() > 0;
+    const isShowDeath = CharacterController.getDeathCount() > 0;
 
     return (
         <div style={{ fontSize: 14, display: 'grid' }}>
-            { isShowFightInfo && FightingStatus() }
+            { LevelStatus() }
             <label>{character.realm?.title}</label>
             <label>Coins: {Utilities.roundTo2Decimal(character.money)}</label>
             <label>Body: {character.getBody()} {bodyCapPercent}</label>
             { isShowQiLabel && createQiLabel() }
-            { isShowFightInfo && FightingPower() }
-            { CharacterController.getDeathCount() > 0 && DeathCount() }
+            { FightingPower() }
+            { isShowDeath && DeathCount() }
         </div>
     );
 
