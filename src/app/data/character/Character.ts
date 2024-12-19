@@ -28,8 +28,8 @@ export class Character {
     //list of items the character has
     itemList: Set<ItemIdEnum | ExploreZoneIdEnum>;
 
-    private baseBodyGain = 0.1;
-    private baseQiGain = 0.1;
+    private baseBodyGain = 0.3;
+    private baseQiGain = 0.2;
     
     private readonly BODY_TO_QI_CAPACITY_RATIO = 0.1; //10% of body as qi capacity
 
@@ -60,7 +60,7 @@ export class Character {
         this.attributes.setAttributeValue(AttributeTypeEnum.BODY, 1);
         this.attributes.setAttributeValue(AttributeTypeEnum.BODY_CAPACITY, 100);
         this.attributes.setAttributeValue(AttributeTypeEnum.SOUL, 0);
-        this.attributes.setAttributeValue(AttributeTypeEnum.TALENT, 0.1);
+        this.attributes.setAttributeValue(AttributeTypeEnum.TALENT, 0.5);
         this.updateStats();
     }
 

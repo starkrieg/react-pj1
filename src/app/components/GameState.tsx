@@ -29,7 +29,7 @@ export function GameState(gameController: GameController) {
         <div className="container">
             {ModalPanel(gameController)}
             <div id="row-0" className="row">
-                <div className="col-3">
+                <div className="col-2">
                 
                     <div className="panel-left">
                         {CalendarPanel(gameController)}
@@ -41,7 +41,7 @@ export function GameState(gameController: GameController) {
         
                 </div>
                 
-                <div className="panel-middle col-6">
+                <div className="panel-middle col-8">
                 
                     <div className="navigation-div" 
                         >
@@ -56,7 +56,7 @@ export function GameState(gameController: GameController) {
                 
                 </div>
 
-                <div className="panel-right col-3">
+                <div className="panel-right col-2">
                     {MessagesPanel(MessageController.getLast10Messages())}
                 </div>
 

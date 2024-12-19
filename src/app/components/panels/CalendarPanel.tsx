@@ -14,11 +14,11 @@ export default function CalendarPanel(gameController: GameController) {
 
     return (
         <div style={{ fontSize: 14, display: 'grid' }}>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                 { Button('Pause', gameController.pauseGame.bind(gameController)) }
-                { Button('1x', gameController.unpauseGame.bind(gameController)) }
-                { Button('2x', gameController.speedUp2Game.bind(gameController)) }
-                { Button('5x', gameController.speedUp5Game.bind(gameController)) }
+                { Button('0.5x', gameController.halfSpeedGame.bind(gameController)) }
+                { Button('1x', gameController.normalSpeedGame.bind(gameController)) }
+                { Button('3x', gameController.speedUp3Game.bind(gameController)) }
                 { Button('10x', gameController.speedUp10Game.bind(gameController)) }
                 { Button('100x', gameController.speedUp100Game.bind(gameController)) }
             </div>

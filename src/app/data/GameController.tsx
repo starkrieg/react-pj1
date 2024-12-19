@@ -34,7 +34,7 @@ export default class GameController {
 
     calendar: Calendar;
 
-    readonly MAX_TICK_DAY = 128;
+    readonly MAX_TICK_DAY = 48;
     current_tick_day = 0;
 
     constructor() {
@@ -89,7 +89,12 @@ export default class GameController {
         this.isPaused = true;
     }
     
-    unpauseGame() {
+    halfSpeedGame() {
+        this.isPaused = false;
+        this.gameSpeed = 0.5;
+    }
+
+    normalSpeedGame() {
         this.isPaused = false;
         this.gameSpeed = 1;
     }
@@ -99,9 +104,9 @@ export default class GameController {
         this.gameSpeed = 2;
     }
     
-    speedUp5Game() {
+    speedUp3Game() {
         this.isPaused = false;
-        this.gameSpeed = 5;
+        this.gameSpeed = 3;
     }
 
     speedUp10Game() {
@@ -138,7 +143,7 @@ export default class GameController {
             /* 365 days in a year */
             /* game speed reduces tick time */
             
-            const clocksInAGameTick = 8; // how many ms for a small day tick
+            const ticksPerFightRound = 6; // how many ms for a small day tick
             // a day has MAX_TICK_DAY of walks
             // keep it above 3, so hydration works properly
             while(this.isGameWorking) {
@@ -147,11 +152,11 @@ export default class GameController {
                     if (ExplorationController.selectedZoneId != ExploreZoneIdEnum.NOTHING) {
                         this.current_tick_day += 1;
                     } else {
-                        this.current_tick_day += 4;
+                        this.current_tick_day += 8;
                     }
                     
                     if (ExplorationController.selectedZoneId != ExploreZoneIdEnum.NOTHING
-                        && (this.current_tick_day % (clocksInAGameTick) == 0)
+                        && (this.current_tick_day % (ticksPerFightRound) == 0)
                     ) {
                         //if exploring, then cant work on selected activity
                         //exploring means days do not pass

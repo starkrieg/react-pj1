@@ -37,14 +37,10 @@ export default class FightScene {
         //and then a comparison with current power
         //being too strong means less experience
 
-        const baseFightExp = this.enemy.power/10;
-        if (baseFightExp <= 1) {
-            return 1;
-        } else {
-            const charPowerComparison = this.getCharPowerComparison();
-            const finalExp = Math.max((baseFightExp / charPowerComparison), 1);
-            return Utilities.roundTo2Decimal(finalExp);
-        }
+        const baseFightExp = Math.max(this.enemy.power/2, 1);
+        const charPowerComparison = this.getCharPowerComparison();
+        const finalExp = (baseFightExp / charPowerComparison);
+        return Utilities.roundTo2Decimal(finalExp);
     }
 
     private getCharPowerComparison() {
@@ -180,7 +176,7 @@ export default class FightScene {
         return this.enemy.health > 0;
     }
 
-    getFightExpReward() {
+    private getFightExpReward() {
         return this.fightExpReward;
     }
     

@@ -29,12 +29,10 @@ export class PerformOddJobs implements Activity {
     }
 
     getTickGain() {
-        const bruteValue = 1;
-        const bodyToCoinsRatio = 25;
-        const daysPerFullGain = 2;
-        const valueBeforeRank = bruteValue + (CharacterController.getCharacter().getBody() / bodyToCoinsRatio);
+        const bruteValue = 0.1;
+        const valueBeforeRank = bruteValue;
         const rankMult = 1 + ((ActivitiesController.getActivityRank(this.id) - 1 ) * 0.05);
-        return ( valueBeforeRank * rankMult / daysPerFullGain);
+        return ( valueBeforeRank * rankMult );
     }
 
 }

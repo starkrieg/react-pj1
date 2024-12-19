@@ -72,7 +72,7 @@ export default class ZonePool {
             20,
             1,
             [ /* requirements */
-                ExploreZoneIdEnum.VILLAGE_BACKALLEY
+                //ExploreZoneIdEnum.VILLAGE_BACKALLEY
             ],
             [ /* rewards */ 
                 ItemIdEnum.BOOK_PHYSICAL_TRAINING,
@@ -95,7 +95,7 @@ export default class ZonePool {
             10,
             2,
             [ /* requirements */
-                ExploreZoneIdEnum.VILLAGE_BACKALLEY
+                //ExploreZoneIdEnum.VILLAGE_BACKALLEY
             ],
             [ /* rewards */ 
                 ItemIdEnum.BOOK_FORAGING_MANUAL

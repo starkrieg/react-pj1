@@ -6,7 +6,9 @@ import { ActivityRank } from "./ActivityRank";
 export class ActivitiesController {
 
     // base days for rank up
-    private static BASE_DAYS_RANK_UP = 30;
+    private static BASE_DAYS_RANK_UP = 6;
+    // rate which days for rank up grow
+    private static RANK_UP_GROWTH_RATE = 0.3;
 
     static selectedActivity: ActivityEnum = ActivityEnum.NOTHING;
 
@@ -81,7 +83,7 @@ export class ActivitiesController {
             console.log(`Activity rank not found : activity ${id}`);
             return 1;
         }
-    } 
+    }
 
     // every rank up increase total exp for next rank by 50%
     // increment exp by default 1
@@ -93,7 +95,7 @@ export class ActivitiesController {
             while (activityRank.exp >= activityRank.totalExpToNextRank) {
                 activityRank.rank += 1;
                 activityRank.exp += - activityRank.totalExpToNextRank;
-                activityRank.totalExpToNextRank = (1 + ((activityRank.rank-1) * 0.5)) * this.BASE_DAYS_RANK_UP;
+                activityRank.totalExpToNextRank = (1 + ((activityRank.rank-1) * this.RANK_UP_GROWTH_RATE)) * this.BASE_DAYS_RANK_UP;
             }
         }
     }

@@ -14,7 +14,7 @@ export class FightingExperience {
     constructor() {
         this.level = 1;
         this.experience = 0;
-        this.experienceNextLevel = 25;
+        this.experienceNextLevel = 15;
     }
 
     addFightingExperience(value: number) {
