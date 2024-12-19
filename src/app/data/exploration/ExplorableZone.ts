@@ -1,5 +1,6 @@
 import { ItemIdEnum } from "../items/ItemIdEnum";
 import { ExploreZoneIdEnum } from "./ExploreZoneIdEnum";
+import { ZoneLoot } from "./ZoneLoot";
 
 export class ExplorableZone {
 
@@ -30,6 +31,9 @@ export class ExplorableZone {
     //first time clear reward for this zone
     listClearRewardItemId: ItemIdEnum[];
 
+    //list of possible loots in a zone
+    lootList: ZoneLoot[];
+
     // zones have big sizes, and must be completed on a single run
     // so every step shouldn't increase difficulty too much
     // every step on the zone increases power req by 5% based on the minimum requirement
@@ -40,7 +44,8 @@ export class ExplorableZone {
     constructor(id: ExploreZoneIdEnum, title: string, desc: string,
         combatSize: number, basePower: number, 
         unlockRequirements: (ItemIdEnum | ExploreZoneIdEnum)[],
-        listClearRewardItemId: ItemIdEnum[]) {
+        listClearRewardItemId: ItemIdEnum[],
+        lootList: ZoneLoot[]) {
         this.id = id;
         this.title = title;
         this.desc = desc;
@@ -52,6 +57,7 @@ export class ExplorableZone {
         this.isComplete = false;
         this.unlockRequirements = unlockRequirements;
         this.listClearRewardItemId = listClearRewardItemId;
+        this.lootList = lootList;
     }
 
     /**
@@ -99,13 +105,8 @@ export class ExplorableZone {
         return this.basePower / 10
     }
 
-    getAvailableResources() {
-        const maximumResourceAmount = this.basePower / 10;
-        return {
-            qi: maximumResourceAmount,
-            body: maximumResourceAmount,
-            coin: (maximumResourceAmount + 1)
-        };
+    getLootList() {
+        return this.lootList;
     }
 
 }

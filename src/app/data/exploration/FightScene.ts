@@ -1,3 +1,5 @@
+import { ActivitiesController } from "../activities/ActivitiesController";
+import { ActivityEnum } from "../activities/ActivityEnum";
 import { AttributeTypeEnum } from "../character/AttributeTypeEnum";
 import { CharacterController } from "../character/CharacterController";
 import { MessageController } from "../messages/MessageController";
@@ -138,42 +140,28 @@ export default class FightScene {
         MessageController.pushMessageSimple(`You defeated the enemy! Got ${rewardExp} experience!`);
     }
 
+    /**
+     * Foraging activity rank increases drop chance in 0.01% per rank
+     * @param dropChance 
+     * @returns the dropchance with the added gathering drop chance
+     */
+    private getGatheringAplliedLootDropChance(dropChance: number) {
+        const gatheringMod = 1 + ((ActivitiesController.getActivityRank(ActivityEnum.STUDY_FORAGING)-1) * 0.01);
+        const modifiedDropChange = dropChance + gatheringMod;
+        return modifiedDropChange;
+    }
+
     giveAfterFightResources() {
         //give reward after the progress is made
-        const resourcesGuide = ExplorationController.getSelectedZone()?.getAvailableResources();
-        if (resourcesGuide) {
-            const resourceGainOption = Utilities.roundTo0Decimal(Math.random() * 9);
-            switch (resourceGainOption) {
-                case 0: //coin
-                case 1:
-                    const coinGain = Utilities.roundTo0Decimal(Math.random() * resourcesGuide.coin);
-                    if (coinGain > 0) {
-                        CharacterController.increaseAttribute(AttributeTypeEnum.COIN, coinGain);
-                        MessageController.pushMessageLoot(`Found ${coinGain} coin(s)!`)    
-                    }
-                    break;
-                case 2: //qi
-                case 3:
-                    const qiGain = Utilities.roundTo2Decimal(Math.random() * resourcesGuide.qi);
-                    if (qiGain > 0) {
-                        CharacterController.increaseAttribute(AttributeTypeEnum.QI, qiGain);
-                        MessageController.pushMessageLoot(`Found a strange herb! Gained ${qiGain} Qi!`)    
-                    }
-                    break;
-                case 4: //body
-                case 5:
-                    const bodyGain = Utilities.roundTo2Decimal(Math.random() * resourcesGuide.body);
-                    if (bodyGain > 0) {
-                        CharacterController.increaseAttribute(AttributeTypeEnum.BODY, bodyGain);
-                        MessageController.pushMessageLoot(`Found quality food! Gained ${bodyGain} Body!`)    
-                    }
-                    break;
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                    break;
-            }
+        const lootList = ExplorationController.getSelectedZone()?.getLootList();
+        if (lootList && lootList.length > 0) {
+            lootList.forEach(loot => {
+                const isItemDropped = (Math.random() * 100) <= this.getGatheringAplliedLootDropChance(loot.dropChance);
+                if (isItemDropped) {
+                    CharacterController.increaseAttribute(loot.type, loot.value);
+                    MessageController.pushMessageLoot(loot);
+                }
+            });
         }
     }
 

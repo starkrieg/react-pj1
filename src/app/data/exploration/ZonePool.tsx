@@ -2,6 +2,8 @@ import { ExploreZoneIdEnum } from "./ExploreZoneIdEnum";
 import { ItemIdEnum } from "../items/ItemIdEnum";
 import { ExplorableZone } from "./ExplorableZone";
 import { ErrorController } from "../utils/ErrorController";
+import { AttributeTypeEnum } from "../character/AttributeTypeEnum";
+import { ZoneLoot } from "./ZoneLoot";
 
 export default class ZonePool {
 
@@ -15,7 +17,8 @@ export default class ZonePool {
         title: string, description: string, 
         zoneSize: number, minimumPowerRequired: number,
         unlockRequirements: (ItemIdEnum | ExploreZoneIdEnum)[],
-        listClearRewardItemId: ItemIdEnum[]
+        listClearRewardItemId: ItemIdEnum[],
+        lootList: ZoneLoot[]
     ) {
         // error when:
         // zone, title, description or item reward is undefined/empty
@@ -33,7 +36,8 @@ export default class ZonePool {
             zoneSize,
             minimumPowerRequired,
             unlockRequirements,
-            listClearRewardItemId
+            listClearRewardItemId,
+            lootList
         );
 
         this.zonePool.push(zone);
@@ -48,7 +52,11 @@ export default class ZonePool {
             15,
             0.35,
             [ /* no requirements */],
-            [ /* no rewards */ ]
+            [ /* no rewards */ ],
+            [ /* zone loot */ 
+                new ZoneLoot(AttributeTypeEnum.COIN, 75, 1),
+                new ZoneLoot(AttributeTypeEnum.BODY, 25, 0.01)
+            ]
         );
         this.createExplorableZone(
             ExploreZoneIdEnum.VILLAGE_SOLDIERS_BOOTCAMP,
@@ -62,6 +70,10 @@ export default class ZonePool {
             [ /* rewards */ 
                 ItemIdEnum.BOOK_PHYSICAL_TRAINING,
                 ItemIdEnum.BOOK_INNER_REGION
+            ],
+            [ /* zone loot */ 
+                new ZoneLoot(AttributeTypeEnum.COIN, 10, 3),
+                new ZoneLoot(AttributeTypeEnum.BODY, 50, 0.05)
             ]
         );
         this.createExplorableZone(
@@ -75,6 +87,11 @@ export default class ZonePool {
             ],
             [ /* rewards */ 
                 ItemIdEnum.BOOK_FORAGING_MANUAL
+            ],
+            [ /* zone loot */ 
+                new ZoneLoot(AttributeTypeEnum.COIN, 1, 5),
+                new ZoneLoot(AttributeTypeEnum.BODY, 50, 0.03),
+                new ZoneLoot(AttributeTypeEnum.QI, 1, 0.01)
             ]
         );
         this.createExplorableZone(
@@ -86,7 +103,12 @@ export default class ZonePool {
             [ /* requirements */
                 ItemIdEnum.BOOK_INNER_REGION
             ],
-            [ /* no rewards */ ]
+            [ /* no rewards */ ],
+            [ /* zone loot */ 
+                new ZoneLoot(AttributeTypeEnum.COIN, 25, 5),
+                new ZoneLoot(AttributeTypeEnum.BODY, 25, 0.05),
+                new ZoneLoot(AttributeTypeEnum.QI, 10, 0.05)
+            ]
         );
         this.createExplorableZone(
             ExploreZoneIdEnum.VILLAGE_FOREST_II,
@@ -97,7 +119,12 @@ export default class ZonePool {
             [ /* requirements */
                 ExploreZoneIdEnum.VILLAGE_FOREST_I
             ],
-            [ /* no rewards */ ]
+            [ /* no rewards */ ],
+            [ /* zone loot */ 
+                new ZoneLoot(AttributeTypeEnum.COIN, 15, 3),
+                new ZoneLoot(AttributeTypeEnum.BODY, 50, 0.05),
+                new ZoneLoot(AttributeTypeEnum.QI, 15, 0.05)
+            ]
         );
         this.createExplorableZone(
             ExploreZoneIdEnum.VILLAGE_FOREST_CAVE,
@@ -110,6 +137,11 @@ export default class ZonePool {
             ],
             [ /* rewards */ 
                 ItemIdEnum.BOOK_QI_CULTIVATION
+            ],
+            [ /* zone loot */ 
+                new ZoneLoot(AttributeTypeEnum.COIN, 15, 10),
+                new ZoneLoot(AttributeTypeEnum.BODY, 35, 0.1),
+                new ZoneLoot(AttributeTypeEnum.QI, 25, 0.05)
             ]
         );
         this.createExplorableZone(
@@ -124,6 +156,11 @@ export default class ZonePool {
             ],
             [ /* rewards */ 
                 ItemIdEnum.BOOK_CULTIVATION_OF_SELF
+            ],
+            [ /* zone loot */ 
+                new ZoneLoot(AttributeTypeEnum.COIN, 25, 5),
+                new ZoneLoot(AttributeTypeEnum.BODY, 25, 0.05),
+                new ZoneLoot(AttributeTypeEnum.QI, 10, 0.05)
             ]
         );
         this.createExplorableZone(
@@ -137,6 +174,11 @@ export default class ZonePool {
             ],
             [ /* rewards */ 
                 ItemIdEnum.BOOK_MARTIAL_ARTS
+            ],
+            [ /* zone loot */ 
+                new ZoneLoot(AttributeTypeEnum.COIN, 50, 12),
+                new ZoneLoot(AttributeTypeEnum.BODY, 75, 0.1),
+                new ZoneLoot(AttributeTypeEnum.QI, 25, 0.1)
             ]
         );
         this.createExplorableZone(
@@ -150,6 +192,11 @@ export default class ZonePool {
             ],
             [ /* rewards */
                 ItemIdEnum.BOOK_QI_MANIPULATION
+            ],
+            [ /* zone loot */ 
+                new ZoneLoot(AttributeTypeEnum.COIN, 75, 20),
+                new ZoneLoot(AttributeTypeEnum.BODY, 75, 0.1),
+                new ZoneLoot(AttributeTypeEnum.QI, 35, 0.1)
             ]
         );
         this.createExplorableZone(
@@ -163,6 +210,11 @@ export default class ZonePool {
             ],
             [ /* rewards */
                 ItemIdEnum.BOOK_BODY_REFINING
+            ],
+            [ /* zone loot */ 
+                new ZoneLoot(AttributeTypeEnum.COIN, 50, 50),
+                new ZoneLoot(AttributeTypeEnum.BODY, 75, 1),
+                new ZoneLoot(AttributeTypeEnum.QI, 50, 1)
             ]
         );
         this.createExplorableZone(
@@ -176,6 +228,11 @@ export default class ZonePool {
             ],
             [ /* rewards */
                 ItemIdEnum.BOOK_OUTER_REGION
+            ],
+            [ /* zone loot */ 
+                new ZoneLoot(AttributeTypeEnum.COIN, 25, 5),
+                new ZoneLoot(AttributeTypeEnum.BODY, 75, 0.25),
+                new ZoneLoot(AttributeTypeEnum.QI, 25, 0.25)
             ]
         );
     }

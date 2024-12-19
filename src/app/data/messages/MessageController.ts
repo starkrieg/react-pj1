@@ -1,4 +1,6 @@
+import { AttributeTypeEnum } from "../character/AttributeTypeEnum";
 import { CharacterController } from "../character/CharacterController";
+import { ZoneLoot } from "../exploration/ZoneLoot";
 import { Message } from "./Message";
 import { MessageType } from "./MessageTypeEnum";
 
@@ -38,10 +40,25 @@ export class MessageController {
     }
 
     /**
-     * Pushes a fight message to board
+     * Pushes a loot message to board
      * @param message 
      */
-    static pushMessageLoot(message: string) {
+    static pushMessageLoot(loot: ZoneLoot) {
+        let message = 'Found '
+        switch(loot.type) {
+            case AttributeTypeEnum.QI:
+                message += `a funny looking herb! Qi increased by ${loot.value}`;
+                break;
+            case AttributeTypeEnum.BODY:
+                message += `some good food! Body increased by ${loot.value}`;
+                break;
+            case AttributeTypeEnum.COIN:
+                message += `some coins! Coins increased by ${loot.value}`;
+                break;
+            default:
+                message += `something different! ${loot.type.toString()} increased by ${loot.value}`;
+                break;
+        }
         const id = this.messageList.length + 1;
         this.messageList.push(new Message(id, 0, 0, MessageType.LOOT, message));
     }
