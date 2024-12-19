@@ -54,7 +54,7 @@ export default class ActivityPool {
             'Improve your knowledge to find better resources',
             [
                 //requirements
-                ItemIdEnum.BOOK_QI_MANIPULATION
+                ItemIdEnum.BOOK_FORAGING_MANUAL
             ]
         ));
         this.createActivity(new PhysicalTraining());

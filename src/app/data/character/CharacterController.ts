@@ -220,7 +220,8 @@ export class CharacterController {
       static recoverInternalInjury() {
         const internalDamage = this.character.getAttributeValue(AttributeTypeEnum.INTERNAL_INJURY)
         if (internalDamage > 0) {
-            const recoveryValue = this.character.getAttributeValue(AttributeTypeEnum.BODY) / 100;
+            const RECOVERY_MOD = 1;
+            const recoveryValue = this.character.getAttributeValue(AttributeTypeEnum.BODY) / RECOVERY_MOD;
             this.character.increaseAttribute(AttributeTypeEnum.INTERNAL_INJURY, -recoveryValue);
         }
       }
