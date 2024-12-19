@@ -1,9 +1,10 @@
 'use client'
 
-import { BaseAttributes } from "../character/BaseAttributes";
 import { RealmController } from "./RealmController";
 import { Realm } from "./Realm";
 import { RealmEnum } from "./RealmEnum";
+import { Attribute } from "../character/Attribute";
+import { AttributeTypeEnum } from "../character/AttributeTypeEnum";
 
 export class QiCondensationGeneric extends Realm {
 
@@ -21,7 +22,10 @@ export class QiCondensationGeneric extends Realm {
 
         const reqQi = stage * 100;
         const reqBody = 50 + (stage * 50);
-        const requirements = new BaseAttributes(reqQi, reqBody);
+        const requirements = [
+            new Attribute(AttributeTypeEnum.QI, reqQi),
+            new Attribute(AttributeTypeEnum.BODY, reqBody)
+        ];
 
         super(realmId, title, requirements, [], desc);
 
@@ -36,29 +40,29 @@ export class QiCondensationGeneric extends Realm {
         // qi capacity bonus is 100 for stages 1 and 2
         if (this.stage < 6) {
             const qiCapBonus = ([3,4,5].includes(this.stage)) ? 200 : 100;
-            breakthroughMultipliers.push(this.createRealmMultiplier('qi-capacity', 'sum', qiCapBonus));
+            breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.QI_CAPACITY, 'sum', qiCapBonus));
             // TODO - make character attributes and multipliers into abstract classes, so any attribute or multiplier can be modified by realms
         }
 
         if (this.stage == 6) {
             //stage 6 goes to Foundation Establishment
             //qi capacity is doubled
-            breakthroughMultipliers.push(this.createRealmMultiplier('qi-capacity', 'multi', 2));
+            breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.QI_CAPACITY, 'multi', 2));
         }
         // body capacity bonus starts big and lowers with upper stages
         const bodyCapBonus = 100 - ((this.stage) * 10);
-        breakthroughMultipliers.push(this.createRealmMultiplier('body-capacity', 'sum', bodyCapBonus));
+        breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.BODY_CAPACITY, 'sum', bodyCapBonus));
         
         // lifespan increase for stage 3 breaking to 4
         if (this.stage == 3) {
             const lifespanBonus = 10;
-            breakthroughMultipliers.push(this.createRealmMultiplier('lifespan', 'sum', lifespanBonus));
+            breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.LIFESPAN, 'sum', lifespanBonus));
         }
 
         // lifespan increase for stage 6 to realm up
         if (this.stage == 6) {
             const lifespanBonus = 20;
-            breakthroughMultipliers.push(this.createRealmMultiplier('lifespan', 'sum', lifespanBonus));
+            breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.LIFESPAN, 'sum', lifespanBonus));
         }
 
         this.breakMultipliers = breakthroughMultipliers;

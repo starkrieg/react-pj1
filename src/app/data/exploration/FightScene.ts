@@ -1,3 +1,4 @@
+import { AttributeTypeEnum } from "../character/AttributeTypeEnum";
 import { CharacterController } from "../character/CharacterController";
 import { MessageController } from "../messages/MessageController";
 import { ErrorController } from "../utils/ErrorController";
@@ -145,17 +146,17 @@ export default class FightScene {
             switch (resourceGainOption) {
                 case 0: //coin
                 case 1:
-                    const moneyGain = Utilities.roundTo0Decimal(Math.random() * resourcesGuide.coin);
-                    if (moneyGain > 0) {
-                        CharacterController.increaseMoney(moneyGain);
-                        MessageController.pushMessageLoot(`Found ${moneyGain} coin(s)!`)    
+                    const coinGain = Utilities.roundTo0Decimal(Math.random() * resourcesGuide.coin);
+                    if (coinGain > 0) {
+                        CharacterController.increaseAttribute(AttributeTypeEnum.COIN, coinGain);
+                        MessageController.pushMessageLoot(`Found ${coinGain} coin(s)!`)    
                     }
                     break;
                 case 2: //qi
                 case 3:
                     const qiGain = Utilities.roundTo2Decimal(Math.random() * resourcesGuide.qi);
                     if (qiGain > 0) {
-                        CharacterController.increaseQi(qiGain);
+                        CharacterController.increaseAttribute(AttributeTypeEnum.QI, qiGain);
                         MessageController.pushMessageLoot(`Found a strange herb! Gained ${qiGain} Qi!`)    
                     }
                     break;
@@ -163,7 +164,7 @@ export default class FightScene {
                 case 5:
                     const bodyGain = Utilities.roundTo2Decimal(Math.random() * resourcesGuide.body);
                     if (bodyGain > 0) {
-                        CharacterController.increaseBody(bodyGain);
+                        CharacterController.increaseAttribute(AttributeTypeEnum.BODY, bodyGain);
                         MessageController.pushMessageLoot(`Found quality food! Gained ${bodyGain} Body!`)    
                     }
                     break;

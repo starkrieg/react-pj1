@@ -67,7 +67,7 @@ export default function LeftPanelCharacter() {
             { FightingPower() }
             <label>Body: {character.getBody()} {bodyCapPercent}</label>
             { isShowQiLabel && createQiLabel() }
-            <label>Coins: {Utilities.roundTo2Decimal(character.money)}</label>
+            <label>Coins: {Utilities.roundTo2Decimal(character.getCoins())}</label>
             { isShowDeath && DeathCount() }
         </div>
     );

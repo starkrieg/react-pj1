@@ -1,9 +1,9 @@
 'use client'
 
-import { BaseAttributes } from "../character/BaseAttributes";
 import { RealmController } from "./RealmController";
 import { Realm } from "./Realm";
 import { RealmEnum } from "./RealmEnum";
+import { AttributeTypeEnum } from "../character/AttributeTypeEnum";
 
 export class MortalRealm extends Realm {
 
@@ -14,11 +14,7 @@ export class MortalRealm extends Realm {
         Your death is certain and your power is zero.
         What will you do?`;
 
-        const reqQi = 0;
-        const reqBody = 0;
-        const requirements = new BaseAttributes(reqQi, reqBody);
-
-        super(RealmEnum.MORTAL, title, requirements, [], desc);
+        super(RealmEnum.MORTAL, title, [], [], desc);
 
         this.setupRealmUpMultipliers();
     }
@@ -30,9 +26,9 @@ export class MortalRealm extends Realm {
         const bodyCapBonus = 100;
         const lifespanBonus = 10;
 
-        breakthroughMultipliers.push(this.createRealmMultiplier('qi-capacity', 'sum', qiCapBonus));
-        breakthroughMultipliers.push(this.createRealmMultiplier('body-capacity', 'sum', bodyCapBonus));
-        breakthroughMultipliers.push(this.createRealmMultiplier('lifespan', 'sum', lifespanBonus));
+        breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.QI_CAPACITY, 'sum', qiCapBonus));
+        breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.BODY_CAPACITY, 'sum', bodyCapBonus));
+        breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.LIFESPAN, 'sum', lifespanBonus));
 
         this.breakMultipliers = breakthroughMultipliers;
     }

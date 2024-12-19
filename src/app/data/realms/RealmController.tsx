@@ -1,6 +1,5 @@
 'use client'
 
-import { BaseAttributes } from "../character/BaseAttributes";
 import { FoundationEstablishment } from "./FoundationEstablishment";
 import { MortalRealm } from "./MortalRealm";
 import { QiCondensationGeneric } from "./QiCondensationGeneric";
@@ -12,8 +11,8 @@ export class RealmController {
     static realmMatrix = new Map<RealmEnum, Realm>();
 
     private static createAndReturnUnknown() {
-        this.realmMatrix.set(RealmEnum.UNKNOWN, new Realm(RealmEnum.UNKNOWN, 'Unknown', 
-            new BaseAttributes(-1, -1), [], 
+        this.realmMatrix.set(RealmEnum.UNKNOWN, new Realm(RealmEnum.UNKNOWN, 
+            'Unknown', [], [], 
             `Your current realm is not clear. 
             What heights have you reached?`
         ));

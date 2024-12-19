@@ -3,6 +3,7 @@ import { ActivitiesController } from "./ActivitiesController";
 import { ActivityEnum } from "./ActivityEnum";
 import { Activity } from "./Activity";
 import { ItemIdEnum } from "../items/ItemIdEnum";
+import { AttributeTypeEnum } from "../character/AttributeTypeEnum";
 
 export class PhysicalTraining implements Activity {
     
@@ -26,7 +27,7 @@ export class PhysicalTraining implements Activity {
         this.action = () => {
             //use rank to affect the value
             const tickGain = this.getTickGain();
-            CharacterController.increaseBody(tickGain);
+            CharacterController.increaseAttribute(AttributeTypeEnum.BODY, tickGain);
             
             ActivitiesController.incrementExpActivity(this.id);
         }
@@ -35,7 +36,7 @@ export class PhysicalTraining implements Activity {
     //baseBodyGain has talent already applied
     //the % of qi capacity filled increases body gain
     getTickGain() {
-        const bruteValue = CharacterController.getCharacter().getBaseBodyGain();
+        const bruteValue = CharacterController.getCharacter().getBodyGainWithTalent();
         const currQiMulti = 1 + (CharacterController.getCharacter().getQiCapPercent());
         const rankMult = 1 + ((ActivitiesController.getActivityRank(this.id) - 1) * 0.1);
         return ( bruteValue * rankMult * currQiMulti);

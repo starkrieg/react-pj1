@@ -150,31 +150,29 @@ export default class GameController {
                         this.current_tick_day += 4;
                     }
                     
-                    if (this.current_tick_day % clocksInAGameTick == 0) {
+                    if (ExplorationController.selectedZoneId != ExploreZoneIdEnum.NOTHING
+                        && (this.current_tick_day % (clocksInAGameTick) == 0)
+                    ) {
+                        //if exploring, then cant work on selected activity
+                        //exploring means days do not pass
+                        ExplorationController.doExploreSelectedZone()
+                    }
 
-                        if (ExplorationController.selectedZoneId != ExploreZoneIdEnum.NOTHING
-                            && (this.current_tick_day % (clocksInAGameTick) == 0)
+                    if (this.current_tick_day >= this.MAX_TICK_DAY) {
+                        this.current_tick_day = 0;
+                        
+                        // check if doing anything
+                        if(ActivitiesController.selectedActivity != ActivityEnum.NOTHING
+                            && ExplorationController.selectedZoneId == ExploreZoneIdEnum.NOTHING
                         ) {
-                            //if exploring, then cant work on selected activity
-                            //exploring means days do not pass
-                            ExplorationController.doExploreSelectedZone()
+                            //only do activity if not exploring
+                            //and only if selected one activity
+                            ActivitiesController.doActivityTick();
                         }
-
-                        if (this.current_tick_day >= this.MAX_TICK_DAY) {
-                            this.current_tick_day = 0;
-                            
-                            // check if doing anything
-                            if(ActivitiesController.selectedActivity != ActivityEnum.NOTHING
-                                && ExplorationController.selectedZoneId == ExploreZoneIdEnum.NOTHING
-                            ) {
-                                //only do activity if not exploring
-                                //and only if selected one activity
-                                ActivitiesController.doActivityTick();
-                            }
-                            //day will pass
-                            this.addDayCalendar();
-                        }
-                    } 
+                        //day will pass
+                        this.addDayCalendar();
+                    }
+                    
                 }
                 // TODO - ui must be updated based on react hooks, not forced by dom changes
 

@@ -1,31 +1,43 @@
-import { BaseAttributes } from "./BaseAttributes";
+import { AttributeTypeEnum } from "./AttributeTypeEnum";
 
-export class CharacterAttributes extends BaseAttributes {
+export class CharacterAttributes {
 
-    // qi is an attribute related to spells and power, 
-    // and a main guideline for cultivation
-    qiTotalCapacity: number;
-    qiBaseCapacity: number;
-
-    // body represents how strong is the character's body
-    // helps guide some cultivation aspects
-    bodyCapacity: number;
-
-    // soul repesents how strong is the characte's soul
-    // helps guide some cultivation aspects
-    soul: number;
-
-    // talent is a guide to how fast the character can grow
-    // talent multiples Qi Capacity and every attribute Base Gain
-    // more talent means faster growth
-    talent: number;
+    private attributes: Map<AttributeTypeEnum, number> = new Map<AttributeTypeEnum, number>();
 
     constructor() {
-        super();
-        this.qiTotalCapacity = 0;
-        this.qiBaseCapacity = 0;
-        this.bodyCapacity = 0;
-        this.soul = 0;
-        this.talent = 0;
+        // qi is an attribute related to spells and power, 
+        // and a main guideline for cultivation
+        this.attributes.set(AttributeTypeEnum.QI, 0);
+        //base capacity for easy addition of fixed values on realms or items
+        this.attributes.set(AttributeTypeEnum.QI_BASE_CAPACITY, 0);
+        //total cap considers base cap plus body and soul
+        this.attributes.set(AttributeTypeEnum.QI_TOTAL_CAPACITY, 0);
+
+        // body represents how strong is the character's body
+        // helps guide some cultivation aspects
+        this.attributes.set(AttributeTypeEnum.BODY, 0);
+        this.attributes.set(AttributeTypeEnum.BODY_CAPACITY, 0);
+        
+        // helps guide some cultivation aspects
+        this.attributes.set(AttributeTypeEnum.SOUL, 0);
+
+        // talent is a guide to how fast the character can grow
+        // talent multiples Qi Capacity and every attribute Base Gain
+        // more talent means faster growth
+        this.attributes.set(AttributeTypeEnum.TALENT, 0);
     }
+
+    setAttributeValue(attribute: AttributeTypeEnum, value: number) {
+        this.attributes.set(attribute, value);
+    }
+
+    getAttributeValue(attribute: AttributeTypeEnum) {
+        return this.attributes.get(attribute);
+    }
+
+    addAttributeValue(attribute: AttributeTypeEnum, value: number) {
+        const currentValue = this.getAttributeValue(attribute) || 0;
+        this.attributes.set(attribute, currentValue + value);
+    }
+
 }

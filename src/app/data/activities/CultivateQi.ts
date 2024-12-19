@@ -3,6 +3,7 @@ import { ActivitiesController } from "./ActivitiesController";
 import { ActivityEnum } from "./ActivityEnum";
 import { Activity } from "./Activity";
 import { ItemIdEnum } from "../items/ItemIdEnum";
+import { AttributeTypeEnum } from "../character/AttributeTypeEnum";
 
 export class CultivateQi implements Activity {
     
@@ -26,14 +27,14 @@ export class CultivateQi implements Activity {
         this.action = () => {
             //use rank to affect the value
             const tickGain = this.getTickGain();
-            CharacterController.increaseQi(tickGain);
+            CharacterController.increaseAttribute(AttributeTypeEnum.QI, tickGain);
 
             ActivitiesController.incrementExpActivity(this.id);
         }
     }
 
     getTickGain() {
-        const bruteValue = CharacterController.getCharacter().getBaseQiGain();
+        const bruteValue = CharacterController.getCharacter().getQiGainWithTalent();
         const rankMult = 1 + ((ActivitiesController.getActivityRank(this.id) - 1 ) * 0.1);
         return ( bruteValue * rankMult );
     }

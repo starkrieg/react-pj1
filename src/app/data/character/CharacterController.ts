@@ -4,6 +4,7 @@ import { ItemIdEnum } from "../items/ItemIdEnum";
 import { ItemTypeEnum } from "../items/ItemTypeEnum";
 import { RealmEnum } from "../realms/RealmEnum";
 import { ErrorController } from "../utils/ErrorController";
+import { AttributeTypeEnum } from "./AttributeTypeEnum";
 import { Character } from "./Character";
 
 export class CharacterController {
@@ -32,19 +33,8 @@ export class CharacterController {
         return this.character;
     }
   
-    //TODO - make this a more generic incrementor of character attributes
-    static increaseQi(value: number) {
-        this.character.increaseQi(value);
-    }
-
-    //TODO - make this a more generic incrementor of character attributes
-    static increaseBody(value: number) {
-        this.character.increaseBody(value);
-    }
-
-    //TODO - make this a more generic incrementor of character attributes
-    static increaseMoney(value: number) {
-        this.character.increaseMoney(value)
+    static increaseAttribute(attribute: AttributeTypeEnum, value: number) {
+        this.character.increaseAttribute(attribute, value);
     }
 
     /**

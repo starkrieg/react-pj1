@@ -1,6 +1,7 @@
 'use client'
 
-import { BaseAttributes } from "../character/BaseAttributes";
+import { Attribute } from "../character/Attribute";
+import { AttributeTypeEnum } from "../character/AttributeTypeEnum";
 import { Character } from "../character/Character";
 import { ErrorController } from "../utils/ErrorController";
 import { RealmController } from "./RealmController";
@@ -8,11 +9,11 @@ import { RealmEnum } from "./RealmEnum";
 
 class RealmMultiplier {
 
-    id: string;
+    id: AttributeTypeEnum;
     action: string;
     value: number;
 
-    constructor(id: string, action: string, value: number) {
+    constructor(id: AttributeTypeEnum, action: string, value: number) {
         this.id = id;
         this.action = action;
         this.value = value;
@@ -24,12 +25,12 @@ export class Realm {
 
     id: RealmEnum;
     title: string;
-    requirements: BaseAttributes;
+    requirements: Attribute[];
     breakMultipliers: RealmMultiplier[];
     desc: string;
 
     constructor(id: RealmEnum, title: string, 
-        requirements: BaseAttributes, 
+        requirements: Attribute[], 
         breakMultipliers: RealmMultiplier[],
         desc: string = 'Lorem ipsum'
     ) {
@@ -41,7 +42,7 @@ export class Realm {
         
     }
 
-    createRealmMultiplier(id: string, action: string, value: number) {
+    createRealmMultiplier(id: AttributeTypeEnum, action: string, value: number) {
         return new RealmMultiplier(id, action, value);
     }
     
@@ -58,7 +59,7 @@ export class Realm {
         for (let index = 0; index < this.breakMultipliers.length; index++) {
             const multi = this.breakMultipliers[index];
             switch (multi.id) {
-                case 'qi-capacity':
+                case AttributeTypeEnum.QI_CAPACITY:
                     if (multi.action == 'sum') {
                         const newQiBaseMinCapacity = character.attributes.qiBaseCapacity + multi.value
                         character.setBaseMinCapacity(newQiBaseMinCapacity);
@@ -72,12 +73,12 @@ export class Realm {
                         character.setBaseMinCapacity(newQiBaseMinCapacity);
                     }
                     break;
-                case 'body-capacity':
+                case AttributeTypeEnum.BODY_CAPACITY:
                     if (multi.action == 'sum') {
                         character.attributes.bodyCapacity += multi.value
                     }
                     break;
-                case 'lifespan':
+                case AttributeTypeEnum.LIFESPAN:
                     if (multi.action == 'sum') {
                         character.maxAge += multi.value
                     }

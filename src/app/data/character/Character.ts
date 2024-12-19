@@ -5,6 +5,7 @@ import { Realm } from "../realms/Realm";
 import { RealmController } from "../realms/RealmController";
 import { RealmEnum } from "../realms/RealmEnum";
 import { Utilities } from "../utils/Utilities";
+import { AttributeTypeEnum } from "./AttributeTypeEnum";
 import { CharacterAttributes } from "./CharacterAttributes";
 import { FightingExperience } from "./FightingExperience";
 
@@ -16,10 +17,7 @@ export class Character {
     
     // realm is the cultivation realm
     realm: Realm | undefined;
-    
-    // money represents currency
-    money: number;
-    
+        
     //character attributes in a separate object
     //its also so realm ups can be done easier
     attributes: CharacterAttributes;
@@ -33,7 +31,7 @@ export class Character {
     private baseBodyGain = 0.1;
     private baseQiGain = 0.1;
     
-    private bodyToQiCapacityRatio = 0.1; //10% of body as qi capacity
+    private readonly BODY_TO_QI_CAPACITY_RATIO = 0.1; //10% of body as qi capacity
 
     private bodyToPowerRatio = 0.35; //35%
     private qiToPowerRatio = 0.65 //65%
@@ -46,7 +44,6 @@ export class Character {
         this.day = 1;
         this.realm = RealmController.getRealmById(RealmEnum.MORTAL);
         this.maxAge = 30;
-        this.money = 0;
         this.attributes = new CharacterAttributes();
         this.itemList = new Set<ItemIdEnum | ExploreZoneIdEnum>();
         this.fightingExperience = new FightingExperience;
@@ -58,84 +55,97 @@ export class Character {
         this.day = 1;
         this.realm = RealmController.getRealmById(RealmEnum.MORTAL);
         this.maxAge = 30;
-        this.money = 0;
-        this.attributes.qi = 0;
-        this.attributes.qiBaseCapacity = 100;
-        this.attributes.body = 1;
-        this.attributes.bodyCapacity = 100;
-        this.attributes.soul = 0;
-        this.attributes.talent = 0.1;
+        this.attributes.setAttributeValue(AttributeTypeEnum.QI, 0);
+        this.attributes.setAttributeValue(AttributeTypeEnum.QI_BASE_CAPACITY, 100);
+        this.attributes.setAttributeValue(AttributeTypeEnum.BODY, 1);
+        this.attributes.setAttributeValue(AttributeTypeEnum.BODY_CAPACITY, 100);
+        this.attributes.setAttributeValue(AttributeTypeEnum.SOUL, 0);
+        this.attributes.setAttributeValue(AttributeTypeEnum.TALENT, 0.1);
         this.updateStats();
     }
 
-    private updateStats() {
-        
-        const qiBaseCapacity = this.attributes.qiBaseCapacity;
-        const bodyToCapacity = ((this.attributes.body-1) 
-            * this.attributes.talent 
-            * this.bodyToQiCapacityRatio);
-        this.attributes.qiTotalCapacity = qiBaseCapacity + bodyToCapacity;
+    private getAttributeValueOr0(attribute: AttributeTypeEnum) {
+        return this.attributes.getAttributeValue(attribute) || 0;
+    }
+
+    private updateStats() {        
+        const qiBaseCapacity = this.getAttributeValueOr0(AttributeTypeEnum.QI_BASE_CAPACITY);
+        const bodyToQiCapacity = ((this.getAttributeValueOr0(AttributeTypeEnum.BODY) - 1)
+            * this.getAttributeValueOr0(AttributeTypeEnum.TALENT)
+            * this.BODY_TO_QI_CAPACITY_RATIO);
+        this.attributes.setAttributeValue(AttributeTypeEnum.QI_TOTAL_CAPACITY, (qiBaseCapacity + bodyToQiCapacity))
     }
 
     getQiCapPercent(){
-        return this.attributes.qi / this.attributes.qiTotalCapacity;
+        return this.getAttributeValueOr0(AttributeTypeEnum.QI) / this.getAttributeValueOr0(AttributeTypeEnum.QI_TOTAL_CAPACITY);
     }
 
     getBodyCapPercent() {
-        return this.attributes.body / this.attributes.bodyCapacity;
+        return this.getAttributeValueOr0(AttributeTypeEnum.BODY) / this.getAttributeValueOr0(AttributeTypeEnum.BODY_CAPACITY);
+    }
+
+    getBodyGainWithTalent() {
+        return this.baseBodyGain * this.getAttributeValueOr0(AttributeTypeEnum.TALENT);
     }
 
     //base gain applied talent
-    getBaseBodyGain() {
-        return this.baseBodyGain * this.attributes.talent;
+    getQiGainWithTalent() {
+        return this.baseQiGain * this.getAttributeValueOr0(AttributeTypeEnum.TALENT);
     }
 
-    //base gain applied talent
-    getBaseQiGain() {
-        return this.baseQiGain * this.attributes.talent;
-    }
-
-    getMoney() {
-        return this.money;
+    getCoins() {
+        return this.getAttributeValueOr0(AttributeTypeEnum.COIN);
     }
 
     getQi() {
-        return Utilities.roundTo2Decimal(this.attributes.qi);
+        return Utilities.roundTo2Decimal(this.getAttributeValueOr0(AttributeTypeEnum.QI));
     }
 
     getBody() {
-        return Utilities.roundTo2Decimal(this.attributes.body);
+        return Utilities.roundTo2Decimal(this.getAttributeValueOr0(AttributeTypeEnum.BODY));
     }
 
     setBaseMinCapacity(value: number) {
-        this.attributes.qiBaseCapacity = value;
+        this.attributes.setAttributeValue(AttributeTypeEnum.QI_BASE_CAPACITY, value);
         this.updateStats();        
     }
 
+    increaseAttribute(attribute: AttributeTypeEnum, value: number) {
+        switch(attribute) {
+            case AttributeTypeEnum.QI:
+                this.increaseQi(value);
+                break;
+            case AttributeTypeEnum.BODY:
+                this.increaseBody(value);
+                break;
+            default:
+                this.attributes.addAttributeValue(attribute, value);
+                break;
+        }
+
+    }
+
     //pure increase on stat
-    increaseQi(value: number) {
-        if (this.attributes.qi < this.attributes.qiTotalCapacity) {
-            this.attributes.qi += value;
-            if (this.attributes.qi > this.attributes.qiTotalCapacity) {
-                this.attributes.qi = this.attributes.qiTotalCapacity;
+    private increaseQi(value: number) {
+        const qiTotalCapacity = this.getAttributeValueOr0(AttributeTypeEnum.QI_TOTAL_CAPACITY);
+        if (this.getAttributeValueOr0(AttributeTypeEnum.QI) < qiTotalCapacity) {
+            this.attributes.addAttributeValue(AttributeTypeEnum.QI, value);
+            if (this.getAttributeValueOr0(AttributeTypeEnum.QI) > qiTotalCapacity) {
+                this.attributes.addAttributeValue(AttributeTypeEnum.QI, qiTotalCapacity);
             }
         }
     }
 
     //pure increase on stat
-    increaseBody(value: number) {
-        if (this.attributes.body < this.attributes.bodyCapacity) {
-            this.attributes.body += value;
-            if (this.attributes.body > this.attributes.bodyCapacity) {
-                this.attributes.body = this.attributes.bodyCapacity;
+    private increaseBody(value: number) {
+        const bodyCapacity = this.getAttributeValueOr0(AttributeTypeEnum.BODY_CAPACITY);
+        if (this.getAttributeValueOr0(AttributeTypeEnum.BODY) < bodyCapacity) {
+            this.attributes.addAttributeValue(AttributeTypeEnum.BODY, value);
+            if (this.getAttributeValueOr0(AttributeTypeEnum.BODY) > bodyCapacity) {
+                this.attributes.addAttributeValue(AttributeTypeEnum.BODY, bodyCapacity);
             }
         }
         this.updateStats();
-
-    }
-
-    increaseMoney(value: number) {
-        this.money += value;
     }
 
     /**

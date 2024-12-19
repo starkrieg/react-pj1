@@ -1,9 +1,10 @@
 'use client'
 
-import { BaseAttributes } from "../character/BaseAttributes";
 import { RealmController } from "./RealmController";
 import { Realm } from "./Realm";
 import { RealmEnum } from "./RealmEnum";
+import { Attribute } from "../character/Attribute";
+import { AttributeTypeEnum } from "../character/AttributeTypeEnum";
 
 export class FoundationEstablishment extends Realm {
 
@@ -37,7 +38,10 @@ export class FoundationEstablishment extends Realm {
                 break;
         }
 
-        const requirements = new BaseAttributes(reqQi, reqBody);
+        const requirements = [
+            new Attribute(AttributeTypeEnum.QI, reqQi),
+            new Attribute(AttributeTypeEnum.BODY, reqBody)
+        ];
 
         super(realmId, title, requirements, [], desc);
 
@@ -52,21 +56,21 @@ export class FoundationEstablishment extends Realm {
         switch (this.stage) {
             case 'early':
                 const earlyQiCapBonus = 1500
-                breakthroughMultipliers.push(this.createRealmMultiplier('qi-capacity', 'sum', earlyQiCapBonus));
-                breakthroughMultipliers.push(this.createRealmMultiplier('body-capacity', 'sum', 100));
+                breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.QI_CAPACITY, 'sum', earlyQiCapBonus));
+                breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.BODY_CAPACITY, 'sum', 100));
                 // TODO - make character attributes and multipliers into abstract classes, so any attribute or multiplier can be modified by realms
                 break;
             case 'middle':
                 const middleQiCapBonus = 1500
-                breakthroughMultipliers.push(this.createRealmMultiplier('qi-capacity', 'sum', middleQiCapBonus));
-                breakthroughMultipliers.push(this.createRealmMultiplier('body-capacity', 'sum', 100));
-                breakthroughMultipliers.push(this.createRealmMultiplier('lifespan', 'sum', 10));
+                breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.QI_CAPACITY, 'sum', middleQiCapBonus));
+                breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.BODY_CAPACITY, 'sum', 100));
+                breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.LIFESPAN, 'sum', 10));
                 break;
             case 'late':
                 const lateQiCapBonus = 2
-                breakthroughMultipliers.push(this.createRealmMultiplier('qi-capacity', 'multi', lateQiCapBonus));
-                breakthroughMultipliers.push(this.createRealmMultiplier('body-capacity', 'sum', 200));
-                breakthroughMultipliers.push(this.createRealmMultiplier('lifespan', 'sum', 20));
+                breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.QI_CAPACITY, 'multi', lateQiCapBonus));
+                breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.BODY_CAPACITY, 'sum', 200));
+                breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.LIFESPAN, 'sum', 20));
                 break;
             default:
                 break;
