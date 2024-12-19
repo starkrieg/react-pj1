@@ -24,9 +24,9 @@ export default class FightScene {
 
     private fightExpReward: number = 0;
 
-    constructor(characterCurrentHealth: number, enemyPower: number) {
+    constructor(characterCurrentHealth: number, enemyPower: number, enemyName: string) {
         const enemyHealth = enemyPower * this.ENEMY_HEALTH_MOD;
-        this.enemy = new FightAttributes(enemyHealth, enemyPower);
+        this.enemy = new FightAttributes(enemyHealth, enemyPower, enemyName);
         this.characterCurrentHealth = characterCurrentHealth;
         this.fightTurn = 0;
         this.fightExpReward = this.calculateFightExpReward();
@@ -51,9 +51,9 @@ export default class FightScene {
         return (CharacterController.getCharacterPower() / this.enemy.power);
     }
 
-    newFight(enemyPower: number) {
+    newFight(enemyPower: number, enemyName: string) {
         const enemyHealth = enemyPower * this.ENEMY_HEALTH_MOD;
-        this.enemy = new FightAttributes(enemyHealth, enemyPower);
+        this.enemy = new FightAttributes(enemyHealth, enemyPower, enemyName);
         this.fightTurn = 0;
         this.fightExpReward = this.calculateFightExpReward();
     }
@@ -127,6 +127,12 @@ export default class FightScene {
                 finalDamage = Utilities.roundTo2Decimal(this.enemy.power * damageMod);
                 
                 if (finalDamage > 0) {
+                    const damageToCurrentHealthRatio = finalDamage / this.characterCurrentHealth;
+                    //if damage taken is over 50% of current health, take internal injury damage based on the ratio
+                    if (damageToCurrentHealthRatio > 0.4) {
+                        const internalDamage = Utilities.roundTo2Decimal(finalDamage * damageToCurrentHealthRatio);
+                        CharacterController.getCharacter().increaseAttribute(AttributeTypeEnum.INTERNAL_INJURY, internalDamage);
+                    }
                     this.characterCurrentHealth = Utilities.roundTo2Decimal(this.characterCurrentHealth - finalDamage);
                 }
                 MessageController.pushMessageFight(`Enemy attacked you for ${finalDamage} damage!`);

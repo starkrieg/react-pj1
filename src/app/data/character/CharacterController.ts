@@ -217,4 +217,12 @@ export class CharacterController {
         this.character.fightingExperience.addFightingExperience(value);
       }
 
+      static recoverInternalInjury() {
+        const internalDamage = this.character.getAttributeValue(AttributeTypeEnum.INTERNAL_INJURY)
+        if (internalDamage > 0) {
+            const recoveryValue = this.character.getAttributeValue(AttributeTypeEnum.BODY) / 100;
+            this.character.increaseAttribute(AttributeTypeEnum.INTERNAL_INJURY, -recoveryValue);
+        }
+      }
+
 }

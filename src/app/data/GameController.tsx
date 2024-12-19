@@ -169,6 +169,11 @@ export default class GameController {
                             //and only if selected one activity
                             ActivitiesController.doActivityTick();
                         }
+
+                        if (ExplorationController.selectedZoneId == ExploreZoneIdEnum.NOTHING) {
+                            CharacterController.recoverInternalInjury();
+                        }
+                        
                         //day will pass
                         this.addDayCalendar();
                     }

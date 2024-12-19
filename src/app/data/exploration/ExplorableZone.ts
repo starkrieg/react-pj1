@@ -1,4 +1,5 @@
 import { ItemIdEnum } from "../items/ItemIdEnum";
+import { Utilities } from "../utils/Utilities";
 import { ExploreZoneIdEnum } from "./ExploreZoneIdEnum";
 import { ZoneLoot } from "./ZoneLoot";
 
@@ -34,6 +35,9 @@ export class ExplorableZone {
     //list of possible loots in a zone
     lootList: ZoneLoot[];
 
+    //list of available enemies for this zone
+    enemyList: string[];
+
     // zones have big sizes, and must be completed on a single run
     // so every step shouldn't increase difficulty too much
     // every step on the zone increases power req by 5% based on the minimum requirement
@@ -45,7 +49,8 @@ export class ExplorableZone {
         combatSize: number, basePower: number, 
         unlockRequirements: (ItemIdEnum | ExploreZoneIdEnum)[],
         listClearRewardItemId: ItemIdEnum[],
-        lootList: ZoneLoot[]) {
+        lootList: ZoneLoot[],
+        enemyList: string[]) {
         this.id = id;
         this.title = title;
         this.desc = desc;
@@ -58,6 +63,7 @@ export class ExplorableZone {
         this.unlockRequirements = unlockRequirements;
         this.listClearRewardItemId = listClearRewardItemId;
         this.lootList = lootList;
+        this.enemyList = enemyList;
     }
 
     /**
@@ -107,6 +113,11 @@ export class ExplorableZone {
 
     getLootList() {
         return this.lootList;
+    }
+
+    getRandomEnemyName() {
+        const randomIndex = Utilities.roundTo0Decimal(Math.random() * (this.enemyList.length-1));
+        return this.enemyList[randomIndex];
     }
 
 }

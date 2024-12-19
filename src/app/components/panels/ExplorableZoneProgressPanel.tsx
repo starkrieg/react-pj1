@@ -4,7 +4,6 @@ import Button from "../Button";
 import { ExplorationController } from "@/app/data/exploration/ExplorationController";
 import IconCrossedSwords from '../../assets/icons/crossed-swords.svg';
 import IconSwordEmblem from '../../assets/icons/swords-emblem.svg';
-import FightAttributes from "@/app/data/exploration/FightAttributes";
 import { Utilities } from "@/app/data/utils/Utilities";
 import { HealthBar } from "../ColoredBar";
 import { CharacterController } from "@/app/data/character/CharacterController";
@@ -51,7 +50,7 @@ export default function ExplorableZoneProgressPanel() {
         const elements = [];
 
         // Enemy
-        const person = 'Enemy';
+        const person = zoneEnemyStats?.name;
         const classes = 'fight-right';
         elements.push(zoneEnemyStats?.power);
         elements.push(
@@ -125,19 +124,3 @@ export default function ExplorableZoneProgressPanel() {
     );
 
 }
-
-/* function getFightPanel() {
-    return (
-        <div className="row" style={{ textAlign: 'center' }}>
-            <div className="col-3">
-                Player
-            </div>
-            <div className="col-6">
-
-            </div>
-            <div className="col-3">
-                Enemy
-            </div>
-        </div>
-    );
-} */

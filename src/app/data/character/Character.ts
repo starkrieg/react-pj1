@@ -118,6 +118,23 @@ export class Character {
             case AttributeTypeEnum.BODY:
                 this.increaseBody(value);
                 break;
+            case AttributeTypeEnum.INTERNAL_INJURY:
+                const currentInternalDamage = this.getAttributeValueOr0(AttributeTypeEnum.INTERNAL_INJURY);
+                if (value < 0) {
+                    if (currentInternalDamage + value <= 0) {
+                        value = -currentInternalDamage;
+                    }
+                    this.attributes.addAttributeValue(attribute, value);
+                } else {
+                    
+                    if (currentInternalDamage < 100) {
+                        if ((currentInternalDamage + value) >= 100) {
+                            value = 100 - currentInternalDamage;
+                        }
+                        this.attributes.addAttributeValue(attribute, value);
+                    }
+                }
+                break;
             default:
                 this.attributes.addAttributeValue(attribute, value);
                 break;
@@ -157,7 +174,8 @@ export class Character {
         const appliedBodyPower = (this.getBody() * this.bodyToPowerRatio);
         const appliedQiPower = (this.getQi() * this.qiToPowerRatio);
         const appliedFightingLevel = 1 + ((this.fightingExperience.getLevel()-1) * POWER_RAISE_PER_LEVEL)
-        const finalPower = (appliedBodyPower + appliedQiPower) * appliedFightingLevel;
+        const appliedInternalInjury = 1 - (this.getAttributeValueOr0(AttributeTypeEnum.INTERNAL_INJURY) / 100)
+        const finalPower = (appliedBodyPower + appliedQiPower) * appliedFightingLevel * appliedInternalInjury;
         return Utilities.roundTo2Decimal(finalPower);
     }
 
@@ -169,8 +187,13 @@ export class Character {
         const appliedBodyHealth = (this.getBody() * this.bodyToHealthRatio);
         const appliedQiHealth = (this.getQi() * this.qiToHealthRatio);
         const appliedFightingLevel = 1 + ((this.fightingExperience.getLevel()-1) * 0.1)
-        const finalPower = (appliedBodyHealth + appliedQiHealth) * appliedFightingLevel;
+        const appliedInternalInjury = 1 - (this.getAttributeValueOr0(AttributeTypeEnum.INTERNAL_INJURY) / 100)
+        const finalPower = (appliedBodyHealth + appliedQiHealth) * appliedFightingLevel * appliedInternalInjury;
         return Utilities.roundTo2Decimal(finalPower);
+    }
+
+    getAttributeValue(attribute: AttributeTypeEnum) {
+        return this.getAttributeValueOr0(attribute);
     }
 
 }

@@ -6,8 +6,6 @@ import { MessageController } from "../messages/MessageController";
 import { CharacterController } from "../character/CharacterController";
 import { ErrorController } from "../utils/ErrorController";
 import { ContentUnlockController } from "../ContentUnlockController";
-import FightAttributes from "./FightAttributes";
-import { Utilities } from "../utils/Utilities";
 import FightScene from "./FightScene";
 
 export class ExplorationController {
@@ -81,16 +79,18 @@ export class ExplorationController {
     static createFightScene() {
         const characterHealth = CharacterController.getHealth();
         const enemyPower = this.getSelectedZone()?.getCurrentStepPowerReq() || 0;
+        const enemyName = this.getSelectedZone()?.getRandomEnemyName() || 'Enemy';
 
         this.fightScene = new FightScene(
-            characterHealth, enemyPower
+            characterHealth, enemyPower, enemyName
         )
     }
 
     static progressFightScene() {
         if (this.fightScene) {
+            const enemyName = this.getSelectedZone()?.getRandomEnemyName() || 'Enemy';
             const enemyPower = this.getSelectedZone()?.getCurrentStepPowerReq() || 0;
-            this.fightScene.newFight(enemyPower);
+            this.fightScene.newFight(enemyPower, enemyName);
         }
     }
 

@@ -15,16 +15,17 @@ export default class ZonePool {
 
     private static createExplorableZone(zoneEnum: ExploreZoneIdEnum,
         title: string, description: string, 
-        zoneSize: number, minimumPowerRequired: number,
+        zoneSize: number, basePower: number,
         unlockRequirements: (ItemIdEnum | ExploreZoneIdEnum)[],
         listClearRewardItemId: ItemIdEnum[],
-        lootList: ZoneLoot[]
+        lootList: ZoneLoot[],
+        enemyList: string[]
     ) {
         // error when:
         // zone, title, description or item reward is undefined/empty
         // zone size is equal or below 0
         // minimum power required is below 0
-        if (!title || !description || zoneSize <= 0 || minimumPowerRequired < 0 || !listClearRewardItemId) {
+        if (!title || !description || zoneSize <= 0 || basePower < 0 || !listClearRewardItemId) {
             ErrorController.throwSomethingWrongError();
             return;
         }
@@ -34,10 +35,11 @@ export default class ZonePool {
             title,
             description,
             zoneSize,
-            minimumPowerRequired,
+            basePower,
             unlockRequirements,
             listClearRewardItemId,
-            lootList
+            lootList,
+            enemyList
         );
 
         this.zonePool.push(zone);
@@ -56,6 +58,11 @@ export default class ZonePool {
             [ /* zone loot */ 
                 new ZoneLoot(AttributeTypeEnum.COIN, 75, 1),
                 new ZoneLoot(AttributeTypeEnum.BODY, 25, 0.01)
+            ],
+            [ /* enemy names */
+                'Punk',
+                'Bully',
+                'Creep'
             ]
         );
         this.createExplorableZone(
@@ -74,6 +81,11 @@ export default class ZonePool {
             [ /* zone loot */ 
                 new ZoneLoot(AttributeTypeEnum.COIN, 10, 3),
                 new ZoneLoot(AttributeTypeEnum.BODY, 50, 0.05)
+            ],
+            [ /* enemy names */
+                'Punk',
+                'Soldier',
+                'Slacker'
             ]
         );
         this.createExplorableZone(
@@ -92,6 +104,11 @@ export default class ZonePool {
                 new ZoneLoot(AttributeTypeEnum.COIN, 1, 5),
                 new ZoneLoot(AttributeTypeEnum.BODY, 50, 0.03),
                 new ZoneLoot(AttributeTypeEnum.QI, 1, 0.01)
+            ],
+            [ /* enemy names */
+                'Pest',
+                'Beast',
+                'Rodent'
             ]
         );
         this.createExplorableZone(
@@ -108,6 +125,10 @@ export default class ZonePool {
                 new ZoneLoot(AttributeTypeEnum.COIN, 25, 5),
                 new ZoneLoot(AttributeTypeEnum.BODY, 25, 0.05),
                 new ZoneLoot(AttributeTypeEnum.QI, 10, 0.05)
+            ],
+            [ /* enemy names */
+                'Bandit',
+                'Beast'
             ]
         );
         this.createExplorableZone(
@@ -124,6 +145,11 @@ export default class ZonePool {
                 new ZoneLoot(AttributeTypeEnum.COIN, 15, 3),
                 new ZoneLoot(AttributeTypeEnum.BODY, 50, 0.05),
                 new ZoneLoot(AttributeTypeEnum.QI, 15, 0.05)
+            ],
+            [ /* enemy names */
+                'Bandit',
+                'Beast',
+                'Cultivator'
             ]
         );
         this.createExplorableZone(
@@ -142,6 +168,11 @@ export default class ZonePool {
                 new ZoneLoot(AttributeTypeEnum.COIN, 15, 10),
                 new ZoneLoot(AttributeTypeEnum.BODY, 35, 0.1),
                 new ZoneLoot(AttributeTypeEnum.QI, 25, 0.05)
+            ],
+            [ /* enemy names */
+                'Cultivator',
+                'Beast',
+                'Young master'
             ]
         );
         this.createExplorableZone(
@@ -161,6 +192,11 @@ export default class ZonePool {
                 new ZoneLoot(AttributeTypeEnum.COIN, 25, 5),
                 new ZoneLoot(AttributeTypeEnum.BODY, 25, 0.05),
                 new ZoneLoot(AttributeTypeEnum.QI, 10, 0.05)
+            ],
+            [ /* enemy names */
+                'Warrior',
+                'Bully',
+                'Cultivator'
             ]
         );
         this.createExplorableZone(
@@ -179,6 +215,11 @@ export default class ZonePool {
                 new ZoneLoot(AttributeTypeEnum.COIN, 50, 12),
                 new ZoneLoot(AttributeTypeEnum.BODY, 75, 0.1),
                 new ZoneLoot(AttributeTypeEnum.QI, 25, 0.1)
+            ],
+            [ /* enemy names */
+                'Outer disciple',
+                'Punk cultivator',
+                'Beast'
             ]
         );
         this.createExplorableZone(
@@ -197,6 +238,11 @@ export default class ZonePool {
                 new ZoneLoot(AttributeTypeEnum.COIN, 75, 20),
                 new ZoneLoot(AttributeTypeEnum.BODY, 75, 0.1),
                 new ZoneLoot(AttributeTypeEnum.QI, 35, 0.1)
+            ],
+            [ /* enemy names */
+                'Inner disciple',
+                'Bully cultivator',
+                'Young master'
             ]
         );
         this.createExplorableZone(
@@ -215,6 +261,11 @@ export default class ZonePool {
                 new ZoneLoot(AttributeTypeEnum.COIN, 50, 50),
                 new ZoneLoot(AttributeTypeEnum.BODY, 75, 1),
                 new ZoneLoot(AttributeTypeEnum.QI, 50, 1)
+            ],
+            [ /* enemy names */
+                'Young master',
+                'Elder',
+                'Core disciple'
             ]
         );
         this.createExplorableZone(
@@ -233,6 +284,13 @@ export default class ZonePool {
                 new ZoneLoot(AttributeTypeEnum.COIN, 25, 5),
                 new ZoneLoot(AttributeTypeEnum.BODY, 75, 0.25),
                 new ZoneLoot(AttributeTypeEnum.QI, 25, 0.25)
+            ],
+            [ /* enemy names */
+                'Bandit',
+                'Beast',
+                'Cultivator',
+                'Bully',
+                'Mystical beast'
             ]
         );
     }
