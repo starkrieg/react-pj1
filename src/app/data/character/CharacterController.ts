@@ -203,6 +203,10 @@ export class CharacterController {
         return this.character.getFightingPower();
       }
 
+      static getHealth() {
+        return this.character.getHealth();
+      }
+
       static incrementFightCount() {
         this.fightTotalCount++;
       }

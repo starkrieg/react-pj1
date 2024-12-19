@@ -11,7 +11,7 @@ export class ExplorableZone {
     zoneSize: number;
     
     //minimum recomended power - affects overall difficulty of fights and battle experience gained
-    minPowerReq: number;
+    basePower: number;
 
     //zone is marked complete after finished first time
     //used to control first clear reward
@@ -38,7 +38,7 @@ export class ExplorableZone {
     unlockRequirements: (ItemIdEnum | ExploreZoneIdEnum)[]
 
     constructor(id: ExploreZoneIdEnum, title: string, desc: string,
-        combatSize: number, minPowerReq: number, 
+        combatSize: number, basePower: number, 
         unlockRequirements: (ItemIdEnum | ExploreZoneIdEnum)[],
         listClearRewardItemId: ItemIdEnum[]) {
         this.id = id;
@@ -47,8 +47,8 @@ export class ExplorableZone {
         
         this.zoneSize = combatSize;
         this.currProgress = 1;
-        this.minPowerReq = minPowerReq;
-        this.currentStepPower = minPowerReq;
+        this.basePower = basePower;
+        this.currentStepPower = basePower;
         this.isComplete = false;
         this.unlockRequirements = unlockRequirements;
         this.listClearRewardItemId = listClearRewardItemId;
@@ -85,7 +85,7 @@ export class ExplorableZone {
     }
 
     private updateCurrentStepPower() {
-        this.currentStepPower = this.minPowerReq * (1 + ((this.currProgress-1) * this.POWER_INCREASE_PER_STEP));
+        this.currentStepPower = this.basePower * (1 + ((this.currProgress-1) * this.POWER_INCREASE_PER_STEP));
     }
 
     /**
@@ -96,7 +96,16 @@ export class ExplorableZone {
     }
 
     getBaseExpReward() {
-        return this.minPowerReq / 10
+        return this.basePower / 10
+    }
+
+    getAvailableResources() {
+        const maximumResourceAmount = this.basePower / 10;
+        return {
+            qi: maximumResourceAmount,
+            body: maximumResourceAmount,
+            coin: (maximumResourceAmount + 1)
+        };
     }
 
 }

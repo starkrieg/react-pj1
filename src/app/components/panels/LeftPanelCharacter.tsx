@@ -31,11 +31,17 @@ export default function LeftPanelCharacter() {
         );
     }
 
+    function Health() {
+        return (
+            <label>Health: { CharacterController.getHealth() }</label>
+        );
+    }
+
     function LevelStatus() {
         const fightingStatus = CharacterController.getFightingStatus();
-        const value = fightingStatus[0];
-        const maxValue = fightingStatus[1];
-        
+        const value = Utilities.roundTo2Decimal(fightingStatus[0]);
+        const maxValue = Utilities.roundTo0Decimal(fightingStatus[1]);
+
         return (
             <div style={{ textAlign: 'center', margin: '5px 0px' }}>
                 <label>Level: { CharacterController.getFightingLevel() } </label>
@@ -57,10 +63,11 @@ export default function LeftPanelCharacter() {
         <div style={{ fontSize: 14, display: 'grid' }}>
             { LevelStatus() }
             <label>{character.realm?.title}</label>
-            <label>Coins: {Utilities.roundTo2Decimal(character.money)}</label>
+            { Health() }
+            { FightingPower() }
             <label>Body: {character.getBody()} {bodyCapPercent}</label>
             { isShowQiLabel && createQiLabel() }
-            { FightingPower() }
+            <label>Coins: {Utilities.roundTo2Decimal(character.money)}</label>
             { isShowDeath && DeathCount() }
         </div>
     );

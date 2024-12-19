@@ -46,7 +46,7 @@ export default class ZonePool {
             'Village Backalley',
             'Face off against punks and bullies',
             15,
-            0.1,
+            0.35,
             [ /* no requirements */],
             [ /* no rewards */ ]
         );

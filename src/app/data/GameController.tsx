@@ -136,12 +136,13 @@ export default class GameController {
             /* game speed reduces tick time */
             
             let tickCount = 0;
+            let zoneTicks = 0;
             const ticksInADay = 8; // how many ms for a day change
             // keep it above 3, so hydration works properly
             while(this.isGameWorking) {
                 await this.sleep(100 / this.gameSpeed);
                 if (!this.isPaused && this.modalType == ModalTypeEnum.NOTHING) {
-                    tickCount += 1
+                    tickCount += 1;
                     while (tickCount >= ticksInADay) {
                         tickCount += -ticksInADay
                         
@@ -150,13 +151,20 @@ export default class GameController {
                             //if exploring, then cant work on selected activity
                             //exploring means days do not pass
                             ExplorationController.doExploreSelectedZone()
+                            zoneTicks += 1;
+                            //average 6 ticks means multiple fights
+                            if (zoneTicks == 6) {
+                                //day will pass
+                                this.addDayCalendar();
+                                zoneTicks = 0;    
+                            }
                         } else {                        
                             if(ActivitiesController.selectedActivity != ActivityEnum.NOTHING) {
                                 //only do activity if not exploring
                                 //and only if selected one activity
                                 ActivitiesController.doActivityTick();
                             }
-                            //day will pass anyway
+                            //day will pass
                             this.addDayCalendar();
                         }
                     }

@@ -103,7 +103,7 @@ export function ButtonExplorableZone(zone: ExplorableZone,
                 </div>
                 <div className="zone-power">
                     <span>
-                        { zone?.minPowerReq }
+                        { zone?.basePower }
                         <IconSwordEmblem style={{ width: '25px', height: '25px', marginLeft: '5px' }}/>
                     </span>
                 </div>

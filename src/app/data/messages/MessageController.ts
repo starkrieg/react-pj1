@@ -6,6 +6,19 @@ export class MessageController {
 
     private static messageList: Message[] = [];
 
+    private static messagesDisplayMap: Map<MessageType, boolean> 
+        = new Map<MessageType, boolean>([
+            [MessageType.GENERAL, true],
+            [MessageType.FIGHT, true],
+            [MessageType.LOOT, true],
+            [MessageType.STORY, true],
+        ]);
+
+    static toggleMessageDisplayType(messageType: MessageType) {
+        const currentValue = this.messagesDisplayMap.get(messageType) || true;
+        this.messagesDisplayMap.set(messageType, !currentValue);
+    }
+
     /**
      * Pushes a general message to board
      * @param message 
@@ -22,6 +35,15 @@ export class MessageController {
     static pushMessageFight(message: string) {
         const id = this.messageList.length + 1;
         this.messageList.push(new Message(id, 0, 0, MessageType.FIGHT, message));
+    }
+
+    /**
+     * Pushes a fight message to board
+     * @param message 
+     */
+    static pushMessageLoot(message: string) {
+        const id = this.messageList.length + 1;
+        this.messageList.push(new Message(id, 0, 0, MessageType.LOOT, message));
     }
 
     /**

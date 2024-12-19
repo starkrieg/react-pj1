@@ -79,21 +79,18 @@ export class ExplorationController {
     }
 
     static createFightScene() {
-        const characterPower = CharacterController.getCharacterPower();
-        const zoneStepPowerReq = this.getSelectedZone()?.getCurrentStepPowerReq() || 0;
+        const characterHealth = CharacterController.getHealth();
+        const enemyPower = this.getSelectedZone()?.getCurrentStepPowerReq() || 0;
 
         this.fightScene = new FightScene(
-            new FightAttributes(characterPower, characterPower),
-            new FightAttributes(zoneStepPowerReq, zoneStepPowerReq)
+            characterHealth, enemyPower
         )
     }
 
     static progressFightScene() {
         if (this.fightScene) {
-            const zoneStepPowerReq = this.getSelectedZone()?.getCurrentStepPowerReq() || 0;
-            this.fightScene.newFight(
-                new FightAttributes(zoneStepPowerReq, zoneStepPowerReq)
-            );
+            const enemyPower = this.getSelectedZone()?.getCurrentStepPowerReq() || 0;
+            this.fightScene.newFight(enemyPower);
         }
     }
 
@@ -103,7 +100,7 @@ export class ExplorationController {
     static doExploreSelectedZone() {
         if (!this.fightScene) {
             this.createFightScene();
-        }
+        } 
 
         this.fightScene?.performFightTurn();
 
@@ -118,25 +115,20 @@ export class ExplorationController {
 
             CharacterController.incrementFightCount();
 
-            const rewardExp = Utilities.roundTo2Decimal(this.fightScene.getFightExpReward());
+            this.fightScene.giveAfterFightExp();
 
-            CharacterController.incrementFightExperience(rewardExp);
-            MessageController.pushMessageSimple(`You defeated the enemy! Got ${rewardExp} experience!`)
-
-            //give reward after the progress is made
-            const moneyGain = Utilities.roundTo0Decimal(Math.random() * 5);
-            CharacterController.increaseMoney(moneyGain);
-            MessageController.pushMessageSimple(`Found something! Got ${moneyGain} coin(s)`)
+            this.fightScene.giveAfterFightResources();
             
             //give final reward if zone completed first time
             if (isFirstClear) {
                 //publish message on zone finish
                 MessageController.pushMessageSimple(`You finished exploring [${this.getSelectedZone()?.title}] !`);
-                
+
+                CharacterController.giveItem(this.selectedZoneId)
+
                 const listRewardItemId = this.getSelectedZone()?.listClearRewardItemId;
-                
+
                 if (listRewardItemId && listRewardItemId.length > 0) {
-                    CharacterController.giveItem(this.selectedZoneId)
                     listRewardItemId.forEach(itemId => {
                         //give the character the item
                         CharacterController.giveItem(itemId);
@@ -149,9 +141,10 @@ export class ExplorationController {
                             MessageController.pushMessageSimple(`Found something! Got [${rewardItem?.name}]`);
                         }
                     });
-                    //update game data based on the reward
-                    ContentUnlockController.unlockContent();
                 }
+
+                //update game data based on the rewards
+                ContentUnlockController.unlockContent();
                 
                 //kick from zone when first clear
                 this.doClickRetreatFromZone();
@@ -165,6 +158,6 @@ export class ExplorationController {
 
     static getFightScene() : Readonly<FightScene | undefined> {
         return this.fightScene;
-    }    
+    }
 
 }

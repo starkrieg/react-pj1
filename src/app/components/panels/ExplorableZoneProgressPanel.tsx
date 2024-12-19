@@ -7,6 +7,7 @@ import IconSwordEmblem from '../../assets/icons/swords-emblem.svg';
 import FightAttributes from "@/app/data/exploration/FightAttributes";
 import { Utilities } from "@/app/data/utils/Utilities";
 import { HealthBar } from "../ColoredBar";
+import { CharacterController } from "@/app/data/character/CharacterController";
 
 export default function ExplorableZoneProgressPanel() {
 
@@ -18,33 +19,47 @@ export default function ExplorableZoneProgressPanel() {
         ExplorationController.createFightScene();
     }
 
-    const zoneCharacterStats = ExplorationController.getFightScene()?.character;
-    const zoneEnemyStats = ExplorationController.getFightScene()?.enemy;
+    function CharHealthStats() {
+        const elements = [];
+        const person = 'You';
+        const classes = 'fight-left';
+        
+        elements.push(
+            <IconSwordEmblem style={{ width: '25px', height: '25px', marginRight: '5px' }}/>
+        );
+        elements.push(CharacterController.getCharacterPower());
 
-    function CharHealthStats(type: string, stats: FightAttributes | undefined) {
-        let person = 'Someone';
-        let classes = ''
+        const healthBarMax = CharacterController.getHealth();    
+        const healthBarValue = Utilities.roundTo2Decimal(
+            ExplorationController.getFightScene()?.characterCurrentHealth || 0);
+
+        return (
+            <div style={{ textAlign: 'center' }}>
+                { person }
+                <div>
+                    <span className={classes}>
+                        { elements }
+                    </span>
+                </div>
+                { HealthBar(healthBarValue, healthBarMax) }
+            </div>
+        );
+    }
+
+    function EnemyHealthStats() {
+        const zoneEnemyStats = ExplorationController.getFightScene()?.enemy;
         const elements = [];
 
-        if (type == 'P') { //Player
-            person = 'You';
-            classes = 'fight-left';
-            elements.push(
-                <IconSwordEmblem style={{ width: '25px', height: '25px', marginRight: '5px' }}/>
-            );
-            elements.push(stats?.power);
-        } else {
-            // Enemy
-            person = 'Enemy';
-            classes = 'fight-right';
-            elements.push(stats?.power);
-            elements.push(
-                <IconSwordEmblem style={{ width: '25px', height: '25px', marginLeft: '5px' }}/>
-            );
-        }
+        // Enemy
+        const person = 'Enemy';
+        const classes = 'fight-right';
+        elements.push(zoneEnemyStats?.power);
+        elements.push(
+            <IconSwordEmblem style={{ width: '25px', height: '25px', marginLeft: '5px' }}/>
+        );
 
-        const healthBarMax = Utilities.roundTo0Decimal(stats?.power || 0);
-        const healthBarValue = Utilities.roundTo2Decimal(stats?.health || 0);
+        const healthBarMax = Utilities.roundTo2Decimal(zoneEnemyStats?.power || 0);
+        const healthBarValue = Utilities.roundTo2Decimal(zoneEnemyStats?.health || 0);
 
         return (
             <div style={{ textAlign: 'center' }}>
@@ -75,7 +90,7 @@ export default function ExplorableZoneProgressPanel() {
                     </div>
                     <div className="zone-power">
                         <span>
-                            { zone?.minPowerReq }
+                            { zone?.basePower }
                             <IconSwordEmblem style={{ width: '25px', height: '25px', marginLeft: '5px' }}/>
                         </span>
                     </div>
@@ -99,11 +114,11 @@ export default function ExplorableZoneProgressPanel() {
                     display: 'grid',
                     gridTemplateColumns: '1fr 150px 1fr'
                 }}>
-                    { CharHealthStats('P', zoneCharacterStats) }
+                    { CharHealthStats() }
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <IconCrossedSwords style={{ width: '25px', height: '25px' }}/>
                     </div>
-                    { CharHealthStats('E', zoneEnemyStats) }
+                    { EnemyHealthStats() }
                 </div>
             </div>
         </div>

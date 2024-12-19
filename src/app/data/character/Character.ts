@@ -35,8 +35,11 @@ export class Character {
     
     private bodyToQiCapacityRatio = 0.1; //10% of body as qi capacity
 
-    private bodyToPowerRatio = 0.1; //10%
-    private qiToPowerRatio = 0.5 //50%
+    private bodyToPowerRatio = 0.35; //35%
+    private qiToPowerRatio = 0.65 //65%
+
+    private bodyToHealthRatio = 0.65; //65%
+    private qiToHealthRatio = 0.35 //35%
 
     constructor() {
         this.year = 16
@@ -137,13 +140,26 @@ export class Character {
 
     /**
      * Current total power
-     * 
+     * Qi affects power more than Body
      */
     getFightingPower() {
+        const POWER_RAISE_PER_LEVEL = 0.1
         const appliedBodyPower = (this.getBody() * this.bodyToPowerRatio);
         const appliedQiPower = (this.getQi() * this.qiToPowerRatio);
-        const appliedFightingLevel = 1 + ((this.fightingExperience.getLevel()-1) * 0.1)
+        const appliedFightingLevel = 1 + ((this.fightingExperience.getLevel()-1) * POWER_RAISE_PER_LEVEL)
         const finalPower = (appliedBodyPower + appliedQiPower) * appliedFightingLevel;
+        return Utilities.roundTo2Decimal(finalPower);
+    }
+
+    /**
+     * Current total power
+     * Qi affects power more than Body
+     */
+    getHealth() {
+        const appliedBodyHealth = (this.getBody() * this.bodyToHealthRatio);
+        const appliedQiHealth = (this.getQi() * this.qiToHealthRatio);
+        const appliedFightingLevel = 1 + ((this.fightingExperience.getLevel()-1) * 0.1)
+        const finalPower = (appliedBodyHealth + appliedQiHealth) * appliedFightingLevel;
         return Utilities.roundTo2Decimal(finalPower);
     }
 

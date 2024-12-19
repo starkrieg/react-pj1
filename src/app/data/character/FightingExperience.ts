@@ -1,3 +1,5 @@
+import { Utilities } from "../utils/Utilities";
+
 export class FightingExperience {
 
     // fight level or rank, multiplies the fighting power
@@ -7,12 +9,12 @@ export class FightingExperience {
     // required experience to level up fighting level
     private experienceNextLevel: number;
 
-    private readonly EXP_UP_RATE = 1.5;
+    private readonly EXP_UP_RATE = 1.75;
 
     constructor() {
         this.level = 1;
         this.experience = 0;
-        this.experienceNextLevel = 100;
+        this.experienceNextLevel = 25;
     }
 
     addFightingExperience(value: number) {
@@ -20,7 +22,8 @@ export class FightingExperience {
         if (this.experience >= this.experienceNextLevel) {
             this.level += 1;
             this.experience -= this.experienceNextLevel;
-            this.experienceNextLevel = this.experienceNextLevel * this.EXP_UP_RATE;
+            this.experienceNextLevel = Utilities.roundTo0Decimal(this.experienceNextLevel 
+                * this.EXP_UP_RATE);
         }
     }
 

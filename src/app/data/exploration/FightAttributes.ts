@@ -8,7 +8,7 @@ export default class FightAttributes {
 
     constructor(health: number, power: number) {
         //minimum health is 1 HP
-        this.health = Utilities.roundTo0Decimal(Math.max(health, 1));
+        this.health = Utilities.roundTo2Decimal(health);
         this.power = Utilities.roundTo2Decimal(power);
     }
     
