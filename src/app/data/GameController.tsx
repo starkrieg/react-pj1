@@ -34,6 +34,9 @@ export default class GameController {
 
     calendar: Calendar;
 
+    readonly MAX_TICK_DAY = 128;
+    current_tick_day = 0;
+
     constructor() {
         this.calendar = new Calendar();        
         this.globalRoot = undefined;
@@ -135,31 +138,35 @@ export default class GameController {
             /* 365 days in a year */
             /* game speed reduces tick time */
             
-            let tickCount = 0;
-            let zoneTicks = 0;
-            const ticksInADay = 8; // how many ms for a day change
+            const clocksInAGameTick = 8; // how many ms for a small day tick
+            // a day has MAX_TICK_DAY of walks
             // keep it above 3, so hydration works properly
             while(this.isGameWorking) {
                 await this.sleep(100 / this.gameSpeed);
                 if (!this.isPaused && this.modalType == ModalTypeEnum.NOTHING) {
-                    tickCount += 1;
-                    while (tickCount >= ticksInADay) {
-                        tickCount += -ticksInADay
-                        
-                        // check if doing anything
-                        if (ExplorationController.selectedZoneId != ExploreZoneIdEnum.NOTHING) {
+                    if (ExplorationController.selectedZoneId != ExploreZoneIdEnum.NOTHING) {
+                        this.current_tick_day += 1;
+                    } else {
+                        this.current_tick_day += 4;
+                    }
+                    
+                    if (this.current_tick_day % clocksInAGameTick == 0) {
+
+                        if (ExplorationController.selectedZoneId != ExploreZoneIdEnum.NOTHING
+                            && (this.current_tick_day % (clocksInAGameTick) == 0)
+                        ) {
                             //if exploring, then cant work on selected activity
                             //exploring means days do not pass
                             ExplorationController.doExploreSelectedZone()
-                            zoneTicks += 1;
-                            //average 6 ticks means multiple fights
-                            if (zoneTicks == 6) {
-                                //day will pass
-                                this.addDayCalendar();
-                                zoneTicks = 0;    
-                            }
-                        } else {                        
-                            if(ActivitiesController.selectedActivity != ActivityEnum.NOTHING) {
+                        }
+
+                        if (this.current_tick_day >= this.MAX_TICK_DAY) {
+                            this.current_tick_day = 0;
+                            
+                            // check if doing anything
+                            if(ActivitiesController.selectedActivity != ActivityEnum.NOTHING
+                                && ExplorationController.selectedZoneId == ExploreZoneIdEnum.NOTHING
+                            ) {
                                 //only do activity if not exploring
                                 //and only if selected one activity
                                 ActivitiesController.doActivityTick();
@@ -167,14 +174,13 @@ export default class GameController {
                             //day will pass
                             this.addDayCalendar();
                         }
-                    }
+                    } 
                 }
                 // TODO - ui must be updated based on react hooks, not forced by dom changes
 
                 // update UI
                 this.updateUIState();
             }
-
         });
     }
 

@@ -48,8 +48,9 @@ export function ButtonActivity(act: Activity,
     const rankDesc = 'Rank ' 
         + actRank.rank;
 
-    const gainDesc = Utilities.roundTo2Decimal(act.getTickGain()) 
-        + ' per day';
+    const gainDesc = act.getTickGain() > 0 ?
+        `${Utilities.roundTo2Decimal(act.getTickGain())} per day`
+        : '';
         
 
     function getSelectedStatus() {

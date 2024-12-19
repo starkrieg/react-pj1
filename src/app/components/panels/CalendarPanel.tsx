@@ -3,10 +3,14 @@
 import { CharacterController } from "@/app/data/character/CharacterController";
 import Button from "../Button";
 import GameController from "@/app/data/GameController";
+import { CalendarTickBar } from "../ColoredBar";
 
 export default function CalendarPanel(gameController: GameController) {
 
-    const character = CharacterController.getCharacter()
+    const character = CharacterController.getCharacter();
+
+    const MAX_TICK_DAY = gameController.MAX_TICK_DAY;
+    const currentTick = gameController.current_tick_day;
 
     return (
         <div style={{ fontSize: 14, display: 'grid' }}>
@@ -18,6 +22,7 @@ export default function CalendarPanel(gameController: GameController) {
                 { Button('10x', gameController.speedUp10Game.bind(gameController)) }
                 { Button('100x', gameController.speedUp100Game.bind(gameController)) }
             </div>
+            { CalendarTickBar(currentTick, MAX_TICK_DAY) }
             <label>{gameController.calendar.year}y, day {gameController.calendar.day}</label>
             <label>{character.year}y (max {character.maxAge}y)</label>
         </div>

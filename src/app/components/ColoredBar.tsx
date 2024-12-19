@@ -20,3 +20,11 @@ export function ExperienceBar(value: number, maxValue: number) {
         </div>
     );
 }
+
+export function CalendarTickBar(value: number, maxValue: number) {
+    return (
+        <div className="calendar-tick-bar">
+            <progress value={ value } max={ maxValue } ></progress>
+        </div>
+    );
+}

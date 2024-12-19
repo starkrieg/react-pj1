@@ -167,10 +167,10 @@ export default class ZonePool {
         );
         this.createExplorableZone(
             ExploreZoneIdEnum.MYRIAD_BEASTS_VALLEY,
-            'Small Sect - Elder\'s guidance',
-            'Learn the core teachings directly from the elders',
-            5,
-            500,
+            'Myriad Beasts Valley',
+            'The home of many powerful beasts',
+            1000,
+            100,
             [ /* requirements */
                 ItemIdEnum.BOOK_INNER_REGION
             ],

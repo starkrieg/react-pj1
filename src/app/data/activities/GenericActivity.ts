@@ -13,7 +13,7 @@ export class GenericActivity implements Activity {
     unlockRequirements;
     
     getTickGain(): number {
-        throw new Error("Method not implemented.");
+        return 0;
     }
     
     constructor(id: ActivityEnum, title: string, desc: string,

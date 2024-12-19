@@ -465,3 +465,27 @@ body {
   z-index: 9999; /* Ensures it stays on top of all other elements */
   pointer-events: auto; /* Allows interaction blocking */
 }
+
+
+/* For WebKit-based browsers (Chrome, Safari, Edge) */
+.calendar-tick-bar progress::-webkit-progress-value
+{
+  height: 25%;
+  width: 100%;
+  background-color: var(--golden_yellow); 
+}
+
+/* For Firefox */
+.calendar-tick-bar progress::-moz-progress-bar
+{
+  height: 25%;
+  width: 100%;
+  background: var(--golden_yellow); 
+}
+
+.calendar-tick-bar progress /* for IE10 */
+{
+  height: 25%;
+  width: 100%;
+  color: var(--golden_yellow);
+}

@@ -143,7 +143,7 @@ export class Character {
      * Qi affects power more than Body
      */
     getFightingPower() {
-        const POWER_RAISE_PER_LEVEL = 0.1
+        const POWER_RAISE_PER_LEVEL = 0.15
         const appliedBodyPower = (this.getBody() * this.bodyToPowerRatio);
         const appliedQiPower = (this.getQi() * this.qiToPowerRatio);
         const appliedFightingLevel = 1 + ((this.fightingExperience.getLevel()-1) * POWER_RAISE_PER_LEVEL)
