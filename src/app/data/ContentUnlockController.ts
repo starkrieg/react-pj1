@@ -2,7 +2,9 @@ import { ActivitiesController } from "./activities/ActivitiesController";
 import ActivityPool from "./activities/ActivityPool";
 import { CharacterController } from "./character/CharacterController";
 import { ExplorationController } from "./exploration/ExplorationController";
+import { ZoneIdEnum } from "./exploration/ZoneIdEnum";
 import ZonePool from "./exploration/ZonePool";
+import { ItemIdEnum } from "./items/ItemIdEnum";
 
 export class ContentUnlockController {
 
@@ -20,7 +22,10 @@ export class ContentUnlockController {
                 ActivitiesController.addActivity(act);
             } else {
                 const isAllRequirementsMet = act.unlockRequirements
-                    .every(req => CharacterController.isHaveItem(req));
+                    .every(req => {
+                        return CharacterController.isHavePermanentItem(req as ItemIdEnum)
+                            || CharacterController.isHaveZoneCleared(req as ZoneIdEnum);
+                    });
 
                 if (isAllRequirementsMet) {
                     ActivitiesController.addActivity(act);
@@ -31,14 +36,17 @@ export class ContentUnlockController {
 
     private static unlockZones() {
         const zonePool = ZonePool.getZonePool();
-        const unlockedZones = ExplorationController.getListExplorableZones();
-        zonePool.filter(zone => !unlockedZones.includes(zone))
+        const unlockedZones = ExplorationController.getListExplorableZonesVO().map(zoneVO => zoneVO.id);
+        zonePool.filter(zone => !unlockedZones.includes(zone.id))
             .forEach(zone => {
             if (zone.unlockRequirements.length == 0) {
                 ExplorationController.addExplorableZone(zone);
             } else {
                 const isAllRequirementsMet = zone.unlockRequirements
-                    .every(req => CharacterController.isHaveItem(req));
+                    .every(req => {
+                        return CharacterController.isHavePermanentItem(req as ItemIdEnum)
+                            || CharacterController.isHaveZoneCleared(req as ZoneIdEnum);
+                    });
 
                 if (isAllRequirementsMet) {
                     ExplorationController.addExplorableZone(zone);

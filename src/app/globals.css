@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url(./css/progress-bars.css);
+@import url(./css/activities.css);
+@import url(./css/zones.css);
+@import url(./css/messages-panel.css);
+@import url(./css/market.css);
+@import url(./css/cultivation.css);
+
 :root {
   /* for background elements or dividers, to give
   a light, ethereal feel*/
@@ -21,7 +28,6 @@
   /* hover for light_crimson elements */
   --deep_crimson: #8B0000;
   
-
   /* for wood or earthy aspects, perhaps message
   log or borders */
   --burnt_umber: #8A4E2F;
@@ -32,6 +38,9 @@
   /* for rewards, highlights, special actions,
   simbolizing enlightenment */
   --golden_yellow: #FFD700;
+
+  /* hover for golden_yellow elements */
+  --dark_yellow: #bda400;
 
   /* for magical effects, energy displays, and otherwordly
   elements */
@@ -60,6 +69,7 @@
     grid-template-columns: repeat(6, 1fr);
   }
   .col-8 { grid-column: span 6; } 
+  .col-7 { grid-column: span 6; }
   .col-6 { grid-column: span 6; } 
   .col-3 { grid-column: span 6; } 
   .col-4 { grid-column: span 6; } 
@@ -71,7 +81,7 @@
   .row {
     grid-template-columns: 1fr;
   }
-  .col-6, .col-3, .col-4, .col-2, .col-1 {
+  .col-7, .col-6, .col-3, .col-4, .col-2, .col-1 {
     grid-column: span 1;
   }
 }
@@ -120,12 +130,19 @@ body {
   margin-bottom: 2px;
 }
 
+.panel-right {
+  display: 'flow';
+  overflow: hidden
+}
+
 /* Column Width Classes */
 .col-1 { grid-column: span 1; }
 .col-2 { grid-column: span 2; }
 .col-3 { grid-column: span 3; }
 .col-4 { grid-column: span 4; }
+.col-5 { grid-column: span 5; }
 .col-6 { grid-column: span 6; }
+.col-7 { grid-column: span 7; }
 .col-8 { grid-column: span 8; }
 .col-9 { grid-column: span 9; }
 .col-10 { grid-column: span 10; }
@@ -166,8 +183,8 @@ body {
 
 .navigation-button, .navigation-button-selected {
   background-color: transparent;
-  border: none;
-  padding: 5px;
+  border: 1px solid transparent;
+  padding: 4px 5px;
   color: var(--ivory_white);
   cursor: pointer;
   border-radius: 4px;
@@ -180,6 +197,7 @@ body {
 
 .navigation-button-selected {
   background-color: var(--dark_umber);
+  border: 1px solid var(--golden_yellow);
 }
 
 .navigation-button::before {
@@ -197,288 +215,4 @@ body {
   opacity: 1;
 }
 
-/* Activity panel and button */
 
-.activities {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.activities .activity-button {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 2px 3px;
-}
-
-.activity-overview {
-  display: grid;
-  grid-template-columns: 1fr 150px;
-  transition: all 0.2s cubic-bezier(0.15, 0.83, 0.66, 1);
-  width: 100%;
-}
-
-.activity-overview .activity-desc {
-  text-align: left;
-}
-
-.activity-overview .activity-rank {
-  text-align: right;
-  margin-right: 10px;
-}
-
-.activities .activity-button:hover {
-  background-color: #F5F8FE;
-}
-
-.activities .activities-list .activity-button:hover label, 
-.activities .activities-list .activity-selected label {
-  color: #1763fa;
-}
-
-.activities .activities-list .activity-button:hover span,
-.activities .activities-list .activity-selected span {
-  color: #7ba0eb;
-}
-
-.activities .activities-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.activities .activity-button label {
-  display: block;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 15px;
-  color: #171718;
-  cursor: pointer;
-}
-
-.activities .activity-button span {
-  font-weight: 600;
-  font-size: 10px;
-  line-height: 12px;
-  color: #72767c;
-}
-
-/* Explorable zones panel and button */
-
-.zones {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.zones .zone-button {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.zones .zone-button label {
-  cursor: pointer;
-}
-
-.zone-header {
-  display: grid;
-  grid-template-columns: 1fr 100px;
-  transition: all 0.2s cubic-bezier(0.15, 0.83, 0.66, 1);
-  width: 100%;
-}
-
-.zone-header .zone-desc {
-  text-align: left;
-}
-
-.zone-header .zone-power, .zone-header .zone-complete {
-  text-align: right;
-  margin-right: 5px;
-  display: flex;
-  justify-content: end;
-}
-
-.zone-header .zone-power span {
-  display: flex;
-  align-items: end;
-}
-
-.zones .fight-left {
-  margin: 5px 2px;
-  display: flex;
-  align-items: end;
-}
-
-.zones .fight-right {
-  margin: 5px 2px;
-  display: flex;
-  align-items: end;
-  justify-content: end;
-}
-
-.zone-header .zone-size {
-  text-align: right;
-  align-content: end;
-}
-
-.zones .zone-button:hover {
-  background-color: #F5F8FE;
-}
-
-.zones .zones-list .zone-button:hover label {
-  color: #1763fa;
-}
-
-.zones .zones-list .zone-button:hover span {
-  color: #7ba0eb;
-}
-
-.zones .zones-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.zones label {
-  display: block;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 15px;
-  color: #171718;
-  text-align: left;
-}
-
-.zones span {
-  font-weight: 600;
-  font-size: 10px;
-  line-height: 12px;
-  color: #72767c;
-}
-
-.zones .zone-fight-header {
-  margin-bottom: 10px;
-  margin-top: 10px
-}
-
-.zones .zone-fight-header .zone-button-retreat {
-  color: var(--ivory_white);
-  background-color: var(--light_crimson);
-  border-radius: 5px;
-  padding: 5px;
-  width: fit-content;
-}
-
-.zones .zone-fight-header .zone-button-retreat:hover {
-  background-color: var(--deep_crimson);
-}
-
-
-
-.health-bar, .experience-bar {
-  position: relative; /* Needed for positioning the overlay */
-  width: 100%; /* Adjust as needed */
-  height: 20px;
-  border: 1px solid #000; /* Optional border */
-  border-radius: 5px; /* Rounded corners */
-  overflow: hidden; /* Prevent progress bar overflow */
-}
-
-.progress-bar-overlay {
-  position: absolute; /* Positioned relative to the progress bar */
-  top: 0;
-  left: 0;
-  width: 100%; /* Full width of the bar */
-  height: 100%; /* Full height of the bar */
-  display: flex; /* Center the text */
-  justify-content: center;
-  align-items: center;
-  color: var(--ivory_white); /* Text color */
-  font-weight: bold; /* Make text stand out */
-  pointer-events: none; /* Allow clicking on the bar without interfering */
-}
-
-
-/* For WebKit-based browsers (Chrome, Safari, Edge) */
-.health-bar progress::-webkit-progress-value
-{
-  height: 100%;
-  width: 100%;
-  background-color: var(--health-bar); 
-}
-
-/* For Firefox */
-.health-bar progress::-moz-progress-bar
-{
-  height: 100%;
-  width: 100%;
-  background: var(--health-bar); 
-}
-
-.health-bar progress /* for IE10 */
-{
-  height: 100%;
-  width: 100%;
-  color: var(--health-bar);
-}
-
-/* For WebKit-based browsers (Chrome, Safari, Edge) */
-.experience-bar progress::-webkit-progress-value
-{
-  height: 100%;
-  width: 100%;
-  background-color: var(--mystic_violet); 
-}
-
-/* For Firefox */
-.experience-bar progress::-moz-progress-bar
-{
-  height: 100%;
-  width: 100%;
-  background: var(--mystic_violet); 
-}
-
-.experience-bar progress /* for IE10 */
-{
-  height: 100%;
-  width: 100%;
-  color: var(--mystic_violet);
-}
-
-.modal-overlay {
-  position: fixed; /* Ensures it covers the entire viewport */
-  top: 0;
-  left: 0;
-  width: 100vw; /* Full width of the viewport */
-  height: 100vh; /* Full height of the viewport */
-  background-color: rgba(0,0,0, 0.5); /* Gray background with 50% opacity */
-  overflow-y: auto;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  z-index: 9999; /* Ensures it stays on top of all other elements */
-  pointer-events: auto; /* Allows interaction blocking */
-}
-
-
-/* For WebKit-based browsers (Chrome, Safari, Edge) */
-.calendar-tick-bar progress::-webkit-progress-value
-{
-  height: 25%;
-  width: 100%;
-  background-color: var(--golden_yellow); 
-}
-
-/* For Firefox */
-.calendar-tick-bar progress::-moz-progress-bar
-{
-  height: 25%;
-  width: 100%;
-  background: var(--golden_yellow); 
-}
-
-.calendar-tick-bar progress /* for IE10 */
-{
-  height: 25%;
-  width: 100%;
-  color: var(--golden_yellow);
-}

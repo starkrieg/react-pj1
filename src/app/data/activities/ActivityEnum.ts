@@ -1,10 +1,9 @@
 export enum ActivityEnum {
     MEDITATE = 'meditate',
-    REFINE_QI = 'refine-qi',
+    PRACTICE_QI_SPELLS = 'practice-qi-spells',
     STUDY_FORAGING = 'study-foraging',
-    REFINE_BODY = 'refine-body',
+    CULTIVATE_BODY = 'cultivate-body',
     PRACTICE_MARTIAL_ARTS = 'practice-martial-arts',
-    VILLAGE_GUARD_DUTIES = 'village-guard-duties',
     CULTIVATE_QI = 'cultivate-qi',
     PERFORM_ODD_JOBS = 'perform-odd-jobs',
     PHYSICAL_TRAINING = 'physical-training'

@@ -1,0 +1,65 @@
+/* Activity panel and button */
+
+.activities {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+  
+.activities .activity-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2px 3px;
+}
+  
+.activity-overview {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    transition: all 0.2s cubic-bezier(0.15, 0.83, 0.66, 1);
+    width: 100%;
+}
+
+.activity-overview .activity-desc {
+    text-align: left;
+}
+
+.activity-overview .activity-rank {
+    text-align: right;
+    margin-right: 10px;
+}
+
+.activities .activity-button:hover {
+    background-color: #F5F8FE;
+}
+
+.activities .activities-list .activity-button:hover label, 
+.activities .activities-list .activity-selected label {
+    color: #1763fa;
+}
+
+.activities .activities-list .activity-button:hover span,
+.activities .activities-list .activity-selected span {
+    color: #7ba0eb;
+}
+
+.activities .activities-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.activities .activity-button label {
+    display: block;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 15px;
+    color: #171718;
+    cursor: pointer;
+}
+
+.activities .activity-button span {
+    font-weight: 600;
+    font-size: 10px;
+    line-height: 12px;
+    color: #72767c;
+}

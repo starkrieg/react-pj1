@@ -11,6 +11,8 @@ import { ModalPanel } from "./ModalPanel";
 import CalendarPanel from "./panels/CalendarPanel";
 import LeftPanelCharacter from "./panels/LeftPanelCharacter";
 import MessagesPanel from "./panels/MessagesPanel";
+import { CharacterController } from "../data/character/CharacterController";
+import { ItemIdEnum } from "../data/items/ItemIdEnum";
 
 export function GameState(gameController: GameController) {
 
@@ -23,6 +25,8 @@ export function GameState(gameController: GameController) {
     const doing = !ExplorationController.selectedZone ?
         ActivitiesController.getSelectedActivityTitle()
         : ExplorationController.getSelectedExplorableZoneTitle()
+
+    const cultivationUnlocked = CharacterController.isHavePermanentItem(ItemIdEnum.BOOK_QI_CULTIVATION);
 
     return (
         <div className="container">
@@ -40,12 +44,12 @@ export function GameState(gameController: GameController) {
         
                 </div>
                 
-                <div className="panel-middle col-8">
+                <div className="panel-middle col-7">
                 
-                    <div className="navigation-div" 
-                        >
-                        { getNavigationOption('Character', MainContentEnum.CHARACTER) }
+                    <div className="navigation-div">
+                        { cultivationUnlocked && getNavigationOption('Cultivation', MainContentEnum.CULTIVATION) }
                         { getNavigationOption('Activities',  MainContentEnum.ACTIVITIES) }
+                        { getNavigationOption('Market', MainContentEnum.MARKET) }
                         { getNavigationOption('Explore', MainContentEnum.EXPLORE) }
                         { getNavigationOption('Journal', MainContentEnum.JOURNAL) }
                         { getNavigationOption('Settings', MainContentEnum.SETTINGS) }
@@ -55,9 +59,7 @@ export function GameState(gameController: GameController) {
                 
                 </div>
 
-                <div className="panel-right col-2">
-                    {MessagesPanel(MessageController.getLast10Messages())}
-                </div>
+                {MessagesPanel(MessageController.getMessageBoardMessages())}
 
             </div>
         

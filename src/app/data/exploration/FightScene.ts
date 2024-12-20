@@ -44,7 +44,7 @@ export default class FightScene {
     }
 
     private getCharPowerComparison() {
-        return (CharacterController.getCharacterPower() / this.enemy.power);
+        return (CharacterController.getCharacterPower()! / this.enemy.power);
     }
 
     newFight(enemyPower: number, enemyName: string) {
@@ -89,7 +89,7 @@ export default class FightScene {
         //negative means enemy can dodge more often
         const dodgeChance = (charPowerComparison - 1) * BASE_DODGE_CHANCE;
 
-        const damageMod = (Math.random() * 0.35) + 0.5;
+        const damageMod = (Math.random() * 0.50) + 0.15;
 
         let finalDamage = -1;
 
@@ -103,7 +103,7 @@ export default class FightScene {
             }
             if (!isMissedAttack) {
                 //damage rounded to no decimals
-                finalDamage = Utilities.roundTo2Decimal(CharacterController.getCharacterPower() * damageMod);
+                finalDamage = Utilities.roundTo2Decimal(CharacterController.getCharacterPower()! * damageMod);
                     
                 if (finalDamage > 0) {
                     this.enemy.health = Utilities.roundTo2Decimal(this.enemy.health - finalDamage);
@@ -127,7 +127,7 @@ export default class FightScene {
                     //if damage taken is over 50% of current health, take internal injury damage based on the ratio
                     if (damageToCurrentHealthRatio > 0.4) {
                         const internalDamage = Utilities.roundTo2Decimal(finalDamage * damageToCurrentHealthRatio);
-                        CharacterController.getCharacter().increaseAttribute(AttributeTypeEnum.INTERNAL_DAMAGE, internalDamage);
+                        CharacterController.increaseAttribute(AttributeTypeEnum.INTERNAL_DAMAGE, internalDamage);
                     }
                     this.characterCurrentHealth = Utilities.roundTo2Decimal(this.characterCurrentHealth - finalDamage);
                 }
@@ -139,7 +139,8 @@ export default class FightScene {
     giveAfterFightExp() {
         const rewardExp = Utilities.roundTo2Decimal(this.getFightExpReward());
         CharacterController.incrementFightExperience(rewardExp);
-        MessageController.pushMessageSimple(`You defeated the enemy! Got ${rewardExp} experience!`);
+        MessageController.pushMessageFight(`You defeated the enemy!`);
+        MessageController.pushMessageLoot(`You acquired ${rewardExp} experience`);
     }
 
     /**
@@ -157,11 +158,12 @@ export default class FightScene {
         //give reward after the progress is made
         const lootList = ExplorationController.getSelectedZone()?.getLootList();
         if (lootList && lootList.length > 0) {
-            lootList.forEach(loot => {
+            lootList.filter(loot => loot.canDrop())
+            .forEach(loot => {
                 const isItemDropped = (Math.random() * 100) <= this.getGatheringAplliedLootDropChance(loot.dropChance);
                 if (isItemDropped) {
-                    CharacterController.increaseAttribute(loot.type, loot.value);
-                    MessageController.pushMessageLoot(loot);
+                    CharacterController.giveItemById(loot.itemId);
+                    loot.dropItem();
                 }
             });
         }

@@ -16,6 +16,10 @@ import ItemCreator from "./items/ItemCreator";
 import ZonePool from "./exploration/ZonePool";
 import ActivityPool from "./activities/ActivityPool";
 import { ContentUnlockController } from "./ContentUnlockController";
+import { MarketController } from "./market/MarketController";
+import { ItemMarketCreator } from "./market/ItemMarketCreator";
+import { EventController } from "./events/EventController";
+import { EventCreator } from "./events/EventCreator";
 
 export default class GameController {
 
@@ -24,30 +28,31 @@ export default class GameController {
     // mechanic 
     isGameWorking = false;
     isPaused = false;
-    gameSpeed = 1;
+    gameSpeed = 0;
 
     modalType = ModalTypeEnum.NOTHING;
 
     selectedContent = MainContentEnum.JOURNAL;
 
-    calendar: Calendar;
-
     readonly MAX_TICK_DAY = 48;
     current_tick_day = 0;
 
     constructor() {
-        this.calendar = new Calendar();        
         this.globalRoot = undefined;
+        this.normalSpeedGame();
     }
 
     public resetEverything() {
         const ans = confirm('Reset everything. Are you sure?');
         if (ans) {
             ActivitiesController.hardReset();
-            ExplorationController.hardReset();
+            ExplorationController.reset();
             MessageController.hardReset();
             ModalController.hardReset();
+            MarketController.reset();
+            EventController.reset();
 
+            this.selectContent();
             this.setupBasicData();
         }
     }
@@ -55,6 +60,7 @@ export default class GameController {
     private setupContentPools() {
         //items come first
         ItemCreator.createItemPool();
+        ItemMarketCreator.createMarketItems();
 
         //zones depend on items for rewards
         ZonePool.createZonePool();
@@ -64,19 +70,23 @@ export default class GameController {
     }
 
     private setupBasicData() {
-        this.calendar.resetDefaultValues();
+        Calendar.resetDefaultValues();
         CharacterController.resetToGameStart();
 
         //unlock content from present items
         ContentUnlockController.unlockContent();
+        EventCreator.createEvents();
         
         this.modalType = ModalTypeEnum.GAME_START;
+        MessageController.pushMessageGeneral('You wake up!');
     }
 
     private doReviveCharacter() {
-        this.calendar.resetDefaultValues();
+        Calendar.resetDefaultValues();
+        this.normalSpeedGame();
         CharacterController.reviveCharacter();
-        MessageController.pushMessageSimple('You are alive!');
+        MessageController.pushMessageGeneral('You wake up!');
+        MessageController.pushMessageStory(`You wake up! You open your eyes, alive and young again. You are weak, but all you went through will push you to even greater heights.`);
     }
 
     // functions
@@ -89,48 +99,45 @@ export default class GameController {
         this.isPaused = true;
     }
     
-    halfSpeedGame() {
-        this.isPaused = false;
-        this.gameSpeed = 0.5;
-    }
-
     normalSpeedGame() {
         this.isPaused = false;
-        this.gameSpeed = 1;
+        this.gameSpeed = 0.5;
     }
     
     speedUp2Game() {
         this.isPaused = false;
-        this.gameSpeed = 2;
+        this.gameSpeed = 1;
     }
     
-    speedUp3Game() {
+    speedUp5Game() {
         this.isPaused = false;
-        this.gameSpeed = 3;
+        this.gameSpeed = 2.5;
     }
 
     speedUp10Game() {
         this.isPaused = false;
-        this.gameSpeed = 10;
+        this.gameSpeed = 5;
     }
 
-    speedUp100Game() {
+    speedUp50Game() {
         this.isPaused = false;
-        this.gameSpeed = 50;
+        this.gameSpeed = 25;
     }
 
-    selectContent(contentId = MainContentEnum.CHARACTER) {
+    selectContent(contentId = MainContentEnum.ACTIVITIES) {
         this.selectedContent = contentId;
     }
   
-    private addDayCalendar() {
-        this.calendar.day += 1;
-        if (this.calendar.day > 365) {
-            this.calendar.day -= 365;
-            this.calendar.year += 1;
+    private addDayCalendar() {        
+        if (Calendar.incrementDay()) {
             
-            if (CharacterController.add1YearCharacter()) {
+            if (CharacterController.ageCharacter1Year()) {
                 this.modalType = (CharacterController.getDeathCount() > 0) ? ModalTypeEnum.DEATH : ModalTypeEnum.DEATH_FIRST
+            } else {
+                //character still alive
+                if (EventController.getNextMilestoneYear() == Calendar.getYear()) {
+                    EventController.doEventMilestone();
+                }
             }
     
         }        
@@ -184,7 +191,7 @@ export default class GameController {
                     }
                     
                 }
-                // TODO - ui must be updated based on react hooks, not forced by dom changes
+                // TODO - ui must be updated based on react hooks, not by forcing dom changes
 
                 // update UI
                 this.updateUIState();
@@ -217,12 +224,16 @@ export default class GameController {
     
     doAfterDeathModalClick() {
         this.doReviveCharacter();
+        this.selectContent();
         //recreate areas
-        ExplorationController.hardReset();
+        ExplorationController.reset();
         ActivitiesController.softReset();
+        MarketController.reset();
+        EventController.reset();
 
         //unlock content from what is kept on character revival
         ContentUnlockController.unlockContent();
+        EventCreator.createEvents();
         
         this.doCloseModal();
     }

@@ -1,16 +1,15 @@
+import { MessageType } from "./MessageTypeEnum";
 
 export class Message {
     
-    id: number;
-    charYear: number;
-    charDay: number;
-    type: string;
+    life: number;
+    year: number;
+    type: MessageType;
     message: string;
   
-    constructor(id: number, charYear: number, charDay: number, type: string, message: string) {
-        this.id = id;
-        this.charYear = charYear;
-        this.charDay = charDay;
+    constructor(life: number, year: number, type: MessageType, message: string) {
+        this.life = life;
+        this.year = year;
         this.type = type;
         this.message = message;
     } 

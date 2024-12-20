@@ -39,19 +39,15 @@ export class ModalController {
             case ModalTypeEnum.DEATH_FIRST:
                 title = 'You died!';
                 desc = `
-                The last strands of lifeforce leave your existence as you perish.
-                As the darkness consumes your vision, a bolt of golden light flashes in your view.
-                When you open your eyes, you are alive and young again.
-                You are weak, but all you went through will push you to even higher heights.
+                Your life essence fades away as you perish.
+                As the darkness consumes your vision, a spark of golden light flashes in your view.
                 `;
                 buttonText = 'Move forward';
                 break;
             case ModalTypeEnum.DEATH:
                 title = 'You died!';
                 desc = `
-                You perish, and then a spark of golden fills your view.
-                You open your eyes, alive and young again.
-                You are weak, but ready to go even further this time.
+                You perish, and then a spark of golden light fills your view.
                 `;
                 buttonText = 'Move forward';
                 break;
@@ -67,7 +63,7 @@ export class ModalController {
 
         // first time modal content is created for use, print the content to message controller too
         // message should appear on controller only once
-        MessageController.pushMessageStory(content.title + ' ' + content.desc);    
+        MessageController.pushMessageStory(content.title + ' ' + content.desc);
 
         this.modalContentMap.set(modalType, content);
         return this.modalContentMap.get(modalType);

@@ -5,15 +5,19 @@ import { CharacterController } from "@/app/data/character/CharacterController";
 import { Utilities } from "@/app/data/utils/Utilities";
 import { ExperienceBar } from "../ColoredBar";
 import { AttributeTypeEnum } from "@/app/data/character/AttributeTypeEnum";
+import { EnergyRealmVO } from "@/app/data/realms/energy/EnergyRealmVO";
+import { BodyRealmVO } from "@/app/data/realms/body/BodyRealmVO";
+import { CoinPouchLabel } from "../Coins";
 
 export default function LeftPanelCharacter() {
 
     const character = CharacterController.getCharacter()
 
     function Qi() {
-        const qiCapPercent = '('
-        + Utilities.roundTo2Decimal(character.getQiCapPercent() * 100)
-        + '%)';
+        const isShowRealmFoundation = CharacterController.isHavePermanentItem(ItemIdEnum.BOOK_PATH_OF_PERFECTION);
+        const qiCapPercent = isShowRealmFoundation 
+            ? `(${Utilities.roundTo2Decimal(character.getQiCapPercent() * 100)}%)`
+            : '';
     
         return (
           <label>Qi: {Utilities.roundTo2Decimal(character.getQi())} {qiCapPercent}</label>
@@ -32,7 +36,7 @@ export default function LeftPanelCharacter() {
         );
     }
 
-    function FightingPower() {
+    function Power() {
         return (
             <label>Power: { CharacterController.getFightingPower() }</label>
         );
@@ -57,13 +61,6 @@ export default function LeftPanelCharacter() {
         );
     }
 
-    function Coins() {
-        const coins = Utilities.roundTo2Decimal(character.getAttributeValue(AttributeTypeEnum.COIN));
-        return (
-            <label>Coins: { coins }</label>
-        );
-    }
-
     function InternalInjury() {
         const injuryValue = Utilities.roundTo2Decimal( character.getAttributeValue(AttributeTypeEnum.INTERNAL_DAMAGE) );
         return (
@@ -71,9 +68,38 @@ export default function LeftPanelCharacter() {
         );
     }
 
-    const isShowQiLabel = CharacterController.isHaveItem(ItemIdEnum.BOOK_QI_CULTIVATION);
+    function BodyRealmTitle() {
+        return (
+            <div>
+                {bodyRealmVO.title}
+            </div>
+        );
+    }
 
-    const bodyCapPercent = CharacterController.isHaveItem(ItemIdEnum.BOOK_BODY_REFINING) ? '('
+    function EnergyRealmTitle() {
+        return (
+            <div>
+                {energyRealmVO.title}
+            </div>
+        );
+    }
+
+    function CharacterRealm() {
+        return (
+            <div style={{ marginTop: '5px' }}>
+                { EnergyRealmTitle() }
+                { isBodyCultivationUnlocked && BodyRealmTitle() }
+            </div>
+        );
+    }
+
+    const energyRealmVO = new EnergyRealmVO(character.energyRealm.id);
+    const bodyRealmVO = new BodyRealmVO(character.bodyRealm.id);
+    const isBodyCultivationUnlocked = CharacterController.isHavePermanentItem(ItemIdEnum.BOOK_BODY_CULTIVATION);
+
+    const isShowQiLabel = CharacterController.isHavePermanentItem(ItemIdEnum.BOOK_QI_CULTIVATION);
+
+    const bodyCapPercent = isBodyCultivationUnlocked ? '('
         + Utilities.roundTo2Decimal(character.getBodyCapPercent() * 100)
         + '%)'
         : '';
@@ -82,16 +108,24 @@ export default function LeftPanelCharacter() {
 
     const isShowInternalInjury = character.getAttributeValue(AttributeTypeEnum.INTERNAL_DAMAGE) > 0;
 
+    const characterLifeSpan = character.getAttributeValue(AttributeTypeEnum.LIFESPAN);
+
+    const characterPotential = Utilities.roundTo2Decimal(character.getAgeGainModifier()*100);
+
+    const coins = Utilities.roundTo2Decimal(character.getAttributeValue(AttributeTypeEnum.COIN));
+
     return (
         <div style={{ fontSize: 14, display: 'grid' }}>
             { LevelStatus() }
-            <label>{character.realm?.title}</label>
+            { CharacterRealm() }
+            <label style={{ marginTop: '5px' }}>{character.year}y (max {characterLifeSpan}y)</label>
+            <label style={{ marginBottom: '5px' }}>Potential: {characterPotential}%</label>
             { Health() }
-            { FightingPower() }
+            { Power() }
             { Body() }
             { isShowQiLabel && Qi() }
             { isShowInternalInjury && InternalInjury() }
-            { Coins() }
+            { CoinPouchLabel(coins) }
             { isShowDeath && DeathCount() }
         </div>
     );

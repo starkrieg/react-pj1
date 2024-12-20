@@ -1,15 +1,27 @@
-import { AttributeTypeEnum } from "../character/AttributeTypeEnum";
+import { ItemIdEnum } from "../items/ItemIdEnum";
 
 export class ZoneLoot {
 
-    type: AttributeTypeEnum;
+    itemId: ItemIdEnum;
     dropChance: number;
-    value: number;
 
-    constructor(type: AttributeTypeEnum, dropChance: number, value: number) {
-        this.type = type;
+    //0 limit means unlimited amount of drops
+    private limit: number;
+
+    private dropped: number = 0;
+
+    constructor(itemId: ItemIdEnum, dropChance: number, limit: number = 0) {
+        this.itemId = itemId;
         this.dropChance = dropChance;
-        this.value = value;
+        this.limit = limit;
+    }
+
+    dropItem() {
+        this.dropped+=1;
+    }
+
+    canDrop() {
+        return this.dropped < this.limit;
     }
 
 }

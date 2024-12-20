@@ -1,4 +1,3 @@
-import { ExploreZoneIdEnum } from "../exploration/ExploreZoneIdEnum";
 import { ItemIdEnum } from "../items/ItemIdEnum";
 import { ErrorController } from "../utils/ErrorController";
 import { Activity } from "./Activity";
@@ -33,18 +32,20 @@ export default class ActivityPool {
             ActivityEnum.MEDITATE,
             'Meditate',
             'Meditate and develop your inner mind',
+            'Increase activity speed',
             [
                 //requirements
-                ItemIdEnum.BOOK_CULTIVATION_OF_SELF
+                ItemIdEnum.BOOK_MEDITATE_ON_SELF
             ]
         ));
         this.createActivity(new GenericActivity(
-            ActivityEnum.REFINE_QI,
-            'Refine and Manipulate Qi',
-            'Practice using Qi to achieve different results',
+            ActivityEnum.PRACTICE_QI_SPELLS,
+            'Practice Qi Spells',
+            'Practice your Qi spellcasting',
+            'Increase Qi effects on Power and Health',
             [
                 //requirements
-                ItemIdEnum.BOOK_QI_MANIPULATION
+                ItemIdEnum.BOOK_QI_SPELLS
             ]
         ));
         this.createActivity(new CultivateQi());
@@ -52,6 +53,7 @@ export default class ActivityPool {
             ActivityEnum.STUDY_FORAGING,
             'Study plants and minerals',
             'Improve your knowledge to find better resources',
+            'Increase loot drop chance',
             [
                 //requirements
                 ItemIdEnum.BOOK_FORAGING_MANUAL
@@ -59,30 +61,13 @@ export default class ActivityPool {
         ));
         this.createActivity(new PhysicalTraining());
         this.createActivity(new GenericActivity(
-            ActivityEnum.REFINE_BODY,
-            'Refine your body',
-            'Work to increase your body\'s upper limits',
-            [
-                //requirements
-                ItemIdEnum.BOOK_BODY_REFINING
-            ]
-        ));
-        this.createActivity(new GenericActivity(
             ActivityEnum.PRACTICE_MARTIAL_ARTS,
             'Practice Martial Arts',
             'Train to better use your body on battle',
+            'Increase Body effects on Power and Health',
             [
                 //requirements
                 ItemIdEnum.BOOK_MARTIAL_ARTS
-            ]
-        ));
-        this.createActivity(new GenericActivity(
-            ActivityEnum.VILLAGE_GUARD_DUTIES,
-            'Village Guard Duty',
-            'Part time work as a guard at the village',
-            [
-                //requirements
-                ExploreZoneIdEnum.VILLAGE_SOLDIERS_BOOTCAMP
             ]
         ));
         

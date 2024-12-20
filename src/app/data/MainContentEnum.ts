@@ -1,7 +1,8 @@
 export enum MainContentEnum {
-    CHARACTER,
+    CULTIVATION,
     ACTIVITIES,
-    JOURNAL,
+    MARKET,
     EXPLORE,
+    JOURNAL,
     SETTINGS
 }

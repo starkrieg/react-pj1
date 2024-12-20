@@ -1,0 +1,45 @@
+.cultivation-realm-grid {
+    display: flex;
+
+}
+
+.cultivation-realm-grid .cultivation-realm {
+    text-align: center;
+    width: 100%;
+}
+
+.cultivation-realm-title {
+    font-weight: bold;
+}
+
+.cultivation-realm-desc {
+    border-bottom: 1px dashed var(--jade_green);
+    padding-bottom: 10px;
+}
+
+.cultivation-next-realm-title {
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.cultivation-realm-up-button {
+    border: 1px solid var(--foreground);
+    background-color: var(--golden_yellow);
+    border-radius: 5px;
+    padding: 4px;
+    margin-top: 20px;
+}
+
+.cultivation-button-disabled {
+    opacity: 0.5;
+}
+
+.cultivation-realm-up-button:hover {
+    background-color: var(--dark_yellow);
+}
+
+.cultivation-realm-up-requirements {
+    margin-top: 10px;
+    font-weight: bold;
+}

@@ -18,6 +18,12 @@ export default function ExplorableZoneProgressPanel() {
         ExplorationController.createFightScene();
     }
 
+    function ZoneCompleteMarker() {
+        return (
+            <span className="zone-checked" />
+        )
+    }
+
     function CharHealthStats() {
         const elements = [];
         const person = 'You';
@@ -28,7 +34,7 @@ export default function ExplorableZoneProgressPanel() {
         );
         elements.push(CharacterController.getCharacterPower());
 
-        const healthBarMax = CharacterController.getHealth();    
+        const healthBarMax = CharacterController.getHealth()!;    
         const healthBarValue = Utilities.roundTo2Decimal(
             ExplorationController.getFightScene()?.characterCurrentHealth || 0);
 
@@ -79,7 +85,7 @@ export default function ExplorableZoneProgressPanel() {
                 <div className="zone-header">
                     <label>{ zone?.title }</label>
                     <div className="zone-complete">
-                        { zone?.isComplete }
+                        { zone?.isComplete && ZoneCompleteMarker() }
                     </div>                
                 </div>
 
@@ -87,12 +93,7 @@ export default function ExplorableZoneProgressPanel() {
                     <div className="zone-desc">        
                         <span>{ zone?.desc }</span>
                     </div>
-                    <div className="zone-power">
-                        <span>
-                            { zone?.basePower }
-                            <IconSwordEmblem style={{ width: '25px', height: '25px', marginLeft: '5px' }}/>
-                        </span>
-                    </div>
+                    
                 </div>
 
                 <div className="zone-fight-header zone-header">
@@ -111,10 +112,11 @@ export default function ExplorableZoneProgressPanel() {
                 <div style={{
                     width: '100%',
                     display: 'grid',
-                    gridTemplateColumns: '1fr 150px 1fr'
+                    gridTemplateColumns: '1fr 150px 1fr',
+                    margin: '2px 0px'
                 }}>
                     { CharHealthStats() }
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <IconCrossedSwords style={{ width: '25px', height: '25px' }}/>
                     </div>
                     { EnemyHealthStats() }

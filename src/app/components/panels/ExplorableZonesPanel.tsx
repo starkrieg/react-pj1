@@ -5,12 +5,12 @@ import { ExplorationController } from "@/app/data/exploration/ExplorationControl
 
 export default function ExplorableZonesPanel() {
 
-    const explorableZoneList = ExplorationController.getListExplorableZones();
+    const explorableZoneList = ExplorationController.getListExplorableZonesVO();
     
-    const preparedList = Array.from(explorableZoneList).map(zone => {
+    const preparedList = Array.from(explorableZoneList).map(zoneVO => {
         
-        return ButtonExplorableZone(zone,
-            ExplorationController.doClickZone.bind(ExplorationController, zone)
+        return ButtonExplorableZone(zoneVO,
+            ExplorationController.doClickZone.bind(ExplorationController, zoneVO)
         )
         
     });

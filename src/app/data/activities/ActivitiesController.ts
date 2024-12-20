@@ -3,13 +3,16 @@ import { ActivityEnum } from "./ActivityEnum";
 import { Activity } from "./Activity";
 import { ActivityRank } from "./ActivityRank";
 import ActivityPool from "./ActivityPool";
+import { CharacterController } from "../character/CharacterController";
+import { MarketController } from "../market/MarketController";
+import { ItemIdEnum } from "../items/ItemIdEnum";
 
 export class ActivitiesController {
 
     // base days for rank up
-    private static BASE_DAYS_RANK_UP = 6;
+    private static BASE_DAYS_RANK_UP = 24;
     // rate which days for rank up grow
-    private static RANK_UP_GROWTH_RATE = 0.3;
+    private static RANK_UP_GROWTH_RATE = 0.75;
 
     static selectedActivity: Activity | undefined = undefined;
 
@@ -58,16 +61,36 @@ export class ActivitiesController {
         }
 
         this.unlockedActivities.push(activity);
-
-        //order unlocked list
-        const allActivities = ActivityPool.getActivityPool()
-        this.unlockedActivities = allActivities.filter(act => this.unlockedActivities.includes(act))
+        this.updateUnlockedActivities();
         
         //only add to map if not there yet
         //so that map is not reset when creating activities after death
         if (!this.activityRankMap.has(activity.id)) {
             this.activityRankMap.set(activity.id, new ActivityRank(1, 0, this.BASE_DAYS_RANK_UP));
         }
+    }
+
+    private static updateUnlockedActivities() {
+        const marketActivities = [ActivityEnum.PERFORM_ODD_JOBS]
+        //order unlocked list
+        const allActivities = ActivityPool.getActivityPool()
+        this.unlockedActivities = allActivities.filter(
+            act => {
+                const isUnlocked = this.unlockedActivities.includes(act)
+                if (marketActivities.includes(act.id)) {
+                    return isUnlocked && MarketController.isAnyMarketReagionAvailable();
+                }
+                return isUnlocked;
+            }
+        )
+
+        if (this.selectedActivity && !this.unlockedActivities.includes(this.selectedActivity)) {
+            this.selectedActivity = undefined;
+        }
+    }
+
+    static updateActivities() {
+        this.updateUnlockedActivities();
     }
 
     static getActivitiesList() : Readonly<Activity[]> {
@@ -89,15 +112,37 @@ export class ActivitiesController {
 
     // every rank up increase total exp for next rank by 50%
     // increment exp by default 1
-    static incrementExpActivity(id: ActivityEnum, value: number = 1) {
+    static incrementExpActivity(id: ActivityEnum) {
+        const baseValue = 1;
+        const meditateMultiplier = 1 + ((this.getActivityRank(ActivityEnum.MEDITATE)-1) / 10)
         const activityRank = this.activityRankMap.get(id);
+
         if (activityRank) {
-            activityRank.exp += value;
+            //more exp means increased activity speed
+            if (id == ActivityEnum.MEDITATE) {
+                //for meditate rank 100
+                const confucianIMod = CharacterController.isHaveInventoryItem(ItemIdEnum.BOOK_CONFUCIAN_SCRIPTURES_I) 
+                    ? 2 : 1;
+
+                //for meditate rank 200
+                const mysticIncenseMod = CharacterController.isHaveInventoryItem(ItemIdEnum.ITEM_MYSTIC_INCENSE) 
+                    ? 2 : 1;
+
+                //for meditate rank 300
+                const taoistIMod = CharacterController.isHaveInventoryItem(ItemIdEnum.BOOK_TAOIST_SCRIPTURES_I) 
+                    ? 2 : 1;
+
+                const meditateItemMods = confucianIMod * mysticIncenseMod * taoistIMod;
+                activityRank.exp += (baseValue * meditateMultiplier * meditateItemMods);
+            } else {
+                activityRank.exp += (baseValue * meditateMultiplier);
+            }
             
             while (activityRank.exp >= activityRank.totalExpToNextRank) {
                 activityRank.rank += 1;
                 activityRank.exp += - activityRank.totalExpToNextRank;
                 activityRank.totalExpToNextRank = (1 + ((activityRank.rank-1) * this.RANK_UP_GROWTH_RATE)) * this.BASE_DAYS_RANK_UP;
+                CharacterController.updateAttributesFromActivity(id);
             }
         }
     }

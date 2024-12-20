@@ -1,22 +1,24 @@
-import { ExploreZoneIdEnum } from "./ExploreZoneIdEnum";
+import { ZoneIdEnum } from "./ZoneIdEnum";
 import { ItemIdEnum } from "../items/ItemIdEnum";
-import { ExplorableZone } from "./ExplorableZone";
+import { Zone } from "./Zone";
 import { ErrorController } from "../utils/ErrorController";
-import { AttributeTypeEnum } from "../character/AttributeTypeEnum";
 import { ZoneLoot } from "./ZoneLoot";
+import { ExplorationController } from "./ExplorationController";
+import { ZoneRegion } from "./ZoneRegion";
+import { ZoneRegionEnum } from "./ZoneRegionEnum";
 
 export default class ZonePool {
 
-    private static zonePool: ExplorableZone[] = [];
+    private static zonePool: Zone[] = [];
 
-    static getZonePool() : Readonly<ExplorableZone[]> {
+    static getZonePool() : Readonly<Zone[]> {
         return this.zonePool;
     }
 
-    private static createExplorableZone(zoneEnum: ExploreZoneIdEnum,
+    private static createExplorableZone(zoneEnum: ZoneIdEnum,
         title: string, description: string, 
-        zoneSize: number, basePower: number,
-        unlockRequirements: (ItemIdEnum | ExploreZoneIdEnum)[],
+        basePower: number, zoneSize: number,
+        unlockRequirements: (ItemIdEnum | ZoneIdEnum)[],
         listClearRewardItemId: ItemIdEnum[],
         lootList: ZoneLoot[],
         enemyList: string[]
@@ -30,7 +32,7 @@ export default class ZonePool {
             return;
         }
 
-        const zone = new ExplorableZone(
+        const zone = new Zone(
             zoneEnum,
             title,
             description,
@@ -46,18 +48,24 @@ export default class ZonePool {
 
     }
 
-    static createZonePool() {
+    private static createCalmWindVillageRegion() {
+        ExplorationController.addRegion(new ZoneRegion(ZoneRegionEnum.CALM_WIND_VILLAGE, 
+            [
+                ZoneIdEnum.VILLAGE_BACKALLEY,
+                ZoneIdEnum.VILLAGE_SOLDIERS_BOOTCAMP,
+                ZoneIdEnum.VILLAGE_FIELDS
+            ])
+        );
         this.createExplorableZone(
-            ExploreZoneIdEnum.VILLAGE_BACKALLEY,
+            ZoneIdEnum.VILLAGE_BACKALLEY,
             'Village Backalley',
             'Face off against punks and bullies',
-            15,
-            0.35,
+            5,
+            25,
             [ /* no requirements */],
             [ /* no rewards */ ],
             [ /* zone loot */ 
-                new ZoneLoot(AttributeTypeEnum.COIN, 75, 1),
-                new ZoneLoot(AttributeTypeEnum.BODY, 25, 0.01)
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_S, 5), //5%
             ],
             [ /* enemy names */
                 'Punk',
@@ -66,44 +74,18 @@ export default class ZonePool {
             ]
         );
         this.createExplorableZone(
-            ExploreZoneIdEnum.VILLAGE_SOLDIERS_BOOTCAMP,
-            'Village Soldiers Bootcamp',
-            'Basic training with local soldiers',
-            20,
-            1,
-            [ /* requirements */
-                //ExploreZoneIdEnum.VILLAGE_BACKALLEY
-            ],
-            [ /* rewards */ 
-                ItemIdEnum.BOOK_PHYSICAL_TRAINING,
-                ItemIdEnum.BOOK_INNER_REGION
-            ],
-            [ /* zone loot */ 
-                new ZoneLoot(AttributeTypeEnum.COIN, 10, 3),
-                new ZoneLoot(AttributeTypeEnum.BODY, 50, 0.05)
-            ],
-            [ /* enemy names */
-                'Punk',
-                'Soldier',
-                'Slacker'
-            ]
-        );
-        this.createExplorableZone(
-            ExploreZoneIdEnum.VILLAGE_FIELDS,
+            ZoneIdEnum.VILLAGE_FIELDS,
             'Village Farm Fields',
             'Help cleaning the farm fields',
-            10,
-            2,
-            [ /* requirements */
-                //ExploreZoneIdEnum.VILLAGE_BACKALLEY
-            ],
+            15,
+            15,
+            [ /* no requirements */ ],
             [ /* rewards */ 
                 ItemIdEnum.BOOK_FORAGING_MANUAL
             ],
             [ /* zone loot */ 
-                new ZoneLoot(AttributeTypeEnum.COIN, 1, 5),
-                new ZoneLoot(AttributeTypeEnum.BODY, 50, 0.03),
-                new ZoneLoot(AttributeTypeEnum.QI, 1, 0.01)
+                new ZoneLoot(ItemIdEnum.PILL_STRENGTH_ELIXIR, 3), //3%
+                new ZoneLoot(ItemIdEnum.BOOK_FORAGING_MANUAL, 1, 1), //1% of getting 1
             ],
             [ /* enemy names */
                 'Pest',
@@ -112,19 +94,53 @@ export default class ZonePool {
             ]
         );
         this.createExplorableZone(
-            ExploreZoneIdEnum.VILLAGE_FOREST_I,
-            'Village Surrounding Forest',
-            'Explore que forest surrounding the village',
-            20,
-            7,
-            [ /* requirements */
-                ItemIdEnum.BOOK_INNER_REGION
+            ZoneIdEnum.VILLAGE_SOLDIERS_BOOTCAMP,
+            'Village Soldiers Bootcamp',
+            'Basic training with local soldiers',
+            35,
+            35,
+            [ /* no requirements */ 
+                ZoneIdEnum.VILLAGE_FIELDS
             ],
-            [ /* no rewards */ ],
+            [ /* rewards */ 
+                ItemIdEnum.BOOK_PHYSICAL_TRAINING
+            ],
             [ /* zone loot */ 
-                new ZoneLoot(AttributeTypeEnum.COIN, 25, 5),
-                new ZoneLoot(AttributeTypeEnum.BODY, 25, 0.05),
-                new ZoneLoot(AttributeTypeEnum.QI, 10, 0.05)
+                new ZoneLoot(ItemIdEnum.PILL_STRENGTH_ELIXIR, 4), //5%
+            ],
+            [ /* enemy names */
+                'Punk',
+                'Soldier',
+                'Slacker'
+            ]
+        );
+    }
+
+    private static createCalmWindForestRegion() {
+        ExplorationController.addRegion(new ZoneRegion(ZoneRegionEnum.CALM_WIND_FOREST, 
+            [
+                ZoneIdEnum.VILLAGE_FOREST_I,
+                ZoneIdEnum.VILLAGE_FOREST_II,
+                ZoneIdEnum.VILLAGE_FOREST_CAVE_I,
+                ZoneIdEnum.VILLAGE_FOREST_CAVE_II,
+                ZoneIdEnum.VILLAGE_FOREST_CAVE_III,
+                ZoneIdEnum.VILLAGE_FOREST_CAVE_IV
+            ])
+        );
+        this.createExplorableZone(
+            ZoneIdEnum.VILLAGE_FOREST_I,
+            'Village Surrounding Forest',
+            'Forest surrounding the village',
+            50,
+            45,
+            [ /* no requirements */ ],
+            [ /* rewards */ 
+                ItemIdEnum.POUCH_OF_COINS_S
+            ],
+            [ /* zone loot */ 
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_S, 5), //5%
+                new ZoneLoot(ItemIdEnum.PILL_STRENGTH_ELIXIR, 3), //3%
+                new ZoneLoot(ItemIdEnum.PILL_QI_BOOST_I, 1.5), //1.5%
             ],
             [ /* enemy names */
                 'Bandit',
@@ -132,19 +148,21 @@ export default class ZonePool {
             ]
         );
         this.createExplorableZone(
-            ExploreZoneIdEnum.VILLAGE_FOREST_II,
+            ZoneIdEnum.VILLAGE_FOREST_II,
             'Village Deep Forest',
-            'Explore que innermost part of the forest',
-            35,
-            15,
+            'Innermost part of the forest',
+            75,
+            65,
             [ /* requirements */
-                ExploreZoneIdEnum.VILLAGE_FOREST_I
+                ZoneIdEnum.VILLAGE_FOREST_I
             ],
-            [ /* no rewards */ ],
+            [ /* rewards */ 
+                ItemIdEnum.POUCH_OF_COINS_M
+            ],
             [ /* zone loot */ 
-                new ZoneLoot(AttributeTypeEnum.COIN, 15, 3),
-                new ZoneLoot(AttributeTypeEnum.BODY, 50, 0.05),
-                new ZoneLoot(AttributeTypeEnum.QI, 15, 0.05)
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_S, 5), //5%
+                new ZoneLoot(ItemIdEnum.PILL_STRENGTH_ELIXIR, 3), //3%
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_1Y, 1.5), //1.5%
             ],
             [ /* enemy names */
                 'Bandit',
@@ -153,21 +171,20 @@ export default class ZonePool {
             ]
         );
         this.createExplorableZone(
-            ExploreZoneIdEnum.VILLAGE_FOREST_CAVE,
+            ZoneIdEnum.VILLAGE_FOREST_CAVE_I,
             'Hidden Forest Cave',
             'A cave hidden on the deepest parts of the forest',
-            5,
-            45,
+            350,
+            35,
             [ /* requirements */
-                ExploreZoneIdEnum.VILLAGE_FOREST_II
+                ZoneIdEnum.VILLAGE_FOREST_II
             ],
             [ /* rewards */ 
-                ItemIdEnum.BOOK_QI_CULTIVATION
+                ItemIdEnum.BOOK_MEDITATE_ON_SELF
             ],
             [ /* zone loot */ 
-                new ZoneLoot(AttributeTypeEnum.COIN, 15, 10),
-                new ZoneLoot(AttributeTypeEnum.BODY, 35, 0.1),
-                new ZoneLoot(AttributeTypeEnum.QI, 25, 0.05)
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_1Y, 5), //5%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_M, 3), //3%
             ],
             [ /* enemy names */
                 'Cultivator',
@@ -176,22 +193,104 @@ export default class ZonePool {
             ]
         );
         this.createExplorableZone(
-            ExploreZoneIdEnum.SMALL_SECT_ENTRANCE,
-            'Small Sect - Entrance Trial',
-            'A small sect is holding a trial to accept new disciples',
-            5,
-            15,
+            ZoneIdEnum.VILLAGE_FOREST_CAVE_II,
+            'Forest cave - 2nd layer',
+            'A cave hidden on the deepest parts of the forest',
+            30000,
+            65,
             [ /* requirements */
-                ItemIdEnum.BOOK_INNER_REGION,
-                ItemIdEnum.BOOK_QI_CULTIVATION
+                ZoneIdEnum.VILLAGE_FOREST_CAVE_I
             ],
             [ /* rewards */ 
-                ItemIdEnum.BOOK_CULTIVATION_OF_SELF
+                ItemIdEnum.SNOW_GINSENG_100Y
             ],
             [ /* zone loot */ 
-                new ZoneLoot(AttributeTypeEnum.COIN, 25, 5),
-                new ZoneLoot(AttributeTypeEnum.BODY, 25, 0.05),
-                new ZoneLoot(AttributeTypeEnum.QI, 10, 0.05)
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_10Y, 5), //5%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_M, 3), //3%
+                new ZoneLoot(ItemIdEnum.BOOK_PATH_OF_PERFECTION, 1.5, 1), //1.5% of 1
+            ],
+            [ /* enemy names */
+                'Cultivator',
+                'Beast',
+                'Young master'
+            ]
+        );
+        this.createExplorableZone(
+            ZoneIdEnum.VILLAGE_FOREST_CAVE_III,
+            'Forest cave - 3rd layer',
+            'A cave hidden on the deepest parts of the forest',
+            90000,
+            85,
+            [ /* requirements */
+                ZoneIdEnum.VILLAGE_FOREST_CAVE_II
+            ],
+            [ /* rewards */ 
+                ItemIdEnum.SNOW_GINSENG_1000Y
+            ],
+            [ /* zone loot */ 
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_10Y, 5), //5%
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_100Y, 4), //4%
+                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_100Y, 3.5), //3.5%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_G, 3), //3%
+                
+                
+            ],
+            [ /* enemy names */
+                'Cultivator',
+                'Beast',
+                'Young master'
+            ]
+        );
+        this.createExplorableZone(
+            ZoneIdEnum.VILLAGE_FOREST_CAVE_IV,
+            'Forest cave - 4th layer',
+            'A cave hidden on the deepest parts of the forest',
+            200000,
+            1000,
+            [ /* requirements */
+                ZoneIdEnum.VILLAGE_FOREST_CAVE_III
+            ],
+            [ /* rewards */ 
+                ItemIdEnum.SNOW_GINSENG_1000Y,
+                ItemIdEnum.BLOOD_GINSENG_1000Y
+            ],
+            [ /* zone loot */ 
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_100Y, 7), //7%
+                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_100Y, 7), //7%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_G, 5), //5%
+                new ZoneLoot(ItemIdEnum.GOLD_PIECE_S, 1.5), //1.5%
+            ],
+            [ /* enemy names */
+                'Cultivator',
+                'Beast',
+                'Young master'
+            ]
+        );
+    }
+
+    private static createCalmWindSectRegion() {
+        ExplorationController.addRegion(new ZoneRegion(ZoneRegionEnum.CALM_WIND_SECT, 
+            [
+                ZoneIdEnum.CALM_WIND_SECT_ENTRANCE,
+                ZoneIdEnum.CALM_WIND_SECT_OUTER,
+                ZoneIdEnum.CALM_WIND_SECT_INNER,
+                ZoneIdEnum.CALM_WIND_SECT_CORE
+            ])
+        );
+        this.createExplorableZone(
+            ZoneIdEnum.CALM_WIND_SECT_ENTRANCE,
+            'Calm Wind Sect - Entrance Trials',
+            'A series of trials to become a sect disciple',
+            75,
+            5,
+            [ /* no requirements */ ],
+            [ /* rewards */ 
+                ItemIdEnum.BOOK_QI_CULTIVATION
+            ],
+            [ /* zone loot */ 
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_1Y, 2), //2%
+                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_1Y, 2), //2%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_S, 1), //1%
             ],
             [ /* enemy names */
                 'Warrior',
@@ -200,21 +299,21 @@ export default class ZonePool {
             ]
         );
         this.createExplorableZone(
-            ExploreZoneIdEnum.SMALL_SECT_OUTER,
-            'Small Sect - Disciple Missions',
+            ZoneIdEnum.CALM_WIND_SECT_OUTER,
+            'Calm Wind Sect - Disciple Missions',
             'Perform missions for the sect and gain experience',
+            200,
             100,
-            25,
             [ /* requirements */
-                ExploreZoneIdEnum.SMALL_SECT_ENTRANCE
+                ZoneIdEnum.CALM_WIND_SECT_ENTRANCE
             ],
             [ /* rewards */ 
-                ItemIdEnum.BOOK_MARTIAL_ARTS
+                ItemIdEnum.PILL_QI_BOOST_III
             ],
             [ /* zone loot */ 
-                new ZoneLoot(AttributeTypeEnum.COIN, 50, 12),
-                new ZoneLoot(AttributeTypeEnum.BODY, 75, 0.1),
-                new ZoneLoot(AttributeTypeEnum.QI, 25, 0.1)
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_1Y, 5), //3%
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_10Y, 3), //5%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_M, 2.5), //2.5%
             ],
             [ /* enemy names */
                 'Outer disciple',
@@ -223,21 +322,21 @@ export default class ZonePool {
             ]
         );
         this.createExplorableZone(
-            ExploreZoneIdEnum.SMALL_SECT_INNER,
-            'Small Sect - Disciple Competitions',
+            ZoneIdEnum.CALM_WIND_SECT_INNER,
+            'Calm Wind Sect - Disciple Competitions',
             'Compete against inner disciples',
-            25,
-            150,
+            8000,
+            50,
             [ /* requirements */
-                ExploreZoneIdEnum.SMALL_SECT_OUTER
+                ZoneIdEnum.CALM_WIND_SECT_OUTER
             ],
             [ /* rewards */
-                ItemIdEnum.BOOK_QI_MANIPULATION
+                ItemIdEnum.BOOK_QI_SPELLS
             ],
             [ /* zone loot */ 
-                new ZoneLoot(AttributeTypeEnum.COIN, 75, 20),
-                new ZoneLoot(AttributeTypeEnum.BODY, 75, 0.1),
-                new ZoneLoot(AttributeTypeEnum.QI, 35, 0.1)
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_10Y, 7), //7%
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_100Y, 5), //5%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_M, 3), //3%
             ],
             [ /* enemy names */
                 'Inner disciple',
@@ -246,21 +345,20 @@ export default class ZonePool {
             ]
         );
         this.createExplorableZone(
-            ExploreZoneIdEnum.SMALL_SECT_CORE,
-            'Small Sect - Elder\'s guidance',
+            ZoneIdEnum.CALM_WIND_SECT_CORE,
+            'Calm Wind Sect - Elder\'s guidance',
             'Learn the core teachings directly from the elders',
-            5,
-            500,
+            35000,
+            25,
             [ /* requirements */
-                ExploreZoneIdEnum.SMALL_SECT_INNER
+                ZoneIdEnum.CALM_WIND_SECT_INNER
             ],
             [ /* rewards */
-                ItemIdEnum.BOOK_BODY_REFINING
+                ItemIdEnum.SNOW_GINSENG_1000Y
             ],
             [ /* zone loot */ 
-                new ZoneLoot(AttributeTypeEnum.COIN, 50, 50),
-                new ZoneLoot(AttributeTypeEnum.BODY, 75, 1),
-                new ZoneLoot(AttributeTypeEnum.QI, 50, 1)
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_100Y, 7), //7%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_G, 3), //3%
             ],
             [ /* enemy names */
                 'Young master',
@@ -268,22 +366,34 @@ export default class ZonePool {
                 'Core disciple'
             ]
         );
+    }
+
+    private static createCalmWindValleyRegion() {
+        ExplorationController.addRegion(new ZoneRegion(ZoneRegionEnum.CALM_WIND_VALLEY, 
+            [
+                ZoneIdEnum.MYRIAD_BEASTS_VALLEY_I,
+                ZoneIdEnum.MYRIAD_BEASTS_VALLEY_II,
+                ZoneIdEnum.MYRIAD_BEASTS_VALLEY_III,
+                ZoneIdEnum.MYRIAD_BEASTS_VALLEY_IV,
+                ZoneIdEnum.MYRIAD_BEASTS_VALLEY_V,
+                ZoneIdEnum.MYRIAD_BEASTS_VALLEY_HIDDEN_PATH,
+            ])
+        );
         this.createExplorableZone(
-            ExploreZoneIdEnum.MYRIAD_BEASTS_VALLEY,
-            'Myriad Beasts Valley',
-            'The home of many powerful beasts',
+            ZoneIdEnum.MYRIAD_BEASTS_VALLEY_I,
+            'Myriad Beasts Valley - Outer layer',
+            'The home of many powerful beasts and great resources',
             1000,
-            100,
-            [ /* requirements */
-                ItemIdEnum.BOOK_INNER_REGION
-            ],
+            35,
+            [ /* no requirements */ ],
             [ /* rewards */
-                ItemIdEnum.BOOK_OUTER_REGION
+                ItemIdEnum.SNOW_GINSENG_10Y,
+                ItemIdEnum.BLOOD_GINSENG_10Y
             ],
             [ /* zone loot */ 
-                new ZoneLoot(AttributeTypeEnum.COIN, 25, 5),
-                new ZoneLoot(AttributeTypeEnum.BODY, 75, 0.25),
-                new ZoneLoot(AttributeTypeEnum.QI, 25, 0.25)
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_1Y, 5), //5%
+                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_1Y, 5), //5%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_M, 3), //3%
             ],
             [ /* enemy names */
                 'Bandit',
@@ -293,6 +403,140 @@ export default class ZonePool {
                 'Mystical beast'
             ]
         );
+        this.createExplorableZone(
+            ZoneIdEnum.MYRIAD_BEASTS_VALLEY_II,
+            'Myriad Beasts Valley - 2nd layer',
+            'The home of many powerful beasts and great resources',
+            23000,
+            45,
+            [ /* requirements */ 
+                ZoneIdEnum.MYRIAD_BEASTS_VALLEY_I
+            ],
+            [ /* rewards */
+                ItemIdEnum.SNOW_GINSENG_100Y,
+                ItemIdEnum.BLOOD_GINSENG_100Y
+            ],
+            [ /* zone loot */ 
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_10Y, 5), //5%
+                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_10Y, 5), //5%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_M, 3), //3%
+            ],
+            [ /* enemy names */
+                'Bandit',
+                'Beast',
+                'Cultivator',
+                'Mystical beast'
+            ]
+        );
+        this.createExplorableZone(
+            ZoneIdEnum.MYRIAD_BEASTS_VALLEY_III,
+            'Myriad Beasts Valley - 3rd layer',
+            'The home of many powerful beasts and great resources',
+            32000,
+            65,
+            [ /* requirements */ 
+                ZoneIdEnum.MYRIAD_BEASTS_VALLEY_II
+            ],
+            [ /* rewards */
+                ItemIdEnum.SNOW_GINSENG_1000Y,
+                ItemIdEnum.BLOOD_GINSENG_1000Y
+            ],
+            [ /* zone loot */ 
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_100Y, 5), //5%
+                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_100Y, 5), //5%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_G, 3), //3%
+            ],
+            [ /* enemy names */
+                'Bandit',
+                'Beast',
+                'Cultivator',
+                'Mystical beast'
+            ]
+        );
+        this.createExplorableZone(
+            ZoneIdEnum.MYRIAD_BEASTS_VALLEY_IV,
+            'Myriad Beasts Valley - 4th layer',
+            'The home of many powerful beasts and great resources',
+            620000,
+            75,
+            [ /* requirements */ 
+                ZoneIdEnum.MYRIAD_BEASTS_VALLEY_III
+            ],
+            [ /* rewards */
+                ItemIdEnum.SNOW_GINSENG_1000Y,
+                ItemIdEnum.BLOOD_GINSENG_1000Y,
+                ItemIdEnum.GOLD_PIECE_S
+            ],
+            [ /* zone loot */ 
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_100Y, 7), //7%
+                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_100Y, 7), //7%
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_1000Y, 3), //3%
+                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_1000Y, 3), //3%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_G, 3), //3%
+                new ZoneLoot(ItemIdEnum.GOLD_PIECE_S, 1.5), //1.5%
+            ],
+            [ /* enemy names */
+                'Beast',
+                'Cultivator',
+                'Mystical beast'
+            ]
+        );
+        this.createExplorableZone(
+            ZoneIdEnum.MYRIAD_BEASTS_VALLEY_V,
+            'Myriad Beasts Valley - Core layer',
+            'The home of many powerful beasts and great resources',
+            1000000,
+            100,
+            [ /* requirements */ 
+                ZoneIdEnum.MYRIAD_BEASTS_VALLEY_IV
+            ],
+            [ /* rewards */
+                ItemIdEnum.BOOK_VALLEY_SECRET_PATH,
+                ItemIdEnum.BOOK_BODY_CULTIVATION,
+                ItemIdEnum.GOLD_PIECE_S
+            ],
+            [ /* zone loot */ 
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_1000Y, 5), //5%
+                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_1000Y, 5), //5%
+                new ZoneLoot(ItemIdEnum.GOLD_PIECE_S, 3), //3%
+            ],
+            [ /* enemy names */
+                'Cultivator',
+                'Mystical beast'
+            ]
+        );
+        this.createExplorableZone(
+            ZoneIdEnum.MYRIAD_BEASTS_VALLEY_HIDDEN_PATH,
+            'Myriad Beasts Valley - Hidden Path',
+            'A hidden pathway across the valley',
+            40000,
+            45,
+            [ /* requirements */ 
+                ItemIdEnum.BOOK_VALLEY_SECRET_PATH
+            ],
+            [ /* rewards */
+                ItemIdEnum.SNOW_GINSENG_100Y,
+                ItemIdEnum.BLOOD_GINSENG_100Y,
+                ItemIdEnum.GOLD_PIECE_S
+            ],
+            [ /* zone loot */ 
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_100Y, 5), //5%
+                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_100Y, 5), //5%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_G, 3), //3%
+            ],
+            [ /* enemy names */
+                'Cultivator',
+                'Mystical beast'
+            ]
+        );
+    }
+
+    static createZonePool() {
+        //calm wind region areas
+        this.createCalmWindVillageRegion();
+        this.createCalmWindForestRegion();
+        this.createCalmWindSectRegion();
+        this.createCalmWindValleyRegion();
     }
 
 }

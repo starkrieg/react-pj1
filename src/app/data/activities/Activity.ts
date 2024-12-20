@@ -1,4 +1,4 @@
-import { ExploreZoneIdEnum } from "../exploration/ExploreZoneIdEnum";
+import { ZoneIdEnum } from "../exploration/ZoneIdEnum";
 import { ItemIdEnum } from "../items/ItemIdEnum";
 import { ActivityEnum } from "./ActivityEnum";
 
@@ -8,12 +8,10 @@ export interface Activity {
     title: string;
     desc: string;
 
-    unlockRequirements: (ItemIdEnum | ExploreZoneIdEnum)[]
+    unlockRequirements: (ItemIdEnum | ZoneIdEnum)[]
 
     action: CallableFunction;
 
     getTickGain() : number
-
-
 
 }

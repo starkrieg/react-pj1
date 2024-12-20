@@ -8,6 +8,41 @@ export default function Changelog() {
       Changelog - {appVersion}
       <ul style={{marginTop: 10}}>
 
+      <p>Current end of content: interrupting the story event before year 645</p>
+      <p>Current end game and challenge: interrupting the story event before year 615</p>
+
+      <li style={{marginTop: 10}}>
+        <p>v.0.4.0 - alpha / 2025-Jan-02</p>
+        <p>Overview: New mechanics and changes to existing mechanics</p>
+        Note: Game was completelly rebalanced. There are more mechanics and content, but progress is overall slower, and beating the game will take even more time.
+        <div>
+          Changes:
+          <p>Right side message panel allows to toggle message type.</p>
+          <p>Message panel now shows new messages at the bottom.</p>
+          <p>New messages are dated with year, and some messages with life count</p>
+          <p>Some messages have different background color for better visualization</p>
+          <p>A small green dot is added to a Zone, on the upper right side, to identify that the zone has been cleared on the current life.</p>
+          <p>Created a tab for Market, with items from different zones. Some items only appear after a certain zone is cleared, certain items are obtained, or certain requirements are met. Existing items include weapons or upgrades for the existing life, and even some items that will have lasting effects across deaths.</p>
+          <p>Implemented effect for activity Meditate - will make it so all activities (including itself) will rank up faster</p>
+          <p>Implemented effect for activity Practice Martial Arts - will increase the effects attribute Body has on Power and Health. This activity is unlocked after a certain zone is cleared.</p>
+          <p>Implemented effect for activity Practice Qi Spells - will increase the effects attribute Qi has on Power and Health. This activity is unlocked after a certain zone is cleared.</p>
+          <p>Implemented global event - a series of messages and effects on zones on specific game years. Events repeat on every life and can be interrupted if their end zone is cleared on time. Interrupting an event will prevent any next milestone from happening, which can be good or bad. No extra rewards are given as of now. For now only 1 event exists.</p>
+          <p>Changed fight defeat message to type Fight on right panel.</p>
+          <p>Changed experience gain message to type Loot on right panel.</p>
+          <p>Fixed some text positining on exploration zones.</p>
+          <p>Modified Cultivation tab layout for clearer info on cultivation requirements and realm up effects.</p>
+          <p>Fixed situation that message &quot;You wake up!&quot; appeared twice after death. Also changed some related texts to make them more concise.</p>
+          <p>Changed so Zone progress is not reset on retreat or defeat</p>
+          <p>Changed so Zone power does not increase as a zone is progressed</p>
+          <p>Changed fight damage range from 50-85% power to 15-65% power so fights can be longer and random</p>
+          <p>Added new Zones</p>
+          <p>Changed all Zone difficulties to balance all changed mechanics and new zones</p>
+          <p>Changed display of Coins to show separation of Copper, Silver, Gold and Spiritual Stones</p>
+          <p>Changed game speeds to reflect game rebalance - game speeds are now: 1x, 2x, 5x and 10x.</p>
+          <p>Game rebalance include making progression a tad slower.</p>
+        </div>
+      </li>
+
       <li style={{marginTop: 10}}>
         <p>v.0.3.3 - alpha / 2024-Dec-21</p>
         <p>Overview: Bug fixes</p>

@@ -1,0 +1,46 @@
+.market {
+    height: 100%
+}
+
+.market-item-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+}
+
+.market-item {
+    border: 1px dashed var(--jade_green);
+    width: 150px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    padding-left: 2px;
+    border-radius: 5px;
+    text-align: left;
+}
+
+.market-item-cannot-buy {
+    background-color: lightgray;
+}
+
+.market-item-name {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.market-item-desc {
+    font-size: 10px;
+    white-space: pre-line;
+}
+
+.market-item-cost {
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.market-item-region {
+    font-size: 9px;
+    margin-top: auto;
+    font-weight: bold;
+}

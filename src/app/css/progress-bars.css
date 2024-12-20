@@ -1,0 +1,108 @@
+.health-bar, .experience-bar {
+  position: relative; /* Needed for positioning the overlay */
+  width: 100%; /* Adjust as needed */
+  height: 20px;
+  border: 1px solid #000; /* Optional border */
+  border-radius: 5px; /* Rounded corners */
+  overflow: hidden; /* Prevent progress bar overflow */
+}
+
+.progress-bar-overlay {
+  position: absolute; /* Positioned relative to the progress bar */
+  top: 0;
+  left: 0;
+  width: 100%; /* Full width of the bar */
+  height: 100%; /* Full height of the bar */
+  display: flex; /* Center the text */
+  justify-content: center;
+  align-items: center;
+  color: var(--ivory_white); /* Text color */
+  font-weight: bold; /* Make text stand out */
+  pointer-events: none; /* Allow clicking on the bar without interfering */
+}
+
+
+/* For WebKit-based browsers (Chrome, Safari, Edge) */
+.health-bar progress::-webkit-progress-value
+{
+  height: 100%;
+  width: 100%;
+  background-color: var(--health-bar); 
+}
+
+/* For Firefox */
+.health-bar progress::-moz-progress-bar
+{
+  height: 100%;
+  width: 100%;
+  background: var(--health-bar); 
+}
+
+.health-bar progress /* for IE10 */
+{
+  height: 100%;
+  width: 100%;
+  color: var(--health-bar);
+}
+
+/* For WebKit-based browsers (Chrome, Safari, Edge) */
+.experience-bar progress::-webkit-progress-value
+{
+  height: 100%;
+  width: 100%;
+  background-color: var(--mystic_violet); 
+}
+
+/* For Firefox */
+.experience-bar progress::-moz-progress-bar
+{
+  height: 100%;
+  width: 100%;
+  background: var(--mystic_violet); 
+}
+
+.experience-bar progress /* for IE10 */
+{
+  height: 100%;
+  width: 100%;
+  color: var(--mystic_violet);
+}
+
+.modal-overlay {
+  position: fixed; /* Ensures it covers the entire viewport */
+  top: 0;
+  left: 0;
+  width: 100vw; /* Full width of the viewport */
+  height: 100vh; /* Full height of the viewport */
+  background-color: rgba(0,0,0, 0.5); /* Gray background with 50% opacity */
+  overflow-y: auto;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  z-index: 9999; /* Ensures it stays on top of all other elements */
+  pointer-events: auto; /* Allows interaction blocking */
+}
+
+
+/* For WebKit-based browsers (Chrome, Safari, Edge) */
+.calendar-tick-bar progress::-webkit-progress-value
+{
+  height: 25%;
+  width: 100%;
+  background-color: var(--golden_yellow); 
+}
+
+/* For Firefox */
+.calendar-tick-bar progress::-moz-progress-bar
+{
+  height: 25%;
+  width: 100%;
+  background: var(--golden_yellow); 
+}
+
+.calendar-tick-bar progress /* for IE10 */
+{
+  height: 25%;
+  width: 100%;
+  color: var(--golden_yellow);
+}

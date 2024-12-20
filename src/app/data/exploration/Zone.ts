@@ -1,11 +1,11 @@
 import { ItemIdEnum } from "../items/ItemIdEnum";
 import { Utilities } from "../utils/Utilities";
-import { ExploreZoneIdEnum } from "./ExploreZoneIdEnum";
+import { ZoneIdEnum } from "./ZoneIdEnum";
 import { ZoneLoot } from "./ZoneLoot";
 
-export class ExplorableZone {
+export class Zone {
 
-    id: ExploreZoneIdEnum;
+    id: ZoneIdEnum;
     title: string;
     desc: string;
 
@@ -18,10 +18,6 @@ export class ExplorableZone {
     //zone is marked complete after finished first time
     //used to control first clear reward
     isComplete: boolean;
-
-    //reward // a ref for the reward for this zone
-    //secretReward // a ref for secret things that can be found, by chance, while exploring
-    //on a second run, all found/known secret rewards are found first
 
     //current progress on the zone
     currProgress: number;
@@ -38,16 +34,11 @@ export class ExplorableZone {
     //list of available enemies for this zone
     enemyList: string[];
 
-    // zones have big sizes, and must be completed on a single run
-    // so every step shouldn't increase difficulty too much
-    // every step on the zone increases power req by 5% based on the minimum requirement
-    private readonly POWER_INCREASE_PER_STEP = 0.05
+    unlockRequirements: (ItemIdEnum | ZoneIdEnum)[]
 
-    unlockRequirements: (ItemIdEnum | ExploreZoneIdEnum)[]
-
-    constructor(id: ExploreZoneIdEnum, title: string, desc: string,
+    constructor(id: ZoneIdEnum, title: string, desc: string,
         combatSize: number, basePower: number, 
-        unlockRequirements: (ItemIdEnum | ExploreZoneIdEnum)[],
+        unlockRequirements: (ItemIdEnum | ZoneIdEnum)[],
         listClearRewardItemId: ItemIdEnum[],
         lootList: ZoneLoot[],
         enemyList: string[]) {
@@ -102,7 +93,7 @@ export class ExplorableZone {
     }
 
     private updateCurrentStepPower() {
-        this.currentStepPower = this.basePower * (1 + ((this.currProgress-1) * this.POWER_INCREASE_PER_STEP));
+        this.currentStepPower = this.basePower;
     }
 
     /**
