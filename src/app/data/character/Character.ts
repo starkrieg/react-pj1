@@ -135,6 +135,9 @@ export class Character {
                     }
                 }
                 break;
+            case AttributeTypeEnum.QI_BASE_CAPACITY:
+                this.attributes.addAttributeValue(attribute, value);
+                this.updateStats();        
             default:
                 this.attributes.addAttributeValue(attribute, value);
                 break;

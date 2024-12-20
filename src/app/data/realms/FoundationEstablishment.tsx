@@ -56,19 +56,19 @@ export class FoundationEstablishment extends Realm {
         switch (this.stage) {
             case 'early':
                 const earlyQiCapBonus = 1500
-                breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.QI_CAPACITY, 'sum', earlyQiCapBonus));
+                breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.QI_BASE_CAPACITY, 'sum', earlyQiCapBonus));
                 breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.BODY_CAPACITY, 'sum', 100));
                 // TODO - make character attributes and multipliers into abstract classes, so any attribute or multiplier can be modified by realms
                 break;
             case 'middle':
                 const middleQiCapBonus = 1500
-                breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.QI_CAPACITY, 'sum', middleQiCapBonus));
+                breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.QI_BASE_CAPACITY, 'sum', middleQiCapBonus));
                 breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.BODY_CAPACITY, 'sum', 100));
                 breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.LIFESPAN, 'sum', 10));
                 break;
             case 'late':
                 const lateQiCapBonus = 2
-                breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.QI_CAPACITY, 'multi', lateQiCapBonus));
+                breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.QI_BASE_CAPACITY, 'multi', lateQiCapBonus));
                 breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.BODY_CAPACITY, 'sum', 200));
                 breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.LIFESPAN, 'sum', 20));
                 break;

@@ -6,6 +6,7 @@ import { CharacterController } from "@/app/data/character/CharacterController";
 import { ItemIdEnum } from "@/app/data/items/ItemIdEnum";
 import { RealmEnum } from "@/app/data/realms/RealmEnum";
 import { Utilities } from "@/app/data/utils/Utilities";
+import { AttributeTypeEnum } from "@/app/data/character/AttributeTypeEnum";
 
 export default function CharacterPanel() {
 
@@ -18,7 +19,8 @@ export default function CharacterPanel() {
    * @param isReqFulfilled 
    * @returns 
    */
-  function createLabelFromRequirement(title: string, reqValue: number, isReqFulfilled: boolean) {
+  function createLabelFromRequirement(requirementId: AttributeTypeEnum, reqValue: number, isReqFulfilled: boolean) {
+    const title = requirementId.toString();
     const capitalizedReqId = title.charAt(0).toUpperCase() + title.slice(1);
     let stringReq = <p>{capitalizedReqId}: {reqValue}</p>
     if (isReqFulfilled) {

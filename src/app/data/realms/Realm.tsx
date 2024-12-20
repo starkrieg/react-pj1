@@ -59,28 +59,27 @@ export class Realm {
         for (let index = 0; index < this.breakMultipliers.length; index++) {
             const multi = this.breakMultipliers[index];
             switch (multi.id) {
-                case AttributeTypeEnum.QI_CAPACITY:
+                case AttributeTypeEnum.QI_BASE_CAPACITY:
                     if (multi.action == 'sum') {
-                        const newQiBaseMinCapacity = character.attributes.qiBaseCapacity + multi.value
-                        character.setBaseMinCapacity(newQiBaseMinCapacity);
+                        character.increaseAttribute(AttributeTypeEnum.QI_BASE_CAPACITY, multi.value)
                     }
                     if (multi.action == 'multi') {
                         /* multi is for major realms */
                         /* multiply original multi.value by the character foundation first */
                         const foundationMulti = character.getBodyCapPercent() * character.getQiCapPercent();
                         const finalMulti = multi.value * foundationMulti
-                        const newQiBaseMinCapacity = character.attributes.qiBaseCapacity * finalMulti
+                        const newQiBaseMinCapacity = character.getAttributeValue(AttributeTypeEnum.QI_BASE_CAPACITY) * finalMulti;
                         character.setBaseMinCapacity(newQiBaseMinCapacity);
                     }
                     break;
                 case AttributeTypeEnum.BODY_CAPACITY:
                     if (multi.action == 'sum') {
-                        character.attributes.bodyCapacity += multi.value
+                        character.increaseAttribute(AttributeTypeEnum.BODY_CAPACITY, multi.value);
                     }
                     break;
                 case AttributeTypeEnum.LIFESPAN:
                     if (multi.action == 'sum') {
-                        character.maxAge += multi.value
+                        character.increaseAttribute(AttributeTypeEnum.LIFESPAN, multi.value);
                     }
                     break;
                 default:

@@ -155,28 +155,17 @@ export class CharacterController {
           return [];
         }
     
-        const prepList = [];
-    
-        const qiReqFilled = (char.getQi() >= nextRealm.requirements.qi);
-        if (nextRealm.requirements.qi > 0) {
-            prepList.push({
-                reqName: 'qi',
-                reqValue: nextRealm.requirements.qi,
-                isReqFulfilled: qiReqFilled
-            });
-        }
-    
-        const bodyReqFilled = (char.getBody() >= nextRealm.requirements.body);
-        if (nextRealm.requirements.body > 0) {
-   
-            prepList.push({
-                reqName: 'body', 
-                reqValue: nextRealm.requirements.body, 
-                isReqFulfilled: bodyReqFilled
-            });
-        }
-    
-        this.isBreakthroughReady = qiReqFilled && bodyReqFilled;
+        const prepList: any[] = [];
+
+        nextRealm.requirements.forEach(req => {
+          prepList.push({
+              reqName: req.id,
+              reqValue: req.value,
+              isReqFulfilled: (char.getAttributeValue(req.id) >= req.value)
+          });
+        });
+
+        this.isBreakthroughReady = prepList.every(req => req.isReqFulfilled);
     
         return prepList;
       }

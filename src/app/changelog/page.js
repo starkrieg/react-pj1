@@ -9,10 +9,32 @@ export default function Changelog() {
       <ul style={{marginTop: 10}}>
 
       <li style={{marginTop: 10}}>
+        <p>v.0.3.0 - alpha / 2024-Dec-20</p>
+        <p>Overview: Content rework, UI rework and combat rework</p>
+        <div>
+          Changes:
+          <p>Improved UI (color, sizes, positions)</p>
+          <p>Reworked content from scratch - more activities, zones and attributes</p>
+          <p>- Fully exploring a zone now unlock more content (other zones and actions)</p>
+          <p>Exploration changes (icons, health and power, enemy names, loot resources) </p>
+          <p>- Loot ranges from coins to small direct attribute increases (no consumables, equipments or trinkets yet)</p>
+          <p>Added a leveling system and experience bar, to go along with exploration fights</p>
+          <p>- Level affects power and health only, and does not reset on death</p>
+          <p>Added an &quot;Internal damage&quot; mechanic to go along with combat</p>
+          <p>- Internal damage reduces maximum health and power</p>
+          <p>- Increases with how much damage you take on fights</p>
+          <p>- Reduces by passing time outside a combat zone</p>
+          <p>Game speed is a bit faster, and calendar shows a tracker of day time</p>
+          <p>Game speed buttons changed to include a 0.5x speed</p>
+          <p>NOTE: coins still have no actual use other than feeling rich</p>
+        </div>
+      </li>
+
+      <li style={{marginTop: 10}}>
           <p>v.0.2.2 - alpha / 2024-Nov-28</p>
           <p>Overview: Small expansion to exploration</p>
           <div>
-            Additions:
+            Changes:
             <p>- Changed some colors</p>
             <p>- Fully exploring an area gives a reward, that unlocks something</p>
             <p>- Rewards unlock new activies, places to explore, etc</p>
@@ -24,7 +46,7 @@ export default function Changelog() {
           <p>v.0.2.1 - alpha / 2024-Oct-17</p>
           <p>Overview: Some basic plotline and other small features</p>
           <div>
-            Additions:
+            Changes:
             <p>- Added Journal, to log the main story</p>
             <p>- Qi Cultivation now must be unlocked somehow</p>
             <p>- Added Explore, with list of places to explore</p>
@@ -37,7 +59,7 @@ export default function Changelog() {
           <p>v.0.2.0 - alpha / 2024-Oct-17</p>
           <p>Overview: Basic realms and some mechanic changes</p>
           <div>
-            Additions:
+            Changes:
             <p/>- Added realms Mortal {'>'} Qi Condensation {'>'} Foundation Establishment
             <p/>- Max realm right now is Late Foundation Establishment
             <p/>- Removed Exploration from activities
@@ -50,7 +72,7 @@ export default function Changelog() {
           <p>v.0.1.1 - alpha / 2024-Oct-07</p>
           <p>Overview: Changes to existing features</p>
           <div>
-            Additions:
+            Changes:
             <p/>- Changed Money to Coins.
             <p/>- Added a label for current activity on the left panel.
             <p/>- Added Qi and Body to left panel.

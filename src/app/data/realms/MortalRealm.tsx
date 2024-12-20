@@ -26,7 +26,7 @@ export class MortalRealm extends Realm {
         const bodyCapBonus = 100;
         const lifespanBonus = 10;
 
-        breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.QI_CAPACITY, 'sum', qiCapBonus));
+        breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.QI_BASE_CAPACITY, 'sum', qiCapBonus));
         breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.BODY_CAPACITY, 'sum', bodyCapBonus));
         breakthroughMultipliers.push(this.createRealmMultiplier(AttributeTypeEnum.LIFESPAN, 'sum', lifespanBonus));
 
