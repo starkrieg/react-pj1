@@ -19,9 +19,6 @@ export class CharacterController {
     //count for amount of fights fought - wins and losses
     private static fightTotalCount = 0;
 
-    //TODO - make a better way to retrieve necessary character data for the UI
-    //TODO - make an easier way to get any character attribute
-    
     /**
      * Returns inner character object
      * But its purely readonly
@@ -82,9 +79,8 @@ export class CharacterController {
     /**
     * Reset values on game start or game hard reset
     */
-    static startFirstCharacter() {
-        this.character.itemList = new Set<ItemIdEnum>();
-        this.character.resetDefaultValues();
+    static resetToGameStart() {
+      this.character.resetToGameStart()
     }
 
     static getItemList() {

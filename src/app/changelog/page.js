@@ -9,6 +9,16 @@ export default function Changelog() {
       <ul style={{marginTop: 10}}>
 
       <li style={{marginTop: 10}}>
+        <p>v.0.3.3 - alpha / 2024-Dec-21</p>
+        <p>Overview: Bug fixes</p>
+        <div>
+          Changes:
+          <p>Fixed bug that hard reset would not reset levels</p>
+          <p>Fixed bug that hard reset would break activities and zones</p>
+        </div>
+      </li>
+
+      <li style={{marginTop: 10}}>
         <p>v.0.3.2 - alpha / 2024-Dec-20</p>
         <p>Overview: Bug fixes</p>
         <div>

@@ -66,6 +66,15 @@ export class Character {
         this.updateStats();
     }
 
+    /**
+    * Reset values on game start or game hard reset
+    */
+    resetToGameStart() {
+        this.itemList = new Set<ItemIdEnum | ExploreZoneIdEnum>();
+        this.fightingExperience = new FightingExperience;
+        this.resetDefaultValues();
+    }
+
     private getAttributeValueOr0(attribute: AttributeTypeEnum) {
         return this.attributes.getAttributeValue(attribute) || 0;
     }

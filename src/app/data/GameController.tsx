@@ -52,18 +52,20 @@ export default class GameController {
         }
     }
 
-    private setupBasicData() {
-        this.calendar.resetDefaultValues();
-        CharacterController.startFirstCharacter();
-
+    private setupContentPools() {
         //items come first
         ItemCreator.createItemPool();
 
         //zones depend on items for rewards
         ZonePool.createZonePool();
-        
+
         //activities 
         ActivityPool.createActivityPool();
+    }
+
+    private setupBasicData() {
+        this.calendar.resetDefaultValues();
+        CharacterController.resetToGameStart();
 
         //unlock content from present items
         ContentUnlockController.unlockContent();
@@ -203,6 +205,7 @@ export default class GameController {
         if (!this.isGameWorking) {
             this.isGameWorking = true;
             /* start game loop */
+            this.setupContentPools();
             this.setupBasicData();
             this.doGameLoop();
         }
