@@ -8,7 +8,7 @@ export enum AttributeTypeEnum {
     POWER = 'power',
     HEALTH = 'health',
     COIN = 'coin',
-    INTERNAL_INJURY = 'internal-injury',
+    INTERNAL_DAMAGE = 'internal-damage',
     PERFECTION = 'perfection',
     ALLIES = 'allies',
     SOUL = 'soul',

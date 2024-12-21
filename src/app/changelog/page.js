@@ -9,6 +9,17 @@ export default function Changelog() {
       <ul style={{marginTop: 10}}>
 
       <li style={{marginTop: 10}}>
+        <p>v.0.3.2 - alpha / 2024-Dec-20</p>
+        <p>Overview: Bug fixes</p>
+        <div>
+          Changes:
+          <p>Fixed bug that activities and zones were not ordered correctly</p>
+          <p>Fixed bug that coins and injuries were not being reset after death</p>
+          <p>Fixed bug that lifespan was not being increased after breakthroughs</p>
+        </div>
+      </li>
+
+      <li style={{marginTop: 10}}>
         <p>v.0.3.1 - alpha / 2024-Dec-20</p>
         <p>Overview: Bug fixes</p>
         <div>

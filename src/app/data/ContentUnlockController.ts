@@ -13,7 +13,9 @@ export class ContentUnlockController {
 
     private static unlockActivities() {
         const actPool = ActivityPool.getActivityPool();
-        actPool.forEach(act => {
+        const unlockedActivities = ActivitiesController.getActivitiesList();
+        actPool.filter(act => !unlockedActivities.includes(act))
+            .forEach(act => {
             if (act.unlockRequirements.length == 0) {
                 ActivitiesController.addActivity(act);
             } else {
@@ -29,7 +31,9 @@ export class ContentUnlockController {
 
     private static unlockZones() {
         const zonePool = ZonePool.getZonePool();
-        zonePool.forEach(zone => {
+        const unlockedZones = ExplorationController.getListExplorableZones();
+        zonePool.filter(zone => !unlockedZones.includes(zone))
+            .forEach(zone => {
             if (zone.unlockRequirements.length == 0) {
                 ExplorationController.addExplorableZone(zone);
             } else {

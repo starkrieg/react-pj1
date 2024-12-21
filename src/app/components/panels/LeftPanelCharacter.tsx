@@ -65,7 +65,7 @@ export default function LeftPanelCharacter() {
     }
 
     function InternalInjury() {
-        const injuryValue = Utilities.roundTo2Decimal( character.getAttributeValue(AttributeTypeEnum.INTERNAL_INJURY) );
+        const injuryValue = Utilities.roundTo2Decimal( character.getAttributeValue(AttributeTypeEnum.INTERNAL_DAMAGE) );
         return (
             <label>Internal Injury: { injuryValue }%</label>
         );
@@ -80,7 +80,7 @@ export default function LeftPanelCharacter() {
 
     const isShowDeath = CharacterController.getDeathCount() > 0;
 
-    const isShowInternalInjury = character.getAttributeValue(AttributeTypeEnum.INTERNAL_INJURY) > 0;
+    const isShowInternalInjury = character.getAttributeValue(AttributeTypeEnum.INTERNAL_DAMAGE) > 0;
 
     return (
         <div style={{ fontSize: 14, display: 'grid' }}>

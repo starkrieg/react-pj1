@@ -48,8 +48,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #2E2E2E;
+    --foreground: #F5F5F5;
   }
 }
 
@@ -104,6 +104,8 @@ body {
   padding: 2px 0;
   border: 1px solid var(--burnt_umber);
   border-bottom: none;
+  border-left: none;
+  border-right: none;
 }
 
 .row {
@@ -116,14 +118,6 @@ body {
 .panel-middle, .panel-left, .panel-right {
   padding: 4px;
   margin-bottom: 2px;
-}
-
-.panel-left {
-
-}
-
-.panel-right {
-
 }
 
 /* Column Width Classes */

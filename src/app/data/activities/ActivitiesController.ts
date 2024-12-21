@@ -2,6 +2,7 @@ import { ErrorController } from "../utils/ErrorController";
 import { ActivityEnum } from "./ActivityEnum";
 import { Activity } from "./Activity";
 import { ActivityRank } from "./ActivityRank";
+import ActivityPool from "./ActivityPool";
 
 export class ActivitiesController {
 
@@ -10,9 +11,9 @@ export class ActivitiesController {
     // rate which days for rank up grow
     private static RANK_UP_GROWTH_RATE = 0.3;
 
-    static selectedActivity: ActivityEnum = ActivityEnum.NOTHING;
+    static selectedActivity: Activity | undefined = undefined;
 
-    private static activityMap: Map<ActivityEnum, Activity> = new Map<ActivityEnum, Activity>();
+    private static unlockedActivities: Activity[] = [];
 
     private static activityRankMap: Map<ActivityEnum, ActivityRank> = new Map<ActivityEnum, ActivityRank>();
     
@@ -21,8 +22,8 @@ export class ActivitiesController {
      * Used on game hard reset
      */
     static hardReset() {
-        this.selectedActivity = ActivityEnum.NOTHING;
-        this.activityMap.clear();
+        this.selectedActivity = undefined;
+        this.unlockedActivities = [];
         this.activityRankMap.clear();
     }
 
@@ -31,21 +32,20 @@ export class ActivitiesController {
      * Used on character death
      */
     static softReset() {
-        this.selectedActivity = ActivityEnum.NOTHING;
-        this.activityMap.clear();
+        this.selectedActivity = undefined;
+        this.unlockedActivities = [];
     }
     
     static getSelectedActivityTitle() {
-        const title = this.activityMap.get(this.selectedActivity)?.title
-        return title || 'Nothing';
+        return this.selectedActivity ? this.selectedActivity.title : 'Nothing';
     }
     
     static doActivityTick() {
-        this.activityMap.get(this.selectedActivity)?.action();
+        this.selectedActivity?.action();
     }
     
-    static doSelectActivity(actId: ActivityEnum) {
-        this.selectedActivity = actId;
+    static doSelectActivity(act: Activity) {
+        this.selectedActivity = act;
     }
 
     /**
@@ -56,9 +56,12 @@ export class ActivitiesController {
         if (!activity) {
             ErrorController.throwSomethingWrongError();
         }
-        if (!this.activityMap.get(activity.id)) {
-            this.activityMap.set(activity.id, activity);
-        }
+
+        this.unlockedActivities.push(activity);
+
+        //order unlocked list
+        const allActivities = ActivityPool.getActivityPool()
+        this.unlockedActivities = allActivities.filter(act => this.unlockedActivities.includes(act))
         
         //only add to map if not there yet
         //so that map is not reset when creating activities after death
@@ -67,8 +70,8 @@ export class ActivitiesController {
         }
     }
 
-    static getActivitiesList() {
-        return this.activityMap.values();
+    static getActivitiesList() : Readonly<Activity[]> {
+        return this.unlockedActivities;
     }
 
     static getActivityRankObj(id: ActivityEnum) : Readonly<ActivityRank> {

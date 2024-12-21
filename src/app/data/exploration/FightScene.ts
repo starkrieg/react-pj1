@@ -127,7 +127,7 @@ export default class FightScene {
                     //if damage taken is over 50% of current health, take internal injury damage based on the ratio
                     if (damageToCurrentHealthRatio > 0.4) {
                         const internalDamage = Utilities.roundTo2Decimal(finalDamage * damageToCurrentHealthRatio);
-                        CharacterController.getCharacter().increaseAttribute(AttributeTypeEnum.INTERNAL_INJURY, internalDamage);
+                        CharacterController.getCharacter().increaseAttribute(AttributeTypeEnum.INTERNAL_DAMAGE, internalDamage);
                     }
                     this.characterCurrentHealth = Utilities.roundTo2Decimal(this.characterCurrentHealth - finalDamage);
                 }

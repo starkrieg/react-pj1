@@ -1,7 +1,6 @@
 import GameController from "../../data/GameController";
 import { MainContentEnum } from "../../data/MainContentEnum";
 import { ExplorationController } from "../../data/exploration/ExplorationController";
-import { ExploreZoneIdEnum } from "../../data/exploration/ExploreZoneIdEnum";
 import { MessageController } from "../../data/messages/MessageController";
 import ActivitiesPanel from "./ActivitiesPanel";
 import CharacterPanel from "./CharacterPanel";
@@ -21,7 +20,7 @@ export function MainContentPanel(gameController: GameController, contentId = Mai
         case MainContentEnum.JOURNAL:
             return MessagesPanel(MessageController.getJournalMessages())
         case MainContentEnum.EXPLORE:
-            if (ExplorationController.selectedZoneId != ExploreZoneIdEnum.NOTHING) {
+            if (ExplorationController.selectedZone) {
                 return ExplorableZoneProgressPanel();
             } else {
                 return ExplorableZonesPanel();

@@ -97,7 +97,7 @@ export class CharacterController {
      */
     static add1YearCharacter() : boolean {
         this.character.year += 1
-        return (this.character.year >= this.character.maxAge);
+        return (this.character.year >= this.character.getAttributeValue(AttributeTypeEnum.LIFESPAN));
     }
 
     static reviveCharacter() {
@@ -202,11 +202,11 @@ export class CharacterController {
       }
 
       static recoverInternalInjury() {
-        const internalDamage = this.character.getAttributeValue(AttributeTypeEnum.INTERNAL_INJURY)
+        const internalDamage = this.character.getAttributeValue(AttributeTypeEnum.INTERNAL_DAMAGE)
         if (internalDamage > 0) {
             const RECOVERY_MOD = 15;
             const recoveryValue = this.character.getAttributeValue(AttributeTypeEnum.BODY) / RECOVERY_MOD;
-            this.character.increaseAttribute(AttributeTypeEnum.INTERNAL_INJURY, -recoveryValue);
+            this.character.increaseAttribute(AttributeTypeEnum.INTERNAL_DAMAGE, -recoveryValue);
         }
       }
 

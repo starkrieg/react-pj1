@@ -1,7 +1,6 @@
 
 import { ActivitiesController } from "../data/activities/ActivitiesController";
 import { ExplorationController } from "../data/exploration/ExplorationController";
-import { ExploreZoneIdEnum } from "../data/exploration/ExploreZoneIdEnum";
 import GameController from "../data/GameController";
 import { MainContentEnum } from "../data/MainContentEnum";
 import { MessageController } from "../data/messages/MessageController";
@@ -21,7 +20,7 @@ export function GameState(gameController: GameController) {
         
     }
 
-    const doing = ExplorationController.selectedZoneId == ExploreZoneIdEnum.NOTHING ?
+    const doing = !ExplorationController.selectedZone ?
         ActivitiesController.getSelectedActivityTitle()
         : ExplorationController.getSelectedExplorableZoneTitle()
 

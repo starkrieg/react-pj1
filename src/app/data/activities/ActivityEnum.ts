@@ -1,5 +1,4 @@
 export enum ActivityEnum {
-    NOTHING = 'nothing',
     MEDITATE = 'meditate',
     REFINE_QI = 'refine-qi',
     STUDY_FORAGING = 'study-foraging',

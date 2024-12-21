@@ -1,17 +1,17 @@
 
 import { ExplorableZone } from "./ExplorableZone";
-import { ExploreZoneIdEnum } from "./ExploreZoneIdEnum";
 import { ItemController } from "../items/ItemController";
 import { MessageController } from "../messages/MessageController";
 import { CharacterController } from "../character/CharacterController";
 import { ErrorController } from "../utils/ErrorController";
 import { ContentUnlockController } from "../ContentUnlockController";
 import FightScene from "./FightScene";
+import ZonePool from "./ZonePool";
 
 export class ExplorationController {
 
-    static selectedZoneId: ExploreZoneIdEnum = ExploreZoneIdEnum.NOTHING;
-    private static explorableZoneList: Map<ExploreZoneIdEnum, ExplorableZone> = new Map<ExploreZoneIdEnum, ExplorableZone>();
+    static selectedZone: ExplorableZone | undefined = undefined;
+    private static unlockedZones: ExplorableZone[] = [];
 
     private static fightScene: FightScene | undefined;
 
@@ -20,20 +20,19 @@ export class ExplorationController {
      * Used on game hard reset
      */
     static hardReset() {
-        this.selectedZoneId = ExploreZoneIdEnum.NOTHING;
+        this.selectedZone = undefined;
         // reset all zones to un-explored state
-        this.explorableZoneList.forEach(zone => zone.resetZoneClear());
+        this.unlockedZones.forEach(zone => zone.resetZoneClear());
         // remove all zones from unlocked list
-        this.explorableZoneList.clear();
+        this.unlockedZones = [];
     }
     
     static getSelectedExplorableZoneTitle() {
-        const title = this.explorableZoneList.get(this.selectedZoneId)?.title
-        return title || 'Nothing';
+        return this.selectedZone ? this.selectedZone.title : 'Nothing';
     }
 
     static getListExplorableZones() {
-        return this.explorableZoneList.values();
+        return this.unlockedZones;
     }
     
     static addExplorableZone(zone: ExplorableZone) {
@@ -41,15 +40,19 @@ export class ExplorationController {
             ErrorController.throwSomethingWrongError();
             return;
         }
-        this.explorableZoneList.set(zone.id, zone);
+        this.unlockedZones.push(zone);
+
+        //order unlocked list
+        const allZones = ZonePool.getZonePool()
+        this.unlockedZones = allZones.filter(zone => this.unlockedZones.includes(zone));
     }
     
-    static doClickZone(zoneId: ExploreZoneIdEnum) {
+    static doClickZone(zone: ExplorableZone) {
         // is no zone selected, then select one
         // if this zone already selected, then remove selection
         // if another zone selected, then select this new one now
-        if (this.selectedZoneId != zoneId) {
-            this.selectedZoneId = zoneId;
+        if (!this.selectedZone || this.selectedZone.id != zone.id) {
+            this.selectedZone = zone;
         } else {
             this.doClickRetreatFromZone();
         }
@@ -61,7 +64,7 @@ export class ExplorationController {
      */
     static doClickRetreatFromZone() {
         this.getSelectedZone()?.clearProgress();
-        this.selectedZoneId = ExploreZoneIdEnum.NOTHING
+        this.selectedZone = undefined;
         //clean fight stuff
         this.cleanFightZone()
     }
@@ -71,9 +74,8 @@ export class ExplorationController {
     }
 
     static getSelectedZone() {
-        const zone = this.explorableZoneList.get(this.selectedZoneId);
-        if (zone) {
-            return zone;
+        if (this.selectedZone) {
+            return this.selectedZone;
         } else {
             ErrorController.throwSomethingWrongError();
         }
@@ -127,7 +129,7 @@ export class ExplorationController {
                 //publish message on zone finish
                 MessageController.pushMessageSimple(`You finished exploring [${this.getSelectedZone()?.title}] !`);
 
-                CharacterController.giveItem(this.selectedZoneId)
+                CharacterController.giveItem(this.selectedZone?.id)
 
                 const listRewardItemId = this.getSelectedZone()?.listClearRewardItemId;
 

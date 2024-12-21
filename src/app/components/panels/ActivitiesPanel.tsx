@@ -5,21 +5,23 @@ import { ButtonActivity } from "../Button";
 
 export default function ActivitiesPanel() {
 
-    const activitiesList = ActivitiesController.getActivitiesList();
+    const unlockedActivities = ActivitiesController.getActivitiesList();
+
     const doSelectClick = ActivitiesController.doSelectActivity;
 
-    const preparedList = Array.from(activitiesList).map(act => {
-        const activityRank = ActivitiesController.getActivityRankObj(act.id);
-        
-        const isSelected = (act.id == ActivitiesController.selectedActivity);
+    const preparedList = unlockedActivities.map(act => {
+            const activityRank = ActivitiesController.getActivityRankObj(act.id);
+            
+            const isSelected = (act.id == ActivitiesController.selectedActivity?.id);
 
-        return ButtonActivity(
-            act,
-            activityRank,
-            doSelectClick.bind(ActivitiesController, act.id),
-            isSelected
-        );
-    });
+            return ButtonActivity(
+                act,
+                activityRank,
+                doSelectClick.bind(ActivitiesController, act),
+                isSelected
+            );
+        }
+    );
 
     return <div className="activities">
                 <div className="activities-list">

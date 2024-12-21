@@ -10,8 +10,6 @@ import { GameState } from "../components/GameState";
 import { MainContentEnum } from "./MainContentEnum";
 import { ModalTypeEnum } from "./modal/ModalTypeEnum";
 import { ExplorationController } from "./exploration/ExplorationController";
-import { ExploreZoneIdEnum } from "./exploration/ExploreZoneIdEnum";
-import { ActivityEnum } from "./activities/ActivityEnum";
 import { ModalController } from "./modal/ModalController";
 import { ActivitiesController } from "./activities/ActivitiesController";
 import ItemCreator from "./items/ItemCreator";
@@ -149,13 +147,13 @@ export default class GameController {
             while(this.isGameWorking) {
                 await this.sleep(100 / this.gameSpeed);
                 if (!this.isPaused && this.modalType == ModalTypeEnum.NOTHING) {
-                    if (ExplorationController.selectedZoneId != ExploreZoneIdEnum.NOTHING) {
+                    if (ExplorationController.selectedZone) {
                         this.current_tick_day += 1;
                     } else {
                         this.current_tick_day += 8;
                     }
                     
-                    if (ExplorationController.selectedZoneId != ExploreZoneIdEnum.NOTHING
+                    if (ExplorationController.selectedZone
                         && (this.current_tick_day % (ticksPerFightRound) == 0)
                     ) {
                         //if exploring, then cant work on selected activity
@@ -167,15 +165,15 @@ export default class GameController {
                         this.current_tick_day = 0;
                         
                         // check if doing anything
-                        if(ActivitiesController.selectedActivity != ActivityEnum.NOTHING
-                            && ExplorationController.selectedZoneId == ExploreZoneIdEnum.NOTHING
+                        if(ActivitiesController.selectedActivity
+                            && !ExplorationController.selectedZone
                         ) {
                             //only do activity if not exploring
                             //and only if selected one activity
                             ActivitiesController.doActivityTick();
                         }
 
-                        if (ExplorationController.selectedZoneId == ExploreZoneIdEnum.NOTHING) {
+                        if (!ExplorationController.selectedZone) {
                             CharacterController.recoverInternalInjury();
                         }
                         

@@ -4,10 +4,13 @@ import { CharacterController } from "@/app/data/character/CharacterController";
 import Button from "../Button";
 import GameController from "@/app/data/GameController";
 import { CalendarTickBar } from "../ColoredBar";
+import { AttributeTypeEnum } from "@/app/data/character/AttributeTypeEnum";
 
 export default function CalendarPanel(gameController: GameController) {
 
     const character = CharacterController.getCharacter();
+
+    const characterLifeSpan = character.getAttributeValue(AttributeTypeEnum.LIFESPAN);
 
     const MAX_TICK_DAY = gameController.MAX_TICK_DAY;
     const currentTick = gameController.current_tick_day;
@@ -24,7 +27,7 @@ export default function CalendarPanel(gameController: GameController) {
             </div>
             { CalendarTickBar(currentTick, MAX_TICK_DAY) }
             <label>{gameController.calendar.year}y, day {gameController.calendar.day}</label>
-            <label>{character.year}y (max {character.maxAge}y)</label>
+            <label>{character.year}y (max {characterLifeSpan}y)</label>
         </div>
     );
 

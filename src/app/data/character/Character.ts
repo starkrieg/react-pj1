@@ -13,7 +13,6 @@ export class Character {
 
     year: number;
     day: number;
-    maxAge: number;
     
     // realm is the cultivation realm
     realm: Realm;
@@ -43,7 +42,6 @@ export class Character {
         this.year = 16
         this.day = 1;
         this.realm = RealmController.getRealmById(RealmEnum.MORTAL);
-        this.maxAge = 30;
         this.attributes = new CharacterAttributes();
         this.itemList = new Set<ItemIdEnum | ExploreZoneIdEnum>();
         this.fightingExperience = new FightingExperience;
@@ -54,11 +52,15 @@ export class Character {
         this.year = 16
         this.day = 1;
         this.realm = RealmController.getRealmById(RealmEnum.MORTAL);
-        this.maxAge = 30;
+        this.attributes.setAttributeValue(AttributeTypeEnum.LIFESPAN, 30);
         this.attributes.setAttributeValue(AttributeTypeEnum.QI, 0);
         this.attributes.setAttributeValue(AttributeTypeEnum.QI_BASE_CAPACITY, 100);
         this.attributes.setAttributeValue(AttributeTypeEnum.BODY, 1);
         this.attributes.setAttributeValue(AttributeTypeEnum.BODY_CAPACITY, 100);
+        this.attributes.setAttributeValue(AttributeTypeEnum.COIN, 0);
+        this.attributes.setAttributeValue(AttributeTypeEnum.INTERNAL_DAMAGE, 0);
+        this.attributes.setAttributeValue(AttributeTypeEnum.PERFECTION, 0);
+        this.attributes.setAttributeValue(AttributeTypeEnum.ALLIES, 0);
         this.attributes.setAttributeValue(AttributeTypeEnum.SOUL, 0);
         this.attributes.setAttributeValue(AttributeTypeEnum.TALENT, 0.5);
         this.updateStats();
@@ -118,8 +120,8 @@ export class Character {
             case AttributeTypeEnum.BODY:
                 this.increaseBody(value);
                 break;
-            case AttributeTypeEnum.INTERNAL_INJURY:
-                const currentInternalDamage = this.getAttributeValueOr0(AttributeTypeEnum.INTERNAL_INJURY);
+            case AttributeTypeEnum.INTERNAL_DAMAGE:
+                const currentInternalDamage = this.getAttributeValueOr0(AttributeTypeEnum.INTERNAL_DAMAGE);
                 if (value < 0) {
                     if (currentInternalDamage + value <= 0) {
                         value = -currentInternalDamage;
@@ -180,7 +182,7 @@ export class Character {
         const appliedBodyPower = (this.getBody() * this.bodyToPowerRatio);
         const appliedQiPower = (this.getQi() * this.qiToPowerRatio);
         const appliedFightingLevel = 1 + ((this.fightingExperience.getLevel()-1) * POWER_RAISE_PER_LEVEL)
-        const appliedInternalInjury = 1 - (this.getAttributeValueOr0(AttributeTypeEnum.INTERNAL_INJURY) / 100)
+        const appliedInternalInjury = 1 - (this.getAttributeValueOr0(AttributeTypeEnum.INTERNAL_DAMAGE) / 100)
         const finalPower = (appliedBodyPower + appliedQiPower) * appliedFightingLevel * appliedInternalInjury;
         return Utilities.roundTo2Decimal(finalPower);
     }
@@ -193,7 +195,7 @@ export class Character {
         const appliedBodyHealth = (this.getBody() * this.bodyToHealthRatio);
         const appliedQiHealth = (this.getQi() * this.qiToHealthRatio);
         const appliedFightingLevel = 1 + ((this.fightingExperience.getLevel()-1) * 0.1)
-        const appliedInternalInjury = 1 - (this.getAttributeValueOr0(AttributeTypeEnum.INTERNAL_INJURY) / 100)
+        const appliedInternalInjury = 1 - (this.getAttributeValueOr0(AttributeTypeEnum.INTERNAL_DAMAGE) / 100)
         const finalPower = (appliedBodyHealth + appliedQiHealth) * appliedFightingLevel * appliedInternalInjury;
         return Utilities.roundTo2Decimal(finalPower);
     }
