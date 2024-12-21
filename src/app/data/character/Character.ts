@@ -16,7 +16,7 @@ export class Character {
     maxAge: number;
     
     // realm is the cultivation realm
-    realm: Realm | undefined;
+    realm: Realm;
         
     //character attributes in a separate object
     //its also so realm ups can be done easier
@@ -148,24 +148,27 @@ export class Character {
     //pure increase on stat
     private increaseQi(value: number) {
         const qiTotalCapacity = this.getAttributeValueOr0(AttributeTypeEnum.QI_TOTAL_CAPACITY);
-        if (this.getAttributeValueOr0(AttributeTypeEnum.QI) < qiTotalCapacity) {
-            this.attributes.addAttributeValue(AttributeTypeEnum.QI, value);
-            if (this.getAttributeValueOr0(AttributeTypeEnum.QI) > qiTotalCapacity) {
-                this.attributes.addAttributeValue(AttributeTypeEnum.QI, qiTotalCapacity);
+        const currentQi = this.getAttributeValueOr0(AttributeTypeEnum.QI);
+        if (currentQi < qiTotalCapacity) {
+            if (currentQi + value >= qiTotalCapacity) {
+                value = qiTotalCapacity - currentQi;
             }
+            this.attributes.addAttributeValue(AttributeTypeEnum.QI, value);
         }
     }
 
     //pure increase on stat
     private increaseBody(value: number) {
         const bodyCapacity = this.getAttributeValueOr0(AttributeTypeEnum.BODY_CAPACITY);
-        if (this.getAttributeValueOr0(AttributeTypeEnum.BODY) < bodyCapacity) {
-            this.attributes.addAttributeValue(AttributeTypeEnum.BODY, value);
-            if (this.getAttributeValueOr0(AttributeTypeEnum.BODY) > bodyCapacity) {
-                this.attributes.addAttributeValue(AttributeTypeEnum.BODY, bodyCapacity);
+        const currentBody = this.getAttributeValueOr0(AttributeTypeEnum.BODY);
+        if (currentBody < bodyCapacity) {
+            if (currentBody + value >= bodyCapacity) {
+                value = bodyCapacity - currentBody;
             }
+            this.attributes.addAttributeValue(AttributeTypeEnum.BODY, value);
+
+            this.updateStats();
         }
-        this.updateStats();
     }
 
     /**

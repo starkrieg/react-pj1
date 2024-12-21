@@ -12,7 +12,6 @@ export class CharacterController {
     private static character: Character = new Character();
 
     private static isBreakthroughReady: boolean = false;
-    static nextRealmId = '';
 
     //death count outside character current life
     private static deathCount = 0;
@@ -144,14 +143,10 @@ export class CharacterController {
 
     static getListRequirementBreakthrough(char: Readonly<Character>) {
         this.isBreakthroughReady = false;
-        
-        if (this.nextRealmId == RealmEnum.UNKNOWN) {
-          return [];
-        }
     
-        const nextRealm = char.realm!.getNextRealm();
+        const nextRealm = char.realm.getNextRealm();
     
-        if (!nextRealm || nextRealm.id == RealmEnum.UNKNOWN) {
+        if (nextRealm.id == RealmEnum.UNKNOWN) {
           return [];
         }
     

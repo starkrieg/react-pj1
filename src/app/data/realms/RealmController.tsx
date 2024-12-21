@@ -10,13 +10,14 @@ export class RealmController {
 
     static realmMatrix = new Map<RealmEnum, Realm>();
 
-    private static createAndReturnUnknown() {
-        this.realmMatrix.set(RealmEnum.UNKNOWN, new Realm(RealmEnum.UNKNOWN, 
+    private static createAndReturnUnknownRealm() {
+        const unknownRealm = new Realm(RealmEnum.UNKNOWN, 
             'Unknown', [], [], 
             `Your current realm is not clear. 
             What heights have you reached?`
-        ));
-        return this.realmMatrix.get(RealmEnum.UNKNOWN);
+        );
+        this.realmMatrix.set(RealmEnum.UNKNOWN, unknownRealm);
+        return unknownRealm;
     }
 
     private static createAndReturnMortalRealm() {
@@ -40,7 +41,7 @@ export class RealmController {
     private static createRealmFromRealmId(realmId: RealmEnum) : Realm | undefined {
         switch (realmId) {
             case RealmEnum.UNKNOWN:
-                return this.createAndReturnUnknown();
+                return this.createAndReturnUnknownRealm();
             case RealmEnum.MORTAL:
                 return this.createAndReturnMortalRealm();
             case RealmEnum.QI_CONDENSATION_1:
@@ -65,7 +66,8 @@ export class RealmController {
     /*
         return a realm instance based on realm id passed
     */
-    static getRealmById(realmId: RealmEnum) : Realm | undefined {
-        return this.realmMatrix.get(realmId) || this.createRealmFromRealmId(realmId)
+    static getRealmById(realmId: RealmEnum) : Realm {
+        const realm = this.realmMatrix.get(realmId) || this.createRealmFromRealmId(realmId);
+        return realm || this.createAndReturnUnknownRealm()
     }
 }

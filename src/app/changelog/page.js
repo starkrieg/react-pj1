@@ -9,6 +9,17 @@ export default function Changelog() {
       <ul style={{marginTop: 10}}>
 
       <li style={{marginTop: 10}}>
+        <p>v.0.3.1 - alpha / 2024-Dec-20</p>
+        <p>Overview: Bug fixes</p>
+        <div>
+          Changes:
+          <p>Fixed bug that Body and Qi would double when reaching their cap</p>
+          <p>Fixed bug that after death, zones that were cleared before would not clear correctly</p>
+          <p>Fixed bug that breaking through would stop working after Qi Condensation 1</p>
+        </div>
+      </li>
+
+      <li style={{marginTop: 10}}>
         <p>v.0.3.0 - alpha / 2024-Dec-20</p>
         <p>Overview: Content rework, UI rework and combat rework</p>
         <div>

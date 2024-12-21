@@ -80,7 +80,6 @@ export class ActivitiesController {
         if (activityRank) {
             return activityRank.rank;
         } else {
-            console.log(`Activity rank not found : activity ${id}`);
             return 1;
         }
     }

@@ -21,6 +21,9 @@ export class ExplorationController {
      */
     static hardReset() {
         this.selectedZoneId = ExploreZoneIdEnum.NOTHING;
+        // reset all zones to un-explored state
+        this.explorableZoneList.forEach(zone => zone.resetZoneClear());
+        // remove all zones from unlocked list
         this.explorableZoneList.clear();
     }
     

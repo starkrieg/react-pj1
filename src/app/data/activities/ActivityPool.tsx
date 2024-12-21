@@ -77,7 +77,7 @@ export default class ActivityPool {
             ]
         ));
         this.createActivity(new GenericActivity(
-            ActivityEnum.VILLGE_GUARD_DUTIES,
+            ActivityEnum.VILLAGE_GUARD_DUTIES,
             'Village Guard Duty',
             'Part time work as a guard at the village',
             [

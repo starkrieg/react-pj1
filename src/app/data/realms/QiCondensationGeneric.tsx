@@ -5,6 +5,7 @@ import { Realm } from "./Realm";
 import { RealmEnum } from "./RealmEnum";
 import { Attribute } from "../character/Attribute";
 import { AttributeTypeEnum } from "../character/AttributeTypeEnum";
+import { CharacterController } from "../character/CharacterController";
 
 export class QiCondensationGeneric extends Realm {
 
@@ -71,11 +72,37 @@ export class QiCondensationGeneric extends Realm {
     getNextRealm() {
         if (this.stage < 6) {
             const nextStage = this.stage + 1;
-            const realmId = 'qi-condensation-' + nextStage;
-            return RealmController.getRealmById(RealmEnum[realmId as keyof typeof RealmEnum]);
+            switch (nextStage) {
+                case 2:
+                    return RealmController.getRealmById(RealmEnum.QI_CONDENSATION_2);
+                case 3:
+                    return RealmController.getRealmById(RealmEnum.QI_CONDENSATION_3);
+                case 4:
+                    return RealmController.getRealmById(RealmEnum.QI_CONDENSATION_4);
+                case 5:
+                    return RealmController.getRealmById(RealmEnum.QI_CONDENSATION_5);
+                case 6:
+                    return RealmController.getRealmById(RealmEnum.QI_CONDENSATION_6);
+            }
+            return RealmController.getRealmById(RealmEnum.UNKNOWN);
         }
-        if (this.stage == 6) {
-            return RealmController.getRealmById(RealmEnum.FOUNDATION_ESTABLISHMENT_EARLY);
+        if (this.stage >= 6) {
+            const perfection = CharacterController.getCharacter()
+                .getAttributeValue(AttributeTypeEnum.PERFECTION);
+            if (perfection >= 6) {
+                switch (perfection) {
+                    case 6:
+                        return RealmController.getRealmById(RealmEnum.QI_CONDENSATION_7);
+                    case 7:
+                        return RealmController.getRealmById(RealmEnum.QI_CONDENSATION_8);
+                    case 8:
+                        return RealmController.getRealmById(RealmEnum.QI_CONDENSATION_9);
+                    case 9:
+                        return RealmController.getRealmById(RealmEnum.FOUNDATION_ESTABLISHMENT_EARLY);
+                }
+            } else {
+                return RealmController.getRealmById(RealmEnum.FOUNDATION_ESTABLISHMENT_EARLY);
+            }
         }
         return RealmController.getRealmById(RealmEnum.UNKNOWN);
     }

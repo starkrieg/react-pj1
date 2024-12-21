@@ -88,6 +88,11 @@ export class ExplorableZone {
         return false;
     }
 
+    resetZoneClear() {
+        this.isComplete = false;
+        this.clearProgress();
+    }
+
     /**
      * Clears progress on zone
      */

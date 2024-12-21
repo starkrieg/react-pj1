@@ -36,7 +36,7 @@ export default function CharacterPanel() {
    */
   function createListRequirementsBreakthrough(character: Readonly<Character>) {
     if (!CharacterController.isHaveItem(ItemIdEnum.BOOK_QI_CULTIVATION) 
-      || CharacterController.nextRealmId == RealmEnum.UNKNOWN) {
+      || CharacterController.getCharacter().realm.id == RealmEnum.UNKNOWN) {
       return;
     }
 
@@ -54,7 +54,7 @@ export default function CharacterPanel() {
 
   function createRealmBreakButton() {
     if (!CharacterController.isHaveItem(ItemIdEnum.BOOK_QI_CULTIVATION) 
-      || CharacterController.nextRealmId == RealmEnum.UNKNOWN) {
+      || CharacterController.getCharacter().realm.id == RealmEnum.UNKNOWN) {
       return;
     }
     return Button(
