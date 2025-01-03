@@ -18,6 +18,7 @@ export enum ItemIdEnum {
     ,BOOK_HEAVENS_EYE = 'book-heavens-eye' //Knowledge on cultivating the Heaven's Eye - allows to see Talent and increases dodge and hit chance, and reduces damage
     ,BOOK_PATH_OF_PERFECTION = 'book-path-of-perfection' //Knowledge on achieving perfect foundation for energy realms
     // calm wind village region market items
+    ,BOOK_NOTES_ON_PEOPLE = 'book-notes-on-people' //Knowledge on village location, people and commerce
     ,BOOK_SHOPKEEPING_MANUAL = 'book-shopkeeping-manual' //Knowledge on finances and profits for business
     ,BOOK_CONFUCIAN_SCRIPTURES_I = 'book-confucian-scriptures-i' //Confucian texts on philosophy and life
     ,WEAPON_IRON_BLADE = 'weapon-iron-blade' // tier 1 mortal weapon

@@ -12,6 +12,19 @@ export default function Changelog() {
       <p>Current end game and challenge: interrupting the story event before year 615</p>
 
       <li style={{marginTop: 10}}>
+        <p>v.0.4.1 - alpha / 2025-Jan-03</p>
+        <p>Overview: Bug fixes</p>
+        <div>
+          Changes:
+          <p>Fixed typo on game start message</p>
+          <p>Enabled faster game speed of 50x</p>
+          <p>Added an item to reduce days required to make money with Perform Odd Jobs</p>
+          <p>Lowered requirements for some upgrades</p>
+          <p>Adjusted base gains for Body and Qi</p>
+        </div>
+      </li>
+
+      <li style={{marginTop: 10}}>
         <p>v.0.4.0 - alpha / 2025-Jan-02</p>
         <p>Overview: New mechanics and changes to existing mechanics</p>
         Note: Game was completelly rebalanced. There are more mechanics and content, but progress is overall slower, and beating the game will take even more time.

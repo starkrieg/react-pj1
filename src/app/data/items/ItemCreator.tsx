@@ -58,17 +58,24 @@ export default class ItemCreator {
             'Knowledge on secret paths on the Myriad Beasts Valley'
         );
         // calm wind village market items
+        ItemController.createItem(ItemIdEnum.BOOK_NOTES_ON_PEOPLE,
+            ItemTypeEnum.PERMANENT,
+            'Notes on People and Commerce',
+            'Notes on people, locations and commerce. Reduce Odd Jobs days by 1 (permanent)',
+            ItemMarketZone.CALM_WIND_VILLAGE,
+            [ /* no attribute effects */]
+        );
         ItemController.createItem(ItemIdEnum.BOOK_SHOPKEEPING_MANUAL,
             ItemTypeEnum.PERMANENT,
             'The Way of The Shopkeeper',
-            'Knowledge on finances, expenses and profits. Increases Odd Jobs gains by x2',
+            'Knowledge on finances, expenses and profits. Increases Odd Jobs gains by x2 (permanent)',
             ItemMarketZone.CALM_WIND_VILLAGE,
             [ /* no attribute effects */]
-        );    
+        );
         ItemController.createItem(ItemIdEnum.BOOK_CONFUCIAN_SCRIPTURES_I,
             ItemTypeEnum.PERMANENT,
             'The Way of Confucius I',
-            'Knowledge on confucian texts, philosophy and life. Increases Meditate gains by x2',
+            'Knowledge on confucian texts, philosophy and life. Increases Meditate gains by x2 (permanent)',
             ItemMarketZone.CALM_WIND_VILLAGE,
             [ /* no attribute effects */]
         );
@@ -76,14 +83,14 @@ export default class ItemCreator {
         ItemController.createItem(ItemIdEnum.BOOK_TAOIST_SCRIPTURES_I,
             ItemTypeEnum.PERMANENT,
             'The Way of The Tao I',
-            'Knowledge on taoist texts, philosophy and life. Increases Meditate gains by x2',
+            'Knowledge on taoist texts, philosophy and life. Increases Meditate gains by x2 (permanent)',
             ItemMarketZone.CALM_WIND_VILLAGE,
             [ /* no attribute effects */]
         );
         ItemController.createItem(ItemIdEnum.BOOK_UNDERHANDED_METHODS_I,
             ItemTypeEnum.PERMANENT,
             'Silver Tongue and Golden Hands I',
-            'Knowledge on negotiating, deceiving, persuading and using force. Increases Odd Jobs gains by 2x',
+            'Knowledge on negotiating, deceiving, persuading and using force. Increases Odd Jobs gains by 2x (permanent)',
             ItemMarketZone.CALM_WIND_VILLAGE,
             [ /* no attribute effects */]
         );

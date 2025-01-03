@@ -62,7 +62,7 @@ export function ButtonActivity(act: Activity,
     if (act instanceof GenericActivity) {
         gainDesc = `${act.gainDesc} ${Utilities.roundTo2Decimal(act.getTickGain())}%`
     } else if (act instanceof PerformOddJobs) {
-        const days = act.BASE_DAYS_COIN_GAIN
+        const days = act.getEffectiveWorkDays();
         const coins = Utilities.roundTo0Decimal(act.getTickGain());
         gainDesc = `${CoinPouchText(coins)} every ${days} day(s)`;
     } else {

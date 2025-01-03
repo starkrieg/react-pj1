@@ -41,19 +41,14 @@ export class MarketController {
             if (isItemRegionAvailable) {
                 if (upgradeTypeItems.includes(mi.baseItem.type) && mi.baseItem.canUpgrade()) {
                     return true;
-                } else if (!CharacterController.isHaveInventoryItem(mi.baseItem.id)) {
+                } else if (!CharacterController.isHaveInventoryItem(mi.baseItem.id)
+                    && !CharacterController.isHavePermanentItem(mi.baseItem.id)) {
                     return true;
                 }
                 return false;
             }
 
             return false;
-        }).filter(mi => {
-            if ( mi.requirements.length > 0) {
-                return mi.requirements.every(req => req.isRequirementMet());
-            } else {
-                return true;
-            }
         });
     }
 

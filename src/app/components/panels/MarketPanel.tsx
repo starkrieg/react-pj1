@@ -8,11 +8,19 @@ export function MarketPanel() {
 
     const availableItems = MarketController.getAllAvailableItems();
 
-    const isHasItems = availableItems.length > 0;
+    const unlockedItems = availableItems.filter(mi => {
+                if ( mi.requirements.length > 0) {
+                    return mi.requirements.every(req => req.isRequirementMet());
+                } else {
+                    return true;
+                }
+            });
+
+    const isHasItems = unlockedItems.length > 0;
 
     return (
         <div className="market">
-            { isHasItems && MarketItemList(availableItems) }
+            { isHasItems && MarketItemList(unlockedItems) }
             { !isHasItems && TextNoItemsAvailable() }
         </div>
     );

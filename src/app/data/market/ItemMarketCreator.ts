@@ -30,8 +30,15 @@ export class ItemMarketCreator {
     }
 
     private static createVillageMarketItems() {
+        const villageNotes = ItemController.getItemById(ItemIdEnum.BOOK_NOTES_ON_PEOPLE);
+        this.addItemToMarket(villageNotes, 1000,
+            [ /* unlock requirements */
+                new ActivityRequirement(ActivityEnum.PERFORM_ODD_JOBS, 25)
+            ]
+        );
+
         const shopkeeping = ItemController.getItemById(ItemIdEnum.BOOK_SHOPKEEPING_MANUAL);
-        this.addItemToMarket(shopkeeping, 100000, //TODO
+        this.addItemToMarket(shopkeeping, 100000,
             [ /* unlock requirements */
                 new ItemRequirement(ItemIdEnum.ITEM_WORKING_TOOLS),
                 new ActivityRequirement(ActivityEnum.PERFORM_ODD_JOBS, 200)
@@ -41,7 +48,7 @@ export class ItemMarketCreator {
         const confucian = ItemController.getItemById(ItemIdEnum.BOOK_CONFUCIAN_SCRIPTURES_I);
         this.addItemToMarket(confucian, 10000,
             [ /* unlock requirements */
-                new ActivityRequirement(ActivityEnum.MEDITATE, 100)
+                new ActivityRequirement(ActivityEnum.MEDITATE, 50)
             ]
         );
 
@@ -57,14 +64,14 @@ export class ItemMarketCreator {
         const ironWeights = ItemController.getItemById(ItemIdEnum.ITEM_IRON_WEIGHTS);
         this.addItemToMarket(ironWeights, 5000,
             [ /* unlock requirements */
-                new ActivityRequirement(ActivityEnum.PHYSICAL_TRAINING, 100)
+                new ActivityRequirement(ActivityEnum.PHYSICAL_TRAINING, 50)
             ]
         );
 
         const workingTools = ItemController.getItemById(ItemIdEnum.ITEM_WORKING_TOOLS);
-        this.addItemToMarket(workingTools, 1000,
+        this.addItemToMarket(workingTools, 1500,
             [ /* unlock requirements */
-                new ActivityRequirement(ActivityEnum.PERFORM_ODD_JOBS, 100)
+                new ActivityRequirement(ActivityEnum.PERFORM_ODD_JOBS, 50)
             ]
         );
 
@@ -139,7 +146,7 @@ export class ItemMarketCreator {
         const cultivationMat = ItemController.getItemById(ItemIdEnum.ITEM_CULTIVATION_MAT);
         this.addItemToMarket(cultivationMat, 500000,
             [ /* unlock requirements */
-                new ActivityRequirement(ActivityEnum.CULTIVATE_QI, 100)
+                new ActivityRequirement(ActivityEnum.CULTIVATE_QI, 50)
             ]
         );
 

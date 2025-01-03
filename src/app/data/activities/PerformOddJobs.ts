@@ -26,14 +26,23 @@ export class PerformOddJobs implements Activity {
         
         this.action = () => {
             this.countDays += 1;
-            if (this.countDays >= this.BASE_DAYS_COIN_GAIN) {
-                this.countDays += -this.BASE_DAYS_COIN_GAIN;
+
+            const effectiveDays = this.getEffectiveWorkDays();
+
+            if (this.countDays >= effectiveDays) {
+                this.countDays = 0;
                 //use rank to affect the value
                 const tickGain = this.getTickGain();
                 CharacterController.increaseAttribute(AttributeTypeEnum.COIN, tickGain);
             }
             ActivitiesController.incrementExpActivity(this.id);
         }
+    }
+
+    getEffectiveWorkDays() {
+        const dayMod1 = CharacterController.isHavePermanentItem(ItemIdEnum.BOOK_NOTES_ON_PEOPLE);
+        const offDays = dayMod1 ? 1 : 0;
+        return this.BASE_DAYS_COIN_GAIN - offDays;
     }
 
     getTickGain() {

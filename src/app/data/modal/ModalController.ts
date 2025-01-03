@@ -32,7 +32,7 @@ export class ModalController {
                 A golden lightning fell and blasted your consciousness away. 
                 You woke up the next morning alive, unhurt, but with a new feeling on your chest. 
                 You realized how small you are, and this feeling birthed a call for power. 
-                A call for imortality.
+                A call for immortality.
                 `;
                 buttonText = 'Move forward';
                 break;

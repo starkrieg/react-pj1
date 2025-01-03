@@ -46,8 +46,8 @@ export class Character {
     //the closer to the end of the lifespan, the lower the gains of training
     private ageGainModifier = 1;
 
-    private readonly baseBodyGain = 0.1;
-    private readonly baseQiGain = 0.1;
+    private readonly baseBodyGain = 0.2;
+    private readonly baseQiGain = 0.2;
     
     private readonly BODY_TO_QI_CAPACITY_RATIO = 0.15; //15% of body as qi capacity
 
@@ -92,7 +92,7 @@ export class Character {
         this.attributes.setAttributeValue(AttributeTypeEnum.ENERGY_REALM_PERFECTION, 0);
         this.attributes.setAttributeValue(AttributeTypeEnum.ALLIES, 0);
         this.attributes.setAttributeValue(AttributeTypeEnum.SOUL, 0);
-        this.attributes.setAttributeValue(AttributeTypeEnum.TALENT, 0.1);
+        this.attributes.setAttributeValue(AttributeTypeEnum.TALENT, 1);
         this.updateStats();
     }
 
