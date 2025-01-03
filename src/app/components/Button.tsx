@@ -9,7 +9,7 @@ import { MarketController } from "../data/market/MarketController";
 import { GenericActivity } from "../data/activities/GenericActivity";
 import { ZoneVO } from "../data/exploration/ZoneVO";
 import { PerformOddJobs } from '../data/activities/PerformOddJobs';
-import { CoinPouchLabel, CoinPouchSpan, CoinPouchText } from './Coins';
+import { CoinPouchLabel, CoinPouchSpan } from './Coins';
 
 export default function Button(label: string, 
     onClick: () => void,

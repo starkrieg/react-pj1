@@ -140,7 +140,7 @@ export default class FightScene {
         const rewardExp = Utilities.roundTo2Decimal(this.getFightExpReward());
         CharacterController.incrementFightExperience(rewardExp);
         MessageController.pushMessageFight(`You defeated the enemy!`);
-        MessageController.pushMessageLoot(`You acquired ${rewardExp} experience`);
+        MessageController.pushMessageFight(`You acquired ${rewardExp} experience`);
     }
 
     /**
@@ -150,7 +150,7 @@ export default class FightScene {
      */
     private getGatheringAplliedLootDropChance(dropChance: number) {
         const gatheringMod = 1 + ((ActivitiesController.getActivityRank(ActivityEnum.STUDY_FORAGING)-1) * 0.01);
-        const modifiedDropChange = dropChance + gatheringMod;
+        const modifiedDropChange = dropChance * gatheringMod;
         return modifiedDropChange;
     }
 

@@ -13,12 +13,16 @@ export default function Changelog() {
 
       <li style={{marginTop: 10}}>
         <p>v.0.4.2 - alpha / 2025-Jan-03</p>
-        <p>Overview: Small adjustments</p>
+        <p>Overview: Small fixes and adjustments</p>
         <div>
           Changes:
           <p>Modified some item costs and gains for balance</p>
           <p>Changed starting level to 0, so it also matches the level up notification</p>
           <p>Added colors to coins for easier identification</p>
+          <p>Moved XP messages back into Fight Log. They appear too often and clog the log compared with actual loot items.</p>
+          <p>Fixed drops not working on zones. All zones have droppable items, and some items can only be found by fighting on zones.</p>
+          <p>Fixed foraging effect on drop chance.</p>
+          <p>Adjusted values of coins that are dropped on zones.</p>
         </div>
       </li>
 

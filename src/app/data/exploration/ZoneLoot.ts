@@ -21,7 +21,11 @@ export class ZoneLoot {
     }
 
     canDrop() {
-        return this.dropped < this.limit;
+        if (this.limit <= 0) {
+            return true;
+        } else {
+            return this.dropped < this.limit;
+        }
     }
 
 }

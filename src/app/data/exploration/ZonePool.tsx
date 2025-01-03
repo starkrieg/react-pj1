@@ -63,7 +63,9 @@ export default class ZonePool {
             5,
             25,
             [ /* no requirements */],
-            [ /* no rewards */ ],
+            [ /* rewards */ 
+                ItemIdEnum.POUCH_OF_COINS_M
+            ],
             [ /* zone loot */ 
                 new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_S, 5), //5%
             ],
@@ -81,7 +83,7 @@ export default class ZonePool {
             15,
             [ /* no requirements */ ],
             [ /* rewards */ 
-                ItemIdEnum.BOOK_FORAGING_MANUAL
+                ItemIdEnum.POUCH_OF_COINS_M
             ],
             [ /* zone loot */ 
                 new ZoneLoot(ItemIdEnum.PILL_STRENGTH_ELIXIR, 3), //3%
@@ -99,7 +101,7 @@ export default class ZonePool {
             'Basic training with local soldiers',
             35,
             35,
-            [ /* no requirements */ 
+            [ /* requirements */ 
                 ZoneIdEnum.VILLAGE_FIELDS
             ],
             [ /* rewards */ 
