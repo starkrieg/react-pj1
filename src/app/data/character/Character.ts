@@ -46,8 +46,8 @@ export class Character {
     //the closer to the end of the lifespan, the lower the gains of training
     private ageGainModifier = 1;
 
-    private readonly baseBodyGain = 0.2;
-    private readonly baseQiGain = 0.2;
+    private readonly baseBodyGain = 0.1;
+    private readonly baseQiGain = 0.1;
     
     private readonly BODY_TO_QI_CAPACITY_RATIO = 0.15; //15% of body as qi capacity
 
@@ -136,7 +136,7 @@ export class Character {
 
         const appliedBodyPower = this.getBody() * this.bodyToPowerRatio * actMartialArts;
         const appliedQiPower = this.getQi() * this.qiToPowerRatio * actPracticeSpells;
-        const appliedFightingLevel = 1 + ((this.fightingExperience.getLevel()-1) * this.POWER_RAISE_PER_LEVEL)
+        const appliedFightingLevel = 1 + (this.fightingExperience.getLevel() * this.POWER_RAISE_PER_LEVEL)
         const appliedInternalInjury = 1 - (this.getAttributeValueOr0(AttributeTypeEnum.INTERNAL_DAMAGE) / 100)
 
         let weaponMod = 0;
@@ -165,7 +165,7 @@ export class Character {
 
         const appliedBodyHealth = (this.getBody() * this.bodyToHealthRatio * actMartialArts);
         const appliedQiHealth = (this.getQi() * this.qiToHealthRatio * actPracticeSpells);
-        const appliedFightingLevel = 1 + ((this.fightingExperience.getLevel()-1) * this.HEALTH_RAISE_PER_LEVEL)
+        const appliedFightingLevel = 1 + (this.fightingExperience.getLevel() * this.HEALTH_RAISE_PER_LEVEL)
         const appliedInternalInjury = 1 - (this.getAttributeValueOr0(AttributeTypeEnum.INTERNAL_DAMAGE) / 100)
 
         let armorMod = 0;

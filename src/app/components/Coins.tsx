@@ -1,47 +1,61 @@
 
+function CoinValueAsLabel(value: number, type: string) {
+    const coinClass = getCoinStyleClass(type);
+    return <label>{value}<span className={ coinClass } /></label>
+}
+
+function CoinValueAsSpan(value: number, type: string) {
+    const coinClass = getCoinStyleClass(type);
+    return <span>{value}<span className={ coinClass } /></span>
+}
+
+function getCoinStyleClass(type: string) {
+    switch (type) {
+        case 'ss':
+            return 'coin-spiritual-stone';
+        case 'g':
+            return 'coin-gold';
+        case 's':
+            return 'coin-silver';
+        default:
+            return 'coin-copper';
+    }
+}
+
 export function CoinPouchLabel(coins: number) {
-    const text = CoinPouchText(coins);
+    const obj = CoinsObject(coins);
+
+    const hasSS = obj.spiritualStones > 0;
+    const hasG = obj.gold > 0;
+    const hasS = obj.silver > 0;
+    const hasC = !(hasSS || hasG || hasS) || obj.copper > 0;
 
     return (
-        <label>Coins: { text }</label>
+        <div className='coin-pouch-label'>
+            { hasSS && CoinValueAsLabel(obj.spiritualStones, 'ss') }
+            { hasG && CoinValueAsLabel(obj.gold, 'g') }
+            { hasS && CoinValueAsLabel(obj.silver, 's') }
+            { hasC && CoinValueAsLabel(obj.copper, 'c') }
+        </div>
     );
 }
 
-export function CoinPouchText(coins: number) {
-    const pouch = CoinsObject(coins);
+export function CoinPouchSpan(coins: number) {
+    const obj = CoinsObject(coins);
 
-    function CoinAsText(value: number, type: string) {
-        let icon = 'C';
-        switch (type) {
-            case 'ss':
-                icon = 'SS'
-                break;
-            case 'g':
-                icon = 'G'
-                break;
-            case 's':
-                icon = 'S'
-                break;
-            default:
-                break;
-        }
-        return `${value}${icon}`;
-    }
+    const hasSS = obj.spiritualStones > 0;
+    const hasG = obj.gold > 0;
+    const hasS = obj.silver > 0;
+    const hasC = !(hasSS || hasG || hasS) || obj.copper > 0;
 
-    const text = [];
-    if (pouch.spiritualStones > 0) {
-        text.push(`${CoinAsText(pouch.spiritualStones, 'ss')}`);
-    }
-    if (pouch.gold > 0) {
-        text.push(`${CoinAsText(pouch.gold, 'g')}`);
-    }
-    if (pouch.silver > 0) {
-        text.push(`${CoinAsText(pouch.silver, 's')}`);
-    }
-    if (pouch.copper > 0 || text.length == 0) {
-        text.push(CoinAsText(pouch.copper, 'c'));
-    }
-    return text.join(' ');
+    return (
+        <span>
+            { hasSS && CoinValueAsSpan(obj.spiritualStones, 'ss') }
+            { hasG && CoinValueAsSpan(obj.gold, 'g') }
+            { hasS && CoinValueAsSpan(obj.silver, 's') }
+            { hasC && CoinValueAsSpan(obj.copper, 'c') }
+        </span>
+    );
 }
 
 function CoinsObject(coins: number) {

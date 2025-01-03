@@ -13,7 +13,7 @@ export class FightingExperience {
     private readonly EXP_UP_RATE = 2.15;
 
     constructor() {
-        this.level = 1;
+        this.level = 0;
         this.experience = 0;
         this.experienceNextLevel = 25;
     }

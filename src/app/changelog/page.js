@@ -12,6 +12,17 @@ export default function Changelog() {
       <p>Current end game and challenge: interrupting the story event before year 615</p>
 
       <li style={{marginTop: 10}}>
+        <p>v.0.4.2 - alpha / 2025-Jan-03</p>
+        <p>Overview: Small adjustments</p>
+        <div>
+          Changes:
+          <p>Modified some item costs and gains for balance</p>
+          <p>Changed starting level to 0, so it also matches the level up notification</p>
+          <p>Added colors to coins for easier identification</p>
+        </div>
+      </li>
+
+      <li style={{marginTop: 10}}>
         <p>v.0.4.1 - alpha / 2025-Jan-03</p>
         <p>Overview: Bug fixes</p>
         <div>

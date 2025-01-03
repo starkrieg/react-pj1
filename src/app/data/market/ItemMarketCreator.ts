@@ -33,14 +33,14 @@ export class ItemMarketCreator {
         const villageNotes = ItemController.getItemById(ItemIdEnum.BOOK_NOTES_ON_PEOPLE);
         this.addItemToMarket(villageNotes, 1000,
             [ /* unlock requirements */
-                new ActivityRequirement(ActivityEnum.PERFORM_ODD_JOBS, 25)
+                new ActivityRequirement(ActivityEnum.PERFORM_ODD_JOBS, 100)
             ]
         );
 
         const shopkeeping = ItemController.getItemById(ItemIdEnum.BOOK_SHOPKEEPING_MANUAL);
         this.addItemToMarket(shopkeeping, 100000,
             [ /* unlock requirements */
-                new ItemRequirement(ItemIdEnum.ITEM_WORKING_TOOLS),
+                new ItemRequirement(ItemIdEnum.BOOK_NOTES_ON_PEOPLE),
                 new ActivityRequirement(ActivityEnum.PERFORM_ODD_JOBS, 200)
             ]
         );
@@ -75,18 +75,18 @@ export class ItemMarketCreator {
             ]
         );
 
-        const pillPoorHealing = ItemController.getItemById(ItemIdEnum.PILL_POOR_HEALING);
-        this.addItemToMarket(pillPoorHealing, 500);
+        //const pillPoorHealing = ItemController.getItemById(ItemIdEnum.PILL_POOR_HEALING);
+        //this.addItemToMarket(pillPoorHealing, 500);
 
         const pillQiBoostI = ItemController.getItemById(ItemIdEnum.PILL_QI_BOOST_I);
-        this.addItemToMarket(pillQiBoostI, 2500, 
+        this.addItemToMarket(pillQiBoostI, 3500,
         [
             /* requirements */
             new AttributeCapPercentRequirement(AttributeTypeEnum.QI_CAP_PERCENT, 0, 100)
         ]);
 
-        const tonic = ItemController.getItemById(ItemIdEnum.PILL_STRENGTH_ELIXIR);
-        this.addItemToMarket(tonic, 250,
+        const elixir = ItemController.getItemById(ItemIdEnum.PILL_STRENGTH_ELIXIR);
+        this.addItemToMarket(elixir, 500,
         [
             /* requirements */
             new AttributeCapPercentRequirement(AttributeTypeEnum.BODY_CAP_PERCENT, 0, 100)

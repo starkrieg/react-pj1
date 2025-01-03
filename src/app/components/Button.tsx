@@ -9,7 +9,7 @@ import { MarketController } from "../data/market/MarketController";
 import { GenericActivity } from "../data/activities/GenericActivity";
 import { ZoneVO } from "../data/exploration/ZoneVO";
 import { PerformOddJobs } from '../data/activities/PerformOddJobs';
-import { CoinPouchText } from './Coins';
+import { CoinPouchLabel, CoinPouchSpan, CoinPouchText } from './Coins';
 
 export default function Button(label: string, 
     onClick: () => void,
@@ -58,15 +58,15 @@ export function ButtonActivity(act: Activity,
         + actRank.rank;
 
 
-    let gainDesc = '';
+    let gainDesc = <span></span>;
     if (act instanceof GenericActivity) {
-        gainDesc = `${act.gainDesc} ${Utilities.roundTo2Decimal(act.getTickGain())}%`
+        gainDesc = <span>{act.gainDesc} ${Utilities.roundTo2Decimal(act.getTickGain())}%</span>;
     } else if (act instanceof PerformOddJobs) {
         const days = act.getEffectiveWorkDays();
         const coins = Utilities.roundTo0Decimal(act.getTickGain());
-        gainDesc = `${CoinPouchText(coins)} every ${days} day(s)`;
+        gainDesc = <span>{CoinPouchSpan(coins)} every {days} day(s)</span>;
     } else {
-        gainDesc = `${Utilities.roundTo2Decimal(act.getTickGain())} per day`;
+        gainDesc = <span>{Utilities.roundTo2Decimal(act.getTickGain())} per day</span>;
     }
 
     function getSelectedStatus() {
@@ -89,7 +89,7 @@ export function ButtonActivity(act: Activity,
                     <span>{ act.desc }</span>
                 </div>
                 <div className="activity-rank">
-                    <span>{ gainDesc } </span>
+                    { gainDesc }
                 </div>
             </div>
             <progress style={{ width: '100%' }} 
@@ -177,7 +177,7 @@ export function ButtonMarketItem(marketItem: MarketItem, canBuy: boolean) {
             <div className="market-item-name">{marketItem.name}</div>
             <div className="market-item-desc">{marketItem.baseItem.description}</div>
             <div className="market-item-desc">{marketItem.description}</div>
-            <div className="market-item-cost">{ CoinPouchText(marketItem.cost) }</div>
+            <div className="market-item-cost">{ CoinPouchLabel(marketItem.cost) }</div>
             <div className="market-item-region">{readableZone()}</div>
         </button>
     );

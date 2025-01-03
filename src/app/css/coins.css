@@ -1,0 +1,51 @@
+.coin-label {
+    display: flex;
+    gap: 1px;
+}
+
+.coin-pouch-label {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px;
+}
+
+.coin-copper {
+    height: 10px;
+    width: 10px;
+    background-color: #b87333;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0px 2px;
+    vertical-align: middle;
+}
+
+.coin-silver {
+    height: 10px;
+    width: 10px;
+    background-color: #c0c0c0;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0px 2px;
+    vertical-align: middle;
+    border: 1px solid var(--foreground);
+}
+
+.coin-gold {
+    height: 10px;
+    width: 10px;
+    background-color: #ffd700;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0px 2px;
+    vertical-align: middle;
+}
+
+.coin-spiritual-stone {
+    height: 10px;
+    width: 10px;
+    background-color: var(--jade_green);
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0px 2px;
+    vertical-align: middle;
+}

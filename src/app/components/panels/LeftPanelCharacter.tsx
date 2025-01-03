@@ -114,6 +114,10 @@ export default function LeftPanelCharacter() {
 
     const coins = Utilities.roundTo2Decimal(character.getAttributeValue(AttributeTypeEnum.COIN));
 
+    const coinLabel = <div className={ 'coin-label' }>
+            <label>Coins: </label>{ CoinPouchLabel(coins) }
+        </div>
+
     return (
         <div style={{ fontSize: 14, display: 'grid' }}>
             { LevelStatus() }
@@ -125,7 +129,7 @@ export default function LeftPanelCharacter() {
             { Body() }
             { isShowQiLabel && Qi() }
             { isShowInternalInjury && InternalInjury() }
-            { CoinPouchLabel(coins) }
+            { coinLabel }
             { isShowDeath && DeathCount() }
         </div>
     );
