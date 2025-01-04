@@ -4,16 +4,16 @@ import { Item } from "../items/Item";
 import { ItemController } from "../items/ItemController";
 import { ItemIdEnum } from "../items/ItemIdEnum";
 import { ErrorController } from "../utils/ErrorController";
-import { ActivityRequirement } from "./ActivityRequirement";
-import { AttributeCapPercentRequirement } from "./AttributeCapPercentRequirement";
-import { ItemRequirement } from "./ItemRequirement";
+import { ActivityRequirement } from "../common/ActivityRequirement";
+import { AttributeRequirement } from "../common/AttributeRequirement";
+import { ItemRequirement } from "../common/ItemRequirement";
 import { MarketController } from "./MarketController";
-import { RequirementInterface } from "./RequirementInterface";
+import { IRequirement } from "../common/IRequirement";
 
 export class ItemMarketCreator {
 
     private static addItemToMarket(item: Item | undefined, basicCost: number,
-        requirements: RequirementInterface[] = []
+        requirements: IRequirement[] = []
     ) {
         if (item) {
             MarketController.addMarketItem(item, basicCost, requirements);
@@ -82,14 +82,14 @@ export class ItemMarketCreator {
         this.addItemToMarket(pillQiBoostI, 3500,
         [
             /* requirements */
-            new AttributeCapPercentRequirement(AttributeTypeEnum.QI_CAP_PERCENT, 0, 100)
+            new AttributeRequirement(AttributeTypeEnum.QI_CAP_PERCENT, 0, 100)
         ]);
 
         const elixir = ItemController.getItemById(ItemIdEnum.PILL_STRENGTH_ELIXIR);
         this.addItemToMarket(elixir, 500,
         [
             /* requirements */
-            new AttributeCapPercentRequirement(AttributeTypeEnum.BODY_CAP_PERCENT, 0, 100)
+            new AttributeRequirement(AttributeTypeEnum.BODY_CAP_PERCENT, 0, 100)
         ]);
     }
 
@@ -157,28 +157,28 @@ export class ItemMarketCreator {
         this.addItemToMarket(pillQiBoostII, 10000,
         [
             /* requirements */
-            new AttributeCapPercentRequirement(AttributeTypeEnum.QI_CAP_PERCENT, 0, 100)
+            new AttributeRequirement(AttributeTypeEnum.QI_CAP_PERCENT, 0, 100)
         ]);
 
         const pillQiBoostIII = ItemController.getItemById(ItemIdEnum.PILL_QI_BOOST_III);
         this.addItemToMarket(pillQiBoostIII, 50000,
         [
             /* requirements */
-            new AttributeCapPercentRequirement(AttributeTypeEnum.QI_CAP_PERCENT, 0, 100)
+            new AttributeRequirement(AttributeTypeEnum.QI_CAP_PERCENT, 0, 100)
         ]);
 
         const bloodGinseng1y = ItemController.getItemById(ItemIdEnum.BLOOD_GINSENG_1Y);
         this.addItemToMarket(bloodGinseng1y, 2000,
         [
             /* requirements */
-            new AttributeCapPercentRequirement(AttributeTypeEnum.BODY_CAP_PERCENT, 0, 100)
+            new AttributeRequirement(AttributeTypeEnum.BODY_CAP_PERCENT, 0, 100)
         ]);
 
         const bloodGinseng10y = ItemController.getItemById(ItemIdEnum.BLOOD_GINSENG_10Y);
         this.addItemToMarket(bloodGinseng10y, 8000,
         [
             /* requirements */
-            new AttributeCapPercentRequirement(AttributeTypeEnum.BODY_CAP_PERCENT, 0, 100)
+            new AttributeRequirement(AttributeTypeEnum.BODY_CAP_PERCENT, 0, 100)
         ]);
     }
 

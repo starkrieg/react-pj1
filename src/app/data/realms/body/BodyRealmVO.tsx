@@ -1,16 +1,20 @@
 'use client'
 
 import { AttributeTypeEnum } from "../../character/AttributeTypeEnum";
-import { BaseRealmVO } from "../common/BaseRealmVO";
+import { IBaseRealmVO } from "../common/IBaseRealmVO";
 import { BodyRealmEnum } from "./BodyRealmEnum";
 
-export class BodyRealmVO implements BaseRealmVO {
+export class BodyRealmVO implements IBaseRealmVO {
 
+    id: BodyRealmEnum;
     title: string;
     desc: string;
     type: AttributeTypeEnum = AttributeTypeEnum.BODY
+    isUnlocked: boolean = true;
 
     constructor(realmId: BodyRealmEnum) {
+        this.id = realmId;
+        
         switch (realmId) {
             case BodyRealmEnum.MORTAL:
                 this.title = 'Mortal Body';

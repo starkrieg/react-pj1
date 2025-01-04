@@ -1,11 +1,13 @@
 'use client'
 
-import { Attribute } from "../../character/Attribute";
 import { AttributeTypeEnum } from "../../character/AttributeTypeEnum";
 import { ModifierTypeEnum } from "../../common/ModifierTypeEnum";
-import { EnergyRealmController } from "../EnergyRealmController";
+import { IRequirement } from "../../common/IRequirement";
 import { BaseEnergyRealm } from "./BaseEnergyRealm";
 import { EnergyRealmEnum } from "./EnergyRealmEnum";
+import { AttributeRequirement } from "../../common/AttributeRequirement";
+import { ActivityRequirement } from "../../common/ActivityRequirement";
+import { ActivityEnum } from "../../activities/ActivityEnum";
 
 export class FoundationEstablishment extends BaseEnergyRealm {
 
@@ -15,27 +17,35 @@ export class FoundationEstablishment extends BaseEnergyRealm {
         // assuming Foundation Establishment id follows pattern of foundation-establishment-x
         const stage: string = realmId.substring('foundation-establishment-'.length);
         
-        let reqQi = 0;
+        const nextRealms = [];
+        const unlockRequirements: IRequirement[] = [];
+        const realmUpRequirements: IRequirement[] = [];
 
         switch (stage) {
             case 'early':
-                reqQi = 20000
+                nextRealms.push(EnergyRealmEnum.FOUNDATION_ESTABLISHMENT_MIDDLE);
+                unlockRequirements.push();
+                realmUpRequirements.push(new AttributeRequirement(AttributeTypeEnum.QI_CAP_PERCENT, 100)); //100% of qi cap filled
+                realmUpRequirements.push(new ActivityRequirement(ActivityEnum.CULTIVATE_QI, 75));
+                realmUpRequirements.push(new ActivityRequirement(ActivityEnum.MEDITATE, 25));
                 break;
             case 'middle':
-                reqQi = 30000
+                nextRealms.push(EnergyRealmEnum.FOUNDATION_ESTABLISHMENT_LATE);
+                unlockRequirements.push();
+                realmUpRequirements.push(new AttributeRequirement(AttributeTypeEnum.QI_CAP_PERCENT, 80)); //80% of qi cap filled
                 break;
             case 'late':
-                reqQi = 45000
+                nextRealms.push(EnergyRealmEnum.UNKNOWN);
+                unlockRequirements.push();
+                realmUpRequirements.push(new AttributeRequirement(AttributeTypeEnum.QI_CAP_PERCENT, 70)); //70% of qi cap filled
+                realmUpRequirements.push(new ActivityRequirement(ActivityEnum.CULTIVATE_QI, 100));
+                realmUpRequirements.push(new ActivityRequirement(ActivityEnum.MEDITATE, 50));
                 break;
             default:
                 break;
         }
 
-        const requirements = [
-            new Attribute(AttributeTypeEnum.QI, reqQi),
-        ];
-
-        super(realmId, requirements, []);
+        super(realmId, realmUpRequirements, [], nextRealms, unlockRequirements);
 
         this.stage = stage;
 
@@ -67,18 +77,6 @@ export class FoundationEstablishment extends BaseEnergyRealm {
             default:
                 break;
         }
-    }
-
-    getNextRealm() {
-        switch (this.stage) {
-            case 'early':
-                return EnergyRealmController.getRealmById(EnergyRealmEnum.FOUNDATION_ESTABLISHMENT_MIDDLE);
-            case 'middle':
-                return EnergyRealmController.getRealmById(EnergyRealmEnum.FOUNDATION_ESTABLISHMENT_LATE);
-            case 'late':
-            default:
-                return EnergyRealmController.getRealmById(EnergyRealmEnum.UNKNOWN);
-        }        
     }
 
 }

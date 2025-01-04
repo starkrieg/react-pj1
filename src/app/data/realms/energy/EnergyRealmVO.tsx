@@ -1,16 +1,23 @@
 'use client'
 
 import { AttributeTypeEnum } from "../../character/AttributeTypeEnum";
-import { BaseRealmVO } from "../common/BaseRealmVO";
+import { IBaseRealmVO } from "../common/IBaseRealmVO";
+import { EnergyRealmController } from "../EnergyRealmController";
 import { EnergyRealmEnum } from "./EnergyRealmEnum";
 
-export class EnergyRealmVO implements BaseRealmVO {
+export class EnergyRealmVO implements IBaseRealmVO {
 
+    id: EnergyRealmEnum;
     title: string;
     desc: string;
     type: AttributeTypeEnum = AttributeTypeEnum.QI
+    isUnlocked: boolean;
 
     constructor(realmId: EnergyRealmEnum) {
+        this.id = realmId;
+
+        this.isUnlocked = EnergyRealmController.getRealmById(realmId).isUnlocked();
+        
         switch (realmId) {
             case EnergyRealmEnum.MORTAL:
                 this.title = 'Mortal';
@@ -25,7 +32,7 @@ export class EnergyRealmVO implements BaseRealmVO {
             case EnergyRealmEnum.QI_CONDENSATION_7:
             case EnergyRealmEnum.QI_CONDENSATION_8:
             case EnergyRealmEnum.QI_CONDENSATION_9:
-                this.title = this.getQiCondensationTitle(realmId);
+                this.title = this.getQiCondensationTitle();
                 this.desc = `
                     You are barely a new born chick. 
                     Absorb Qi from the world and reach for greater strength.
@@ -34,7 +41,7 @@ export class EnergyRealmVO implements BaseRealmVO {
             case EnergyRealmEnum.FOUNDATION_ESTABLISHMENT_EARLY:
             case EnergyRealmEnum.FOUNDATION_ESTABLISHMENT_MIDDLE:
             case EnergyRealmEnum.FOUNDATION_ESTABLISHMENT_LATE:
-                this.title = this.getFoundationEstablishmentTitle(realmId);
+                this.title = this.getFoundationEstablishmentTitle();
                 this.desc = `
                     Still building a foundation, too early on the journey.
                     Absorb more Qi and solidify your roots.
@@ -48,13 +55,13 @@ export class EnergyRealmVO implements BaseRealmVO {
         }
     }
 
-    private getQiCondensationTitle(realmId: EnergyRealmEnum) {
-        const stage: number = Number(realmId.split('-')[2]);
+    private getQiCondensationTitle() {
+        const stage: number = Number(this.id.split('-')[2]);
         return `Qi Condensation ${stage}`;
     }
 
-    private getFoundationEstablishmentTitle(realmId: EnergyRealmEnum) {
-        const stage: string = realmId.substring('foundation-establishment-'.length);
+    private getFoundationEstablishmentTitle() {
+        const stage: string = this.id.substring('foundation-establishment-'.length);
         return stage.charAt(0).toUpperCase() + stage.slice(1) + ' Foundation Establishment';        
     }
 

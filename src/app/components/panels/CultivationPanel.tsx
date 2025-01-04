@@ -6,7 +6,7 @@ import { CharacterController } from "@/app/data/character/CharacterController";
 import { ItemIdEnum } from "@/app/data/items/ItemIdEnum";
 import { EnergyRealmEnum } from "@/app/data/realms/energy/EnergyRealmEnum";
 import { AttributeTypeEnum } from "@/app/data/character/AttributeTypeEnum";
-import { BaseRealmVO } from "@/app/data/realms/common/BaseRealmVO";
+import { IBaseRealmVO } from "@/app/data/realms/common/IBaseRealmVO";
 import { BodyRealmEnum } from "@/app/data/realms/body/BodyRealmEnum";
 import { Utilities } from "@/app/data/utils/Utilities";
 
@@ -29,14 +29,21 @@ export default function CultivationPanel() {
 
 function EnergyCultivationDisplay(character: Readonly<Character>) {
   const energyRealmVO = CharacterController.getRealmVO(character.energyRealm.id);
-  const nextRealmVO = CharacterController.getRealmVO(character.energyRealm.getNextRealm().id)
-  const isNextRealmValid = character.energyRealm.getNextRealm().id != EnergyRealmEnum.UNKNOWN;
+  
+  const nextRealmList = character.energyRealm.getNextRealmIdList();
+
+  const energyRealmList = nextRealmList.filter(realmId => realmId != EnergyRealmEnum.UNKNOWN)
+    .map(realmId => CharacterController.getRealmVO(realmId))
+    .filter(realmVo => realmVo.isUnlocked)
+    .map(realmVo => createNextRealmInformation(realmVo) );
 
   return (
     <div className="cultivation-realm">
-        <div className="cultivation-realm-title">{energyRealmVO.title}</div>
-        <div className="cultivation-realm-desc">{energyRealmVO.desc}</div>
-        { isNextRealmValid && createNextRealmInformation(nextRealmVO) }
+      <div className="cultivation-realm-title">{energyRealmVO.title}</div>
+      <div className="cultivation-realm-desc">{energyRealmVO.desc}</div>
+      <div className="cultivation-realm-grid">
+        { energyRealmList }
+      </div>
     </div>
   );
 }
@@ -55,20 +62,20 @@ function BodyCultivationDisplay(character: Readonly<Character>) {
   );
 }
 
-function createNextRealmInformation(realmVO: BaseRealmVO) {
+function createNextRealmInformation(realmVO: IBaseRealmVO) {
   let realmUpFoundation = '';
   if (realmVO.type == AttributeTypeEnum.QI) {
-    const isShowRealmFoundation = CharacterController.isHaveItem(ItemIdEnum.BOOK_PATH_OF_PERFECTION);
+    const isShowRealmFoundation = CharacterController.isHaveItem(ItemIdEnum.BOOK_PERFECT_QI_CONDENSATION);
     realmUpFoundation = isShowRealmFoundation 
       ? `(${Utilities.roundTo2Decimal(CharacterController.getCharacter().getQiCapPercent()*100)}%)`
       : ''
   }
   return (
-    <div>
+    <div className="cultivation-realm">
         <div className="cultivation-next-realm-title">{realmVO.title} {realmUpFoundation}</div>
-        { createRealmUpEffects(realmVO.type) }
-        { createRealmUpRequirements(realmVO.type) }
-        { createRealmUpButton(realmVO.type) }
+        { createRealmUpEffects(realmVO.type, realmVO.id) }
+        { createRealmUpRequirements(realmVO.type, realmVO.id) }
+        { createRealmUpButton(realmVO.type, realmVO.id) }
     </div>
   );
 }
@@ -95,9 +102,9 @@ function createLabelFromRequirement(requirementId: AttributeTypeEnum, reqValue: 
  * @param character 
  * @returns 
  */
-function createRealmUpEffects(cultivationId: AttributeTypeEnum) {
+function createRealmUpEffects(cultivationId: AttributeTypeEnum, realmId: EnergyRealmEnum | BodyRealmEnum) {
 
-  const effectsVO = CharacterController.getRealmUpEffectsVO(cultivationId)
+  const effectsVO = CharacterController.getRealmUpEffectsVO(cultivationId, realmId)
     .map((effect, idx) => {
       return (<p key={idx} >{effect.text}</p>);
   });
@@ -116,8 +123,8 @@ function createRealmUpEffects(cultivationId: AttributeTypeEnum) {
  * @param character 
  * @returns 
  */
-function createRealmUpRequirements(cultivationId: AttributeTypeEnum) {
-  const preparedRequirements = CharacterController.getRealmUpRequirementsVO(cultivationId)
+function createRealmUpRequirements(cultivationId: AttributeTypeEnum, realmId: EnergyRealmEnum | BodyRealmEnum) {
+  const preparedRequirements = CharacterController.getRealmUpRequirementsVO(cultivationId, realmId)
     .map(req => {
     return createLabelFromRequirement(req.reqName, req.reqValue, req.isReqFulfilled)
   });
@@ -132,7 +139,7 @@ function createRealmUpRequirements(cultivationId: AttributeTypeEnum) {
   );
 }
 
-function createRealmUpButton(cultivationId: AttributeTypeEnum) {
+function createRealmUpButton(cultivationId: AttributeTypeEnum, realmId: EnergyRealmEnum | BodyRealmEnum) {
   if (CharacterController.getCharacter().energyRealm.id == EnergyRealmEnum.UNKNOWN) {
     return;
   }
@@ -142,7 +149,7 @@ function createRealmUpButton(cultivationId: AttributeTypeEnum) {
 
   return Button(
     'Breakthrough',
-    CharacterController.breakthroughCultivationRealm.bind(CharacterController, cultivationId),
+    CharacterController.breakthroughCultivationRealm.bind(CharacterController, cultivationId, realmId),
     ('cultivation-realm-up-button' + disabledStyle),
     { /* no custom style */ },
     isCannotRealmUp

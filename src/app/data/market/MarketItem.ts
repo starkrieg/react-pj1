@@ -3,7 +3,7 @@ import { ModifierTypeEnum } from "../common/ModifierTypeEnum";
 import { Item } from "../items/Item";
 import { ItemTypeEnum } from "../items/ItemTypeEnum";
 import { Utilities } from "../utils/Utilities";
-import { RequirementInterface } from "./RequirementInterface";
+import { IRequirement } from "../common/IRequirement";
 
 export class MarketItem { 
 
@@ -12,9 +12,9 @@ export class MarketItem {
     name: string;
     description: string = '';
     isUpgrade: boolean = false;
-    requirements: RequirementInterface[];
+    requirements: IRequirement[];
 
-    constructor(item: Item, cost: number, requirements: RequirementInterface[] = []) {
+    constructor(item: Item, cost: number, requirements: IRequirement[] = []) {
         this.baseItem = item;
         this.cost = cost;
         this.name = item.name;

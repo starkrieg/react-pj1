@@ -1,12 +1,12 @@
 import { CharacterController } from "../character/CharacterController";
 import { ActivitiesController } from "./ActivitiesController";
 import { ActivityEnum } from "./ActivityEnum";
-import { Activity } from "./Activity";
+import { IActivity } from "./IActivity";
 import { AttributeTypeEnum } from "../character/AttributeTypeEnum";
 import { Utilities } from "../utils/Utilities";
 import { ItemIdEnum } from "../items/ItemIdEnum";
 
-export class PerformOddJobs implements Activity {
+export class PerformOddJobs implements IActivity {
     
     id: ActivityEnum;
     title: string;

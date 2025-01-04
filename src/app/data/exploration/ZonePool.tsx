@@ -209,7 +209,7 @@ export default class ZonePool {
             [ /* zone loot */ 
                 new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_M, 0.5), //0.5%
                 new ZoneLoot(ItemIdEnum.SNOW_GINSENG_10Y, 0.25), //1%
-                new ZoneLoot(ItemIdEnum.BOOK_PATH_OF_PERFECTION, 0.15, 1), //0.15% of 1
+                new ZoneLoot(ItemIdEnum.BOOK_PERFECT_QI_CONDENSATION, 0.15, 1), //0.15% of 1
             ],
             [ /* enemy names */
                 'Cultivator',

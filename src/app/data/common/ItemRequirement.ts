@@ -1,8 +1,8 @@
 import { CharacterController } from "../character/CharacterController";
 import { ItemIdEnum } from "../items/ItemIdEnum";
-import { RequirementInterface } from "./RequirementInterface";
+import { IRequirement as IRequirement } from "./IRequirement";
 
-export class ItemRequirement implements RequirementInterface {
+export class ItemRequirement implements IRequirement {
 
     id: ItemIdEnum;
 

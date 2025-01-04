@@ -1,6 +1,7 @@
 import { ActivityEnum } from "../activities/ActivityEnum";
 import { AttributeEffect } from "../common/AttributeEffect";
 import { AttributeEffectVO } from "../common/AttributeEffectVO";
+import { AttributeRequirement } from "../common/AttributeRequirement";
 import { ModifierTypeEnum } from "../common/ModifierTypeEnum";
 import { ZoneIdEnum } from "../exploration/ZoneIdEnum";
 import { Item } from "../items/Item";
@@ -203,12 +204,16 @@ export class CharacterController {
       }
     }
 
-    static breakthroughCultivationRealm(cultivationId: AttributeTypeEnum) {
+    static breakthroughCultivationRealm(cultivationId: AttributeTypeEnum, realmId: EnergyRealmEnum | BodyRealmEnum) {
         if (this.isCanBreakthroughEnergy && cultivationId == AttributeTypeEnum.QI) {
           this.isCanBreakthroughEnergy = false;
-          const nextRealm = this.character.energyRealm.getNextRealm();
-          nextRealm.applyRealmUpEffects(this.character);
-          this.character.energyRealm = nextRealm;          
+          const nextRealm = this.character.energyRealm.getNextRealmList().find(realm => realm.id == (realmId as EnergyRealmEnum));
+          if (nextRealm) {
+            nextRealm.applyRealmUpEffects(this.character);
+            this.character.energyRealm = nextRealm;
+          } else {
+            ErrorController.throwSomethingWrongError();
+          }
         } else if (this.isCanBreakthroughBody && cultivationId == AttributeTypeEnum.BODY) {
           this.isCanBreakthroughBody = false;
           const nextRealm = this.character.bodyRealm.getNextRealm();
@@ -217,12 +222,15 @@ export class CharacterController {
         }
     }
 
-    static getRealmUpEffectsVO(cultivationId: AttributeTypeEnum) {
+    static getRealmUpEffectsVO(cultivationId: AttributeTypeEnum, realmId: EnergyRealmEnum | BodyRealmEnum) {
       let effects: AttributeEffect[] = [];
       let multiplierFoundationMod = 1;
       if (cultivationId == AttributeTypeEnum.QI) {
-        effects = this.character.energyRealm.getNextRealm().realmUpEffects;
-        multiplierFoundationMod = this.character.energyRealm.getNextRealm().getRealmUpMultiplierFoundation();
+        const nextRealm = this.character.energyRealm.getNextRealmList().find(realm => realm.id == (realmId as EnergyRealmEnum));
+        if (nextRealm) {
+          effects = nextRealm.realmUpEffects;
+          multiplierFoundationMod = nextRealm.getRealmUpMultiplierFoundation();  
+        }
       } else if (cultivationId == AttributeTypeEnum.BODY) {
         effects = this.character.bodyRealm.getNextRealm().realmUpEffects;
         multiplierFoundationMod = this.character.bodyRealm.getNextRealm().getRealmUpMultiplierFoundation();
@@ -240,39 +248,49 @@ export class CharacterController {
       });
     }
 
-    static getRealmUpRequirementsVO(cultivationId: AttributeTypeEnum) {
+    static getRealmUpRequirementsVO(cultivationId: AttributeTypeEnum, realmId: EnergyRealmEnum | BodyRealmEnum) {
       const prepList: any[] = [];
+
+      function toVORequirement(character: Character, attrReq: AttributeRequirement) {
+        let reqId = attrReq.id;
+        let reqValue = attrReq.minValue;
+        
+        if (attrReq.id == AttributeTypeEnum.QI_CAP_PERCENT) {
+          reqId = AttributeTypeEnum.QI;
+          reqValue = Utilities.roundTo2Decimal(character.getAttributeValue(AttributeTypeEnum.QI_TOTAL_CAPACITY) * (attrReq.minValue/100))
+        } else if (attrReq.id == AttributeTypeEnum.BODY_CAP_PERCENT) {
+          reqId = AttributeTypeEnum.BODY;
+          reqValue = Utilities.roundTo2Decimal(character.getAttributeValue(AttributeTypeEnum.BODY_CAPACITY) * (attrReq.minValue/100))
+        } 
+
+        const isReqFulfilled = attrReq.isRequirementMet();
+
+        return {
+            reqName: reqId,
+            reqValue: reqValue,
+            isReqFulfilled: isReqFulfilled
+        }
+      }
 
       if (cultivationId == AttributeTypeEnum.QI) {
         this.isCanBreakthroughEnergy = false;
     
-        const nextRealm = this.character.energyRealm.getNextRealm();
+        const nextRealm = this.character.energyRealm.getNextRealmList().find(realm => realm.id == (realmId as EnergyRealmEnum));
     
-        if (nextRealm.id == EnergyRealmEnum.UNKNOWN) {
-          return [];
-        }
-    
-        nextRealm.requirements.forEach(req => {
-          let reqId = req.id;
-          let reqValue = req.value;
-          let isReqFulfilled = false;
-
-          if (req.id == AttributeTypeEnum.QI_CAP_PERCENT) {
-            reqId = AttributeTypeEnum.QI;
-            reqValue = Utilities.roundTo2Decimal(this.character.getAttributeValue(AttributeTypeEnum.QI_TOTAL_CAPACITY) * (req.value/100))
-            isReqFulfilled = (this.character.getQiCapPercent()*100 >= req.value);
-          } else {
-            isReqFulfilled = (this.character.getAttributeValue(req.id) >= req.value);
+        if (nextRealm) {
+          if (nextRealm.id == EnergyRealmEnum.UNKNOWN) {
+            return [];
           }
 
-          prepList.push({
-              reqName: reqId,
-              reqValue: reqValue,
-              isReqFulfilled: isReqFulfilled
-          });
-        });
-
-        this.isCanBreakthroughEnergy = prepList.every(req => req.isReqFulfilled);
+          nextRealm.realmUpRequirements.forEach(req => prepList.push(toVORequirement(this.character, req as AttributeRequirement)));
+  
+          this.isCanBreakthroughEnergy = prepList.every(req => req.isReqFulfilled) || this.isCanBreakthroughEnergy;
+          
+        } else {
+          //no next realm with the given id
+          ErrorController.throwSomethingWrongError();
+        }    
+        
       } else if (cultivationId == AttributeTypeEnum.BODY) {
         this.isCanBreakthroughBody = false;
     
@@ -282,25 +300,7 @@ export class CharacterController {
           return [];
         }
     
-        nextRealm.requirements.forEach(req => {
-          let reqId = req.id;
-          let reqValue = req.value;
-          let isReqFulfilled = false;
-
-          if (req.id == AttributeTypeEnum.BODY_CAP_PERCENT) {
-            reqId = AttributeTypeEnum.BODY;
-            reqValue = Utilities.roundTo2Decimal(this.character.getAttributeValue(AttributeTypeEnum.QI_TOTAL_CAPACITY) * (req.value/100))
-            isReqFulfilled = (this.character.getBodyCapPercent()*100 >= req.value);
-          } else {
-            isReqFulfilled = (this.character.getAttributeValue(req.id) >= req.value);
-          }
-
-          prepList.push({
-              reqName: reqId,
-              reqValue: reqValue,
-              isReqFulfilled: isReqFulfilled
-          });
-        });
+        nextRealm.realmUpRequirements.forEach(req => prepList.push(toVORequirement(this.character, req as AttributeRequirement)));
 
         this.isCanBreakthroughBody = prepList.every(req => req.isReqFulfilled);
       } else {

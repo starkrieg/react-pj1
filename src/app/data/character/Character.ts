@@ -91,7 +91,7 @@ export class Character {
         this.attributes.setAttributeValue(AttributeTypeEnum.INTERNAL_DAMAGE, 0);
         this.attributes.setAttributeValue(AttributeTypeEnum.ENERGY_REALM_PERFECTION, 0);
         this.attributes.setAttributeValue(AttributeTypeEnum.ALLIES, 0);
-        this.attributes.setAttributeValue(AttributeTypeEnum.SOUL, 0);
+        this.attributes.setAttributeValue(AttributeTypeEnum.SOUL, 1);
         this.attributes.setAttributeValue(AttributeTypeEnum.TALENT, 1);
         this.updateStats();
     }

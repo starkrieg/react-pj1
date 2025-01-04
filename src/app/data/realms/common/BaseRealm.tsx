@@ -1,20 +1,20 @@
 'use client'
 
-import { Attribute } from "../../character/Attribute";
 import { AttributeTypeEnum } from "../../character/AttributeTypeEnum";
 import { Character } from "../../character/Character";
 import { AttributeEffect } from "../../common/AttributeEffect";
+import { IRequirement } from "../../common/IRequirement";
 import { ModifierTypeEnum } from "../../common/ModifierTypeEnum";
 
 export abstract class BaseRealm {
 
-    requirements: Attribute[];
+    realmUpRequirements: IRequirement[];
     realmUpEffects: AttributeEffect[];
 
-    constructor(requirements: Attribute[], 
+    constructor(realmUpRequirements: IRequirement[], 
         realmUpEffects: AttributeEffect[]
     ) {
-        this.requirements = requirements;
+        this.realmUpRequirements = realmUpRequirements;
         this.realmUpEffects = realmUpEffects
         
     }

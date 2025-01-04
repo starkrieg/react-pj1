@@ -1,8 +1,8 @@
 import { ActivitiesController } from "../activities/ActivitiesController";
 import { ActivityEnum } from "../activities/ActivityEnum";
-import { RequirementInterface } from "./RequirementInterface";
+import { IRequirement } from "./IRequirement";
 
-export class ActivityRequirement implements RequirementInterface {
+export class ActivityRequirement implements IRequirement {
 
     id: ActivityEnum;
     rank: number;

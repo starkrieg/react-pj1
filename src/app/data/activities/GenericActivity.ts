@@ -1,10 +1,10 @@
 import { ZoneIdEnum } from "../exploration/ZoneIdEnum";
 import { ItemIdEnum } from "../items/ItemIdEnum";
 import { ActivitiesController } from "./ActivitiesController";
-import { Activity } from "./Activity";
+import { IActivity } from "./IActivity";
 import { ActivityEnum } from "./ActivityEnum";
 
-export class GenericActivity implements Activity {
+export class GenericActivity implements IActivity {
     
     id: ActivityEnum;
     title: string;

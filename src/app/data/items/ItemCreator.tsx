@@ -100,7 +100,7 @@ export default class ItemCreator {
             'The Way of The Heaven\'s Eye',
             'Knowledge on cultivating the rare Heaven\'s Eye'
         );
-        ItemController.createItem(ItemIdEnum.BOOK_PATH_OF_PERFECTION,
+        ItemController.createItem(ItemIdEnum.BOOK_PERFECT_QI_CONDENSATION,
             ItemTypeEnum.PERMANENT,
             'The Way of Perfect Energy',
             'Knowledge on cultivating perfection to achieve ultimate power'

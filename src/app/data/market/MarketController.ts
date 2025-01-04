@@ -8,7 +8,7 @@ import { ItemTypeEnum } from "../items/ItemTypeEnum";
 import { Utilities } from "../utils/Utilities";
 import { ItemMarketCreator } from "./ItemMarketCreator";
 import { MarketItem } from "./MarketItem";
-import { RequirementInterface } from "./RequirementInterface";
+import { IRequirement } from "../common/IRequirement";
 
 export class MarketController {
 
@@ -82,7 +82,7 @@ export class MarketController {
         }
     }
 
-    static addMarketItem(item: Item, cost: number, requirements: RequirementInterface[] = []){
+    static addMarketItem(item: Item, cost: number, requirements: IRequirement[] = []){
         if (!this.allMarketItems.find(mi => mi.baseItem.id == item.id)) {
             this.allMarketItems.push(new MarketItem(
                 item,

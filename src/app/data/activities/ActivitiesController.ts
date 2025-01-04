@@ -1,11 +1,12 @@
 import { ErrorController } from "../utils/ErrorController";
 import { ActivityEnum } from "./ActivityEnum";
-import { Activity } from "./Activity";
+import { IActivity } from "./IActivity";
 import { ActivityRank } from "./ActivityRank";
 import ActivityPool from "./ActivityPool";
 import { CharacterController } from "../character/CharacterController";
 import { MarketController } from "../market/MarketController";
 import { ItemIdEnum } from "../items/ItemIdEnum";
+import { AttributeTypeEnum } from "../character/AttributeTypeEnum";
 
 export class ActivitiesController {
 
@@ -14,9 +15,9 @@ export class ActivitiesController {
     // rate which days for rank up grow
     private static RANK_UP_GROWTH_RATE = 0.70;
 
-    static selectedActivity: Activity | undefined = undefined;
+    static selectedActivity: IActivity | undefined = undefined;
 
-    private static unlockedActivities: Activity[] = [];
+    private static unlockedActivities: IActivity[] = [];
 
     private static activityRankMap: Map<ActivityEnum, ActivityRank> = new Map<ActivityEnum, ActivityRank>();
     
@@ -47,7 +48,7 @@ export class ActivitiesController {
         this.selectedActivity?.action();
     }
     
-    static doSelectActivity(act: Activity) {
+    static doSelectActivity(act: IActivity) {
         this.selectedActivity = act;
     }
 
@@ -55,7 +56,7 @@ export class ActivitiesController {
      * Add activty to the list
      * @param activity activity object
      */
-    static addActivity(activity: Activity) {
+    static addActivity(activity: IActivity) {
         if (!activity) {
             ErrorController.throwSomethingWrongError();
         }
@@ -93,7 +94,7 @@ export class ActivitiesController {
         this.updateUnlockedActivities();
     }
 
-    static getActivitiesList() : Readonly<Activity[]> {
+    static getActivitiesList() : Readonly<IActivity[]> {
         return this.unlockedActivities;
     }
 
@@ -114,6 +115,7 @@ export class ActivitiesController {
     // increment exp by default 1
     static incrementExpActivity(id: ActivityEnum) {
         const baseValue = 1;
+        const talentMultiplier = CharacterController.getCharacter().getAttributeValue(AttributeTypeEnum.TALENT)
         const meditateMultiplier = 1 + (this.getActivityRank(ActivityEnum.MEDITATE) / 100)
         const activityRank = this.activityRankMap.get(id);
 
@@ -133,9 +135,9 @@ export class ActivitiesController {
                     ? 2 : 1;
 
                 const meditateItemMods = confucianIMod * mysticIncenseMod * taoistIMod;
-                activityRank.exp += (baseValue * meditateMultiplier * meditateItemMods);
+                activityRank.exp += (baseValue * talentMultiplier * meditateMultiplier * meditateItemMods);
             } else {
-                activityRank.exp += (baseValue * meditateMultiplier);
+                activityRank.exp += (baseValue * talentMultiplier * meditateMultiplier);
             }
             
             while (activityRank.exp >= activityRank.totalExpToNextRank) {

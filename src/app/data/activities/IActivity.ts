@@ -2,7 +2,7 @@ import { ZoneIdEnum } from "../exploration/ZoneIdEnum";
 import { ItemIdEnum } from "../items/ItemIdEnum";
 import { ActivityEnum } from "./ActivityEnum";
 
-export interface Activity {
+export interface IActivity {
 
     id: ActivityEnum;
     title: string;

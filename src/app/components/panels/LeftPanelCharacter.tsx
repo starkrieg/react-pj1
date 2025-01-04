@@ -14,7 +14,7 @@ export default function LeftPanelCharacter() {
     const character = CharacterController.getCharacter()
 
     function Qi() {
-        const isShowRealmFoundation = CharacterController.isHaveItem(ItemIdEnum.BOOK_PATH_OF_PERFECTION);
+        const isShowRealmFoundation = CharacterController.isHaveItem(ItemIdEnum.BOOK_PERFECT_QI_CONDENSATION);
         const qiCapPercent = isShowRealmFoundation 
             ? `(${Utilities.roundTo2Decimal(character.getQiCapPercent() * 100)}%)`
             : '';

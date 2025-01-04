@@ -16,7 +16,7 @@ export enum ItemIdEnum {
     ,BOOK_MARTIAL_ARTS = 'book-martial-arts' //Teachings on combat techniques for increased survival
     ,BOOK_VALLEY_SECRET_PATH = 'book-valley-secret-path' //Knowledge on passing through the myriad beasts valley with more ease
     ,BOOK_HEAVENS_EYE = 'book-heavens-eye' //Knowledge on cultivating the Heaven's Eye - allows to see Talent and increases dodge and hit chance, and reduces damage
-    ,BOOK_PATH_OF_PERFECTION = 'book-path-of-perfection' //Knowledge on achieving perfect foundation for energy realms
+    ,BOOK_PERFECT_QI_CONDENSATION = 'book-perfect-qi-condensationn' //Knowledge on achieving perfect qi condensation realms
     // calm wind village region market items
     ,BOOK_NOTES_ON_PEOPLE = 'book-notes-on-people' //Knowledge on village location, people and commerce
     ,BOOK_SHOPKEEPING_MANUAL = 'book-shopkeeping-manual' //Knowledge on finances and profits for business

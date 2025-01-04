@@ -11,7 +11,7 @@ export class EnergyRealmController {
     static realmMatrix = new Map<EnergyRealmEnum, BaseEnergyRealm>();
 
     private static createAndReturnUnknownRealm() {
-        const unknownRealm = new BaseEnergyRealm(EnergyRealmEnum.UNKNOWN, [], []);
+        const unknownRealm = new BaseEnergyRealm(EnergyRealmEnum.UNKNOWN, [], [], []);
         this.realmMatrix.set(EnergyRealmEnum.UNKNOWN, unknownRealm);
         return unknownRealm;
     }

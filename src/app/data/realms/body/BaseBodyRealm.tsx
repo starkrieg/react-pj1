@@ -2,17 +2,17 @@
 
 import { AttributeEffect } from "../../common/AttributeEffect";
 import { BaseRealm } from "../common/BaseRealm";
-import { Attribute } from "../../character/Attribute";
 import { BodyRealmEnum } from "./BodyRealmEnum";
 import { BodyRealmController } from "../BodyRealmController";
+import { IRequirement } from "../../common/IRequirement";
 
 export class BaseBodyRealm extends BaseRealm {
 
     id: BodyRealmEnum;
 
-    constructor(realmId: BodyRealmEnum, requirements: Attribute[], 
+    constructor(realmId: BodyRealmEnum, realmUpRequirements: IRequirement[], 
             realmUpEffects: AttributeEffect[]) {
-        super(requirements, realmUpEffects);
+        super(realmUpRequirements, realmUpEffects);
         this.id = realmId;
     }
     

@@ -2,7 +2,7 @@
 
 import { ActivitiesController } from "@/app/data/activities/ActivitiesController";
 import { ButtonActivity } from "../Button";
-import { Activity } from "@/app/data/activities/Activity";
+import { IActivity } from "@/app/data/activities/IActivity";
 
 export default function ActivitiesPanel() {
 
@@ -17,7 +17,7 @@ export default function ActivitiesPanel() {
  
 }
 
-function ActivityList(activityList: Readonly<Activity[]>) {
+function ActivityList(activityList: Readonly<IActivity[]>) {
     const doSelectClick = ActivitiesController.doSelectActivity;
 
     const preparedList = activityList.map(act => {

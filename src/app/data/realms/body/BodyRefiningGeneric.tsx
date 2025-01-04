@@ -1,12 +1,12 @@
 'use client'
 
 import { BodyRealmEnum } from "./BodyRealmEnum";
-import { Attribute } from "../../character/Attribute";
 import { AttributeTypeEnum } from "../../character/AttributeTypeEnum";
 import { BaseBodyRealm } from "./BaseBodyRealm";
 import { BodyRealmController } from "../BodyRealmController";
 import { ErrorController } from "../../utils/ErrorController";
 import { ModifierTypeEnum } from "../../common/ModifierTypeEnum";
+import { AttributeRequirement } from "../../common/AttributeRequirement";
 
 export class BodyRefiningGeneric extends BaseBodyRealm {
 
@@ -19,31 +19,15 @@ export class BodyRefiningGeneric extends BaseBodyRealm {
     private createRealmUpRequirements() {
         switch (this.id) {
             case BodyRealmEnum.REFINE_BODY_1:
-                this.requirements.push(new Attribute(AttributeTypeEnum.BODY, 100));
-                break;
             case BodyRealmEnum.REFINE_BODY_2:
-                this.requirements.push(new Attribute(AttributeTypeEnum.BODY, 2000));
-                break;
             case BodyRealmEnum.REFINE_BODY_3:
-                this.requirements.push(new Attribute(AttributeTypeEnum.BODY, 5000));
-                break;
             case BodyRealmEnum.REFINE_BODY_4:
-                this.requirements.push(new Attribute(AttributeTypeEnum.BODY, 10000));
-                break;
             case BodyRealmEnum.REFINE_BODY_5:
-                this.requirements.push(new Attribute(AttributeTypeEnum.BODY, 20000));
-                break;
             case BodyRealmEnum.REFINE_BODY_6:
-                this.requirements.push(new Attribute(AttributeTypeEnum.BODY, 45000));
-                break;
             case BodyRealmEnum.REFINE_BODY_7:
-                this.requirements.push(new Attribute(AttributeTypeEnum.BODY, 70000));
-                break;
             case BodyRealmEnum.REFINE_BODY_8:
-                this.requirements.push(new Attribute(AttributeTypeEnum.BODY, 100000));
-                break;
             case BodyRealmEnum.REFINE_BODY_9:
-                this.requirements.push(new Attribute(AttributeTypeEnum.BODY, 150000));
+                this.realmUpRequirements.push(new AttributeRequirement(AttributeTypeEnum.BODY_CAP_PERCENT, 100));
                 break;
             default:
                 ErrorController.throwSomethingWrongError();

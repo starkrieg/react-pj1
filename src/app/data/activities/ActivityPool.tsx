@@ -1,6 +1,6 @@
 import { ItemIdEnum } from "../items/ItemIdEnum";
 import { ErrorController } from "../utils/ErrorController";
-import { Activity } from "./Activity";
+import { IActivity } from "./IActivity";
 import { ActivityEnum } from "./ActivityEnum";
 import { CultivateQi } from "./CultivateQi";
 import { GenericActivity } from "./GenericActivity";
@@ -9,9 +9,9 @@ import { PhysicalTraining } from "./PhysicalTraining";
 
 export default class ActivityPool {
 
-    private static activityPool: Activity[] = [];
+    private static activityPool: IActivity[] = [];
 
-    static getActivityPool() : Readonly<Activity[]> {
+    static getActivityPool() : Readonly<IActivity[]> {
         return this.activityPool;
     }
 
@@ -19,7 +19,7 @@ export default class ActivityPool {
      * Create an activity and add it to the list
      * @param activity activity object
      */
-    private static createActivity(activity: Activity) {
+    private static createActivity(activity: IActivity) {
         if (!activity) {
             ErrorController.throwSomethingWrongError();
         }

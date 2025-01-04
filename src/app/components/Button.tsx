@@ -1,5 +1,5 @@
 import IconSwordEmblem from '../assets/icons/swords-emblem.svg';
-import { Activity } from "../data/activities/Activity";
+import { IActivity } from "../data/activities/IActivity";
 import { Utilities } from "../data/utils/Utilities";
 import { ActivityRank } from "../data/activities/ActivityRank";
 import { MessageType } from "../data/messages/MessageTypeEnum";
@@ -49,7 +49,7 @@ export function ButtonNavigation(label: string,
     );
 }
 
-export function ButtonActivity(act: Activity,
+export function ButtonActivity(act: IActivity,
     actRank: ActivityRank,
     onClick: () => void,
     isSelected: boolean = false ) {

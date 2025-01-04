@@ -1,13 +1,13 @@
 import { AttributeTypeEnum } from "../character/AttributeTypeEnum";
 import { CharacterController } from "../character/CharacterController";
 import { Utilities } from "../utils/Utilities";
-import { RequirementInterface } from "./RequirementInterface";
+import { IRequirement } from "./IRequirement";
 
 /**
  * A requirement that checks an attribute capacity percentage as requirement
  * When a new attribute cap is created, this class must be updated to reflect it
  */
-export class AttributeCapPercentRequirement implements RequirementInterface {
+export class AttributeRequirement implements IRequirement {
 
     id: AttributeTypeEnum;
 
@@ -25,7 +25,13 @@ export class AttributeCapPercentRequirement implements RequirementInterface {
 
     isRequirementMet() : boolean {
         const attributeValue = this.getAttributeValueFromId();
-        return this.minValue <= attributeValue && attributeValue < this.maxValue;
+
+        if (this.maxValue <= 0) {
+            return attributeValue >= this.minValue;
+        } else {
+            return this.minValue <= attributeValue && attributeValue < this.maxValue;    
+        }
+        
     }
 
     private getAttributeValueFromId() {
@@ -35,7 +41,7 @@ export class AttributeCapPercentRequirement implements RequirementInterface {
             case AttributeTypeEnum.BODY_CAP_PERCENT:
                 return Utilities.roundTo2Decimal(CharacterController.getCharacter().getBodyCapPercent()*100);
             default:
-                return 0;
+                return Utilities.roundTo2Decimal(CharacterController.getCharacter().getAttributeValue(this.id));
         }
     }
 

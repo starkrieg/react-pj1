@@ -1,11 +1,11 @@
 import { CharacterController } from "../character/CharacterController";
 import { ActivitiesController } from "./ActivitiesController";
 import { ActivityEnum } from "./ActivityEnum";
-import { Activity } from "./Activity";
+import { IActivity } from "./IActivity";
 import { ItemIdEnum } from "../items/ItemIdEnum";
 import { AttributeTypeEnum } from "../character/AttributeTypeEnum";
 
-export class PhysicalTraining implements Activity {
+export class PhysicalTraining implements IActivity {
     
     id: ActivityEnum;
     title: string;
