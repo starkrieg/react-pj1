@@ -131,8 +131,8 @@ export class Character {
     }
 
     private updatePower() {
-        const actMartialArts = 1 + ((ActivitiesController.getActivityRank(ActivityEnum.PRACTICE_MARTIAL_ARTS)-1) / this.martialArtsMod);
-        const actPracticeSpells = 1 + ((ActivitiesController.getActivityRank(ActivityEnum.PRACTICE_QI_SPELLS)-1) / this.qiSpellsMod)
+        const actMartialArts = 1 + (ActivitiesController.getActivityRank(ActivityEnum.PRACTICE_MARTIAL_ARTS) / this.martialArtsMod);
+        const actPracticeSpells = 1 + (ActivitiesController.getActivityRank(ActivityEnum.PRACTICE_QI_SPELLS) / this.qiSpellsMod)
 
         const appliedBodyPower = this.getBody() * this.bodyToPowerRatio * actMartialArts;
         const appliedQiPower = this.getQi() * this.qiToPowerRatio * actPracticeSpells;
@@ -160,8 +160,8 @@ export class Character {
     }
 
     private updateHealth() {
-        const actMartialArts = 1 + ((ActivitiesController.getActivityRank(ActivityEnum.PRACTICE_MARTIAL_ARTS)-1) / this.martialArtsMod);
-        const actPracticeSpells = 1 + ((ActivitiesController.getActivityRank(ActivityEnum.PRACTICE_QI_SPELLS)-1) / this.qiSpellsMod)
+        const actMartialArts = 1 + (ActivitiesController.getActivityRank(ActivityEnum.PRACTICE_MARTIAL_ARTS) / this.martialArtsMod);
+        const actPracticeSpells = 1 + (ActivitiesController.getActivityRank(ActivityEnum.PRACTICE_QI_SPELLS) / this.qiSpellsMod)
 
         const appliedBodyHealth = (this.getBody() * this.bodyToHealthRatio * actMartialArts);
         const appliedQiHealth = (this.getQi() * this.qiToHealthRatio * actPracticeSpells);

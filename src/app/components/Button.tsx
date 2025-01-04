@@ -60,7 +60,7 @@ export function ButtonActivity(act: Activity,
 
     let gainDesc = <span></span>;
     if (act instanceof GenericActivity) {
-        gainDesc = <span>{act.gainDesc} ${Utilities.roundTo2Decimal(act.getTickGain())}%</span>;
+        gainDesc = <span>{act.gainDesc} {Utilities.roundTo2Decimal(act.getTickGain())}%</span>;
     } else if (act instanceof PerformOddJobs) {
         const days = act.getEffectiveWorkDays();
         const coins = Utilities.roundTo0Decimal(act.getTickGain());

@@ -98,7 +98,7 @@ export class ItemMarketCreator {
         this.addItemToMarket(taoist, 1000000
             ,
             [ /* unlock requirements */
-                new ActivityRequirement(ActivityEnum.MEDITATE, 300)
+                new ActivityRequirement(ActivityEnum.MEDITATE, 200)
             ]
         );
 
@@ -139,7 +139,7 @@ export class ItemMarketCreator {
         const incense = ItemController.getItemById(ItemIdEnum.ITEM_MYSTIC_INCENSE);
         this.addItemToMarket(incense, 500000,
             [   /* unlock requirements */
-                new ActivityRequirement(ActivityEnum.MEDITATE, 200)
+                new ActivityRequirement(ActivityEnum.MEDITATE, 100)
             ]
         );
 

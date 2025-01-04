@@ -12,7 +12,7 @@ export class ActivitiesController {
     // base days for rank up
     private static BASE_DAYS_RANK_UP = 24;
     // rate which days for rank up grow
-    private static RANK_UP_GROWTH_RATE = 0.75;
+    private static RANK_UP_GROWTH_RATE = 0.70;
 
     static selectedActivity: Activity | undefined = undefined;
 
@@ -66,7 +66,7 @@ export class ActivitiesController {
         //only add to map if not there yet
         //so that map is not reset when creating activities after death
         if (!this.activityRankMap.has(activity.id)) {
-            this.activityRankMap.set(activity.id, new ActivityRank(1, 0, this.BASE_DAYS_RANK_UP));
+            this.activityRankMap.set(activity.id, new ActivityRank(0, 0, this.BASE_DAYS_RANK_UP));
         }
     }
 
@@ -106,7 +106,7 @@ export class ActivitiesController {
         if (activityRank) {
             return activityRank.rank;
         } else {
-            return 1;
+            return 0;
         }
     }
 
@@ -114,22 +114,22 @@ export class ActivitiesController {
     // increment exp by default 1
     static incrementExpActivity(id: ActivityEnum) {
         const baseValue = 1;
-        const meditateMultiplier = 1 + ((this.getActivityRank(ActivityEnum.MEDITATE)-1) / 10)
+        const meditateMultiplier = 1 + (this.getActivityRank(ActivityEnum.MEDITATE) / 100)
         const activityRank = this.activityRankMap.get(id);
 
         if (activityRank) {
             //more exp means increased activity speed
             if (id == ActivityEnum.MEDITATE) {
                 //for meditate rank 100
-                const confucianIMod = CharacterController.isHaveInventoryItem(ItemIdEnum.BOOK_CONFUCIAN_SCRIPTURES_I) 
+                const confucianIMod = CharacterController.isHaveItem(ItemIdEnum.BOOK_CONFUCIAN_SCRIPTURES_I) 
                     ? 2 : 1;
 
                 //for meditate rank 200
-                const mysticIncenseMod = CharacterController.isHaveInventoryItem(ItemIdEnum.ITEM_MYSTIC_INCENSE) 
+                const mysticIncenseMod = CharacterController.isHaveItem(ItemIdEnum.ITEM_MYSTIC_INCENSE) 
                     ? 2 : 1;
 
                 //for meditate rank 300
-                const taoistIMod = CharacterController.isHaveInventoryItem(ItemIdEnum.BOOK_TAOIST_SCRIPTURES_I) 
+                const taoistIMod = CharacterController.isHaveItem(ItemIdEnum.BOOK_TAOIST_SCRIPTURES_I) 
                     ? 2 : 1;
 
                 const meditateItemMods = confucianIMod * mysticIncenseMod * taoistIMod;

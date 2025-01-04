@@ -212,16 +212,8 @@ export class ExplorationController {
                 if (listRewardItemId && listRewardItemId.length > 0) {
                     listRewardItemId.forEach(itemId => {
                         
-                        //give the character the item
+                        //give the character the reward item
                         CharacterController.giveItem( ItemController.getItemById(itemId) );
-                        
-                        const rewardItem = ItemController.getItemById(itemId);
-                        //item can exist as ID, but not as giveable item
-                        //like certificate of zone clearance or invisible flags that player should not know about
-                        if (rewardItem) {
-                            //publish message on clear reward
-                            MessageController.pushMessageItem(`Found something! Got [${rewardItem?.name}]`);
-                        }
                     });
                 }
 

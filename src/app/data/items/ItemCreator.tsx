@@ -435,7 +435,7 @@ export default class ItemCreator {
             'A small pouch of coins',
             ItemMarketZone.NONE,
             [ /* attribute effects */
-                new AttributeEffect(AttributeTypeEnum.COIN, ModifierTypeEnum.ADD, 1000)
+                new AttributeEffect(AttributeTypeEnum.COIN, ModifierTypeEnum.ADD, 100)
             ]
         );
         ItemController.createItem(
@@ -445,7 +445,7 @@ export default class ItemCreator {
             'A medium sized pouch of coins',
             ItemMarketZone.NONE,
             [ /* attribute effects */
-                new AttributeEffect(AttributeTypeEnum.COIN, ModifierTypeEnum.ADD, 5000)
+                new AttributeEffect(AttributeTypeEnum.COIN, ModifierTypeEnum.ADD, 1000)
             ]
         );
         ItemController.createItem(
@@ -465,7 +465,7 @@ export default class ItemCreator {
             'A small piece of gold',
             ItemMarketZone.NONE,
             [ /* attribute effects */
-                new AttributeEffect(AttributeTypeEnum.COIN, ModifierTypeEnum.ADD, 50000)
+                new AttributeEffect(AttributeTypeEnum.COIN, ModifierTypeEnum.ADD, 100000)
             ]
         );
     }

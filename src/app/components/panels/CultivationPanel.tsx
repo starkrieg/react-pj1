@@ -14,7 +14,7 @@ export default function CultivationPanel() {
 
   const character = CharacterController.getCharacter()
 
-  const isBodyCultivationUnlocked = CharacterController.isHavePermanentItem(ItemIdEnum.BOOK_BODY_CULTIVATION);
+  const isBodyCultivationUnlocked = CharacterController.isHaveItem(ItemIdEnum.BOOK_BODY_CULTIVATION);
 
   return (
     <div className="cultivation-realm-panel">
@@ -58,7 +58,7 @@ function BodyCultivationDisplay(character: Readonly<Character>) {
 function createNextRealmInformation(realmVO: BaseRealmVO) {
   let realmUpFoundation = '';
   if (realmVO.type == AttributeTypeEnum.QI) {
-    const isShowRealmFoundation = CharacterController.isHavePermanentItem(ItemIdEnum.BOOK_PATH_OF_PERFECTION);
+    const isShowRealmFoundation = CharacterController.isHaveItem(ItemIdEnum.BOOK_PATH_OF_PERFECTION);
     realmUpFoundation = isShowRealmFoundation 
       ? `(${Utilities.roundTo2Decimal(CharacterController.getCharacter().getQiCapPercent()*100)}%)`
       : ''

@@ -34,10 +34,10 @@ export class CultivateQi implements Activity {
     }
 
     getTickGain() {
-        const cultivationMatMod = CharacterController.isHaveInventoryItem(ItemIdEnum.ITEM_CULTIVATION_MAT) 
+        const cultivationMatMod = CharacterController.isHaveItem(ItemIdEnum.ITEM_CULTIVATION_MAT) 
             ? 2 : 1
         const bruteValue = CharacterController.getCharacter().getQiGainWithTalent();
-        const rankMult = 1 + ((ActivitiesController.getActivityRank(this.id) - 1 ) * 0.1);
+        const rankMult = 1 + (ActivitiesController.getActivityRank(this.id) * 0.1);
         return ( bruteValue * cultivationMatMod * rankMult );
     }
 

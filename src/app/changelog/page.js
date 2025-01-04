@@ -12,6 +12,19 @@ export default function Changelog() {
       <p>Current end game and challenge: interrupting the story event before year 615</p>
 
       <li style={{marginTop: 10}}>
+        <p>v.0.4.3 - alpha / 2025-Jan-??</p>
+        <p>Overview: Small fixes and adjustments</p>
+        <div>
+          Changes:
+          <p>Fixed activities upgrades not being applied correctly, like for Meditate</p>
+          <p>Greatly reduce drop rates on all zones to balance with 50x speed. This is so gameplay speed feels better.</p>
+          <p>Changed so activities start at rank 0. Easier to track effects this way.</p>
+          <p>Added missing activities from drop pool</p>
+          <p>Adjusted some drop effects and upgrade requirements</p>
+        </div>
+      </li>
+
+      <li style={{marginTop: 10}}>
         <p>v.0.4.2 - alpha / 2025-Jan-03</p>
         <p>Overview: Small fixes and adjustments</p>
         <div>

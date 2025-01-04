@@ -14,7 +14,7 @@ export default function LeftPanelCharacter() {
     const character = CharacterController.getCharacter()
 
     function Qi() {
-        const isShowRealmFoundation = CharacterController.isHavePermanentItem(ItemIdEnum.BOOK_PATH_OF_PERFECTION);
+        const isShowRealmFoundation = CharacterController.isHaveItem(ItemIdEnum.BOOK_PATH_OF_PERFECTION);
         const qiCapPercent = isShowRealmFoundation 
             ? `(${Utilities.roundTo2Decimal(character.getQiCapPercent() * 100)}%)`
             : '';
@@ -95,9 +95,9 @@ export default function LeftPanelCharacter() {
 
     const energyRealmVO = new EnergyRealmVO(character.energyRealm.id);
     const bodyRealmVO = new BodyRealmVO(character.bodyRealm.id);
-    const isBodyCultivationUnlocked = CharacterController.isHavePermanentItem(ItemIdEnum.BOOK_BODY_CULTIVATION);
+    const isBodyCultivationUnlocked = CharacterController.isHaveItem(ItemIdEnum.BOOK_BODY_CULTIVATION);
 
-    const isShowQiLabel = CharacterController.isHavePermanentItem(ItemIdEnum.BOOK_QI_CULTIVATION);
+    const isShowQiLabel = CharacterController.isHaveItem(ItemIdEnum.BOOK_QI_CULTIVATION);
 
     const bodyCapPercent = isBodyCultivationUnlocked ? '('
         + Utilities.roundTo2Decimal(character.getBodyCapPercent() * 100)

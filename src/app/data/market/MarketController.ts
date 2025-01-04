@@ -41,8 +41,7 @@ export class MarketController {
             if (isItemRegionAvailable) {
                 if (upgradeTypeItems.includes(mi.baseItem.type) && mi.baseItem.canUpgrade()) {
                     return true;
-                } else if (!CharacterController.isHaveInventoryItem(mi.baseItem.id)
-                    && !CharacterController.isHavePermanentItem(mi.baseItem.id)) {
+                } else if (!CharacterController.isHaveItem(mi.baseItem.id)) {
                     return true;
                 }
                 return false;
@@ -98,7 +97,7 @@ export class MarketController {
         const coins = character.getAttributeValue(AttributeTypeEnum.COIN);
         if (coins >= marketItem.cost) {
             character.increaseAttribute(AttributeTypeEnum.COIN, -marketItem.cost);
-            if (CharacterController.isHaveInventoryItem(marketItem.baseItem.id)) {
+            if (CharacterController.isHaveItem(marketItem.baseItem.id)) {
                 //have item, then upgrade it
                 CharacterController.giveItemUpgrade(marketItem.baseItem);
             } else {

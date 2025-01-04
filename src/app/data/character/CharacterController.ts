@@ -2,11 +2,13 @@ import { ActivityEnum } from "../activities/ActivityEnum";
 import { AttributeEffect } from "../common/AttributeEffect";
 import { AttributeEffectVO } from "../common/AttributeEffectVO";
 import { ModifierTypeEnum } from "../common/ModifierTypeEnum";
+import { ContentUnlockController } from "../ContentUnlockController";
 import { ZoneIdEnum } from "../exploration/ZoneIdEnum";
 import { Item } from "../items/Item";
 import { ItemController } from "../items/ItemController";
 import { ItemIdEnum } from "../items/ItemIdEnum";
 import { ItemTypeEnum } from "../items/ItemTypeEnum";
+import { MarketController } from "../market/MarketController";
 import { MessageController } from "../messages/MessageController";
 import { BodyRealmEnum } from "../realms/body/BodyRealmEnum";
 import { BodyRealmVO } from "../realms/body/BodyRealmVO";
@@ -58,7 +60,7 @@ export class CharacterController {
      * @param itemId item id
      * @returns 
      */
-    static isHavePermanentItem(itemId: ItemIdEnum) {
+    private static isHavePermanentItem(itemId: ItemIdEnum) {
         return this.character.permanentItemList.has(itemId);
     }
 
@@ -72,11 +74,21 @@ export class CharacterController {
     }
     
     /**
+     * Checks if character has the given item.
+     * @param itemId 
+     * @returns 
+     */
+    static isHaveItem(itemId: ItemIdEnum) {
+      return this.isHavePermanentItem(itemId)
+        || this.isHaveInventoryItem(itemId);
+    }
+
+    /**
      * Check if character has the item on inventory
      * @param itemId 
      * @returns 
      */
-    static isHaveInventoryItem(itemId: ItemIdEnum) {
+    private static isHaveInventoryItem(itemId: ItemIdEnum) {
       return this.character.inventoryList.find(it => it.id == itemId) ? true : false;
     }
 
@@ -97,7 +109,6 @@ export class CharacterController {
                 this.character.permanentItemList.add(item.id);
                 break;
               case ItemTypeEnum.CONSUMABLE:
-                //TODO
                 item.getEffectsWithUpgrade().forEach(effect => {
                   switch(effect.attribute) {
                     case AttributeTypeEnum.INTERNAL_DAMAGE:
@@ -115,6 +126,9 @@ export class CharacterController {
                 this.character.addItemInventory(item)
                 break;
             }
+
+            
+
         } else {
             ErrorController.throwSomethingWrongError();
         }

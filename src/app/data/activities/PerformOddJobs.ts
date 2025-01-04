@@ -40,7 +40,7 @@ export class PerformOddJobs implements Activity {
     }
 
     getEffectiveWorkDays() {
-        const dayMod1 = CharacterController.isHavePermanentItem(ItemIdEnum.BOOK_NOTES_ON_PEOPLE);
+        const dayMod1 = CharacterController.isHaveItem(ItemIdEnum.BOOK_NOTES_ON_PEOPLE);
         const offDays = dayMod1 ? 1 : 0;
         return this.BASE_DAYS_COIN_GAIN - offDays;
     }
@@ -48,22 +48,22 @@ export class PerformOddJobs implements Activity {
     getTickGain() {
         const bruteValue = 1;
         const valueBeforeRank = bruteValue;
-        const rankMult = 1 + ((ActivitiesController.getActivityRank(this.id) - 1 ) * 0.05);
+        const rankMult = 1 + (ActivitiesController.getActivityRank(this.id) * 0.05);
 
         //for odd jobs rank 100
-        const workingToolsMod = CharacterController.isHaveInventoryItem(ItemIdEnum.ITEM_WORKING_TOOLS) 
+        const workingToolsMod = CharacterController.isHaveItem(ItemIdEnum.ITEM_WORKING_TOOLS) 
             ? 2 : 1;
         
         //for odd jobs rank 200
-        const shopkeepingMod = CharacterController.isHaveInventoryItem(ItemIdEnum.BOOK_SHOPKEEPING_MANUAL) 
+        const shopkeepingMod = CharacterController.isHaveItem(ItemIdEnum.BOOK_SHOPKEEPING_MANUAL) 
             ? 2 : 1;
 
         //for odd jobs rank 300
-        const openBusinessMod = CharacterController.isHaveInventoryItem(ItemIdEnum.SELF_OPEN_BUSINESS) 
+        const openBusinessMod = CharacterController.isHaveItem(ItemIdEnum.SELF_OPEN_BUSINESS) 
             ? 2 : 1;
 
         //for odd jobs rank 400
-        const underhandedMethodsMod = CharacterController.isHaveInventoryItem(ItemIdEnum.BOOK_UNDERHANDED_METHODS_I) 
+        const underhandedMethodsMod = CharacterController.isHaveItem(ItemIdEnum.BOOK_UNDERHANDED_METHODS_I) 
             ? 2 : 1;
         
         

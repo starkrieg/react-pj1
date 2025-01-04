@@ -14,7 +14,7 @@ export class GenericActivity implements Activity {
     gainDesc: string;
     
     getTickGain(): number {
-        return (ActivitiesController.getActivityRank(this.id)-1) / 10;
+        return (ActivitiesController.getActivityRank(this.id)) / 10;
     }
     
     constructor(id: ActivityEnum, title: string, desc: string,

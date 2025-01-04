@@ -67,7 +67,7 @@ export default class ZonePool {
                 ItemIdEnum.POUCH_OF_COINS_M
             ],
             [ /* zone loot */ 
-                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_S, 5), //5%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_S, 1), //1%
             ],
             [ /* enemy names */
                 'Punk',
@@ -86,8 +86,8 @@ export default class ZonePool {
                 ItemIdEnum.POUCH_OF_COINS_M
             ],
             [ /* zone loot */ 
-                new ZoneLoot(ItemIdEnum.PILL_STRENGTH_ELIXIR, 3), //3%
-                new ZoneLoot(ItemIdEnum.BOOK_FORAGING_MANUAL, 1, 1), //1% of getting 1
+                new ZoneLoot(ItemIdEnum.PILL_STRENGTH_ELIXIR, 1), //1%
+                new ZoneLoot(ItemIdEnum.BOOK_FORAGING_MANUAL, 0.5, 1), //0.5% of getting 1
             ],
             [ /* enemy names */
                 'Pest',
@@ -108,7 +108,7 @@ export default class ZonePool {
                 ItemIdEnum.BOOK_PHYSICAL_TRAINING
             ],
             [ /* zone loot */ 
-                new ZoneLoot(ItemIdEnum.PILL_STRENGTH_ELIXIR, 4), //5%
+                new ZoneLoot(ItemIdEnum.PILL_STRENGTH_ELIXIR, 1), //1%
             ],
             [ /* enemy names */
                 'Punk',
@@ -140,9 +140,9 @@ export default class ZonePool {
                 ItemIdEnum.POUCH_OF_COINS_S
             ],
             [ /* zone loot */ 
-                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_S, 5), //5%
-                new ZoneLoot(ItemIdEnum.PILL_STRENGTH_ELIXIR, 3), //3%
-                new ZoneLoot(ItemIdEnum.PILL_QI_BOOST_I, 1.5), //1.5%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_S, 0.5), //0.5%
+                new ZoneLoot(ItemIdEnum.PILL_STRENGTH_ELIXIR, 0.25), //0.25%
+                new ZoneLoot(ItemIdEnum.PILL_QI_BOOST_I, 0.25), //0.25%
             ],
             [ /* enemy names */
                 'Bandit',
@@ -162,9 +162,9 @@ export default class ZonePool {
                 ItemIdEnum.POUCH_OF_COINS_M
             ],
             [ /* zone loot */ 
-                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_S, 5), //5%
-                new ZoneLoot(ItemIdEnum.PILL_STRENGTH_ELIXIR, 3), //3%
-                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_1Y, 1.5), //1.5%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_S, 0.5), //0.5%
+                new ZoneLoot(ItemIdEnum.PILL_STRENGTH_ELIXIR, 0.25), //0.25%
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_1Y, 0.25), //0.25%
             ],
             [ /* enemy names */
                 'Bandit',
@@ -185,8 +185,8 @@ export default class ZonePool {
                 ItemIdEnum.BOOK_MEDITATE_ON_SELF
             ],
             [ /* zone loot */ 
-                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_1Y, 5), //5%
-                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_M, 3), //3%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_M, 0.5), //0.5%
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_1Y, 0.25), //0.25%
             ],
             [ /* enemy names */
                 'Cultivator',
@@ -207,9 +207,9 @@ export default class ZonePool {
                 ItemIdEnum.SNOW_GINSENG_100Y
             ],
             [ /* zone loot */ 
-                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_10Y, 5), //5%
-                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_M, 3), //3%
-                new ZoneLoot(ItemIdEnum.BOOK_PATH_OF_PERFECTION, 1.5, 1), //1.5% of 1
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_M, 0.5), //0.5%
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_10Y, 0.25), //1%
+                new ZoneLoot(ItemIdEnum.BOOK_PATH_OF_PERFECTION, 0.15, 1), //0.15% of 1
             ],
             [ /* enemy names */
                 'Cultivator',
@@ -230,12 +230,10 @@ export default class ZonePool {
                 ItemIdEnum.SNOW_GINSENG_1000Y
             ],
             [ /* zone loot */ 
-                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_10Y, 5), //5%
-                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_100Y, 4), //4%
-                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_100Y, 3.5), //3.5%
-                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_G, 3), //3%
-                
-                
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_G, 0.5), //0.5%
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_10Y, 0.25), //0.25%
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_100Y, 0.10), //0.15%
+                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_100Y, 0.15), //0.15%
             ],
             [ /* enemy names */
                 'Cultivator',
@@ -257,10 +255,10 @@ export default class ZonePool {
                 ItemIdEnum.BLOOD_GINSENG_1000Y
             ],
             [ /* zone loot */ 
-                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_100Y, 7), //7%
-                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_100Y, 7), //7%
-                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_G, 5), //5%
-                new ZoneLoot(ItemIdEnum.GOLD_PIECE_S, 1.5), //1.5%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_G, 0.5), //0.5%
+                new ZoneLoot(ItemIdEnum.GOLD_PIECE_S, 0.25), //0.25%
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_100Y, 0.25), //0.25%
+                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_100Y, 0.25), //0.25%
             ],
             [ /* enemy names */
                 'Cultivator',
@@ -290,9 +288,9 @@ export default class ZonePool {
                 ItemIdEnum.BOOK_QI_CULTIVATION
             ],
             [ /* zone loot */ 
-                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_1Y, 2), //2%
-                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_1Y, 2), //2%
-                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_S, 1), //1%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_S, 0.5), //0.5%
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_1Y, 0.25), //0.25%
+                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_1Y, 0.25), //0.25%
             ],
             [ /* enemy names */
                 'Warrior',
@@ -313,9 +311,10 @@ export default class ZonePool {
                 ItemIdEnum.PILL_QI_BOOST_III
             ],
             [ /* zone loot */ 
-                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_1Y, 5), //3%
-                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_10Y, 3), //5%
-                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_M, 2.5), //2.5%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_M, 0.5), //0.5%
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_1Y, 0.25), //0.25%
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_10Y, 0.10), //0.10%
+                new ZoneLoot(ItemIdEnum.BOOK_MARTIAL_ARTS, 0.15, 1) //0.15% of getting 1
             ],
             [ /* enemy names */
                 'Outer disciple',
@@ -336,9 +335,9 @@ export default class ZonePool {
                 ItemIdEnum.BOOK_QI_SPELLS
             ],
             [ /* zone loot */ 
-                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_10Y, 7), //7%
-                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_100Y, 5), //5%
-                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_M, 3), //3%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_M, 0.5), //0.5%
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_10Y, 0.25), //0.25%
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_100Y, 0.10), //0.10%
             ],
             [ /* enemy names */
                 'Inner disciple',
@@ -359,8 +358,8 @@ export default class ZonePool {
                 ItemIdEnum.SNOW_GINSENG_1000Y
             ],
             [ /* zone loot */ 
-                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_100Y, 7), //7%
-                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_G, 3), //3%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_G, 0.5), //0.5%
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_100Y, 0.25), //0.25%
             ],
             [ /* enemy names */
                 'Young master',
@@ -393,9 +392,9 @@ export default class ZonePool {
                 ItemIdEnum.BLOOD_GINSENG_10Y
             ],
             [ /* zone loot */ 
-                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_1Y, 5), //5%
-                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_1Y, 5), //5%
-                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_M, 3), //3%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_M, 0.5), //0.5%
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_1Y, 0.25), //0.25%
+                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_1Y, 0.25), //0.25%
             ],
             [ /* enemy names */
                 'Bandit',
@@ -419,9 +418,9 @@ export default class ZonePool {
                 ItemIdEnum.BLOOD_GINSENG_100Y
             ],
             [ /* zone loot */ 
-                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_10Y, 5), //5%
-                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_10Y, 5), //5%
-                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_M, 3), //3%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_M, 0.5), //0.5%
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_10Y, 0.25), //0.25%
+                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_10Y, 0.25), //0.25%
             ],
             [ /* enemy names */
                 'Bandit',
@@ -444,9 +443,9 @@ export default class ZonePool {
                 ItemIdEnum.BLOOD_GINSENG_1000Y
             ],
             [ /* zone loot */ 
-                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_100Y, 5), //5%
-                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_100Y, 5), //5%
-                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_G, 3), //3%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_G, 0.5), //0.5%
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_100Y, 0.25), //1%
+                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_100Y, 0.25), //1%
             ],
             [ /* enemy names */
                 'Bandit',
@@ -470,12 +469,12 @@ export default class ZonePool {
                 ItemIdEnum.GOLD_PIECE_S
             ],
             [ /* zone loot */ 
-                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_100Y, 7), //7%
-                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_100Y, 7), //7%
-                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_1000Y, 3), //3%
-                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_1000Y, 3), //3%
-                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_G, 3), //3%
-                new ZoneLoot(ItemIdEnum.GOLD_PIECE_S, 1.5), //1.5%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_G, 0.5), //0.5%
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_100Y, 0.25), //0.25%
+                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_100Y, 0.25), //0.25%
+                new ZoneLoot(ItemIdEnum.GOLD_PIECE_S, 0.25), //0.25%
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_1000Y, 0.10), //0.10%
+                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_1000Y, 0.10), //0.10%
             ],
             [ /* enemy names */
                 'Beast',
@@ -498,9 +497,9 @@ export default class ZonePool {
                 ItemIdEnum.GOLD_PIECE_S
             ],
             [ /* zone loot */ 
-                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_1000Y, 5), //5%
-                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_1000Y, 5), //5%
-                new ZoneLoot(ItemIdEnum.GOLD_PIECE_S, 3), //3%
+                new ZoneLoot(ItemIdEnum.GOLD_PIECE_S, 0.5), //0.5%
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_1000Y, 0.25), //1%
+                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_1000Y, 0.25), //1%
             ],
             [ /* enemy names */
                 'Cultivator',
@@ -522,9 +521,9 @@ export default class ZonePool {
                 ItemIdEnum.GOLD_PIECE_S
             ],
             [ /* zone loot */ 
-                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_100Y, 5), //5%
-                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_100Y, 5), //5%
-                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_G, 3), //3%
+                new ZoneLoot(ItemIdEnum.POUCH_OF_COINS_G, 0.5), //0.5%
+                new ZoneLoot(ItemIdEnum.SNOW_GINSENG_100Y, 0.25), //0.25%
+                new ZoneLoot(ItemIdEnum.BLOOD_GINSENG_100Y, 0.25), //0.25%
             ],
             [ /* enemy names */
                 'Cultivator',

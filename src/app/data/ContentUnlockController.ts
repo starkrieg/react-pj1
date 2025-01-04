@@ -23,7 +23,7 @@ export class ContentUnlockController {
             } else {
                 const isAllRequirementsMet = act.unlockRequirements
                     .every(req => {
-                        return CharacterController.isHavePermanentItem(req as ItemIdEnum)
+                        return CharacterController.isHaveItem(req as ItemIdEnum)
                             || CharacterController.isHaveZoneCleared(req as ZoneIdEnum);
                     });
 
@@ -44,7 +44,7 @@ export class ContentUnlockController {
             } else {
                 const isAllRequirementsMet = zone.unlockRequirements
                     .every(req => {
-                        return CharacterController.isHavePermanentItem(req as ItemIdEnum)
+                        return CharacterController.isHaveItem(req as ItemIdEnum)
                             || CharacterController.isHaveZoneCleared(req as ZoneIdEnum);
                     });
 

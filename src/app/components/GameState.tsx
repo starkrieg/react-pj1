@@ -26,7 +26,7 @@ export function GameState(gameController: GameController) {
         ActivitiesController.getSelectedActivityTitle()
         : ExplorationController.getSelectedExplorableZoneTitle()
 
-    const cultivationUnlocked = CharacterController.isHavePermanentItem(ItemIdEnum.BOOK_QI_CULTIVATION);
+    const cultivationUnlocked = CharacterController.isHaveItem(ItemIdEnum.BOOK_QI_CULTIVATION);
 
     return (
         <div className="container">

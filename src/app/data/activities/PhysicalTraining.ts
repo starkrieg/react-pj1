@@ -36,11 +36,11 @@ export class PhysicalTraining implements Activity {
     //baseBodyGain has talent already applied
     //the % of qi capacity filled increases body gain
     getTickGain() {
-        const ironWeightsMod = CharacterController.isHaveInventoryItem(ItemIdEnum.ITEM_IRON_WEIGHTS) 
+        const ironWeightsMod = CharacterController.isHaveItem(ItemIdEnum.ITEM_IRON_WEIGHTS) 
             ? 2 : 1
         const bruteValue = CharacterController.getCharacter().getBodyGainWithTalent();
         const currQiMulti = 1 + (CharacterController.getCharacter().getQiCapPercent());
-        const rankMult = 1 + ((ActivitiesController.getActivityRank(this.id) - 1) * 0.1);
+        const rankMult = 1 + (ActivitiesController.getActivityRank(this.id) * 0.1);
         return ( bruteValue * ironWeightsMod * rankMult * currQiMulti);
     }
 

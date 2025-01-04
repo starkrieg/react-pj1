@@ -2,6 +2,8 @@ import { ActivitiesController } from "../activities/ActivitiesController";
 import { ActivityEnum } from "../activities/ActivityEnum";
 import { AttributeTypeEnum } from "../character/AttributeTypeEnum";
 import { CharacterController } from "../character/CharacterController";
+import { ContentUnlockController } from "../ContentUnlockController";
+import { MarketController } from "../market/MarketController";
 import { MessageController } from "../messages/MessageController";
 import { ErrorController } from "../utils/ErrorController";
 import { Utilities } from "../utils/Utilities";
@@ -149,7 +151,7 @@ export default class FightScene {
      * @returns the dropchance with the added gathering drop chance
      */
     private getGatheringAplliedLootDropChance(dropChance: number) {
-        const gatheringMod = 1 + ((ActivitiesController.getActivityRank(ActivityEnum.STUDY_FORAGING)-1) * 0.01);
+        const gatheringMod = 1 + (ActivitiesController.getActivityRank(ActivityEnum.STUDY_FORAGING) * 0.01);
         const modifiedDropChange = dropChance * gatheringMod;
         return modifiedDropChange;
     }
@@ -166,6 +168,8 @@ export default class FightScene {
                     loot.dropItem();
                 }
             });
+            ContentUnlockController.unlockContent();
+            MarketController.updateAvailableItems();
         }
     }
 

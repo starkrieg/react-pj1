@@ -11,8 +11,7 @@ export class ItemRequirement implements RequirementInterface {
     }
 
     isRequirementMet() : boolean {
-        return CharacterController.isHaveInventoryItem(this.id)
-            || CharacterController.isHavePermanentItem(this.id);
+        return CharacterController.isHaveItem(this.id);
     }
 
 }
