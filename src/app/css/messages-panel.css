@@ -47,7 +47,7 @@
 }
 
 .message-list {
-  height: 100%;
+  overflow-y: auto;
   margin-top: 15px;
   margin-left: 5px;
 }

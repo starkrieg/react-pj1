@@ -95,6 +95,9 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0;
+  font-size: 14px;
+  height: 100%;
+  overflow: hidden;
 }
 
 @layer utilities {
@@ -108,15 +111,14 @@ body {
 }
 
 .container {
+  position: absolute;
+  left: 0;
+  right: 0;
   height: 100%;
   width: 95%;
   max-width: 1200px;
-  margin: 2px auto;
+  margin: 0px auto;
   padding: 2px 0;
-  border: 1px solid var(--burnt_umber);
-  border-bottom: none;
-  border-left: none;
-  border-right: none;
 }
 
 .row {
@@ -124,16 +126,16 @@ body {
   grid-template-columns: repeat(12, 1fr);
   gap: 2px; /* Adjusts the spacing between columns */
   margin-bottom: 2px;
+  height: 99%;
 }
 
 .panel-middle, .panel-left, .panel-right {
   padding: 4px;
   margin-bottom: 2px;
-}
-
-.panel-right {
-  display: 'flow';
-  overflow: hidden
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
 }
 
 /* Column Width Classes */

@@ -32,17 +32,18 @@ export function GameState(gameController: GameController) {
         <div className="container">
             {ModalPanel(gameController)}
             <div id="row-0" className="row">
-                <div className="col-2">
                 
-                    <div className="panel-left">
-                        {CalendarPanel(gameController)}
-                        <div style={{ margin: '5px 0px' }}>
-                            <label>Doing: {doing}</label>
-                        </div>
-                        {LeftPanelCharacter()}
+                <div className="col-2 panel-left">
+                    
+                    {CalendarPanel(gameController)}
+                    
+                    <div style={{ margin: '5px 0px' }}>
+                        <label>Doing: {doing}</label>
                     </div>
-        
-                </div>
+                    
+                    {LeftPanelCharacter()}
+
+                </div>        
                 
                 <div className="panel-middle col-7">
                 

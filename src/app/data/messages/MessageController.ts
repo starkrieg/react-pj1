@@ -15,7 +15,7 @@ export class MessageController {
             MessageType.EVENT
         ];
 
-    private static readonly MESSAGE_BOARD_MAX_SIZE: number = 10;
+    private static readonly MESSAGE_BOARD_MAX_SIZE: number = 50;
 
     static toggleMessageDisplayType(messageType: MessageType) {
         const typeEnabled = this.isTypeToggled(messageType);

@@ -21,6 +21,7 @@ export default function Changelog() {
           <p>Changed so activities start at rank 0. Easier to track effects this way.</p>
           <p>Added missing activities from drop pool</p>
           <p>Adjusted some drop effects and upgrade requirements</p>
+          <p>Modified realm up requirements for more sinergy with stats and drops</p>
         </div>
       </li>
 
