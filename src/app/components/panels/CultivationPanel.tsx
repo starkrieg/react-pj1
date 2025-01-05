@@ -89,13 +89,18 @@ function createNextRealmInformation(realmVO: IBaseRealmVO) {
  */
 function createLabelFromRequirement(requirementId: AttributeTypeEnum, reqValue: number, isReqFulfilled: boolean) {
   const title = requirementId.toString();
-  const capitalizedReqId = title.charAt(0).toUpperCase() + title.slice(1);
+
+  const capitalizedReqId = title.split('-')
+    .map(word => (word.charAt(0).toUpperCase() + word.slice(1)))
+    .join(' ');
+
   let stringReq = <p>{capitalizedReqId}: {reqValue}</p>
   if (isReqFulfilled) {
     stringReq = <s>{stringReq}</s>
   }
   return stringReq;
 }
+
 
 /**
  * Create list of effects of the realm up

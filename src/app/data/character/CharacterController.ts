@@ -1,7 +1,9 @@
 import { ActivityEnum } from "../activities/ActivityEnum";
+import { ActivityRequirement } from "../common/ActivityRequirement";
 import { AttributeEffect } from "../common/AttributeEffect";
 import { AttributeEffectVO } from "../common/AttributeEffectVO";
 import { AttributeRequirement } from "../common/AttributeRequirement";
+import { IRequirement } from "../common/IRequirement";
 import { ModifierTypeEnum } from "../common/ModifierTypeEnum";
 import { ZoneIdEnum } from "../exploration/ZoneIdEnum";
 import { Item } from "../items/Item";
@@ -251,24 +253,36 @@ export class CharacterController {
     static getRealmUpRequirementsVO(cultivationId: AttributeTypeEnum, realmId: EnergyRealmEnum | BodyRealmEnum) {
       const prepList: any[] = [];
 
-      function toVORequirement(character: Character, attrReq: AttributeRequirement) {
-        let reqId = attrReq.id;
-        let reqValue = attrReq.minValue;
-        
-        if (attrReq.id == AttributeTypeEnum.QI_CAP_PERCENT) {
-          reqId = AttributeTypeEnum.QI;
-          reqValue = Utilities.roundTo2Decimal(character.getAttributeValue(AttributeTypeEnum.QI_TOTAL_CAPACITY) * (attrReq.minValue/100))
-        } else if (attrReq.id == AttributeTypeEnum.BODY_CAP_PERCENT) {
-          reqId = AttributeTypeEnum.BODY;
-          reqValue = Utilities.roundTo2Decimal(character.getAttributeValue(AttributeTypeEnum.BODY_CAPACITY) * (attrReq.minValue/100))
-        } 
-
-        const isReqFulfilled = attrReq.isRequirementMet();
-
-        return {
-            reqName: reqId,
-            reqValue: reqValue,
-            isReqFulfilled: isReqFulfilled
+      function toVORequirement(character: Character, req: IRequirement) {
+        if (req instanceof AttributeRequirement) {
+          const attrReq = req as AttributeRequirement;
+          let reqId = attrReq.id;
+          let reqValue = attrReq.minValue;
+          
+          if (attrReq.id == AttributeTypeEnum.QI_CAP_PERCENT) {
+            reqId = AttributeTypeEnum.QI;
+            reqValue = Utilities.roundTo2Decimal(character.getAttributeValue(AttributeTypeEnum.QI_TOTAL_CAPACITY) * (attrReq.minValue/100))
+          } else if (attrReq.id == AttributeTypeEnum.BODY_CAP_PERCENT) {
+            reqId = AttributeTypeEnum.BODY;
+            reqValue = Utilities.roundTo2Decimal(character.getAttributeValue(AttributeTypeEnum.BODY_CAPACITY) * (attrReq.minValue/100))
+          } 
+  
+          const isReqFulfilled = attrReq.isRequirementMet();
+  
+          return {
+              reqName: reqId,
+              reqValue: reqValue,
+              isReqFulfilled: isReqFulfilled
+          }            
+        } else if (req instanceof ActivityRequirement) {
+          const actReq = req as ActivityRequirement;
+          return {
+            reqName: actReq.id,
+            reqValue: actReq.rank,
+            isReqFulfilled: actReq.isRequirementMet()
+          }
+        } else {
+          return {};
         }
       }
 
