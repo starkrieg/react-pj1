@@ -1,2 +1,6 @@
-Icon for crossed swords by 'Lorc'
-Icon for sword with shield emblem by 'Lorc'
+Assets taken from game-icons.net:
+- Icon for 'Crossed Swords' by 'Lorc'
+- Icon for 'Sword emblem icon' by 'Lorc'
+- Icon for 'Pause button icon' by 'Guard13007'
+- Icon for 'Play button icon' by 'Guard13007'
+- Icon for 'Fast forward button icon' by 'Delapouite'

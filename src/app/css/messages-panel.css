@@ -30,6 +30,10 @@
   background-color: var(--dark_umber);
   border: 1px solid var(--golden_yellow);
 }
+
+.messages-button:hover {
+  background-color: var(--dark_umber);
+}
   
 .messages-button::before {
   top: 35px;

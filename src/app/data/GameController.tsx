@@ -29,6 +29,7 @@ export default class GameController {
     isGameWorking = false;
     isPaused = false;
     gameSpeed = 0;
+    speedBtnSelected = 0;
 
     modalType = ModalTypeEnum.NOTHING;
 
@@ -97,31 +98,37 @@ export default class GameController {
     
     pauseGame() {
         this.isPaused = true;
+        this.speedBtnSelected = 0;
     }
     
     normalSpeedGame() {
         this.isPaused = false;
         this.gameSpeed = 0.5;
+        this.speedBtnSelected = 1;
     }
     
     speedUp2Game() {
         this.isPaused = false;
         this.gameSpeed = 1;
+        this.speedBtnSelected = 2;
     }
     
     speedUp5Game() {
         this.isPaused = false;
         this.gameSpeed = 2.5;
+        this.speedBtnSelected = 3;
     }
 
     speedUp10Game() {
         this.isPaused = false;
         this.gameSpeed = 5;
+        this.speedBtnSelected = 4;
     }
 
     speedUp50Game() {
         this.isPaused = false;
         this.gameSpeed = 25;
+        this.speedBtnSelected = 5;
     }
 
     selectContent(contentId = MainContentEnum.ACTIVITIES) {

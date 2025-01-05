@@ -1,4 +1,7 @@
 import IconSwordEmblem from '../assets/icons/swords-emblem.svg';
+import IconPause from '../assets/icons/pause-button.svg';
+import IconPlay from '../assets/icons/play-button.svg';
+import IconFastForward from '../assets/icons/fast-forward-button.svg';
 import { IActivity } from "../data/activities/IActivity";
 import { Utilities } from "../data/utils/Utilities";
 import { ActivityRank } from "../data/activities/ActivityRank";
@@ -24,6 +27,75 @@ export default function Button(label: string,
             style={ dynamicStyle }
             onClick={ onClick }
             disabled={ isDisabled }
+            >
+            { label }
+        </button>
+    );
+}
+
+export function ButtonGameSpeedPause(onClick: () => void,
+    isSelected: boolean
+    ) {
+
+    const className = 'speed-button';
+    const toggledClassName = isSelected ? 'speed-button-toggled' : ''
+
+    return (
+        <button 
+            className={ `${className} ${toggledClassName}` }
+            onClick={ onClick }
+            >
+            <IconPause style={{ width: '20px', height: '20px', margin: 'auto 0px' }}/>
+        </button>
+    );
+}
+
+export function ButtonGameSpeedPlay(onClick: () => void,
+    isSelected: boolean
+    ) {
+
+    const className = 'speed-button';
+    const toggledClassName = isSelected ? 'speed-button-toggled' : ''
+
+    return (
+        <button 
+            className={ `${className} ${toggledClassName}` }
+            onClick={ onClick }
+            >
+            <IconPlay style={{ width: '20px', height: '20px', margin: 'auto 0px' }}/>
+        </button>
+    );
+}
+
+export function ButtonGameSpeedFastForward(onClick: () => void,
+    isSelected: boolean
+    ) {
+
+    const className = 'speed-button';
+    const toggledClassName = isSelected ? 'speed-button-toggled' : ''
+
+    return (
+        <button 
+            className={ `${className} ${toggledClassName}` }
+            onClick={ onClick }
+            >
+            <IconFastForward style={{ width: '20px', height: '20px', margin: 'auto 0px' }}/>
+        </button>
+    );
+}
+
+export function ButtonGameSpeedCustom(label: string, 
+    onClick: () => void,
+    isSelected: boolean
+    ) {
+
+    const className = 'speed-button';
+    const toggledClassName = isSelected ? 'speed-button-toggled' : ''
+
+    return (
+        <button 
+            className={ `${className} ${toggledClassName}` }
+            onClick={ onClick }
             >
             { label }
         </button>
