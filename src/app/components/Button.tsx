@@ -132,13 +132,13 @@ export function ButtonActivity(act: IActivity,
 
     let gainDesc = <span></span>;
     if (act instanceof GenericActivity) {
-        gainDesc = <span>{act.gainDesc} {Utilities.roundTo2Decimal(act.getTickGain())}%</span>;
+        gainDesc = <span>{act.gainDesc} {Utilities.toScientificFormat(act.getTickGain())}%</span>;
     } else if (act instanceof PerformOddJobs) {
         const days = act.getEffectiveWorkDays();
         const coins = Utilities.roundTo0Decimal(act.getTickGain());
         gainDesc = <span>{CoinPouchSpan(coins)} every {days} day(s)</span>;
     } else {
-        gainDesc = <span>{Utilities.roundTo2Decimal(act.getTickGain())} per day</span>;
+        gainDesc = <span>{Utilities.toScientificFormat(act.getTickGain())} per day</span>;
     }
 
     function getSelectedStatus() {

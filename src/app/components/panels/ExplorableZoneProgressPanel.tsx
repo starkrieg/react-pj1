@@ -32,7 +32,7 @@ export default function ExplorableZoneProgressPanel() {
         elements.push(
             <IconSwordEmblem style={{ width: '25px', height: '25px', marginRight: '5px' }}/>
         );
-        elements.push(CharacterController.getCharacterPower());
+        elements.push(Utilities.toScientificFormat(CharacterController.getCharacterPower() || 0));
 
         const healthBarMax = CharacterController.getHealth()!;    
         const healthBarValue = Utilities.roundTo2Decimal(
@@ -58,7 +58,7 @@ export default function ExplorableZoneProgressPanel() {
         // Enemy
         const person = zoneEnemyStats?.name;
         const classes = 'fight-right';
-        elements.push(zoneEnemyStats?.power);
+        elements.push(Utilities.toScientificFormat(zoneEnemyStats?.power || 0));
         elements.push(
             <IconSwordEmblem style={{ width: '25px', height: '25px', marginLeft: '5px' }}/>
         );

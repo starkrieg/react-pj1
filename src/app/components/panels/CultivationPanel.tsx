@@ -87,7 +87,7 @@ function createNextRealmInformation(realmVO: IBaseRealmVO) {
  * @param isReqFulfilled 
  * @returns 
  */
-function createLabelFromRequirement(requirementId: AttributeTypeEnum, reqValue: number, isReqFulfilled: boolean) {
+function createLabelFromRequirement(requirementId: string, reqValue: string, isReqFulfilled: boolean) {
   const title = requirementId.toString();
 
   const capitalizedReqId = title.split('-')
@@ -131,7 +131,7 @@ function createRealmUpEffects(cultivationId: AttributeTypeEnum, realmId: EnergyR
 function createRealmUpRequirements(cultivationId: AttributeTypeEnum, realmId: EnergyRealmEnum | BodyRealmEnum) {
   const preparedRequirements = CharacterController.getRealmUpRequirementsVO(cultivationId, realmId)
     .map(req => {
-    return createLabelFromRequirement(req.reqName, req.reqValue, req.isReqFulfilled)
+    return createLabelFromRequirement(req.name, req.text, req.isFulfilled)
   });
 
   const hasRequirements = preparedRequirements.length > 0;

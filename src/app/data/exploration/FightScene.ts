@@ -110,7 +110,7 @@ export default class FightScene {
                 if (finalDamage > 0) {
                     this.enemy.health = Utilities.roundTo2Decimal(this.enemy.health - finalDamage);
                 }
-                MessageController.pushMessageFight(`You attacked the enemy for ${finalDamage} damage!`);
+                MessageController.pushMessageFight(`You attacked the enemy for ${Utilities.toScientificFormat(finalDamage)} damage!`);
             } else {
                 MessageController.pushMessageFight(`You missed the attack!`);
             }
@@ -133,7 +133,7 @@ export default class FightScene {
                     }
                     this.characterCurrentHealth = Utilities.roundTo2Decimal(this.characterCurrentHealth - finalDamage);
                 }
-                MessageController.pushMessageFight(`Enemy attacked you for ${finalDamage} damage!`);
+                MessageController.pushMessageFight(`Enemy attacked you for ${Utilities.toScientificFormat(finalDamage)} damage!`);
             }
         }
     }
@@ -142,7 +142,7 @@ export default class FightScene {
         const rewardExp = Utilities.roundTo2Decimal(this.getFightExpReward());
         CharacterController.incrementFightExperience(rewardExp);
         MessageController.pushMessageFight(`You defeated the enemy!`);
-        MessageController.pushMessageFight(`You acquired ${rewardExp} experience`);
+        MessageController.pushMessageFight(`You acquired ${Utilities.toScientificFormat(rewardExp)} experience`);
     }
 
     /**

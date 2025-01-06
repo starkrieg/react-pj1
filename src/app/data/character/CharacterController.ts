@@ -5,6 +5,7 @@ import { AttributeEffectVO } from "../common/AttributeEffectVO";
 import { AttributeRequirement } from "../common/AttributeRequirement";
 import { IRequirement } from "../common/IRequirement";
 import { ModifierTypeEnum } from "../common/ModifierTypeEnum";
+import { RequirementVO } from "../common/RequirementVO";
 import { ZoneIdEnum } from "../exploration/ZoneIdEnum";
 import { Item } from "../items/Item";
 import { ItemController } from "../items/ItemController";
@@ -111,14 +112,15 @@ export class CharacterController {
                 break;
               case ItemTypeEnum.CONSUMABLE:
                 item.getEffectsWithUpgrade().forEach(effect => {
+                  const displayValue = Utilities.toScientificFormat(effect.value);
                   switch(effect.attribute) {
                     case AttributeTypeEnum.INTERNAL_DAMAGE:
                       this.character.increaseAttribute(effect.attribute, -effect.value)
-                      MessageController.pushMessageLoot(`[${effect.attribute}] decreased by ${effect.value}`);
+                      MessageController.pushMessageLoot(`[${effect.attribute}] decreased by ${displayValue}`);
                       break;
                     default:
                       this.character.increaseAttribute(effect.attribute, effect.value)
-                      MessageController.pushMessageLoot(`[${effect.attribute}] increased by ${effect.value}`);
+                      MessageController.pushMessageLoot(`[${effect.attribute}] increased by ${displayValue}`);
                       break;
                   }
                 });
@@ -250,39 +252,33 @@ export class CharacterController {
       });
     }
 
-    static getRealmUpRequirementsVO(cultivationId: AttributeTypeEnum, realmId: EnergyRealmEnum | BodyRealmEnum) {
-      const prepList: any[] = [];
+    static getRealmUpRequirementsVO(cultivationId: AttributeTypeEnum, realmId: EnergyRealmEnum | BodyRealmEnum) : RequirementVO[] {
+      const prepList: RequirementVO[] = [];
 
-      function toVORequirement(character: Character, req: IRequirement) {
+      function toVORequirement(character: Character, req: IRequirement) : RequirementVO {
         if (req instanceof AttributeRequirement) {
           const attrReq = req as AttributeRequirement;
           let reqId = attrReq.id;
-          let reqValue = attrReq.minValue;
+          let reqValue = '';
           
           if (attrReq.id == AttributeTypeEnum.QI_CAP_PERCENT) {
             reqId = AttributeTypeEnum.QI;
-            reqValue = Utilities.roundTo2Decimal(character.getAttributeValue(AttributeTypeEnum.QI_TOTAL_CAPACITY) * (attrReq.minValue/100))
+            reqValue = Utilities.toScientificFormat(character.getAttributeValue(AttributeTypeEnum.QI_TOTAL_CAPACITY) * (attrReq.minValue/100))
           } else if (attrReq.id == AttributeTypeEnum.BODY_CAP_PERCENT) {
             reqId = AttributeTypeEnum.BODY;
-            reqValue = Utilities.roundTo2Decimal(character.getAttributeValue(AttributeTypeEnum.BODY_CAPACITY) * (attrReq.minValue/100))
-          } 
+            reqValue = Utilities.toScientificFormat(character.getAttributeValue(AttributeTypeEnum.BODY_CAPACITY) * (attrReq.minValue/100))
+          } else {
+            reqValue = String(attrReq.minValue)
+          }
   
           const isReqFulfilled = attrReq.isRequirementMet();
   
-          return {
-              reqName: reqId,
-              reqValue: reqValue,
-              isReqFulfilled: isReqFulfilled
-          }            
+          return new RequirementVO(reqId, reqValue, isReqFulfilled);
         } else if (req instanceof ActivityRequirement) {
           const actReq = req as ActivityRequirement;
-          return {
-            reqName: actReq.id,
-            reqValue: actReq.rank,
-            isReqFulfilled: actReq.isRequirementMet()
-          }
+          return new RequirementVO(actReq.id, String(actReq.rank), actReq.isRequirementMet());
         } else {
-          return {};
+          return new RequirementVO('Unknown', 'Unknown', false);
         }
       }
 
@@ -298,7 +294,7 @@ export class CharacterController {
 
           nextRealm.realmUpRequirements.forEach(req => prepList.push(toVORequirement(this.character, req as AttributeRequirement)));
   
-          this.isCanBreakthroughEnergy = prepList.every(req => req.isReqFulfilled) || this.isCanBreakthroughEnergy;
+          this.isCanBreakthroughEnergy = prepList.every(req => req.isFulfilled) || this.isCanBreakthroughEnergy;
           
         } else {
           //no next realm with the given id
@@ -316,7 +312,7 @@ export class CharacterController {
     
         nextRealm.realmUpRequirements.forEach(req => prepList.push(toVORequirement(this.character, req as AttributeRequirement)));
 
-        this.isCanBreakthroughBody = prepList.every(req => req.isReqFulfilled);
+        this.isCanBreakthroughBody = prepList.every(req => req.isFulfilled);
       } else {
         ErrorController.throwSomethingWrongError();
       }

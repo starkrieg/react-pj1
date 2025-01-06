@@ -1,10 +1,11 @@
+import { Utilities } from "../data/utils/Utilities";
 
 export function HealthBar(value: number, maxValue: number) {
     return (
         <div className="health-bar">
             <progress value={ value } max={ maxValue } ></progress>
             <div className="progress-bar-overlay">
-                { value }
+                { Utilities.toScientificFormat(value) }
             </div>
         </div>
     );
@@ -15,7 +16,7 @@ export function ExperienceBar(value: number, maxValue: number) {
         <div className="experience-bar">
             <progress value={ value } max={ maxValue } ></progress>
             <div className="progress-bar-overlay">
-                { value } / { maxValue }
+                { Utilities.toScientificFormat(value) } / { Utilities.toScientificFormat(maxValue) }
             </div>
         </div>
     );

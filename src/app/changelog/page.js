@@ -13,7 +13,7 @@ export default function Changelog() {
 
       <li style={{marginTop: 10}}>
         <p>v.0.4.3 - alpha / 2025-Jan-??</p>
-        <p>Overview: Small fixes and adjustments</p>
+        <p>Overview: Fixes and adjustments</p>
         <div>
           Changes:
           <p>Fixed activities upgrades not being applied correctly, like for Meditate</p>
@@ -22,6 +22,7 @@ export default function Changelog() {
           <p>Added missing activities from drop pool</p>
           <p>Adjusted some drop effects and upgrade requirements</p>
           <p>Modified realm up requirements for more sinergy with stats and drops</p>
+          <p>Modified a few UI components for better visuals / gameplay</p>
         </div>
       </li>
 

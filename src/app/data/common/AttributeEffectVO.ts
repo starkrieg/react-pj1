@@ -10,12 +10,12 @@ export class AttributeEffectVO {
         
         let verb = 'Unknown';
         if (modifierType == ModifierTypeEnum.ADD) {
-        verb = '+';
+            verb = '+';
         } else if (modifierType == ModifierTypeEnum.MULTI) {
-        verb = 'x'
+            verb = 'x'
         }
 
-        const roundedValue = Utilities.roundTo2Decimal(value);
+        const roundedValue = Utilities.toScientificFormat(value);
         this.text = `${this.toFirstLetterUppercase(attribute)} ${verb}${roundedValue}`;
     }
 

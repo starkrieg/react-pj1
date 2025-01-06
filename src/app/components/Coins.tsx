@@ -1,5 +1,6 @@
+import { Utilities } from "../data/utils/Utilities";
 
-function CoinValueAsLabel(value: number, type: string) {
+function CoinValueAsLabel(value: string, type: string) {
     const coinClass = getCoinStyleClass(type);
     return <label>{value}<span className={ coinClass } /></label>
 }
@@ -32,10 +33,10 @@ export function CoinPouchLabel(coins: number) {
 
     return (
         <div className='coin-pouch-label'>
-            { hasSS && CoinValueAsLabel(obj.spiritualStones, 'ss') }
-            { hasG && CoinValueAsLabel(obj.gold, 'g') }
-            { hasS && CoinValueAsLabel(obj.silver, 's') }
-            { hasC && CoinValueAsLabel(obj.copper, 'c') }
+            { hasSS && CoinValueAsLabel(Utilities.toScientificFormat(obj.spiritualStones), 'ss') }
+            { hasG && CoinValueAsLabel(String(obj.gold), 'g') }
+            { hasS && CoinValueAsLabel(String(obj.silver), 's') }
+            { hasC && CoinValueAsLabel(String(obj.copper), 'c') }
         </div>
     );
 }

@@ -9,6 +9,8 @@ import { EnergyRealmVO } from "@/app/data/realms/energy/EnergyRealmVO";
 import { BodyRealmVO } from "@/app/data/realms/body/BodyRealmVO";
 import { CoinPouchLabel } from "../Coins";
 
+
+
 export default function LeftPanelCharacter() {
 
     const character = CharacterController.getCharacter()
@@ -20,7 +22,7 @@ export default function LeftPanelCharacter() {
             : '';
     
         return (
-          <label>Qi: {Utilities.roundTo2Decimal(character.getQi())} {qiCapPercent}</label>
+          <label>Qi: {Utilities.toScientificFormat(character.getQi())} {qiCapPercent}</label>
         );
     }
 
@@ -32,19 +34,19 @@ export default function LeftPanelCharacter() {
 
     function DeathCount() {
         return (
-            <label>Deaths: { CharacterController.getDeathCount() }</label>
+            <label>Deaths: { Utilities.toScientificFormat(CharacterController.getDeathCount()) }</label>
         );
     }
 
     function Power() {
         return (
-            <label>Power: { CharacterController.getFightingPower() }</label>
+            <label>Power: { Utilities.toScientificFormat(CharacterController.getFightingPower()) }</label>
         );
     }
 
     function Health() {
         return (
-            <label>Health: { CharacterController.getHealth() }</label>
+            <label>Health: { Utilities.toScientificFormat(CharacterController.getHealth()) }</label>
         );
     }
 

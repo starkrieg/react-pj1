@@ -69,10 +69,10 @@ export class QiCondensationGeneric extends BaseEnergyRealm {
                 break;
             case EnergyRealmEnum.QI_CONDENSATION_2:
             case EnergyRealmEnum.QI_CONDENSATION_3:
-                this.realmUpRequirements.push(new AttributeRequirement(AttributeTypeEnum.QI_CAP_PERCENT, 80)); //80% of qi cap filled
+                this.realmUpRequirements.push(new AttributeRequirement(AttributeTypeEnum.QI_CAP_PERCENT, 95)); //95% of qi cap filled
                 break;
             case EnergyRealmEnum.QI_CONDENSATION_4:
-                this.realmUpRequirements.push(new AttributeRequirement(AttributeTypeEnum.QI_CAP_PERCENT, 80)); //80% of qi cap filled
+                this.realmUpRequirements.push(new AttributeRequirement(AttributeTypeEnum.QI_CAP_PERCENT, 90)); //90% of qi cap filled
                 this.realmUpRequirements.push(new ActivityRequirement(ActivityEnum.CULTIVATE_QI, 50));
                 break;
             case EnergyRealmEnum.QI_CONDENSATION_5:
