@@ -8,6 +8,7 @@ import { AttributeTypeEnum } from "@/app/data/character/AttributeTypeEnum";
 import { EnergyRealmVO } from "@/app/data/realms/energy/EnergyRealmVO";
 import { BodyRealmVO } from "@/app/data/realms/body/BodyRealmVO";
 import { CoinPouchLabel } from "../Coins";
+import { hideTooltip, showTooltip } from "../Tooltip";
 
 
 
@@ -20,15 +21,28 @@ export default function LeftPanelCharacter() {
         const qiCapPercent = isShowRealmFoundation 
             ? `(${Utilities.roundTo2Decimal(character.getQiCapPercent() * 100)}%)`
             : '';
+        
+        const tooltipText = `How much energy you have accumulated`
     
         return (
-          <label>Qi: {Utilities.toScientificFormat(character.getQi())} {qiCapPercent}</label>
+            <div>
+                <label
+                    onMouseOver={ (event) => showTooltip(event, tooltipText) } 
+                    onMouseLeave={ () => hideTooltip() }
+                >Qi: {Utilities.toScientificFormat(character.getQi())} {qiCapPercent}</label>
+            </div>
         );
     }
 
     function Body() {
+        const tooltipText = `How physically strong and tough you are`
         return (
-            <label>Body: {character.getBody()} {bodyCapPercent}</label>
+            <div>
+                <label
+                    onMouseOver={ (event) => showTooltip(event, tooltipText) } 
+                    onMouseLeave={ () => hideTooltip() }
+                >Body: {character.getBody()} {bodyCapPercent}</label>
+            </div>
         );
     }
 
@@ -39,14 +53,26 @@ export default function LeftPanelCharacter() {
     }
 
     function Power() {
+        const tooltipText = `Greatly affected by Qi, then Body`
         return (
-            <label>Power: { Utilities.toScientificFormat(CharacterController.getFightingPower()) }</label>
+            <div>
+                <label
+                    onMouseOver={ (event) => showTooltip(event, tooltipText) } 
+                    onMouseLeave={ () => hideTooltip() }
+                >Power: { Utilities.toScientificFormat(CharacterController.getFightingPower()) }</label>
+            </div>
         );
     }
 
     function Health() {
+        const tooltipText = `Greatly affected by Body, then Qi`
         return (
-            <label>Health: { Utilities.toScientificFormat(CharacterController.getHealth()) }</label>
+            <div>
+            <label
+                onMouseOver={ (event) => showTooltip(event, tooltipText) } 
+                onMouseLeave={ () => hideTooltip() }
+            >Health: { Utilities.toScientificFormat(CharacterController.getHealth()) }</label>
+            </div>
         );
     }
 
@@ -64,9 +90,15 @@ export default function LeftPanelCharacter() {
     }
 
     function InternalInjury() {
+        const tooltipText = `Damage to internal organs reduces Health and Power`
         const injuryValue = Utilities.roundTo2Decimal( character.getAttributeValue(AttributeTypeEnum.INTERNAL_DAMAGE) );
         return (
-            <label>Internal Injury: { injuryValue }%</label>
+            <div>
+                <label
+                    onMouseOver={ (event) => showTooltip(event, tooltipText) } 
+                    onMouseLeave={ () => hideTooltip() }
+                >Internal Injury: { injuryValue }%</label>
+            </div>
         );
     }
 
@@ -95,6 +127,32 @@ export default function LeftPanelCharacter() {
         );
     }
 
+    function Potential() {
+        const characterPotential = Utilities.roundTo2Decimal(character.getAgeGainModifier()*100);
+        const tooltipText = 
+        `Growth potential. After a certain age, you won't gain much from basic training.
+        Decline starts at age: X
+        `;
+        return (
+            <div>
+                <label style={{ marginBottom: '5px' }}
+                    onMouseOver={ (event) => showTooltip(event, tooltipText) } 
+                    onMouseLeave={ () => hideTooltip() }
+                >Potential: {characterPotential}%</label>
+            </div>
+        );
+    }
+
+    function Coins() {
+        const coins = Utilities.roundTo2Decimal(character.getAttributeValue(AttributeTypeEnum.COIN));
+
+        return (
+            <div className={ 'coin-label' }>
+                <label>Coins: </label>{ CoinPouchLabel(coins) }
+            </div>
+        );
+    }
+
     const energyRealmVO = new EnergyRealmVO(character.energyRealm.id);
     const bodyRealmVO = new BodyRealmVO(character.bodyRealm.id);
     const isBodyCultivationUnlocked = CharacterController.isHaveItem(ItemIdEnum.BOOK_BODY_CULTIVATION);
@@ -112,26 +170,18 @@ export default function LeftPanelCharacter() {
 
     const characterLifeSpan = character.getAttributeValue(AttributeTypeEnum.LIFESPAN);
 
-    const characterPotential = Utilities.roundTo2Decimal(character.getAgeGainModifier()*100);
-
-    const coins = Utilities.roundTo2Decimal(character.getAttributeValue(AttributeTypeEnum.COIN));
-
-    const coinLabel = <div className={ 'coin-label' }>
-            <label>Coins: </label>{ CoinPouchLabel(coins) }
-        </div>
-
     return (
         <div style={{ fontSize: 14, display: 'grid' }}>
             { LevelStatus() }
             { CharacterRealm() }
             <label style={{ marginTop: '5px' }}>{character.year}y (max {characterLifeSpan}y)</label>
-            <label style={{ marginBottom: '5px' }}>Potential: {characterPotential}%</label>
+            { Potential() }
             { Health() }
             { Power() }
             { Body() }
             { isShowQiLabel && Qi() }
             { isShowInternalInjury && InternalInjury() }
-            { coinLabel }
+            { Coins() }
             { isShowDeath && DeathCount() }
         </div>
     );

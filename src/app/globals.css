@@ -10,6 +10,7 @@
 @import url(./css/coins.css);
 @import url(./css/cultivation.css);
 @import url(./css/calendar.css);
+@import url(./css/tooltip.css);
 
 :root {
   /* for background elements or dividers, to give

@@ -12,6 +12,7 @@ import LeftPanelCharacter from "./panels/LeftPanelCharacter";
 import MessagesPanel from "./panels/MessagesPanel";
 import { CharacterController } from "../data/character/CharacterController";
 import { ItemIdEnum } from "../data/items/ItemIdEnum";
+import { Tooltip } from "./Tooltip";
 
 export function GameState(gameController: GameController) {
 
@@ -29,15 +30,18 @@ export function GameState(gameController: GameController) {
 
     return (
         <div className="container">
-            {ModalPanel(gameController)}
+            { Tooltip() }
+            { ModalPanel(gameController) }
             <div id="row-0" className="row">
                 
                 <div className="col-2 panel-left">
                     
                     {CalendarPanel(gameController)}
                     
-                    <div style={{ margin: '5px 0px' }}>
-                        <label>Doing: {doing}</label>
+                    <div style={{ margin: '5px 0px' }} >
+                        <label>
+                            Doing: {doing}
+                        </label>
                     </div>
                     
                     {LeftPanelCharacter()}

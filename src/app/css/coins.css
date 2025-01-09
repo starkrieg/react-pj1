@@ -15,7 +15,7 @@
     background-color: #b87333;
     border-radius: 50%;
     display: inline-block;
-    margin: 0px 2px;
+    margin: 0px 3px;
     vertical-align: middle;
     outline: 1px solid var(--foreground);
 }
@@ -26,7 +26,7 @@
     background-color: #c0c0c0;
     border-radius: 50%;
     display: inline-block;
-    margin: 0px 2px;
+    margin: 0px 3px;
     vertical-align: middle;
     outline: 1px solid var(--foreground);
 }
@@ -37,7 +37,7 @@
     background-color: #ffd700;
     border-radius: 50%;
     display: inline-block;
-    margin: 0px 2px;
+    margin: 0px 3px;
     vertical-align: middle;
     outline: 1px solid var(--foreground);
 }
@@ -48,7 +48,7 @@
     background-color: var(--jade_green);
     border-radius: 50%;
     display: inline-block;
-    margin: 0px 2px;
+    margin: 0px 3px;
     vertical-align: middle;
     outline: 1px solid var(--foreground);
 }
