@@ -1,12 +1,18 @@
 'use client'
 
-import { Message } from "@/app/data/messages/Message";
 import { MessageType } from "@/app/data/messages/MessageTypeEnum";
 import { ButtonMessageTypeToggle } from "../Button";
+import { MessageController } from "@/app/data/messages/MessageController";
+import { MessageVO } from "@/app/data/messages/MessageVO";
+import { Utilities } from "@/app/data/utils/Utilities";
+import { AttributeTypeEnum } from "@/app/data/character/AttributeTypeEnum";
+import { CoinPouchLabel } from "../Coins";
 
-export default function MessagesPanel(messageList: Message[]) {
+export default function MessagesPanel() {
 
-    function formatMessage(message: Message, listIndex: number) {
+    const messageList: MessageVO[] = MessageController.getMessageBoardMessages()
+
+    function formatMessage(message: MessageVO, listIndex: number) : JSX.Element {
         let life = '';
 
         if (message.life > 1) {
@@ -14,6 +20,7 @@ export default function MessagesPanel(messageList: Message[]) {
         }
 
         let formattedMessage = `${message.message}`;
+        let formattedDetails = undefined;
         let messageClass = '';        
 
         if (message.type == MessageType.EVENT) {
@@ -21,12 +28,31 @@ export default function MessagesPanel(messageList: Message[]) {
             messageClass = ' message-event';
         } else if (message.type == MessageType.STORY) {
             formattedMessage = `${life}${message.year}y: ${message.message}`
-        } else if ([MessageType.LOOT, MessageType.ITEM].includes(message.type)) {
+        } else if (message.type == MessageType.ITEM) {
             messageClass = ' message-loot';
+            if (message.objectReference) {
+                const itemEffects = message.objectReference.effects.map(effect => {
+                    const displayValue = Utilities.toScientificFormat(effect.value);
+                    const displayAttribute = Utilities.toFirstLetterUpperAllWords(effect.attribute)
+                    switch(effect.attribute) {
+                    case AttributeTypeEnum.INTERNAL_DAMAGE:
+                        return <div>{displayAttribute} decreased by {displayValue}</div>;
+                    case AttributeTypeEnum.COIN:
+                        return <div className="coin-pouch-label">{displayAttribute} increased by { CoinPouchLabel(effect.value) }</div>;
+                    default:
+                        return <div>{displayAttribute} increased by {displayValue}</div>;
+                    }
+                });
+                formattedDetails = <div>
+                        { itemEffects }
+                    </div>;
+            }
         }
+
         return (
             <div key={listIndex} className={'message-list-item' + messageClass}>
-                {formattedMessage}
+                { formattedMessage }
+                { formattedDetails }
             </div>
         );
     }
@@ -40,7 +66,7 @@ export default function MessagesPanel(messageList: Message[]) {
             <div className={ 'messages-buttons-div' }>
                 { ButtonMessageTypeToggle(MessageType.GENERAL) }
                 { ButtonMessageTypeToggle(MessageType.FIGHT) }
-                { ButtonMessageTypeToggle(MessageType.LOOT) }
+                { ButtonMessageTypeToggle(MessageType.ITEM) }
                 { ButtonMessageTypeToggle(MessageType.EVENT) }
             </div>
             <div className="message-list">

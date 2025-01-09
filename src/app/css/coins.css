@@ -17,6 +17,7 @@
     display: inline-block;
     margin: 0px 2px;
     vertical-align: middle;
+    outline: 1px solid var(--foreground);
 }
 
 .coin-silver {
@@ -27,7 +28,7 @@
     display: inline-block;
     margin: 0px 2px;
     vertical-align: middle;
-    border: 1px solid var(--foreground);
+    outline: 1px solid var(--foreground);
 }
 
 .coin-gold {
@@ -38,6 +39,7 @@
     display: inline-block;
     margin: 0px 2px;
     vertical-align: middle;
+    outline: 1px solid var(--foreground);
 }
 
 .coin-spiritual-stone {
@@ -48,4 +50,5 @@
     display: inline-block;
     margin: 0px 2px;
     vertical-align: middle;
+    outline: 1px solid var(--foreground);
 }

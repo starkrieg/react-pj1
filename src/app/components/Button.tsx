@@ -215,8 +215,8 @@ export function ButtonMessageTypeToggle(messageType: MessageType) {
         return isTypeToggled ? ' messages-button-toggled' : ''
     }
 
-    const capitalizedText = messageType.toString().charAt(0).toUpperCase() 
-        + messageType.toString().slice(1);
+    const capitalizedText = messageType.toString() == 'item' ? 'Loot' 
+        : Utilities.toFirstLetterUpperAllWords(messageType.toString());
 
     return (
         <button 

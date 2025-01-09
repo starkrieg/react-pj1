@@ -90,9 +90,7 @@ function createNextRealmInformation(realmVO: IBaseRealmVO) {
 function createLabelFromRequirement(requirementId: string, reqValue: string, isReqFulfilled: boolean) {
   const title = requirementId.toString();
 
-  const capitalizedReqId = title.split('-')
-    .map(word => (word.charAt(0).toUpperCase() + word.slice(1)))
-    .join(' ');
+  const capitalizedReqId = Utilities.toFirstLetterUpperAllWords(title, '-');
 
   let stringReq = <p>{capitalizedReqId}: {reqValue}</p>
   if (isReqFulfilled) {

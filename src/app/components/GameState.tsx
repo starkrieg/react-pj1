@@ -3,7 +3,6 @@ import { ActivitiesController } from "../data/activities/ActivitiesController";
 import { ExplorationController } from "../data/exploration/ExplorationController";
 import GameController from "../data/GameController";
 import { MainContentEnum } from "../data/MainContentEnum";
-import { MessageController } from "../data/messages/MessageController";
 import { ButtonNavigation } from "./Button";
 
 import { MainContentPanel } from "./panels/MainContentPanel";
@@ -60,7 +59,7 @@ export function GameState(gameController: GameController) {
                 
                 </div>
 
-                {MessagesPanel(MessageController.getMessageBoardMessages())}
+                {MessagesPanel()}
 
             </div>
         

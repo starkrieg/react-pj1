@@ -1,7 +1,9 @@
 import { Calendar } from "../Calendar";
 import { CharacterController } from "../character/CharacterController";
+import { ItemIdEnum } from "../items/ItemIdEnum";
 import { Message } from "./Message";
 import { MessageType } from "./MessageTypeEnum";
+import { MessageVO } from "./MessageVO";
 
 export class MessageController {
 
@@ -10,7 +12,6 @@ export class MessageController {
     private static messagesToggled: MessageType[] = [
             MessageType.GENERAL,
             MessageType.FIGHT,
-            MessageType.LOOT,
             MessageType.ITEM,
             MessageType.EVENT
         ];
@@ -22,15 +23,8 @@ export class MessageController {
         if (typeEnabled) {
             const index = this.messagesToggled.indexOf(messageType);
             this.messagesToggled.splice(index, 1);
-            if (messageType == MessageType.LOOT) {
-                const index = this.messagesToggled.indexOf(MessageType.ITEM);
-                this.messagesToggled.splice(index, 1);
-            }
         } else {
             this.messagesToggled.push(messageType);
-            if (messageType == MessageType.LOOT) {
-                this.messagesToggled.push(MessageType.ITEM);
-            }
         }
     }
 
@@ -59,23 +53,13 @@ export class MessageController {
     }
 
     /**
-     * Pushes an item message to board
+     * Pushes an item / loot message to board
      * @param message 
      */
-    static pushMessageItem(message: string) {
+    static pushMessageItem(message: string, itemId?: ItemIdEnum) {
         const life = CharacterController.getDeathCount() + 1;
         const year = Calendar.getYear();
-        this.messageList.push(new Message(life, year, MessageType.ITEM, message));
-    }
-
-    /**
-     * Pushes a loot message to board
-     * @param message 
-     */
-    static pushMessageLoot(message: string) {
-        const life = CharacterController.getDeathCount() + 1;
-        const year = Calendar.getYear();
-        this.messageList.push(new Message(life, year, MessageType.LOOT, message));
+        this.messageList.push(new Message(life, year, MessageType.ITEM, message, itemId));
     }
 
     /**
@@ -102,17 +86,19 @@ export class MessageController {
         return this.messagesToggled;
     }
 
-    static getMessageBoardMessages() {
+    static getMessageBoardMessages() : MessageVO[] {
         const toggledMessageTypes = this.getToggledMessageTypes();
 
-        const orderedLastMsg = this.messageList
+        let orderedLastMsg = this.messageList
             .filter(msg => toggledMessageTypes.includes(msg.type));
 
+
+
         if (orderedLastMsg.length > this.MESSAGE_BOARD_MAX_SIZE) {
-            return orderedLastMsg.slice(orderedLastMsg.length-1-this.MESSAGE_BOARD_MAX_SIZE);
-        } else {
-            return orderedLastMsg;
+            orderedLastMsg = orderedLastMsg.slice(orderedLastMsg.length-1-this.MESSAGE_BOARD_MAX_SIZE);
         }
+
+        return orderedLastMsg.map(msg => new MessageVO(msg));
     }
 
     static getJournalMessages() {

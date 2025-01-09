@@ -105,22 +105,19 @@ export class CharacterController {
      */
     static giveItem(item: Item | undefined) {
         if (item) {
-            MessageController.pushMessageLoot(`Got [${item.name}]!`);
+            MessageController.pushMessageItem(`Got ${item.name}`, item.id);
             switch(item.type) {
               case ItemTypeEnum.PERMANENT:
                 this.character.permanentItemList.add(item.id);
                 break;
               case ItemTypeEnum.CONSUMABLE:
                 item.getEffectsWithUpgrade().forEach(effect => {
-                  const displayValue = Utilities.toScientificFormat(effect.value);
                   switch(effect.attribute) {
                     case AttributeTypeEnum.INTERNAL_DAMAGE:
                       this.character.increaseAttribute(effect.attribute, -effect.value)
-                      MessageController.pushMessageLoot(`[${effect.attribute}] decreased by ${displayValue}`);
                       break;
                     default:
                       this.character.increaseAttribute(effect.attribute, effect.value)
-                      MessageController.pushMessageLoot(`[${effect.attribute}] increased by ${displayValue}`);
                       break;
                   }
                 });
@@ -129,8 +126,6 @@ export class CharacterController {
                 this.character.addItemInventory(item)
                 break;
             }
-
-            
 
         } else {
             ErrorController.throwSomethingWrongError();

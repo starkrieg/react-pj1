@@ -1,6 +1,7 @@
 'use client'
 
 import { AttributeTypeEnum } from "../../character/AttributeTypeEnum";
+import { Utilities } from "../../utils/Utilities";
 import { IBaseRealmVO } from "../common/IBaseRealmVO";
 import { EnergyRealmController } from "../EnergyRealmController";
 import { EnergyRealmEnum } from "./EnergyRealmEnum";
@@ -62,7 +63,7 @@ export class EnergyRealmVO implements IBaseRealmVO {
 
     private getFoundationEstablishmentTitle() {
         const stage: string = this.id.substring('foundation-establishment-'.length);
-        return stage.charAt(0).toUpperCase() + stage.slice(1) + ' Foundation Establishment';        
+        return Utilities.toFirstLetterUpperAllWords(stage) + ' Foundation Establishment';        
     }
 
 }
