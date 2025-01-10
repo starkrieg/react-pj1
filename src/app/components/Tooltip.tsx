@@ -3,28 +3,35 @@ const tooltipId = 'tooltip-div';
 
 export function Tooltip() {
     return (
-        <div id={ tooltipId } className="tooltip tooltip-hidden">
-            This is a tooltip
-        </div>
+        <div id={ tooltipId } className="tooltip tooltip-hidden"/>
     );
 }
 
-export const showTooltip = (event: React.MouseEvent<HTMLElement>, text: string) => {
-    const tooltipElm = document.getElementById(tooltipId);
-    if (tooltipElm) {
-        tooltipElm.animate({
+/**
+ * 
+ * @param event 
+ * @param content 
+ */
+export const showTooltip = (event: React.MouseEvent<HTMLElement>, content: Node) => {
+    const tooltipElem = document.getElementById(tooltipId);
+    if (tooltipElem) {
+        //remove all existing children from tooltip
+        while (tooltipElem.lastChild) {
+            tooltipElem.removeChild(tooltipElem.lastChild);
+        }
+        tooltipElem.animate({
             left: `${event.clientX}px`,
             top: `${event.clientY}px`
         
         }, {duration: 0, fill: "forwards"})
-        tooltipElm.textContent = text;
-        tooltipElm.classList.remove('tooltip-hidden');
+        tooltipElem.appendChild(content)
+        tooltipElem.classList.remove('tooltip-hidden');
     }
 }
 
 export function hideTooltip() {
-    const tooltipElm = document.getElementById(tooltipId);
-    if (tooltipElm) {
-        tooltipElm.classList.add('tooltip-hidden');
+    const tooltipElem = document.getElementById(tooltipId);
+    if (tooltipElem) {
+        tooltipElem.classList.add('tooltip-hidden');
     }
 }

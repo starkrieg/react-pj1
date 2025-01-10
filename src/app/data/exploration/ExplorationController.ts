@@ -14,6 +14,7 @@ import { ZoneIdEnum } from "./ZoneIdEnum";
 import { Utilities } from "../utils/Utilities";
 import { ZoneVO } from "./ZoneVO";
 import { EventController } from "../events/EventController";
+import { ZoneLootVO } from "./ZoneLootVO";
 
 export class ExplorationController {
 
@@ -95,12 +96,35 @@ export class ExplorationController {
             return this.unlockedZones.includes(zone)
                 && !blockedZones.includes(zone.id)
         }).map(zone => {
+
+            const lootVO: ZoneLootVO[] = zone.getLootList().map(zoneLoot => {
+                const item = ItemController.getItemById(zoneLoot.itemId);
+                return new ZoneLootVO(
+                    zoneLoot.itemId,
+                    item?.name || 'Unknown',
+                    zoneLoot.dropChance,
+                    zoneLoot.isLimited()
+                );
+            });
+
+            const clearRewardVO: ZoneLootVO[] = zone.listClearRewardItemId.map(itemId => {
+                const item = ItemController.getItemById(itemId);
+                return new ZoneLootVO(
+                    itemId,
+                    item?.name || 'Unknown',
+                    100,
+                    true
+                );
+            });
+
             return new ZoneVO(
                 zone.id,
                 zone.title,
                 zone.desc,
                 this.applyZoneExtraDifficulty(zone.id, zone.getCurrentStepPowerReq()),
-                zone.isComplete
+                zone.isComplete,
+                lootVO,
+                clearRewardVO
             )
         });
 

@@ -23,6 +23,7 @@ export default function Changelog() {
           <p>Adjusted some drop effects and upgrade requirements</p>
           <p>Modified realm up requirements for more sinergy with stats and drops</p>
           <p>Modified a few UI components for better visuals / gameplay</p>
+          <p>Added tooltip descriptions to some fields and exploration zones</p>
         </div>
       </li>
 

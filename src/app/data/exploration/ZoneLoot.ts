@@ -16,6 +16,10 @@ export class ZoneLoot {
         this.limit = limit;
     }
 
+    isLimited() : boolean {
+        return this.limit > 0;
+    }
+
     dropItem() {
         this.dropped+=1;
     }

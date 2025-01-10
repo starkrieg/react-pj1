@@ -10,7 +10,11 @@ import { BodyRealmVO } from "@/app/data/realms/body/BodyRealmVO";
 import { CoinPouchLabel } from "../Coins";
 import { hideTooltip, showTooltip } from "../Tooltip";
 
-
+function createDivTooltip(text: string) {
+    const retElem = document.createElement('div');
+    retElem.innerText = text
+    return retElem
+}
 
 export default function LeftPanelCharacter() {
 
@@ -22,7 +26,8 @@ export default function LeftPanelCharacter() {
             ? `(${Utilities.roundTo2Decimal(character.getQiCapPercent() * 100)}%)`
             : '';
         
-        const tooltipText = `How much energy you have accumulated`
+        const tooltipText = createDivTooltip(`How much energy you have accumulated`)
+        
     
         return (
             <div>
@@ -35,7 +40,7 @@ export default function LeftPanelCharacter() {
     }
 
     function Body() {
-        const tooltipText = `How physically strong and tough you are`
+        const tooltipText = createDivTooltip(`How physically strong and tough you are`)
         return (
             <div>
                 <label
@@ -53,7 +58,7 @@ export default function LeftPanelCharacter() {
     }
 
     function Power() {
-        const tooltipText = `Greatly affected by Qi, then Body`
+        const tooltipText = createDivTooltip(`Greatly affected by Qi, then Body`)
         return (
             <div>
                 <label
@@ -65,7 +70,7 @@ export default function LeftPanelCharacter() {
     }
 
     function Health() {
-        const tooltipText = `Greatly affected by Body, then Qi`
+        const tooltipText = createDivTooltip(`Greatly affected by Body, then Qi`)
         return (
             <div>
             <label
@@ -90,7 +95,7 @@ export default function LeftPanelCharacter() {
     }
 
     function InternalInjury() {
-        const tooltipText = `Damage to internal organs reduces Health and Power`
+        const tooltipText = createDivTooltip(`Damage to internal organs reduces Health and Power`)
         const injuryValue = Utilities.roundTo2Decimal( character.getAttributeValue(AttributeTypeEnum.INTERNAL_DAMAGE) );
         return (
             <div>
@@ -129,10 +134,10 @@ export default function LeftPanelCharacter() {
 
     function Potential() {
         const characterPotential = Utilities.roundTo2Decimal(character.getAgeGainModifier()*100);
-        const tooltipText = 
+        const tooltipText = createDivTooltip(
         `Growth potential. After a certain age, you won't gain much from basic training.
         Decline starts at age: X
-        `;
+        `);
         return (
             <div>
                 <label style={{ marginBottom: '5px' }}

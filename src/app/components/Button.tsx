@@ -13,6 +13,8 @@ import { GenericActivity } from "../data/activities/GenericActivity";
 import { ZoneVO } from "../data/exploration/ZoneVO";
 import { PerformOddJobs } from '../data/activities/PerformOddJobs';
 import { CoinPouchLabel, CoinPouchSpan } from './Coins';
+import { hideTooltip, showTooltip } from './Tooltip';
+import { CharacterController } from '../data/character/CharacterController';
 
 export default function Button(label: string, 
     onClick: () => void,
@@ -180,10 +182,62 @@ export function ButtonExplorableZone(zone: ZoneVO,
         )
     }
 
+    function createZoneTooltip() {
+        const retElem = document.createElement('div');
+
+        zone.loot.forEach(loot => {
+            if (loot.isLimited) {
+                if (CharacterController.isHaveItem(loot.itemId)) {
+                    const crossedText = document.createElement('s');
+                    crossedText.textContent = `${loot.name}: ${loot.dropChance}%`;
+                    retElem.append(crossedText);
+                } else {
+                    const div = document.createElement('div');
+                    div.textContent = `???: ${loot.dropChance}%`;
+                    retElem.append(div);
+                }
+            } else if (zone.isComplete) {
+                const div = document.createElement('div');
+                div.textContent = `${loot.name}: ${loot.dropChance}%`;
+                retElem.append(div);
+            } else {
+                const div = document.createElement('div');
+                div.textContent = `???: ${loot.dropChance}%`;
+                retElem.append(div);
+            }        
+        });
+
+        if (zone.isComplete && zone.clearReward.length > 0) {
+            const text = document.createElement('div');
+            text.textContent = 'Clear rewards:'
+            retElem.append(text);
+            
+
+            zone.clearReward.forEach(reward => {
+                if (CharacterController.isHaveItem(reward.itemId)) {
+                    const crossedText = document.createElement('s');
+                    crossedText.textContent = `${reward.name}: ${reward.dropChance}%`;
+                    retElem.append(crossedText);
+                } else {
+                    const div = document.createElement('div');
+                    div.textContent = `${reward.name}: ${reward.dropChance}%`;
+                    retElem.append(div);
+                }       
+            });
+        }
+
+        return retElem
+    }
+
+    const tooltipContent = createZoneTooltip();
+
     return (
         <button id={ zone.id.toString() } key={ zone.id.toString() }
             className={ 'zone-button item-style' }
-            onClick={ onClick }
+            onClick={ () => {
+                hideTooltip();
+                onClick();
+             }}
             >
             <div className="zone-header">
                 <label>{ zone.title }</label>
@@ -197,7 +251,10 @@ export function ButtonExplorableZone(zone: ZoneVO,
                     <span>{ zone.desc }</span>
                 </div>
                 <div className="zone-power">
-                    <span>
+                    <span
+                        onMouseOver={ (event) => showTooltip(event, tooltipContent) } 
+                        onMouseLeave={ () => hideTooltip() }
+                    >
                         { zone.power }
                         <IconSwordEmblem style={{ width: '25px', height: '25px', marginLeft: '5px' }}/>
                     </span>
