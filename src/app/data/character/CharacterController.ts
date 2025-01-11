@@ -323,6 +323,10 @@ export class CharacterController {
       this.deathCount++;
     }
 
+    static getAllyCount() {
+      return this.character.getAllyCount();
+    }
+
     static getFightingPower() {
       return this.character.getFightingPower()!;
     }

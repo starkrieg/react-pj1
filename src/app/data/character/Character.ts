@@ -45,6 +45,8 @@ export class Character {
 
     //the closer to the end of the lifespan, the lower the gains of training
     private ageGainModifier = 1;
+    //at 50% of max lifespan, decline starts
+    private declineAgeMeter = 0.5;
 
     private readonly baseBodyGain = 0.1;
     private readonly baseQiGain = 0.1;
@@ -298,6 +300,13 @@ export class Character {
     }
 
     /**
+     * A count of how many ALLY type upgrades the character has.
+     */
+    getAllyCount() {
+        return this.inventoryList.filter(item => item.type == ItemTypeEnum.ALLY).length;
+    }
+
+    /**
      * Current total power
      * Qi affects power more than Body
      */
@@ -347,7 +356,7 @@ export class Character {
 
     private updateAgeGainModifier() {
         const lifespanLeftPercent = Utilities.roundTo2Decimal(this.year / this.getAttributeValueOr0(AttributeTypeEnum.LIFESPAN));
-        if (lifespanLeftPercent >= 0.5) {
+        if (lifespanLeftPercent >= this.declineAgeMeter) {
             this.ageGainModifier = 1 - (lifespanLeftPercent - 0.1);
         } else {
             this.ageGainModifier = 1;
@@ -356,6 +365,10 @@ export class Character {
 
     getAgeGainModifier() : Readonly<number> {
         return this.ageGainModifier;
+    }
+
+    getAgeDeclineStart() {
+        return this.getAttributeValueOr0(AttributeTypeEnum.LIFESPAN) * this.declineAgeMeter;
     }
 
 }

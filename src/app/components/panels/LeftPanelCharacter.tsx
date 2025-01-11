@@ -21,22 +21,29 @@ export default function LeftPanelCharacter() {
     const character = CharacterController.getCharacter()
 
     function Qi() {
-        const isShowRealmFoundation = CharacterController.isHaveItem(ItemIdEnum.BOOK_PERFECT_QI_CONDENSATION);
-        const qiCapPercent = isShowRealmFoundation 
-            ? `(${Utilities.roundTo2Decimal(character.getQiCapPercent() * 100)}%)`
-            : '';
+        const isShowQiLabel = CharacterController.isHaveItem(ItemIdEnum.BOOK_QI_CULTIVATION);
+
+        if (isShowQiLabel) {
+            const isShowRealmFoundation = CharacterController.isHaveItem(ItemIdEnum.BOOK_PERFECT_QI_CONDENSATION);
+            const qiCapPercent = isShowRealmFoundation 
+                ? `(${Utilities.roundTo2Decimal(character.getQiCapPercent() * 100)}%)`
+                : '';
+            
+            const tooltipText = createDivTooltip(`How much energy you have accumulated`)
+            
         
-        const tooltipText = createDivTooltip(`How much energy you have accumulated`)
-        
-    
-        return (
-            <div>
-                <label
-                    onMouseOver={ (event) => showTooltip(event, tooltipText) } 
-                    onMouseLeave={ () => hideTooltip() }
-                >Qi: {Utilities.toScientificFormat(character.getQi())} {qiCapPercent}</label>
-            </div>
-        );
+            return (
+                <div>
+                    <label
+                        onMouseOver={ (event) => showTooltip(event, tooltipText) } 
+                        onMouseLeave={ () => hideTooltip() }
+                    >Qi: {Utilities.toScientificFormat(character.getQi())} {qiCapPercent}</label>
+                </div>
+            );
+        } else {
+            return ;
+        }
+
     }
 
     function Body() {
@@ -52,9 +59,14 @@ export default function LeftPanelCharacter() {
     }
 
     function DeathCount() {
-        return (
-            <label>Deaths: { Utilities.toScientificFormat(CharacterController.getDeathCount()) }</label>
-        );
+        const deathCount = CharacterController.getDeathCount();
+        if (deathCount > 0) {
+            return (
+                <label>Deaths: { Utilities.toScientificFormat(deathCount) }</label>
+            );
+        } else {
+            return ;
+        }
     }
 
     function Power() {
@@ -95,16 +107,22 @@ export default function LeftPanelCharacter() {
     }
 
     function InternalInjury() {
-        const tooltipText = createDivTooltip(`Damage to internal organs reduces Health and Power`)
-        const injuryValue = Utilities.roundTo2Decimal( character.getAttributeValue(AttributeTypeEnum.INTERNAL_DAMAGE) );
-        return (
-            <div>
-                <label
-                    onMouseOver={ (event) => showTooltip(event, tooltipText) } 
-                    onMouseLeave={ () => hideTooltip() }
-                >Internal Injury: { injuryValue }%</label>
-            </div>
-        );
+        const isShowInternalInjury = character.getAttributeValue(AttributeTypeEnum.INTERNAL_DAMAGE) > 0;
+
+        if (isShowInternalInjury) {
+            const tooltipText = createDivTooltip(`Damage to internal organs reduces Health and Power`)
+            const injuryValue = Utilities.roundTo2Decimal( character.getAttributeValue(AttributeTypeEnum.INTERNAL_DAMAGE) );
+            return (
+                <div>
+                    <label
+                        onMouseOver={ (event) => showTooltip(event, tooltipText) } 
+                        onMouseLeave={ () => hideTooltip() }
+                    >Internal Injury: { injuryValue }%</label>
+                </div>
+            );    
+        } else {
+            return ;
+        }
     }
 
     function BodyRealmTitle() {
@@ -133,10 +151,11 @@ export default function LeftPanelCharacter() {
     }
 
     function Potential() {
+        const ageDeclineStart = CharacterController.getCharacter().getAgeDeclineStart();
         const characterPotential = Utilities.roundTo2Decimal(character.getAgeGainModifier()*100);
         const tooltipText = createDivTooltip(
         `Growth potential. After a certain age, you won't gain much from basic training.
-        Decline starts at age: X
+        Decline starts at age: ${ageDeclineStart}
         `);
         return (
             <div>
@@ -158,21 +177,39 @@ export default function LeftPanelCharacter() {
         );
     }
 
+    function Allies() {
+        const allyCount = CharacterController.getAllyCount();
+        const tooltipText = createDivTooltip(
+            `Companions, hired or otherwise.
+            Affects Power and Health.
+            `);
+
+        if (allyCount > 0) {
+            return (
+                <div>
+                    <label
+                        onMouseOver={ (event) => showTooltip(event, tooltipText) } 
+                        onMouseLeave={ () => hideTooltip() }
+                    >Allies: { allyCount }</label>
+                </div>
+            );
+        } else {
+            return ;
+        }
+    }
+
     const energyRealmVO = new EnergyRealmVO(character.energyRealm.id);
     const bodyRealmVO = new BodyRealmVO(character.bodyRealm.id);
     const isBodyCultivationUnlocked = CharacterController.isHaveItem(ItemIdEnum.BOOK_BODY_CULTIVATION);
 
-    const isShowQiLabel = CharacterController.isHaveItem(ItemIdEnum.BOOK_QI_CULTIVATION);
+    
 
     const bodyCapPercent = isBodyCultivationUnlocked ? '('
         + Utilities.roundTo2Decimal(character.getBodyCapPercent() * 100)
         + '%)'
         : '';
 
-    const isShowDeath = CharacterController.getDeathCount() > 0;
-
-    const isShowInternalInjury = character.getAttributeValue(AttributeTypeEnum.INTERNAL_DAMAGE) > 0;
-
+    
     const characterLifeSpan = character.getAttributeValue(AttributeTypeEnum.LIFESPAN);
 
     return (
@@ -184,10 +221,11 @@ export default function LeftPanelCharacter() {
             { Health() }
             { Power() }
             { Body() }
-            { isShowQiLabel && Qi() }
-            { isShowInternalInjury && InternalInjury() }
+            { Qi() }
+            { InternalInjury() }
+            { Allies() }
             { Coins() }
-            { isShowDeath && DeathCount() }
+            { DeathCount() }
         </div>
     );
 
