@@ -11,6 +11,7 @@
 @import url(./css/cultivation.css);
 @import url(./css/calendar.css);
 @import url(./css/tooltip.css);
+@import url(./css/settings.css);
 
 :root {
   /* for background elements or dividers, to give
@@ -218,4 +219,15 @@ body {
   opacity: 1;
 }
 
+.game-content-div {
+  height: 90%;
+}
 
+.footer-div {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: beige;
+  padding: 10px;
+  border: 1px dashed var(--jade_green);
+}

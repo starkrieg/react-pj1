@@ -3,6 +3,5 @@ export enum MainContentEnum {
     ACTIVITIES,
     MARKET,
     EXPLORE,
-    JOURNAL,
-    SETTINGS
+    JOURNAL
 }

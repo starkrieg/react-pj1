@@ -1,0 +1,39 @@
+.settings-div {
+    width: 100%;
+    display: flex;
+    gap: 5px;
+}
+
+.settings-button {
+    color: var(--ivory_white);
+    background-color: var(--burnt_umber);
+    border-radius: 5px;
+    padding: 5px;
+    font-weight: 'bold';
+    margin: 'auto 0px';
+}
+
+.settings-button:hover {
+    background-color: var(--dark_umber);
+}
+
+.hard-reset-button {
+    margin-left: auto;
+}
+
+.settings-save-time {
+    width: 225px;
+    text-align: center;
+    align-content: center;
+}
+
+.settings-version {
+    width: 200px;
+    text-align: center;
+    align-content: center;
+    margin-left: auto;
+}
+
+.settings-changelog {
+    text-decoration: underline;
+}

@@ -13,6 +13,7 @@ import MessagesPanel from "./panels/MessagesPanel";
 import { CharacterController } from "../data/character/CharacterController";
 import { ItemIdEnum } from "../data/items/ItemIdEnum";
 import { Tooltip } from "./Tooltip";
+import SettingsPanel from "./panels/SettingsPanel";
 
 export function GameState(gameController: GameController) {
 
@@ -29,44 +30,47 @@ export function GameState(gameController: GameController) {
     const cultivationUnlocked = CharacterController.isHaveItem(ItemIdEnum.BOOK_QI_CULTIVATION);
 
     return (
-        <div className="container">
-            { Tooltip() }
-            { ModalPanel(gameController) }
-            <div id="row-0" className="row">
-                
-                <div className="col-2 panel-left">
+        <div>
+            <div className="container">
+                { Tooltip() }
+                { ModalPanel(gameController) }
+                <div id="row-0" className="row game-content-div">
                     
-                    {CalendarPanel(gameController)}
-                    
-                    <div style={{ margin: '5px 0px' }} >
-                        <label>
-                            Doing: {doing}
-                        </label>
-                    </div>
-                    
-                    {LeftPanelCharacter()}
+                    <div className="col-2 panel-left">
+                        
+                        {CalendarPanel(gameController)}
+                        
+                        <div style={{ margin: '5px 0px' }} >
+                            <label>
+                                Doing: {doing}
+                            </label>
+                        </div>
+                        
+                        {LeftPanelCharacter()}
 
-                </div>        
+                    </div>        
+                    
+                    <div className="panel-middle col-7">
+                    
+                        <div className="navigation-div">
+                            { cultivationUnlocked && getNavigationOption('Cultivation', MainContentEnum.CULTIVATION) }
+                            { getNavigationOption('Activities',  MainContentEnum.ACTIVITIES) }
+                            { getNavigationOption('Market', MainContentEnum.MARKET) }
+                            { getNavigationOption('Explore', MainContentEnum.EXPLORE) }
+                            { getNavigationOption('Journal', MainContentEnum.JOURNAL) }
+                        </div>
                 
-                <div className="panel-middle col-7">
-                
-                    <div className="navigation-div">
-                        { cultivationUnlocked && getNavigationOption('Cultivation', MainContentEnum.CULTIVATION) }
-                        { getNavigationOption('Activities',  MainContentEnum.ACTIVITIES) }
-                        { getNavigationOption('Market', MainContentEnum.MARKET) }
-                        { getNavigationOption('Explore', MainContentEnum.EXPLORE) }
-                        { getNavigationOption('Journal', MainContentEnum.JOURNAL) }
-                        { getNavigationOption('Settings', MainContentEnum.SETTINGS) }
+                        {MainContentPanel(gameController.selectedContent)}
+                    
                     </div>
-            
-                    {MainContentPanel(gameController, gameController.selectedContent)}
-                
+
+                    {MessagesPanel()}
+
                 </div>
-
-                {MessagesPanel()}
-
             </div>
-        
+            <div className="footer-div">
+                { SettingsPanel() }
+            </div>
         </div>
     );
     

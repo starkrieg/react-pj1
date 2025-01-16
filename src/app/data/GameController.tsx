@@ -20,7 +20,7 @@ import { MarketController } from "./market/MarketController";
 import { ItemMarketCreator } from "./market/ItemMarketCreator";
 import { EventController } from "./events/EventController";
 import { EventCreator } from "./events/EventCreator";
-import { load_from_localstorage } from "../components/panels/SettingsPanel";
+import { load_from_localstorage } from "./SaveDataController";
 
 export default class GameController {
 
@@ -42,22 +42,6 @@ export default class GameController {
     constructor() {
         this.globalRoot = undefined;
         this.normalSpeedGame();
-    }
-
-    public resetEverything() {
-        const ans = confirm('Reset everything. Are you sure?');
-        if (ans) {
-            ActivitiesController.hardReset();
-            ExplorationController.reset();
-            MessageController.hardReset();
-            ModalController.hardReset();
-            MarketController.reset();
-            EventController.reset();
-
-            this.selectContent();
-            //setup basic data also resets some data
-            this.setupBasicData();
-        }
     }
 
     private setupContentPools() {

@@ -1,4 +1,3 @@
-import GameController from "../../data/GameController";
 import { MainContentEnum } from "../../data/MainContentEnum";
 import { ExplorationController } from "../../data/exploration/ExplorationController";
 import { MessageController } from "../../data/messages/MessageController";
@@ -8,9 +7,8 @@ import ExplorableZoneProgressPanel from "./ExplorableZoneProgressPanel";
 import ExplorableZonesPanel from "./ExplorableZonesPanel";
 import JournalPanel from "./JournalPanel";
 import { MarketPanel } from "./MarketPanel";
-import SettingsPanel from "./SettingsPanel";
 
-export function MainContentPanel(gameController: GameController, contentId = MainContentEnum.ACTIVITIES) {
+export function MainContentPanel(contentId = MainContentEnum.ACTIVITIES) {
     switch(contentId) {
         case MainContentEnum.CULTIVATION:
             return CultivationPanel();
@@ -26,9 +24,6 @@ export function MainContentPanel(gameController: GameController, contentId = Mai
             }
         case MainContentEnum.JOURNAL:
             return JournalPanel(MessageController.getJournalMessages())
-        case MainContentEnum.SETTINGS:
-            return SettingsPanel(gameController.resetEverything.bind(gameController));
-    
         default:
             return (
                 <div>

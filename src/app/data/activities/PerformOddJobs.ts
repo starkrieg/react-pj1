@@ -46,7 +46,7 @@ export class PerformOddJobs implements IActivity {
     }
 
     getTickGain() {
-        const bruteValue = 1000000; //1
+        const bruteValue = 1;
         const valueBeforeRank = bruteValue;
         const rankMult = 1 + (ActivitiesController.getActivityRank(this.id) * 0.05);
 
