@@ -99,4 +99,33 @@ export class EventController {
             });
     }
 
+    static exportSaveData() : Record<string, unknown> {
+        return {
+            eventList: this.eventList.map(evt => {
+                return {
+                    nextMilestoneIndex: evt.nextMilestoneIndex,
+                    isInterrupted: evt.isInterrupted,
+                    isFinished: evt.isFinished
+                }
+            })
+        }
+    }
+
+    static importSaveData(dataObject: Partial<Record<string, unknown>>) {
+        //empty object is not processed
+        if (!dataObject) {
+            return;
+        }
+
+        (dataObject['eventList'] as Array<Partial<Event>>)
+            .forEach((evt, idx) => {
+                this.eventList[idx].nextMilestoneIndex = evt.nextMilestoneIndex as number;
+                this.eventList[idx].isInterrupted = evt.isInterrupted as boolean;
+                this.eventList[idx].isFinished = evt.isFinished as boolean;
+            });
+        
+        this.updateNextMilestoneYear();
+        this.updateObservedEndZones();
+    }
+
 }

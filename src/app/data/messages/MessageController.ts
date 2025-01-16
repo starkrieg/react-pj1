@@ -121,4 +121,22 @@ export class MessageController {
     static hardReset() {
         this.messageList = [];
     }
+
+    static exportSaveData() : Record<string, unknown> {
+        return {
+            messageList: this.messageList,
+            messagesToggled: this.messagesToggled
+        }
+    }
+
+    static importSaveData(dataObject: Partial<Record<string, unknown>>) {
+        //empty object is not processed
+        if (!dataObject) {
+            return;
+        }
+
+        this.messageList = dataObject['messageList'] as Message[];
+
+        this.messagesToggled = dataObject['messagesToggled'] as MessageType[];
+    }
 }

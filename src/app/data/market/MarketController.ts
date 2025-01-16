@@ -3,12 +3,17 @@ import { CharacterController } from "../character/CharacterController";
 import { ZoneIdEnum } from "../exploration/ZoneIdEnum";
 import { ZoneRegionEnum } from "../exploration/ZoneRegionEnum";
 import { Item } from "../items/Item";
-import { ItemMarketZone } from "../items/ItemGreatZoneEnum";
+import { ItemMarketZone } from "../items/ItemMarketZone";
 import { ItemTypeEnum } from "../items/ItemTypeEnum";
 import { Utilities } from "../utils/Utilities";
 import { ItemMarketCreator } from "./ItemMarketCreator";
 import { MarketItem } from "./MarketItem";
-import { IRequirement } from "../common/IRequirement";
+import { IRequirement, RequirementExportFormat } from "../common/IRequirement";
+import { ItemController } from "../items/ItemController";
+import { ItemIdEnum } from "../items/ItemIdEnum";
+import { ActivityRequirement } from "../common/ActivityRequirement";
+import { AttributeRequirement } from "../common/AttributeRequirement";
+import { ItemRequirement } from "../common/ItemRequirement";
 
 export class MarketController {
 
@@ -122,6 +127,69 @@ export class MarketController {
         this.allMarketItems = [];
         this.blockedRegions.clear();
         ItemMarketCreator.createMarketItems();
+        this.updateAvailableItems();
+    }
+
+    static exportSaveData() : Record<string, unknown> {
+        return {
+            //store all market items and their current upgrade
+            allMarketItems: this.allMarketItems.map(marketItem => {
+                return {
+                    // translate item into itemId
+                    itemId: marketItem.baseItem.id,
+                    itemUpgrade: marketItem.baseItem.upgrades,
+                    cost: marketItem.cost,
+                    name: marketItem.name,
+                    description: marketItem.description,
+                    isUpgrade: marketItem.isUpgrade,
+                    // translate requirements to wrapped export format
+                    requirements: marketItem.requirements.map(req => req.toExportFormat())
+                }
+            }),
+            //store all blocked regions
+            blockedRegions: this.blockedRegions.values().toArray()
+        }
+    }
+
+    static importSaveData(dataObject: Partial<Record<string, unknown>>) {
+        //empty object is not processed
+        if (!dataObject) {
+            return;
+        }
+
+        (dataObject['allMarketItems'] as Array<Record<string, unknown>>)
+            .forEach(obj => {
+            const marketItem = this.allMarketItems.find(mktItem => mktItem.baseItem.id == obj.itemId)
+            if (marketItem) {
+                marketItem.baseItem.upgrades = obj.itemUpgrade as number;
+                marketItem.cost = obj.cost as number;
+                marketItem.name = obj.name as string;
+                marketItem.description = obj.description as string;
+                marketItem.isUpgrade = obj.isUpgrade as boolean;
+                (obj.requirements as Array<RequirementExportFormat>).forEach(req => {
+                    switch(req.type) {
+                        case 'activity':
+                            marketItem.requirements.push(new ActivityRequirement(req.data.id, req.data.rank));
+                            break;
+                        case 'attribute':
+                            marketItem.requirements.push(new AttributeRequirement(req.data.id, req.data.minValue, req.data.maxValue));
+                            break;
+                        case 'item':
+                            marketItem.requirements.push(new ItemRequirement(req.data.id));
+                            break;
+                        default:
+                            console.error('Something went wrong when importing market item requirements');
+                            break;
+                    }
+                });
+            } else {
+                console.error('Something went wrong when importing market items during save');
+            }
+        });
+
+        (dataObject['blockedRegions'] as Array<ItemMarketZone>)
+            .forEach(imz => this.blockedRegions.add(imz));
+
         this.updateAvailableItems();
     }
 

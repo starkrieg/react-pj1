@@ -1,7 +1,7 @@
 import { AttributeTypeEnum } from "../character/AttributeTypeEnum";
 import { CharacterController } from "../character/CharacterController";
 import { Utilities } from "../utils/Utilities";
-import { IRequirement } from "./IRequirement";
+import { IRequirement, RequirementExportFormat } from "./IRequirement";
 
 /**
  * A requirement that checks an attribute capacity percentage as requirement
@@ -43,6 +43,17 @@ export class AttributeRequirement implements IRequirement {
             default:
                 return Utilities.roundTo2Decimal(CharacterController.getCharacter().getAttributeValue(this.id));
         }
+    }
+
+    toExportFormat() : RequirementExportFormat {
+        return {
+            type: 'attribute',
+            data: {
+                id: this.id,
+                minValue: this.minValue,
+                maxValue: this.maxValue
+            }
+        };
     }
 
 }

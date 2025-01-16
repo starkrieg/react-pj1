@@ -10,4 +10,11 @@ export class ActivityRank {
         this.totalExpToNextRank = totalExpToNextRank;
     }
 
+    static createFromData(dataObject: Record<string, unknown>) {
+        return new ActivityRank(
+            (dataObject['rank'] as number),
+            (dataObject['exp'] as number),
+            (dataObject['totalExpToNextRank'] as number)
+        );
+    }
 }

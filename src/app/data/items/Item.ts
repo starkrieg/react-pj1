@@ -1,5 +1,5 @@
 import { AttributeEffect } from "../common/AttributeEffect";
-import { ItemMarketZone } from "./ItemGreatZoneEnum";
+import { ItemMarketZone } from "./ItemMarketZone";
 import { ItemIdEnum } from "./ItemIdEnum";
 import { ItemTypeEnum } from "./ItemTypeEnum";
 

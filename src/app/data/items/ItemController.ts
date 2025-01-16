@@ -1,7 +1,7 @@
 import { AttributeEffect } from "../common/AttributeEffect";
 import { Item } from "../items/Item";
 import { ErrorController } from "../utils/ErrorController";
-import { ItemMarketZone } from "./ItemGreatZoneEnum";
+import { ItemMarketZone } from "./ItemMarketZone";
 import { ItemIdEnum } from "./ItemIdEnum";
 import { ItemTypeEnum } from "./ItemTypeEnum";
 

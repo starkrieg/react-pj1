@@ -263,4 +263,59 @@ export class ExplorationController {
         return this.fightScene;
     }
 
+    static exportSaveData() : Record<string, unknown> {
+        return {
+            // export only the id of the zone
+            selectedZone: this.selectedZone?.id,
+            
+            //array of ids
+            blockedRegions: this.blockedRegions.values().toArray(),
+
+            //translate array Zone into array zone id
+            unlockedZones: this.unlockedZones.map(zone => {
+                return {
+                    id: zone.id,
+                    isComplete: zone.isComplete
+                }
+            }),
+
+            //translate map to array of entries, but objs are simple enough
+            extraDifficulties: this.extraDifficulties.entries().toArray()
+        }
+    }
+
+    static importSaveData(dataObject: Partial<Record<string, unknown>>) {
+        //empty object is not processed
+        if (!dataObject) {
+            return;
+        }
+
+        this.selectedZone = ZonePool.getZonePool()
+            .find(zone => zone.id == (dataObject['selectedZone'] as ZoneIdEnum));
+            
+        (dataObject['blockedRegions'] as Array<ZoneRegionEnum>)
+            .forEach(regionId => this.blockedRegions.add(regionId));
+
+        const importedUnlockedData = (dataObject['unlockedZones'] as Array<Partial<Record<keyof Zone, any>>>);
+        ZonePool.getZonePool()
+            // obj should have an id and isComplete
+            // filter by the ids passed on the dataObject
+            .filter(zone => {
+                importedUnlockedData
+                    .map(obj => obj.id).includes(zone.id)
+            })
+            // modify zone for the isComplete
+            // then add to map
+            .forEach(zone => {
+                const importedZoneData = importedUnlockedData.find(obj => obj.id == zone.id)
+                zone.isComplete = importedZoneData?.isComplete || false;
+                this.unlockedZones.push(zone);
+            });
+
+        (dataObject['extraDifficulties'] as Array<[ZoneIdEnum, number]>)
+            .forEach(([key, value]) => this.extraDifficulties.set(key, value));
+
+        this.updateExplorableZonesList();
+    }
+
 }

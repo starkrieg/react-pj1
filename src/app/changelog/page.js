@@ -8,8 +8,8 @@ export default function Changelog() {
       Changelog - {appVersion}
       <ul style={{marginTop: 10}}>
 
-      <p>Current end of content: interrupting the story event before year 645</p>
-      <p>Current end game and challenge: interrupting the story event before year 615</p>
+      <p>Current end of content: beating the final event zone before year 645</p>
+      <p>Current end game and challenge: beating the final event zone before year 615</p>
 
       <li style={{marginTop: 10}}>
         <p>v.0.4.3 - alpha / 2025-Jan-??</p>

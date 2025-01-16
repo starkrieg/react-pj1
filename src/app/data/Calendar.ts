@@ -29,4 +29,21 @@ export class Calendar {
     static getDay() {
         return this.day;
     }
+
+    static exportSaveData() : Record<string, unknown> {
+        return {
+            year: this.year,
+            day: this.day
+        }
+    }
+
+    static importSaveData(dataObject: Partial<Record<string, unknown>>) {
+        //empty object is not processed
+        if (!dataObject) {
+            return;
+        }
+
+        this.year = dataObject['year'] as number;
+        this.day = dataObject['day'] as number;
+    }
 }

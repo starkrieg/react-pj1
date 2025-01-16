@@ -11,9 +11,9 @@ import { AttributeTypeEnum } from "../character/AttributeTypeEnum";
 export class ActivitiesController {
 
     // base days for rank up
-    private static BASE_DAYS_RANK_UP = 24;
+    private static readonly BASE_DAYS_RANK_UP = 24;
     // rate which days for rank up grow
-    private static RANK_UP_GROWTH_RATE = 0.70;
+    private static readonly RANK_UP_GROWTH_RATE = 0.70;
 
     static selectedActivity: IActivity | undefined = undefined;
 
@@ -147,5 +147,39 @@ export class ActivitiesController {
                 CharacterController.updateAttributesFromActivity(id);
             }
         }
+    }
+
+    static exportSaveData() : Record<string, unknown> {
+        return {
+            // export only the id of the activity
+            selectedActivity: this.selectedActivity?.id,
+            // export only the array of id of the activities
+            unlockedActivities: this.unlockedActivities.map(act => act.id),
+            // activity enum is unchanged
+            // activity rank will become a simple object
+            activityRankMap: this.activityRankMap.entries().toArray()
+        }
+    }
+
+    static importSaveData(dataObject: Partial<Record<string, unknown>>) {
+        //empty object is not processed
+        if (!dataObject) {
+            return;
+        }
+
+        
+        this.selectedActivity = ActivityPool.getActivityPool()
+            .find(act => act.id == (dataObject['selectedActivity'] as ActivityEnum));
+
+        this.unlockedActivities = ActivityPool.getActivityPool()
+            .filter(act => (dataObject['unlockedActivities'] as ActivityEnum[]).includes(act.id));
+        
+        this.activityRankMap.clear();
+        (dataObject['activityRankMap'] as Array<[ActivityEnum, {}]>)
+            .forEach(([key, value]) => {
+                //translate data to <ActivityEnum, ActivityRank>
+                const actRankObj = ActivityRank.createFromData(value);
+                this.activityRankMap.set(key, actRankObj)
+            });
     }
 }

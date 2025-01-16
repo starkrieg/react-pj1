@@ -2,7 +2,7 @@ import { AttributeTypeEnum } from "../character/AttributeTypeEnum";
 import { AttributeEffect } from "../common/AttributeEffect";
 import { ModifierTypeEnum } from "../common/ModifierTypeEnum";
 import { ItemController } from "./ItemController";
-import { ItemMarketZone } from "./ItemGreatZoneEnum";
+import { ItemMarketZone } from "./ItemMarketZone";
 import { ItemIdEnum } from "./ItemIdEnum";
 import { ItemTypeEnum } from "./ItemTypeEnum";
 

@@ -67,6 +67,27 @@ export class ModalController {
 
         this.modalContentMap.set(modalType, content);
         return this.modalContentMap.get(modalType);
-    }    
+    }
+
+    static exportSaveData() : Record<string, unknown> {
+        return {
+            // translate map into entry array
+            // objects are simple enough
+            modalContentMap: this.modalContentMap.entries().toArray()
+        }
+    }
+
+    static importSaveData(dataObject: Partial<Record<string, unknown>>) {
+        //empty object is not processed
+        if (!dataObject) {
+            return;
+        }
+
+        (dataObject['modalContentMap'] as Array<[ModalTypeEnum, Record<keyof ModalContent, any>]>)
+            .forEach(([key, value]) => {
+                const modalContent = new ModalContent(value.title, value.desc, value.buttonText);
+                this.modalContentMap.set(key, modalContent)
+            });
+    }
 
 }

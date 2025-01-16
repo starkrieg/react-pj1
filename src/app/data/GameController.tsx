@@ -20,6 +20,7 @@ import { MarketController } from "./market/MarketController";
 import { ItemMarketCreator } from "./market/ItemMarketCreator";
 import { EventController } from "./events/EventController";
 import { EventCreator } from "./events/EventCreator";
+import { load_from_localstorage } from "../components/panels/SettingsPanel";
 
 export default class GameController {
 
@@ -54,6 +55,7 @@ export default class GameController {
             EventController.reset();
 
             this.selectContent();
+            //setup basic data also resets some data
             this.setupBasicData();
         }
     }
@@ -221,6 +223,8 @@ export default class GameController {
             /* start game loop */
             this.setupContentPools();
             this.setupBasicData();
+            //load data from storage if exists
+            load_from_localstorage();
             this.doGameLoop();
         }
     }

@@ -40,5 +40,5 @@ export class CultivateQi implements IActivity {
         const rankMult = 1 + (ActivitiesController.getActivityRank(this.id) * 0.1);
         return ( bruteValue * cultivationMatMod * rankMult );
     }
-
+    
 }
