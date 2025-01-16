@@ -4,6 +4,7 @@ import { ActivityEnum } from "../activities/ActivityEnum";
 import { ModifierTypeEnum } from "../common/ModifierTypeEnum";
 import { ZoneIdEnum } from "../exploration/ZoneIdEnum";
 import { Item } from "../items/Item";
+import { ItemController } from "../items/ItemController";
 import { ItemIdEnum } from "../items/ItemIdEnum";
 import { ItemTypeEnum } from "../items/ItemTypeEnum";
 import { BodyRealmController } from "../realms/BodyRealmController";
@@ -20,7 +21,6 @@ import { FightingExperience } from "./FightingExperience";
 export class Character {
 
     year: number;
-    day: number;
     
     // realm for energy cultivation
     energyRealm: BaseEnergyRealm;
@@ -67,7 +67,6 @@ export class Character {
 
     constructor() {
         this.year = 16
-        this.day = 1;
         this.energyRealm = EnergyRealmController.getRealmById(EnergyRealmEnum.MORTAL);
         this.bodyRealm = BodyRealmController.getRealmById(BodyRealmEnum.MORTAL);
         this.attributes = new CharacterAttributes();
@@ -78,7 +77,6 @@ export class Character {
 
     resetDefaultValues() {
         this.year = 16
-        this.day = 1;
         this.zoneClearedList = new Set<ZoneIdEnum>();
         this.inventoryList = [];
         this.ageGainModifier = 1;
@@ -95,7 +93,7 @@ export class Character {
         this.attributes.setAttributeValue(AttributeTypeEnum.ALLIES, 0);
         this.attributes.setAttributeValue(AttributeTypeEnum.SOUL, 1);
         this.attributes.setAttributeValue(AttributeTypeEnum.TALENT, 1);
-        this.updateStats();
+        this.updateAllStats();
     }
 
     /**
@@ -114,11 +112,11 @@ export class Character {
 
     updateAttributesFromActivity(id: ActivityEnum) {
         if ([ActivityEnum.PRACTICE_MARTIAL_ARTS, ActivityEnum.PRACTICE_QI_SPELLS].includes(id)) {
-            this.updateStats();
+            this.updateAllStats();
         }
     }
 
-    private updateStats() {    
+    private updateAllStats() {    
         this.updateQiCapacity();
         this.updatePower();
         this.updateHealth();
@@ -225,12 +223,12 @@ export class Character {
 
     setQiBaseMinCapacity(value: number) {
         this.attributes.setAttributeValue(AttributeTypeEnum.QI_BASE_CAPACITY, value);
-        this.updateStats();
+        this.updateAllStats();
     }
 
     setAttributeValue(attribute: AttributeTypeEnum, value: number) {
         this.attributes.setAttributeValue(attribute, value);
-        this.updateStats();
+        this.updateAllStats();
     }
 
     increaseAttribute(attribute: AttributeTypeEnum, value: number) {
@@ -248,7 +246,7 @@ export class Character {
                         value = -currentInternalDamage;
                     }
                     this.attributes.addAttributeValue(attribute, value);
-                    this.updateStats();
+                    this.updateAllStats();
                 } else {
                     
                     if (currentInternalDamage < 100) {
@@ -256,7 +254,7 @@ export class Character {
                             value = 100 - currentInternalDamage;
                         }
                         this.attributes.addAttributeValue(attribute, value);
-                        this.updateStats();
+                        this.updateAllStats();
                     }
                 }
                 break;
@@ -266,7 +264,7 @@ export class Character {
                 break;
             default:
                 this.attributes.addAttributeValue(attribute, value);
-                this.updateStats();
+                this.updateAllStats();
                 break;
         }
 
@@ -281,7 +279,7 @@ export class Character {
                 value = qiTotalCapacity - currentQi;
             }
             this.attributes.addAttributeValue(AttributeTypeEnum.QI, value);
-            this.updateStats();
+            this.updateAllStats();
         }
     }
 
@@ -295,7 +293,7 @@ export class Character {
             }
             this.attributes.addAttributeValue(AttributeTypeEnum.BODY, value);
 
-            this.updateStats();
+            this.updateAllStats();
         }
     }
 
@@ -328,7 +326,7 @@ export class Character {
 
     addFightingExperience(value: number) {
         this.fightingExperience.addFightingExperience(value);
-        this.updateStats();
+        this.updateAllStats();
     }
 
     getLevel() : Readonly<number> {
@@ -341,12 +339,12 @@ export class Character {
 
     addItemInventory(item: Item) {
         this.inventoryList.push(item);
-        this.updateStats();
+        this.updateAllStats();
     }
 
     upgradeItemEffect(item: Item) {
         this.inventoryList.find(it => it.id == item.id)?.upgradeItem();
-        this.updateStats();
+        this.updateAllStats();
     }
 
     age1Year() {
@@ -369,6 +367,72 @@ export class Character {
 
     getAgeDeclineStart() {
         return this.getAttributeValueOr0(AttributeTypeEnum.LIFESPAN) * this.declineAgeMeter;
+    }
+
+    importSaveData(dataObject: Partial<Record<string, unknown>>) {
+        //empty object is not processed
+        if (!dataObject) {
+            return;
+        }
+  
+        //character age
+        this.year = dataObject['year'] as number;
+        // translate realmId into realm
+        this.energyRealm = EnergyRealmController.getRealmById(dataObject['energyRealmId'] as EnergyRealmEnum);
+        // translate realmId into realm
+        this.bodyRealm = BodyRealmController.getRealmById(dataObject['bodyRealmId'] as BodyRealmEnum);
+        //translate entries array to map
+        (dataObject['attributes'] as Array<[AttributeTypeEnum, number]>)
+            .forEach(([attr, value]) => this.attributes.setAttributeValue(attr, value));
+        // unwraps fighting experience data
+        const expObj = dataObject['fightingExperience'] as Record<string, any>;
+        this.fightingExperience = new FightingExperience(
+            expObj['level'] as number,
+            expObj['experience'] as number,
+            expObj['experienceNextLevel'] as number
+        )
+        //list of permanent items
+        this.permanentItemList.clear();
+        (dataObject['permanentItemList'] as Array<ItemIdEnum>).forEach(itemId => this.permanentItemList.add(itemId));
+        //list of cleared zones
+        (dataObject['zoneClearedList'] as Array<ZoneIdEnum>).forEach(itemId => this.zoneClearedList.add(itemId));
+        //translate itemId to item
+        this.inventoryList = [];
+        (dataObject['inventoryList'] as Array<ItemIdEnum>).forEach(itemId => {
+            const item = ItemController.getItemById(itemId);
+            if (item) {
+                this.inventoryList.push(item);
+            } else {
+                console.error('Something went wrong when importing items to character')
+            }
+        });
+    }
+
+    performDataUpdate() {
+        //update data
+        this.updateAllStats();
+        this.updateAgeGainModifier();
+    }
+
+    toExportFormat() : Record<string, any> {
+        return {
+            //character age
+            year: this.year,
+            // translate realm into id
+            energyRealmId: this.energyRealm.id,
+            // translate realm into id
+            bodyRealmId: this.bodyRealm.id,
+            //translate object and map into entries array
+            attributes: this.attributes.toExportFormat(),
+            // encapsulates fighting experience
+            fightingExperience: this.fightingExperience.toExportFormat(),
+            //list of permanent items
+            permanentItemList: this.permanentItemList.values().toArray(),
+            //list of cleared zones
+            zoneClearedList: this.zoneClearedList.values().toArray(),
+            //translate item to itemId
+            inventoryList: this.inventoryList.map(item => item.id)
+        };
     }
 
 }

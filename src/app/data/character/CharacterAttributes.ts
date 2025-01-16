@@ -40,4 +40,7 @@ export class CharacterAttributes {
         this.attributes.set(attribute, currentValue + value);
     }
 
+    toExportFormat() : Array<[AttributeTypeEnum, number]>{
+        return this.attributes.entries().toArray();
+    }
 }

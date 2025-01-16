@@ -175,7 +175,7 @@ export class ActivitiesController {
             .filter(act => (dataObject['unlockedActivities'] as ActivityEnum[]).includes(act.id));
         
         this.activityRankMap.clear();
-        (dataObject['activityRankMap'] as Array<[ActivityEnum, {}]>)
+        (dataObject['activityRankMap'] as Array<[ActivityEnum, Record<string, any>]>)
             .forEach(([key, value]) => {
                 //translate data to <ActivityEnum, ActivityRank>
                 const actRankObj = ActivityRank.createFromData(value);

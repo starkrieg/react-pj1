@@ -296,12 +296,14 @@ export class ExplorationController {
         (dataObject['blockedRegions'] as Array<ZoneRegionEnum>)
             .forEach(regionId => this.blockedRegions.add(regionId));
 
+        //replace list of unlocked zones
+        this.unlockedZones = [];
         const importedUnlockedData = (dataObject['unlockedZones'] as Array<Partial<Record<keyof Zone, any>>>);
         ZonePool.getZonePool()
             // obj should have an id and isComplete
             // filter by the ids passed on the dataObject
             .filter(zone => {
-                importedUnlockedData
+                return importedUnlockedData
                     .map(obj => obj.id).includes(zone.id)
             })
             // modify zone for the isComplete

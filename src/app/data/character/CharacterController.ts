@@ -376,4 +376,29 @@ export class CharacterController {
       }
     }
 
+    static exportSaveData() : Record<string, unknown> {
+      return {
+        character: this.character.toExportFormat(),
+        isCanBreakthroughEnergy: this.isCanBreakthroughEnergy,
+        isCanBreakthroughBody: this.isCanBreakthroughBody,
+        deathCount: this.deathCount,
+        fightTotalCount: this.fightTotalCount
+      }
+  }
+
+  static importSaveData(dataObject: Partial<Record<string, unknown>>) {
+      //empty object is not processed
+      if (!dataObject) {
+          return;
+      }
+
+      this.character.importSaveData(dataObject['character'] as Record<string, unknown>);
+      this.isCanBreakthroughEnergy = dataObject['isCanBreakthroughEnergy'] as boolean;
+      this.isCanBreakthroughBody = dataObject['isCanBreakthroughBody'] as boolean;
+      this.deathCount = dataObject['deathCount'] as number;
+      this.fightTotalCount = dataObject['fightTotalCount'] as number;
+
+
+  }
+
 }

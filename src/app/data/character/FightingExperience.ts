@@ -12,10 +12,11 @@ export class FightingExperience {
 
     private readonly EXP_UP_RATE = 2.15;
 
-    constructor() {
-        this.level = 0;
-        this.experience = 0;
-        this.experienceNextLevel = 25;
+    constructor(level: number = 0, experience: number = 0, 
+        experienceNextLevel: number = 25) {
+        this.level = level;
+        this.experience = experience;
+        this.experienceNextLevel = experienceNextLevel;
     }
 
     addFightingExperience(value: number) {
@@ -37,5 +38,13 @@ export class FightingExperience {
 
     getLevelStatus() {
         return [this.experience, this.experienceNextLevel];
+    }
+
+    toExportFormat() {
+        return {
+            level: this.level,
+            experience: this.experience,
+            experienceNextLevel: this.experienceNextLevel
+        }
     }
 }

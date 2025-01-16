@@ -9,8 +9,6 @@ import { Utilities } from "../utils/Utilities";
 import { ItemMarketCreator } from "./ItemMarketCreator";
 import { MarketItem } from "./MarketItem";
 import { IRequirement, RequirementExportFormat } from "../common/IRequirement";
-import { ItemController } from "../items/ItemController";
-import { ItemIdEnum } from "../items/ItemIdEnum";
 import { ActivityRequirement } from "../common/ActivityRequirement";
 import { AttributeRequirement } from "../common/AttributeRequirement";
 import { ItemRequirement } from "../common/ItemRequirement";

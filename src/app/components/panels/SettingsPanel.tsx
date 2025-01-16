@@ -17,16 +17,16 @@ let lastSave: string = 'Never';
 let jsonGameData: string = '';
 
 type loadedDataType = {
-  metadata: {},
+  metadata: Record<string, any>,
   data: {
-    activities: {},
-    exploration: {},
-    messages: {},
-    modals: {},
-    markets: {},
-    events: {},
-    calendar: {},
-    character: {}  
+    activities: Record<string, any>,
+    exploration: Record<string, any>,
+    messages: Record<string, any>,
+    modals: Record<string, any>,
+    markets: Record<string, any>,
+    events: Record<string, any>,
+    calendar: Record<string, any>,
+    character: Record<string, any>  
   }
 }
 
@@ -43,6 +43,8 @@ function load(save_data: string) {
 
   const loadedData: loadedDataType = JSON.parse(save_data);
 
+  //character runs first, to add all itens to inventory
+  CharacterController.importSaveData(loadedData.data.character)
   ActivitiesController.importSaveData(loadedData.data.activities);
   ExplorationController.importSaveData(loadedData.data.exploration);
   MessageController.importSaveData(loadedData.data.messages);
@@ -51,8 +53,10 @@ function load(save_data: string) {
   MarketController.importSaveData(loadedData.data.markets)
   EventController.importSaveData(loadedData.data.events)
   Calendar.importSaveData(loadedData.data.calendar)
-  //CharacterController.importSaveData(loadedData.data.character)
   
+  //after everything is setup, recalculate all character data
+  CharacterController.getCharacter().performDataUpdate();
+
   // go through the loaded data
 
 } //core function for loading
@@ -109,7 +113,7 @@ const processInputFile = (event: Event) => {
     if (!isTxtFile) {
       alert('Invalid file!');
     } else {
-      var reader = new FileReader();
+      const reader = new FileReader();
 
       reader.onload = function() {
         load_from_file(reader.result as string);
@@ -140,7 +144,7 @@ const doSaveGame = () => {
       markets: MarketController.exportSaveData(),
       events: EventController.exportSaveData(),
       calendar: Calendar.exportSaveData(),
-      //character: CharacterController.exportSaveData()
+      character: CharacterController.exportSaveData()
     }
   }
   // turn data into json

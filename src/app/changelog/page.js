@@ -13,9 +13,10 @@ export default function Changelog() {
 
       <li style={{marginTop: 10}}>
         <p>v.0.4.3 - alpha / 2025-Jan-??</p>
-        <p>Overview: Fixes and adjustments</p>
+        <p>Overview: Save mechanic, fixes and adjustments</p>
         <div>
           Changes:
+          <p>Added a Save / Export / Load mechanic</p>
           <p>Fixed activities upgrades not being applied correctly, like for Meditate</p>
           <p>Greatly reduce drop rates on all zones to balance with 50x speed. This is so gameplay speed feels better.</p>
           <p>Changed so activities start at rank 0. Easier to track effects this way.</p>
