@@ -12,11 +12,12 @@ export default function Changelog() {
       <p>Current end game and challenge: beating the final event zone before year 615</p>
 
       <li style={{marginTop: 10}}>
-        <p>v.0.4.3 - alpha / 2025-Jan-??</p>
+        <p>v.0.4.3 - alpha / 2025-Jan-16</p>
         <p>Overview: Save mechanic, fixes and adjustments</p>
         <div>
           Changes:
           <p>Added a Save / Export / Load mechanic</p>
+          <p>Moved settings to bottom of the page, as a footer and added a discord link.</p>
           <p>Fixed activities upgrades not being applied correctly, like for Meditate</p>
           <p>Greatly reduce drop rates on all zones to balance with 50x speed. This is so gameplay speed feels better.</p>
           <p>Changed so activities start at rank 0. Easier to track effects this way.</p>

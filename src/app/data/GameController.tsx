@@ -10,7 +10,6 @@ import { GameState } from "../components/GameState";
 import { MainContentEnum } from "./MainContentEnum";
 import { ModalTypeEnum } from "./modal/ModalTypeEnum";
 import { ExplorationController } from "./exploration/ExplorationController";
-import { ModalController } from "./modal/ModalController";
 import { ActivitiesController } from "./activities/ActivitiesController";
 import ItemCreator from "./items/ItemCreator";
 import ZonePool from "./exploration/ZonePool";

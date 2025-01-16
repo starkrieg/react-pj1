@@ -31,9 +31,16 @@
     width: 200px;
     text-align: center;
     align-content: center;
-    margin-left: auto;
+    margin: auto;
 }
 
-.settings-changelog {
+.icon-discord {
+    margin: auto 5px;
+}
+
+.settings-link {
     text-decoration: underline;
+    display: flex;
+    gap: 3px;
+    margin: auto;
 }

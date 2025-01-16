@@ -14,8 +14,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Project Game 1",
-  description: "Project Game 1"
+  title: "Project Game 1 - Journey Beyond",
+  description: "Project Game 1 - Journey Beyond"
 };
 
 export default function RootLayout({
