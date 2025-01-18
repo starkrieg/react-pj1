@@ -15,12 +15,12 @@ export default function CalendarPanel(gameController: GameController) {
     return (
         <div style={{ fontSize: 14, display: 'grid' }} >
             <div className="calendar-speed-buttons-div">
-                { ButtonGameSpeedPause(gameController.pauseGame.bind(gameController), (selectedBtn == 0)) }
-                { ButtonGameSpeedPlay(gameController.normalSpeedGame.bind(gameController), (selectedBtn == 1)) }
-                { ButtonGameSpeedFastForward(gameController.speedUp2Game.bind(gameController), (selectedBtn == 2)) }
-                { ButtonGameSpeedCustom('5x', gameController.speedUp5Game.bind(gameController), (selectedBtn == 3)) }
-                { ButtonGameSpeedCustom('10x', gameController.speedUp10Game.bind(gameController), (selectedBtn == 4)) }
-                { ButtonGameSpeedCustom('50x', gameController.speedUp50Game.bind(gameController), (selectedBtn == 5)) }
+                { ButtonGameSpeedPause(gameController.doPauseGame.bind(gameController), (selectedBtn == 0)) }
+                { ButtonGameSpeedPlay(gameController.doChangeGameSpeedNormal.bind(gameController), (selectedBtn == 1)) }
+                { ButtonGameSpeedFastForward(gameController.doChangeGameSpeed2x.bind(gameController), (selectedBtn == 2)) }
+                { ButtonGameSpeedCustom('5x', gameController.doChangeGameSpeed5x.bind(gameController), (selectedBtn == 3)) }
+                { ButtonGameSpeedCustom('10x', gameController.doChangeGameSpeed10x.bind(gameController), (selectedBtn == 4)) }
+                { ButtonGameSpeedCustom('50x', gameController.doChangeGameSpeed50x.bind(gameController), (selectedBtn == 5)) }
             </div>
             { CalendarTickBar(currentTick, MAX_TICK_DAY) }
             <label>{Calendar.getYear()}y, day {Calendar.getDay()}</label>

@@ -19,7 +19,7 @@ import { MarketController } from "./market/MarketController";
 import { ItemMarketCreator } from "./market/ItemMarketCreator";
 import { EventController } from "./events/EventController";
 import { EventCreator } from "./events/EventCreator";
-import { load_from_localstorage } from "./SaveDataController";
+import { load_from_localstorage, startAutoSaveTimer } from "./SaveDataController";
 
 export default class GameController {
 
@@ -40,7 +40,7 @@ export default class GameController {
 
     constructor() {
         this.globalRoot = undefined;
-        this.normalSpeedGame();
+        this.doChangeGameSpeedNormal();
     }
 
     private setupContentPools() {
@@ -69,7 +69,7 @@ export default class GameController {
 
     private doReviveCharacter() {
         Calendar.resetDefaultValues();
-        this.normalSpeedGame();
+        this.doChangeGameSpeedNormal();
         CharacterController.reviveCharacter();
         MessageController.pushMessageGeneral('You wake up!');
         MessageController.pushMessageStory(`You wake up! You open your eyes, alive and young again. You are weak, but all you went through will push you to even greater heights.`);
@@ -77,40 +77,53 @@ export default class GameController {
 
     // functions
 
+    /**
+     * Creates a separate thread that waits a time in milliseconds.
+     * Use this with 'await' to make the current thread do nothing for some time.
+     * Minimum value is 4ms - limited by setTimeout
+     * @param ms a number in milisseconds
+     * @returns 
+     */
     private sleep(ms: any) {
         return new Promise(resolve => setTimeout(resolve, ms));  // Define sleep
     }
     
-    pauseGame() {
+    /**
+     * Changes game speed to paused
+     */
+    doPauseGame() {
         this.isPaused = true;
         this.speedBtnSelected = 0;
     }
     
-    normalSpeedGame() {
+    /**
+     * Changes game speed to normal speed
+     */
+    doChangeGameSpeedNormal() {
         this.isPaused = false;
         this.gameSpeed = 0.5;
         this.speedBtnSelected = 1;
     }
     
-    speedUp2Game() {
+    doChangeGameSpeed2x() {
         this.isPaused = false;
         this.gameSpeed = 1;
         this.speedBtnSelected = 2;
     }
     
-    speedUp5Game() {
+    doChangeGameSpeed5x() {
         this.isPaused = false;
         this.gameSpeed = 2.5;
         this.speedBtnSelected = 3;
     }
 
-    speedUp10Game() {
+    doChangeGameSpeed10x() {
         this.isPaused = false;
         this.gameSpeed = 5;
         this.speedBtnSelected = 4;
     }
 
-    speedUp50Game() {
+    doChangeGameSpeed50x() {
         this.isPaused = false;
         this.gameSpeed = 25;
         this.speedBtnSelected = 5;
@@ -136,12 +149,13 @@ export default class GameController {
     }
 
     private doGameLoop() {
-        return new Promise(async () => {
+        new Promise(async () => {
             /* 1 tick is 100 ms */
             /* 1 day is X amount of ticks */
             /* 365 days in a year */
             /* game speed reduces tick time */
             
+            startAutoSaveTimer();
             const ticksPerFightRound = 6; // how many ms for a small day tick
             // a day has MAX_TICK_DAY of walks
             // keep it above 3, so hydration works properly
@@ -192,6 +206,11 @@ export default class GameController {
     }
 
     private updateUIState() {
+        //this check is required so typescript compiler wont complain and choke
+        if (typeof document == "undefined") {
+            return;
+        }
+
         if (this.globalRoot == undefined) {
             const root = document.getElementById('root');
             this.globalRoot = root ? createRoot(root) : undefined;

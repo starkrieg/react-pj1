@@ -13,6 +13,37 @@ export let lastSave: string = 'Never';
 
 let jsonGameData: string = '';
 
+const AUTO_SAVE_TIMER_IN_SEC = 30;
+let time_until_auto_save_in_sec = 0;
+
+export function getTimeUntilAutoSaveInSec() : Readonly<number> {
+  return time_until_auto_save_in_sec;
+}
+
+export function startAutoSaveTimer() {
+  //this check is required so typescript wont run the promise on the wrong place
+  if (!isOnBrowser()) {
+    return;
+  }
+
+  function sleep(ms: any) {
+    return new Promise(resolve => setTimeout(resolve, ms));  // Define sleep
+  }
+
+  new Promise(async () => {
+    time_until_auto_save_in_sec = AUTO_SAVE_TIMER_IN_SEC;
+    while(time_until_auto_save_in_sec > -1) {
+      await sleep(1000); // wait 1 second to run
+      time_until_auto_save_in_sec += -1;
+      if (time_until_auto_save_in_sec < 1) {
+        // timer is reset after save
+        doSaveGame();
+      }
+    }
+    console.error('Something went wrong when auto saving')
+  });   
+}
+
 type loadedDataType = {
   metadata: Record<string, any>,
   data: {
@@ -61,11 +92,20 @@ function load(save_data: string) {
 
 } //core function for loading
 
+function isOnBrowser() {
+  return (typeof window !== "undefined");
+}
+
 /**
  * loads the game from localStorage
  * it's called when page is refreshed, so there's no need for it to reset anything
  */
 export function load_from_localstorage() {
+  //this check is required so typescript compiler wont complain and choke
+  if (!isOnBrowser()) {
+    return;
+  }
+
   try{
       load(localStorage.getItem(storage_save_key) || '');
   } catch(error) {
@@ -81,6 +121,11 @@ export function load_from_localstorage() {
  * @param {String} save_string 
  */
 function load_from_file(save_string: string) {
+  //this check is required so typescript compiler wont complain and choke
+  if (!isOnBrowser()) {
+    return;
+  }
+
   try{
     // atob() decodes from base64
     const jsonGameData = atob(save_string);
@@ -104,6 +149,11 @@ function load_from_file(save_string: string) {
 } //called on loading from file, clears everything
 
 export const doSaveGame = () => {
+  //this check is required so typescript compiler wont complain and choke
+  if (!isOnBrowser()) {
+    return;
+  }
+
   //compile relevant data
   const gameData = {
     metadata: {
@@ -129,19 +179,27 @@ export const doSaveGame = () => {
 
   // update label
   lastSave = new Date().toLocaleString();
+  // update auto save timer
+  time_until_auto_save_in_sec = AUTO_SAVE_TIMER_IN_SEC;
 }
 
 export const doDownloadSaveFile = () => {
-    doSaveGame();
-    // btoa() encodes into base64
-    const blobData = new Blob([btoa(jsonGameData)], { type: "text/plain;charset=utf-8" });
+  //this check is required so typescript compiler wont complain and choke
+  if (!isOnBrowser()) {
+    return;
+  }
 
-    const url = window.URL || window.webkitURL;
-    const link = url.createObjectURL(blobData);
-    const aTag = document.createElement("a");
-    aTag.download = `journey-beyond_${new Date().toLocaleString()}.txt`;
-    aTag.href = link;
-    aTag.click();
+  doSaveGame();
+  
+  // btoa() encodes into base64
+  const blobData = new Blob([btoa(jsonGameData)], { type: "text/plain;charset=utf-8" });
+
+  const url = window.URL || window.webkitURL;
+  const link = url.createObjectURL(blobData);
+  const aTag = document.createElement("a");
+  aTag.download = `journey-beyond_${new Date().toLocaleString()}.txt`;
+  aTag.href = link;
+  aTag.click();
 }
 
 export const doLoadGame = () => {
@@ -181,9 +239,14 @@ const processInputFile = (event: Event) => {
 }
 
 export const resetEverything = () => {
-    const ans = confirm('Your progress will be erased and you will start from scratch. Are you sure?');
-    if (ans) {
-        localStorage.removeItem(storage_save_key);
-        window.location.reload();
-    }
+  //this check is required so typescript compiler wont complain and choke
+  if (!isOnBrowser()) {
+    return;
+  }
+
+  const ans = confirm('Your progress will be erased and you will start from scratch. Are you sure?');
+  if (ans) {
+      localStorage.removeItem(storage_save_key);
+      window.location.reload();
+  }
 }

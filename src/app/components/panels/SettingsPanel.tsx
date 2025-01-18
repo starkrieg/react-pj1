@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { appVersion } from '../../properties/properties'
 import Button from "../Button";
-import { doDownloadSaveFile, doLoadGame, doSaveGame, lastSave, resetEverything } from "@/app/data/SaveDataController";
+import { doDownloadSaveFile, doLoadGame, doSaveGame, getTimeUntilAutoSaveInSec, lastSave, resetEverything } from "@/app/data/SaveDataController";
 
 export default function SettingsPanel() {
 
@@ -45,6 +45,10 @@ export default function SettingsPanel() {
 
           <div className="settings-save-time">
             Last save: { lastSave }
+          </div>
+
+          <div className="settings-save-time">
+            Auto save in { getTimeUntilAutoSaveInSec() }s
           </div>
 
           <Link className="settings-link" href="https://discord.com/invite/bCABC96" target="_blank">
