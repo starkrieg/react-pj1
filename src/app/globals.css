@@ -227,7 +227,7 @@ body {
   position: absolute;
   bottom: 0;
   width: 100%;
-  background-color: beige;
+  background-color: var(--background);
   padding: 10px;
   border: 1px dashed var(--jade_green);
 }
