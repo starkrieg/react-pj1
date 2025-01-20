@@ -5,16 +5,18 @@
 }
 
 .settings-button {
-    color: var(--ivory_white);
-    background-color: var(--burnt_umber);
+    color: var(--foreground);
+    background-color: var(--button-color);
     border-radius: 5px;
     padding: 5px;
-    font-weight: 'bold';
+    font-weight: bold;
     margin: 'auto 0px';
+    outline: 1px solid var(--outline-color);
+    border: 1px solid var(--border-color);
 }
 
 .settings-button:hover {
-    background-color: var(--dark_umber);
+    background-color: var(--button-hover);
 }
 
 .hard-reset-button {
