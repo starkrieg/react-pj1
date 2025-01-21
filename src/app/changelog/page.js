@@ -12,6 +12,16 @@ export default function Changelog() {
       <p>Current end game and challenge: beating the final event zone before year 615</p>
 
       <li style={{marginTop: 10}}>
+        <p>v.0.4.4 - alpha / 2025-Jan-21</p>
+        <p>Overview: UI changes for light and dark mode, tweaks to money gain</p>
+        <div>
+          Changes:
+          <p>Changed UI colors for better usability. Its not perfect, but should look better than before. Dark mode still requires work.</p>
+          <p>Reduced amount of days to make money via Perform Odd Jobs so early game has a better flow.</p>
+        </div>
+      </li>
+
+      <li style={{marginTop: 10}}>
         <p>v.0.4.3 - alpha / 2025-Jan-16</p>
         <p>Overview: Save mechanic, fixes and adjustments</p>
         <div>

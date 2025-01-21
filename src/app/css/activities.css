@@ -11,13 +11,14 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    background-color: var(--background-2);
+    color: var(--foreground);
     padding: 2px 3px;
 }
   
 .activity-overview {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    transition: all 0.2s cubic-bezier(0.15, 0.83, 0.66, 1);
     width: 100%;
 }
 
@@ -30,18 +31,8 @@
     margin-right: 10px;
 }
 
-.activities .activity-button:hover {
-    background-color: #F5F8FE;
-}
-
-.activities .activities-list .activity-button:hover label, 
-.activities .activities-list .activity-selected label {
-    color: #1763fa;
-}
-
-.activities .activities-list .activity-button:hover span,
-.activities .activities-list .activity-selected span {
-    color: #7ba0eb;
+.activities .activity-button:hover, .activities .activity-selected {
+    background-color: var(--second-background-1);
 }
 
 .activities .activities-list {
@@ -53,7 +44,7 @@
     font-weight: 600;
     font-size: 12px;
     line-height: 15px;
-    color: #171718;
+    color: var(--foreground);
     cursor: pointer;
 }
 
@@ -61,5 +52,5 @@
     font-weight: 600;
     font-size: 10px;
     line-height: 12px;
-    color: #72767c;
+    color: var(--foreground);
 }

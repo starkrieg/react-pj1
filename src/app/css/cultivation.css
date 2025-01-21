@@ -24,20 +24,25 @@
 }
 
 .cultivation-realm-up-button {
-    border: 1px solid var(--foreground);
+    outline: 1px solid var(--outline-color);
+    border: 1px solid var(--border-color);
     background-color: var(--golden_yellow);
+    color: var(--foreground);
     border-radius: 5px;
     padding: 4px;
     margin-top: 20px;
 }
 
-.cultivation-button-disabled {
-    opacity: 0.5;
-}
-
 .cultivation-realm-up-button:hover {
     background-color: var(--dark_yellow);
 }
+
+.cultivation-realm-up-button.cultivation-button-disabled {
+    background-color: var(--golden_yellow);
+    opacity: 0.3;
+    cursor: default;
+}
+
 
 .cultivation-realm-up-requirements {
     margin-top: 10px;

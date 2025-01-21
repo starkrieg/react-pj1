@@ -16,7 +16,7 @@ export class PerformOddJobs implements IActivity {
 
     unlockRequirements: [] = [];
 
-    readonly BASE_DAYS_COIN_GAIN = 4;
+    readonly BASE_DAYS_COIN_GAIN = 2;
     private countDays = 0;
 
     constructor() {

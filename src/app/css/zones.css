@@ -11,16 +11,14 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-}
-  
-.zones .zone-button label {
-    cursor: pointer;
+    background-color: var(--background-2);
+    color: var(--foreground);
+    padding: 2px 3px;
 }
   
 .zone-header {
     display: grid;
     grid-template-columns: 1fr 100px;
-    transition: all 0.2s cubic-bezier(0.15, 0.83, 0.66, 1);
     width: 100%;
 }
   
@@ -43,6 +41,10 @@
     border-radius: 50%;
     display: inline-block;
     margin: 1px;
+}
+
+.zones .zone-button label {
+    cursor: pointer;
 }
 
 .zone-header .zone-power span {
@@ -68,18 +70,10 @@
     align-content: end;
 }
   
-.zones .zone-button:hover {
-    background-color: #F5F8FE;
+.zones .zone-button:hover, .zones .zone-selected {
+    background-color: var(--second-background-1);
 }
-  
-.zones .zones-list .zone-button:hover label {
-    color: #1763fa;
-}
-  
-.zones .zones-list .zone-button:hover span {
-    color: #7ba0eb;
-}
-  
+    
 .zones .zones-list {
     display: flex;
     flex-direction: column;
@@ -90,7 +84,7 @@
     font-weight: 600;
     font-size: 12px;
     line-height: 15px;
-    color: #171718;
+    color: var(--foreground);
     text-align: left;
 }
   
@@ -98,7 +92,7 @@
     font-weight: 600;
     font-size: 10px;
     line-height: 12px;
-    color: #72767c;
+    color: var(--foreground);
 }
   
 .zones .zone-fight-header {
@@ -108,7 +102,7 @@
 }
   
 .zones .zone-fight-header .zone-button-retreat {
-    color: var(--ivory_white);
+    color: var(--white);
     background-color: var(--light_crimson);
     border-radius: 5px;
     padding: 5px;

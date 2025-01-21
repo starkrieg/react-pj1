@@ -23,7 +23,7 @@ export default function JournalPanel(messageList: Message[]) {
         return <li key={idx} style={{
         borderBottomWidth: 1,
         borderBottomStyle: 'dashed',
-        borderBottomColor: 'var(--burnt_umber)'
+        borderBottomColor: 'var(--background-3)'
     }}>
         {createText(msg)}
         </li>

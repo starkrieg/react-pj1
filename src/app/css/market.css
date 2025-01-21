@@ -19,10 +19,17 @@
     padding-left: 2px;
     border-radius: 5px;
     text-align: left;
+    background-color: var(--background-2);
 }
 
-.market-item-cannot-buy {
-    background-color: lightgray;
+.market-item:hover {
+    background-color: var(--second-background-1);
+}
+
+.market-item.market-item-cannot-buy {
+    background-color: var(--background-2);
+    opacity: 0.5;
+    cursor: default;
 }
 
 .market-item-name {

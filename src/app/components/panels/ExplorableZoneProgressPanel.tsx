@@ -80,8 +80,8 @@ export default function ExplorableZoneProgressPanel() {
     }
 
     return (
-        <div style={ { display: '' } } className={ 'zones item-style' }>
-            <div>
+        <div style={ { display: '' } } className={ 'zones' }>
+            <div className="zone-selected item-style">
                 <div className="zone-header">
                     <label>{ zone?.title }</label>
                     <div className="zone-complete">
