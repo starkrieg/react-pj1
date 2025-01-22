@@ -12,6 +12,19 @@ export default function Changelog() {
       <p>Current end game and challenge: beating the final event zone before year 615</p>
 
       <li style={{marginTop: 10}}>
+        <p>v.0.4.5 - alpha / 2025-Jan-22</p>
+        <p>Overview: Fix to save storage getting too big and not saving anymore</p>
+        <div>
+          Changes:
+          <p>
+            Changed so save mechanic stores only a limited amount of all messages, except for story messages.
+            After importing an old save, or after loading the game, simply click on save (or wait for the auto save), and your save file size should already have the reduced size.
+          </p>
+          <p>Loading the game from save should not display the game start window anymore.</p>
+        </div>
+      </li>
+
+      <li style={{marginTop: 10}}>
         <p>v.0.4.4 - alpha / 2025-Jan-21</p>
         <p>Overview: UI changes for light and dark mode, tweaks to money gain</p>
         <div>

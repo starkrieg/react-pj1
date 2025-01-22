@@ -4,16 +4,17 @@ import { ModalTypeEnum } from "../data/modal/ModalTypeEnum";
 import ModalScreen from "./ModalScreen";
 
 export function ModalPanel(gameController: GameController) {
-    if (gameController.modalType == ModalTypeEnum.NOTHING) {
+    const currentModal = ModalController.getCurrentModal();
+    if (currentModal == ModalTypeEnum.NOTHING) {
         return '';
     } else {
-        let modalFunction = gameController.doCloseModal;
+        let modalFunction = ModalController.clearModal;
 
-        if ([ModalTypeEnum.DEATH, ModalTypeEnum.DEATH_FIRST].includes(gameController.modalType)) {
+        if ([ModalTypeEnum.DEATH, ModalTypeEnum.DEATH_FIRST].includes(currentModal)) {
             modalFunction = gameController.doAfterDeathModalClick;
         }
 
-        return ModalScreen(ModalController.getModalContentFromType(gameController.modalType), 
-            modalFunction.bind(gameController));
+        return ModalScreen(ModalController.getModalContentFromType(currentModal), 
+            modalFunction.bind(ModalController));
     }
 }

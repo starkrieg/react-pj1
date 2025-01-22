@@ -20,16 +20,6 @@ export class ActivitiesController {
     private static unlockedActivities: IActivity[] = [];
 
     private static activityRankMap: Map<ActivityEnum, ActivityRank> = new Map<ActivityEnum, ActivityRank>();
-    
-    /**
-     * Resets all data
-     * Used on game hard reset
-     */
-    static hardReset() {
-        this.selectedActivity = undefined;
-        this.unlockedActivities = [];
-        this.activityRankMap.clear();
-    }
 
     /**
      * Resets superficial data, like selected activity and activities available

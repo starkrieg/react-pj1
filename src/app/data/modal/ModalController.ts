@@ -5,14 +5,21 @@ import { ModalTypeEnum } from "./ModalTypeEnum";
 
 export class ModalController {
 
+    // modal that needs to be displayed
+    private static currentModal = ModalTypeEnum.NOTHING;
+
     private static modalContentMap = new Map<ModalTypeEnum, ModalContent>();
 
-    /**
-     * Resets all data
-     * Used on game hard reset
-     */
-    static hardReset() {
-        this.modalContentMap.clear();
+    static setCurrentModal(type: ModalTypeEnum) {
+        this.currentModal = type;
+    }
+
+    static getCurrentModal() : Readonly<ModalTypeEnum> {
+        return this.currentModal;
+    }
+
+    static clearModal() {
+        this.currentModal = ModalTypeEnum.NOTHING;
     }
 
     static getModalContentFromType(modalType: ModalTypeEnum) {
@@ -73,7 +80,8 @@ export class ModalController {
         return {
             // translate map into entry array
             // objects are simple enough
-            modalContentMap: this.modalContentMap.entries().toArray()
+            modalContentMap: this.modalContentMap.entries().toArray(),
+            currentModal: this.currentModal
         }
     }
 
@@ -88,6 +96,10 @@ export class ModalController {
                 const modalContent = new ModalContent(value.title, value.desc, value.buttonText);
                 this.modalContentMap.set(key, modalContent)
             });
+
+        if (Object.values(ModalTypeEnum).includes(dataObject['currentModal'] as any)) {
+            this.currentModal = dataObject['currentModal'] as ModalTypeEnum;
+        }
     }
 
 }

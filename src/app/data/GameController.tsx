@@ -20,6 +20,7 @@ import { ItemMarketCreator } from "./market/ItemMarketCreator";
 import { EventController } from "./events/EventController";
 import { EventCreator } from "./events/EventCreator";
 import { load_from_localstorage, startAutoSaveTimer } from "./SaveDataController";
+import { ModalController } from "./modal/ModalController";
 
 export default class GameController {
 
@@ -30,8 +31,6 @@ export default class GameController {
     isPaused = false;
     gameSpeed = 0;
     speedBtnSelected = 0;
-
-    modalType = ModalTypeEnum.NOTHING;
 
     selectedContent = MainContentEnum.JOURNAL;
 
@@ -63,7 +62,7 @@ export default class GameController {
         ContentUnlockController.unlockContent();
         EventCreator.createEvents();
         
-        this.modalType = ModalTypeEnum.GAME_START;
+        ModalController.setCurrentModal(ModalTypeEnum.GAME_START);
         MessageController.pushMessageGeneral('You wake up!');
     }
 
@@ -137,7 +136,7 @@ export default class GameController {
         if (Calendar.incrementDay()) {
             
             if (CharacterController.ageCharacter1Year()) {
-                this.modalType = (CharacterController.getDeathCount() > 0) ? ModalTypeEnum.DEATH : ModalTypeEnum.DEATH_FIRST
+                ModalController.setCurrentModal((CharacterController.getDeathCount() > 0) ? ModalTypeEnum.DEATH : ModalTypeEnum.DEATH_FIRST)
             } else {
                 //character still alive
                 if (EventController.getNextMilestoneYear() == Calendar.getYear()) {
@@ -161,7 +160,7 @@ export default class GameController {
             // keep it above 3, so hydration works properly
             while(this.isGameWorking) {
                 await this.sleep(100 / this.gameSpeed);
-                if (!this.isPaused && this.modalType == ModalTypeEnum.NOTHING) {
+                if (!this.isPaused && ModalController.getCurrentModal() == ModalTypeEnum.NOTHING) {
                     if (ExplorationController.selectedZone) {
                         this.current_tick_day += 1;
                     } else {
@@ -230,10 +229,6 @@ export default class GameController {
             this.doGameLoop();
         }
     }
-
-    doCloseModal() {
-        this.modalType = ModalTypeEnum.NOTHING;
-    }
     
     doAfterDeathModalClick() {
         this.doReviveCharacter();
@@ -247,8 +242,7 @@ export default class GameController {
         //unlock content from what is kept on character revival
         ContentUnlockController.unlockContent();
         EventCreator.createEvents();
-        
-        this.doCloseModal();
+        ModalController.clearModal();
     }
       
 }
