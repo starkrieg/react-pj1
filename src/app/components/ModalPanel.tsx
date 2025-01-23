@@ -9,12 +9,15 @@ export function ModalPanel(gameController: GameController) {
         return '';
     } else {
         let modalFunction = ModalController.clearModal;
-
+        
         if ([ModalTypeEnum.DEATH, ModalTypeEnum.DEATH_FIRST].includes(currentModal)) {
             modalFunction = gameController.doAfterDeathModalClick;
+            return ModalScreen(ModalController.getModalContentFromType(currentModal), 
+                modalFunction.bind(gameController));
+        } else {
+            return ModalScreen(ModalController.getModalContentFromType(currentModal), 
+                modalFunction.bind(ModalController));
         }
-
-        return ModalScreen(ModalController.getModalContentFromType(currentModal), 
-            modalFunction.bind(ModalController));
+        
     }
 }
