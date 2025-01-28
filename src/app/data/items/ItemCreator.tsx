@@ -75,7 +75,7 @@ export default class ItemCreator {
         ItemController.createItem(ItemIdEnum.BOOK_CONFUCIAN_SCRIPTURES_I,
             ItemTypeEnum.PERMANENT,
             'The Way of Confucius I',
-            'Knowledge on confucian texts, philosophy and life. Increases Meditate gains by x2 (permanent)',
+            'Knowledge on confucian texts, philosophy and life. Increases Meditate training speed by x2 (permanent)',
             ItemMarketZone.CALM_WIND_VILLAGE,
             [ /* no attribute effects */]
         );
@@ -83,7 +83,7 @@ export default class ItemCreator {
         ItemController.createItem(ItemIdEnum.BOOK_TAOIST_SCRIPTURES_I,
             ItemTypeEnum.PERMANENT,
             'The Way of The Tao I',
-            'Knowledge on taoist texts, philosophy and life. Increases Meditate gains by x2 (permanent)',
+            'Knowledge on taoist texts, philosophy and life. Increases Meditate training speed by x2 (permanent)',
             ItemMarketZone.CALM_WIND_VILLAGE,
             [ /* no attribute effects */]
         );
@@ -299,7 +299,7 @@ export default class ItemCreator {
             ItemIdEnum.ITEM_MYSTIC_INCENSE,
             ItemTypeEnum.TEMPORARY,
             'Mystic Incense',
-            'Incense infused with spiritual energy for greater concentration and tranquil mind. Increases Meditate gains by x2',
+            'Incense infused with spiritual energy for greater concentration and tranquil mind. Increases Meditate training speed by x2',
             ItemMarketZone.CALM_WIND_SECT
         );
 
@@ -473,8 +473,8 @@ export default class ItemCreator {
     private static createSelfUpgradeItems() {
         ItemController.createItem(ItemIdEnum.SELF_OPEN_BUSINESS,
             ItemTypeEnum.TEMPORARY,
-            'Open Business',
-            'Expand your ways of money making. Change Odd Jobs into Manage Business and gains by x2',
+            'Co-Own Business',
+            'Expand your ways of money making. Increase Odd Jobs gains by x2',
             ItemMarketZone.SELF
         );
     }

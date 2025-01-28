@@ -32,7 +32,7 @@ export default class ActivityPool {
             ActivityEnum.MEDITATE,
             'Meditate',
             'Meditate and develop your inner mind',
-            'Increase activity speed',
+            'Increase activity training speed',
             [
                 //requirements
                 ItemIdEnum.BOOK_MEDITATE_ON_SELF

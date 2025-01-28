@@ -12,6 +12,14 @@ export default function Changelog() {
       <p>Current end game and challenge: beating the final event zone before year 615</p>
 
       <li style={{marginTop: 10}}>
+        <p>v.0.4.6 - alpha / 2025-Jan-28</p>
+        <div>
+          <p>Fixed description for activities Meditate, Study Plants, Practice Qi Spells and Practice Martial Arts. Label indicated that effects were less than what is actually applied. Actual effects were not changed.</p>
+          <p>Change description for some Meditate and Perform Odd Jobs upgrades on market, so their effects are more clear.</p>
+        </div>
+      </li>
+
+      <li style={{marginTop: 10}}>
         <p>v.0.4.5 - alpha / 2025-Jan-22</p>
         <p>Overview: Fix to save storage getting too big and not saving anymore</p>
         <div>
