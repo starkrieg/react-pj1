@@ -19,13 +19,17 @@ export const showTooltip = (event: React.MouseEvent<HTMLElement>, content: Node)
         while (tooltipElem.lastChild) {
             tooltipElem.removeChild(tooltipElem.lastChild);
         }
-        const Xpos = event.currentTarget.offsetLeft + event.currentTarget.offsetWidth + 15
-        const Ypos = event.currentTarget.offsetTop
-        tooltipElem.animate({
+        const Xpos = event.clientX + (event.currentTarget.offsetWidth/2)
+        const Ypos = event.clientY
+
+/*         tooltipElem.animate({
             left: `${Xpos}px`,
             top: `${Ypos}px`
-        
-        }, {duration: 0, fill: "forwards"})
+        }, {duration: 0, fill: "forwards"}) */
+
+        tooltipElem.style.left = `${Xpos}px`;
+        tooltipElem.style.top = `${Ypos}px`;
+
         tooltipElem.appendChild(content)
         tooltipElem.classList.remove('tooltip-hidden');
     }

@@ -252,7 +252,7 @@ export function ButtonExplorableZone(zone: ZoneVO,
                 </div>
                 <div className="zone-power">
                     <span
-                        onMouseOver={ (event) => showTooltip(event, tooltipContent) } 
+                        onMouseEnter={ (event) => showTooltip(event, tooltipContent) } 
                         onMouseLeave={ () => hideTooltip() }
                     >
                         { zone.power }
